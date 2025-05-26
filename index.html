@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Casa Vacanze al Mare</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Custom Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="font-sans antialiased text-gray-800">
+  <!-- Header / Navigation -->
+  <header id="header" class="bg-white shadow sticky top-0 z-50 transition-shadow duration-300">
+    <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+      <a href="index.html" class="text-xl font-bold">Stella Bianca</a>
+      <div class="nav-toggle md:hidden text-3xl cursor-pointer">&#9776;</div>
+      <nav class="hidden md:flex space-x-6">
+        <a href="#home" class="hover:text-blue-600">Home</a>
+        <a href="#servizi" class="hover:text-blue-600">Servizi</a>
+        <a href="#galleria" class="hover:text-blue-600">Galleria</a>
+        <a href="#prezzi" class="hover:text-blue-600">Prezzi</a>
+        <a href="#recensioni" class="hover:text-blue-600">Recensioni</a>
+        <a href="#contatti" class="hover:text-blue-600">Contatti</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section id="home" class="relative">
+    <img src="/path/to/hero.jpg" alt="Vista mare" class="w-full h-96 object-cover">
+    <div class="absolute inset-0 bg-black bg-opacity-30 flex flex-col justify-center items-center text-white">
+      <h1 class="text-4xl md:text-6xl font-bold mb-4">La Tua Casa al Mare</h1>
+      <p class="text-lg md:text-2xl mb-6">Per una vacanza indimenticabile</p>
+      <a href="#contatti" class="bg-blue-500 hover:bg-blue-600 px-6 py-3 rounded text-white font-semibold">Prenota Ora</a>
+    </div>
+  </section>
+
+  <!-- Servizi Section -->
+  <section id="servizi" class="py-16 bg-gray-50">
+    <div class="container mx-auto px-6">
+      <h2 class="text-3xl font-bold text-center mb-8">Comfort e Relax a Portata di Mano</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="text-center">
+          <div class="text-blue-500 text-5xl mb-4">🌐</div>
+          <h3 class="font-semibold text-xl mb-2">Wi-Fi Gratuito</h3>
+          <p>Connettiti facilmente durante il tuo soggiorno.</p>
+        </div>
+        <div class="text-center">
+          <div class="text-blue-500 text-5xl mb-4">🏊‍♂️</div>
+          <h3 class="font-semibold text-xl mb-2">Piscina Privata</h3>
+          <p>Rilassati nella nostra piscina con vista mare.</p>
+        </div>
+        <div class="text-center">
+          <div class="text-blue-500 text-5xl mb-4">❄️</div>
+          <h3 class="font-semibold text-xl mb-2">Aria Condizionata</h3>
+          <p>Ambienti freschi e confortevoli in ogni stagione.</p>
+        </div>
+        <div class="text-center">
+          <div class="text-blue-500 text-5xl mb-4">🍽️</div>
+          <h3 class="font-semibold text-xl mb-2">Cucina Attrezzata</h3>
+          <p>Tutto il necessario per preparare i tuoi piatti preferiti.</p>
+        </div>
+        <div class="text-center">
+          <div class="text-blue-500 text-5xl mb-4">🚗</div>
+          <h3 class="font-semibold text-xl mb-2">Parcheggio Privato</h3>
+          <p>Posto auto riservato direttamente in struttura.</p>
+        </div>
+        <div class="text-center">
+          <div class="text-blue-500 text-5xl mb-4">🏖️</div>
+          <h3 class="font-semibold text-xl mb-2">Accesso alla Spiaggia</h3>
+          <p>Spiaggia dorata a pochi passi dalla casa.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Galleria Section -->
+  <section id="galleria" class="py-16">
+    <div class="container mx-auto px-6">
+      <h2 class="text-3xl font-bold text-center mb-8">Galleria</h2>
+      <div class="relative w-full max-w-3xl mx-auto">
+        <!-- freccia sinistra -->
+        <button id="prevBtn"
+                class="absolute left-0 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-50 hover:bg-opacity-75 p-2 rounded-full z-10">
+          ‹
+        </button>
+
+        <!-- immagine corrente -->
+        <img id="carouselImage"
+             src="/path/to/img1.jpg"
+             alt="Vista terazza al tramonto"
+             class="w-full h-64 object-cover rounded">
+
+        <!-- freccia destra -->
+        <button id="nextBtn"
+                class="absolute right-0 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-50 hover:bg-opacity-75 p-2 rounded-full z-10">
+          ›
+        </button>
+
+        <!-- indicatori (pallini) -->
+        <div id="carouselIndicators" class="flex justify-center mt-4 space-x-2">
+          <!-- i pallini verranno creati dinamicamente da JS -->
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- Prezzi Section -->
+  <section id="prezzi" class="py-16 bg-gray-50">
+    <div class="container mx-auto px-6 max-w-3xl">
+      <h2 class="text-3xl font-bold text-center mb-8">Prezzi & Disponibilità</h2>
+      <table class="w-full text-left border-collapse mb-6">
+        <thead>
+          <tr>
+            <th class="border-b py-2">Stagione</th>
+            <th class="border-b py-2">Prezzo a Notte</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="py-2">Alta Stagione (Luglio - Agosto)</td>
+            <td class="py-2">€200</td>
+          </tr>
+          <tr class="bg-gray-100">
+            <td class="py-2">Media Stagione (Giugno, Settembre)</td>
+            <td class="py-2">€160</td>
+          </tr>
+          <tr>
+            <td class="py-2">Bassa Stagione (Ottobre - Maggio)</td>
+            <td class="py-2">€120</td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="text-center mb-6">Per verificare le date disponibili e prenotare, compila il modulo nella sezione Contatti.</p>
+    </div>
+  </section>
+
+  <!-- Recensioni Section -->
+  <section id="recensioni" class="py-16">
+    <div class="container mx-auto px-6 max-w-2xl">
+      <h2 class="text-3xl font-bold text-center mb-8">Cosa Dicono i Nostri Ospiti</h2>
+      <div class="space-y-8">
+        <blockquote class="border-l-4 border-blue-500 pl-4 italic">
+          "Un'esperienza indimenticabile. La casa è bellissima e la vista è mozzafiato!"<br>
+          <span class="font-semibold">- Maria, Luglio 2024</span>
+        </blockquote>
+        <blockquote class="border-l-4 border-blue-500 pl-4 italic">
+          "Perfetta per una vacanza in famiglia, tutto a portata di mano e la spiaggia è proprio lì."<br>
+          <span class="font-semibold">- Luca, Agosto 2023</span>
+        </blockquote>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contatti Section -->
+  <section id="contatti" class="py-16 bg-gray-50">
+    <div class="container mx-auto px-6 max-w-lg">
+      <h2 class="text-3xl font-bold text-center mb-8">Contattaci</h2>
+      <form action="#" method="POST" class="space-y-4">
+        <input type="text" name="nome" placeholder="Nome" class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
+        <input type="email" name="email" placeholder="Email" class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
+        <textarea name="messaggio" rows="5" placeholder="Messaggio" class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+        <button type="submit" class="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 rounded">Invia</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-white border-t">
+    <div class="container mx-auto px-6 py-6 text-center">
+      <p>&copy; 2025 Casa Vacanze al Mare. Tutti i diritti riservati.</p>
+      <p>Via Mare 123, 00000 Località | Tel: +39 123 456 7890</p>
+    </div>
+  </footer>
+
+  <!-- Custom Script -->
+  <script src="script.js"></script>
+</body>
+</html>
