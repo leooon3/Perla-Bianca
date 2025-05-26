@@ -76,8 +76,7 @@ document.addEventListener('DOMContentLoaded', function() {
   // mostra il primo slide all’avvio
   updateCarousel();
 
-    // --- INIZIALIZZA EMAILJS ---
-  emailjs.init('U9COPzS6GgQhh2VJm'); // sostituisci con il tuo USER ID EmailJS
+    // --- INIZIALIZZA EMAILJS --- // sostituisci con il tuo USER ID EmailJS
 
   // --- GESTIONE FORM CONTATTI ---
   const form = document.getElementById('contactForm');

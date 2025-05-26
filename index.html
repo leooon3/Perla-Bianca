@@ -4,8 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Casa Vacanze al Mare</title>
-  <!-- Tailwind CSS CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Tailwind Play CDN v4 -->
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
   <!-- Custom Stylesheet -->
   <link rel="stylesheet" href="style.css">
 </head>
@@ -28,13 +28,14 @@
 
   <!-- Hero Section -->
   <section id="home" class="relative">
-    <img src="/path/to/hero.jpg" alt="Vista mare" class="w-full h-96 object-cover">
+    <img src="./img/hero.png" alt="Vista mare" class="w-full h-96 object-cover">
     <div class="absolute inset-0 bg-black bg-opacity-30 flex flex-col justify-center items-center text-white">
       <h1 class="text-4xl md:text-6xl font-bold mb-4">La Tua Casa al Mare</h1>
       <p class="text-lg md:text-2xl mb-6">Per una vacanza indimenticabile</p>
       <a href="#contatti" class="bg-blue-500 hover:bg-blue-600 px-6 py-3 rounded text-white font-semibold">Prenota Ora</a>
     </div>
   </section>
+
 
   <!-- Servizi Section -->
   <section id="servizi" class="py-16 bg-gray-50">
@@ -88,7 +89,7 @@
 
         <!-- immagine corrente -->
         <img id="carouselImage"
-             src="/path/to/img1.jpg"
+             src="./img/1.jpg"
              alt="Vista terazza al tramonto"
              class="w-full h-64 object-cover rounded">
 
@@ -176,8 +177,11 @@
     </div>
   </footer>
 
-  <!-- EmailJS SDK -->
-  <script src="https://cdn.emailjs.com/sdk/2.3.2/email.min.js"></script>
+  <!-- EmailJS SDK v4 -->
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script>
+    emailjs.init('U9COPzS6GgQhh2VJm');
+  </script>
   <!-- Custom Script -->
   <script src="script.js"></script>
 </body>
