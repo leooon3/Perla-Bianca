@@ -79,25 +79,48 @@ updateCarousel();
 // --- GESTIONE FORM CONTATTI ---
 const form = document.getElementById('contactForm');
 const statusDiv = document.getElementById('formStatus');
+// il tuo indirizzo dove vuoi ricevere tutte le richieste
+const ownerEmail = 'leooonericcardo@gmail.com';
 
 form.addEventListener('submit', function(e) {
-e.preventDefault();
-statusDiv.textContent = 'Invio in corso…';
-emailjs.send('service_perla-bianca', 'template_hk8tafc', {
-  email: form.email.value.trim(),       // {{email}} → To Email
-  name:  form.nome.value.trim(),        // {{name}}  → From Name
-  title: form.messaggio.value.trim()    // {{title}} → request content
-})
-.then(() => {
-  statusDiv.textContent = 'Messaggio inviato con successo! 😊';
-  statusDiv.className   = 'text-green-600';
-  form.reset();
-}, (err) => {
-  console.error(err);
-  statusDiv.textContent = 'Errore nell\'invio. Riprova più tardi.';
-  statusDiv.className   = 'text-red-600';
+  e.preventDefault();
+  statusDiv.textContent = 'Invio in corso…';
+
+  // raccogli i valori dal form
+  const userEmail = form.email.value.trim();
+  const userName  = form.nome.value.trim();
+  const userMsg   = form.messaggio.value.trim();
+
+  // parametri per il visitatore
+  const paramsUser = {
+    email: userEmail,    // {{email}} → to visitor
+    name:  userName,     // {{name}}  → guest name
+    title: userMsg       // {{title}} → guest message
+  };
+
+  // parametri per te (owner)
+  const paramsOwner = {
+    email: ownerEmail,                            
+    name:  userName,                               
+    title: `Nuovo messaggio da ${userEmail}: ${userMsg}` 
+  };
+
+  // invia entrambe le email
+  Promise.all([
+    emailjs.send('service_perla-bianca', 'template_hk8tafc', paramsUser),
+    emailjs.send('service_perla-bianca', 'template_hk8tafc', paramsOwner)
+  ])
+  .then(() => {
+    statusDiv.textContent = 'Messaggio inviato con successo! 😊';
+    statusDiv.className   = 'text-green-600';
+    form.reset();
+  }, (err) => {
+    console.error(err);
+    statusDiv.textContent = 'Errore nell\'invio. Riprova più tardi.';
+    statusDiv.className   = 'text-red-600';
+  });
 });
-});
+
 });
 
 // Google Maps initialization
