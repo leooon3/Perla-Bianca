@@ -123,16 +123,26 @@ form.addEventListener('submit', function(e) {
 
 });
 
-// Google Maps initialization
-window.initMap = function() {
-// Coordinate reali della casa
-const casa = { lat: 40.305575861566815, lng:17.67636130627453 };
-const map = new google.maps.Map(document.getElementById('map'), {
-zoom: 15,
-center: casa,
-});
-new google.maps.Marker({
-position: casa,
-map: map,
-});
+window.initMap = async function() {
+  // 1) le coordinate vere della casa
+  const casa = { lat: 40.305575861566815, lng: 17.67636130627453 };
+
+  // 2) inizializza la mappa dentro il div #map+  
+     const map = new google.maps.Map(
+    document.getElementById('map'),{
+      zoom:   15,
+      center: casa,
+    mapId: '94acb40913e54a6445fd71b1',
+    }
+  );
+
+  // 3) importa la libreria "marker" per AdvancedMarkerElement
+    const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
+
+  // 4) crea il tuo AdvancedMarkerElement
+  new AdvancedMarkerElement({
+    position: casa,
+    map:      map,
+    title:    'La mia casa al mare',
+  });
 };
