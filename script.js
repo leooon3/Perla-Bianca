@@ -102,13 +102,13 @@ form.addEventListener('submit', function(e) {
   const paramsOwner = {
     email: ownerEmail,                            
     name:  userName,                               
-    title: `Nuovo messaggio da ${userEmail}: ${userMsg}` 
+    title: `${userEmail}:  ${userMsg}` 
   };
 
   // invia entrambe le email
   Promise.all([
     emailjs.send('service_perla-bianca', 'template_hk8tafc', paramsUser),
-    emailjs.send('service_perla-bianca', 'template_hk8tafc', paramsOwner)
+    emailjs.send('service_perla-bianca', 'template_9kcwihe', paramsOwner)
   ])
   .then(() => {
     statusDiv.textContent = 'Messaggio inviato con successo! 😊';
