@@ -160,7 +160,16 @@
   <section id="dove" class="py-16 bg-white">
     <div class="container mx-auto px-6 text-center">
       <h2 class="text-3xl font-bold mb-8">Dove Siamo</h2>
-      <div id="map" class="w-full h-64 rounded"></div>
+      <div class="w-full h-64 rounded overflow-hidden shadow-md">
+        <iframe
+          class="w-full h-full"
+          style="border:0;"
+          loading="lazy"
+          allowfullscreen
+          referrerpolicy="no-referrer-when-downgrade"
+          src="https://www.google.com/maps?q=40.305575861566815,17.67636130627453&z=15&t=&output=embed">
+        </iframe>
+      </div>
     </div>
   </section>
 
@@ -189,17 +198,11 @@
     <!-- EmailJS SDK v4 -->
   <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
   <script>
-    emailjs.init('U9COPzS6GgQhh2VJm');
+    emailjs.init('service_z47e5q5');
   </script>
 
   <!-- Custom Script -->
   <script src="script.js"></script>
-
-  <!-- Google Maps JS API -->
-  <script
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBgPXhQF3R2sQtKXvFybjxrQnYED59GV8s&callback=initMap&v=weekly"
-    defer>
-  </script>
 
 </body>
 </html>
