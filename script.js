@@ -16,68 +16,118 @@ header.classList.remove('shadow-lg');
 }
 });
 
-// --- INIZIALIZZA CAROUSEL ---
+// --- INIZIALIZZA CAROUSEL (con Swiper.js) ---
+// (Assicurati che questo sia DENTRO 'DOMContentLoaded')
+
 const images = [
-{ src: './img/1.jpg', alt: 'camera ragazzi' },
-{ src: './img/2.jpg', alt: 'camera matrimoniale' },
-{ src: './img/3.jpg', alt: 'camera matrimoniale 2' },
-{ src: './img/4.jpg', alt: 'cucina' },
-{ src: './img/5.jpg', alt: 'bagno' },
-{ src: './img/6.jpg', alt: 'salotto' },
-{ src: './img/7.jpg', alt: 'salotto 2' },
-{ src: './img/8.jpg', alt: 'cucina + isola' },
-{ src: './img/9.jpg', alt: 'tv' },
-{ src: './img/10.jpg', alt: 'camera ragazzi' },
-{ src: './img/11.jpg', alt: 'sanitari' },
-{ src: './img/12.jpg', alt: 'vista terrazzo' },
-{ src: './img/13.jpg', alt: 'frigo + dispensa' },
-{ src: './img/14.jpg', alt: 'balcone' },
-{ src: './img/15.jpg', alt: 'disimpegno' }
+  { src: './img/1.jpg', alt: 'camera ragazzi' },
+  { src: './img/2.jpg', alt: 'camera matrimoniale' },
+  { src: './img/3.jpg', alt: 'camera matrimoniale 2' },
+  { src: './img/4.jpg', alt: 'cucina' },
+  { src: './img/5.jpg', alt: 'bagno' },
+  { src: './img/6.jpg', alt: 'salotto' },
+  { src: './img/7.jpg', alt: 'salotto 2' },
+  { src: './img/8.jpg', alt: 'cucina + isola' },
+  { src: './img/9.jpg', alt: 'tv' },
+  { src: './img/10.jpg', alt: 'camera ragazzi' },
+  { src: './img/11.jpg', alt: 'sanitari' },
+  { src: './img/12.jpg', alt: 'vista terrazzo' },
+  { src: './img/13.jpg', alt: 'frigo + dispensa' },
+  { src: './img/14.jpg', alt: 'balcone' },
+  { src: './img/15.jpg', alt: 'disimpegno' }
 ];
-let currentIndex = 0;
 
-const carouselImage = document.getElementById('carouselImage');
-const prevBtn       = document.getElementById('prevBtn');
-const nextBtn       = document.getElementById('nextBtn');
-const indicators    = document.getElementById('carouselIndicators');
+const mainWrapper       = document.querySelector('.mainGallery .swiper-wrapper');
+const thumbWrapper      = document.querySelector('.thumbnailGallery .swiper-wrapper');
+const fullscreenWrapper = document.querySelector('.fullscreenGallery .swiper-wrapper');
 
-// crea i pallini
-images.forEach((img, idx) => {
-const dot = document.createElement('div');
-dot.classList.add('w-3','h-3','rounded-full','bg-gray-400','cursor-pointer','transition');
-dot.addEventListener('click', () => {
-currentIndex = idx;
-updateCarousel();
-});
-indicators.appendChild(dot);
-});
-
-function updateCarousel() {
-// aggiorna immagine
-carouselImage.src = images[currentIndex].src;
-carouselImage.alt = images[currentIndex].alt;
-// evidenzia pallino attivo
-Array.from(indicators.children).forEach((dot, i) => {
-dot.classList.toggle('bg-blue-500',   i === currentIndex);
-dot.classList.toggle('bg-gray-400',   i !== currentIndex);
-});
-}
-
-// frecce next/prev
-prevBtn.addEventListener('click', () => {
-currentIndex = (currentIndex - 1 + images.length) % images.length;
-updateCarousel();
-});
-nextBtn.addEventListener('click', () => {
-currentIndex = (currentIndex + 1) % images.length;
-updateCarousel();
+// Popola tutti e tre i caroselli
+images.forEach(img => {
+  // Slide per Carosello Principale
+  mainWrapper.innerHTML += `
+    <div class="swiper-slide">
+      <img src="${img.src}" alt="${img.alt}" class="w-full h-96 object-cover cursor-pointer">
+    </div>
+  `;
+  // Slide per Thumbnail
+  thumbWrapper.innerHTML += `
+    <div class="swiper-slide">
+      <img src="${img.src}" alt="${img.alt}" class="w-full h-24 object-cover rounded cursor-pointer">
+    </div>
+  `;
+  // Slide per Fullscreen
+  fullscreenWrapper.innerHTML += `
+    <div class="swiper-slide">
+      <img src="${img.src}" alt="${img.alt}" class="w-auto h-auto max-w-[90vw] max-h-[90vh] object-contain">
+    </div>
+  `;
 });
 
-// mostra il primo slide all’avvio
-updateCarousel();
-// ... (codice del carousel, ecc.) ...
-updateCarousel();
+// 1. Inizializza il carosello delle Thumbnail
+const thumbnailSwiper = new Swiper(".thumbnailGallery", {
+  spaceBetween: 10,
+  slidesPerView: 4,
+  freeMode: true,
+  watchSlidesProgress: true,
+});
 
+// 2. Inizializza il carosello Fullscreen (prima del 'main')
+const fullscreenSwiper = new Swiper(".fullscreenGallery", {
+  loop: true,
+  navigation: {
+    nextEl: ".fullscreenGallery .swiper-button-next",
+    prevEl: ".fullscreenGallery .swiper-button-prev",
+  },
+});
+
+// 3. Inizializza il carosello Principale
+const mainSwiper = new Swiper(".mainGallery", {
+  spaceBetween: 10,
+  navigation: {
+    nextEl: ".mainGallery .swiper-button-next",
+    prevEl: ".mainGallery .swiper-button-prev",
+  },
+  thumbs: {
+    swiper: thumbnailSwiper, // Collega alle thumbnail
+  },
+  loop: true,
+  autoplay: {
+    delay: 4000,
+    disableOnInteraction: false,
+  },
+  controller: { // Collega al carosello fullscreen
+    control: fullscreenSwiper
+  }
+});
+
+// 4. Collega il fullscreen al main (sincronizzazione inversa)
+fullscreenSwiper.controller.control = mainSwiper;
+
+
+// --- GESTIONE LIGHTBOX/FULLSCREEN ---
+const modal = document.getElementById('fullscreenModal');
+const closeModalBtn = document.getElementById('closeFsModal');
+
+// Apri cliccando sul carosello principale
+mainSwiper.on('click', function () {
+  // Sincronizza (anche se il controller dovrebbe già averlo fatto)
+  fullscreenSwiper.slideToLoop(mainSwiper.realIndex, 0); // 0ms di animazione
+  
+  // Mostra il modal
+  modal.classList.remove('invisible', 'opacity-0');
+});
+
+// Chiudi cliccando la X
+closeModalBtn.addEventListener('click', () => {
+  modal.classList.add('invisible', 'opacity-0');
+});
+
+// Chiudi cliccando sullo sfondo nero (fuori dall'immagine)
+modal.addEventListener('click', (e) => {
+  if (e.target === modal) {
+    modal.classList.add('invisible', 'opacity-0');
+  }
+});
 
 // --- GESTIONE FORM CONTATTI (con Make.com Webhook) ---
 const form = document.getElementById('contactForm');

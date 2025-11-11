@@ -71,25 +71,82 @@ html {
   border-radius: 0.75rem;
 }
 
-/* Gallery */
-#gallery img {
+/* --- Frecce Carosello Principale (NON ovali) --- */
+.mainGallery .swiper-button-next,
+.mainGallery .swiper-button-prev {
+  color: #3b82f6 !important; /* Blu */
+  background-color: #ffffff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  
+  /* La modifica chiave: non più 50% */
+  border-radius: 0.375rem; /* rounded-md */
+  
+  width: 44px; /* Larghezza */
+  height: 44px; /* Altezza */
+  
+  transition: all 0.2s ease-in-out;
+}
+
+.mainGallery .swiper-button-next:after,
+.mainGallery .swiper-button-prev:after {
+  font-size: 1rem !important; /* 16px */
+  font-weight: 900;
+}
+
+/* Hover Frecce Principali */
+.mainGallery .swiper-button-next:hover,
+.mainGallery .swiper-button-prev:hover {
+  background-color: #f3f4f6;
+  transform: scale(1.1);
+}
+
+/* --- Stili Thumbnail (come prima) --- */
+.thumbnailGallery .swiper-slide {
+  opacity: 0.6;
+  transition: all 0.3s ease;
+  border: 3px solid transparent;
+  border-radius: 0.5rem; /* rounded-lg */
   cursor: pointer;
-  transition: opacity 0.3s ease;
 }
-#gallery img:hover {
-  opacity: 0.75;
+.thumbnailGallery .swiper-slide:hover {
+  opacity: 1;
+  transform: scale(1.05);
 }
-/* Carousel arrows */
-#prevBtn, #nextBtn {
-  z-index: 20;
-}
-
-/* Indicatori carousel */
-#carouselIndicators div {
-  transition: background-color 0.3s ease;
+.thumbnailGallery .swiper-slide-thumb-active {
+  opacity: 1;
+  border-color: #3b82f6;
 }
 
+/* ======================================== */
+/* Stili per Modal Fullscreen */
+/* ======================================== */
 
+/* Centra l'immagine nello slide fullscreen */
+.fullscreenGallery .swiper-slide {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Frecce per il carosello Fullscreen (più grandi e diverse) */
+.fullscreenGallery .swiper-button-next,
+.fullscreenGallery .swiper-button-prev {
+  color: #ffffff !important; /* Bianche */
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 0.375rem; /* rounded-md */
+  width: 50px;
+  height: 70px;
+  transition: background-color 0.2s ease;
+}
+.fullscreenGallery .swiper-button-next:hover,
+.fullscreenGallery .swiper-button-prev:hover {
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+.fullscreenGallery .swiper-button-next:after,
+.fullscreenGallery .swiper-button-prev:after {
+  font-size: 1.5rem !important; /* 24px */
+}
 /* Price Table */
 #prezzi table {
   width: 100%;
