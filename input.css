@@ -1,0 +1,132 @@
+@import "tailwindcss";
+
+/* Diciamo a Tailwind dove guardare per generare le classi */
+@source "./index.html";
+@source "./script.js";
+
+/* --- IL TUO CSS PERSONALIZZATO --- */
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Header sticky */
+#header.sticky {
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Menu mobile */
+@media (max-width: 768px) {
+  nav.open {
+    display: block;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background-color: #ffffff;
+    padding: 1rem;
+    z-index: 40;
+  }
+}
+
+/* Effetto hover servizi */
+#servizi .text-center {
+  transition: transform 0.3s ease, background-color 0.3s ease;
+}
+#servizi .text-center:hover {
+  transform: translateY(-5px);
+  background-color: color-mix(in srgb, var(--color-blue-500), transparent 90%);
+  border-radius: 0.75rem;
+}
+
+/* --- STILI SWIPER --- */
+.mainGallery .swiper-button-next,
+.mainGallery .swiper-button-prev {
+  color: var(--color-blue-500) !important;
+  background-color: #ffffff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  border-radius: 0.375rem;
+  width: 44px;
+  height: 44px;
+  transition: all 0.2s ease-in-out;
+}
+
+.mainGallery .swiper-button-next:after,
+.mainGallery .swiper-button-prev:after {
+  font-size: 1rem !important;
+  font-weight: 900;
+}
+
+.mainGallery .swiper-button-next:hover,
+.mainGallery .swiper-button-prev:hover {
+  background-color: var(--color-gray-100);
+  transform: scale(1.1);
+}
+
+.thumbnailGallery .swiper-slide {
+  opacity: 0.6;
+  transition: all 0.3s ease;
+  border: 3px solid transparent;
+  border-radius: 0.5rem;
+  cursor: pointer;
+}
+.thumbnailGallery .swiper-slide:hover {
+  opacity: 1;
+  transform: scale(1.05);
+}
+.thumbnailGallery .swiper-slide-thumb-active {
+  opacity: 1;
+  border-color: var(--color-blue-500);
+}
+
+/* Fullscreen Modal */
+.fullscreenGallery .swiper-slide {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.fullscreenGallery .swiper-button-next,
+.fullscreenGallery .swiper-button-prev {
+  color: #ffffff !important;
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 0.375rem;
+  width: 50px;
+  height: 70px;
+  transition: background-color 0.2s ease;
+}
+.fullscreenGallery .swiper-button-next:hover,
+.fullscreenGallery .swiper-button-prev:hover {
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+.fullscreenGallery .swiper-button-next:after,
+.fullscreenGallery .swiper-button-prev:after {
+  font-size: 1.5rem !important;
+}
+
+/* Prezzi e Recensioni */
+#prezzi table {
+  width: 100%;
+  border-collapse: collapse;
+}
+#prezzi th, #prezzi td {
+  padding: 0.75rem;
+  border-bottom: 1px solid var(--color-gray-200);
+}
+#prezzi tr:nth-child(even) {
+  background-color: var(--color-gray-50);
+}
+
+#recensioni blockquote {
+  border-left: 4px solid var(--color-blue-500);
+  padding-left: 1rem;
+  font-style: italic;
+  margin: 1rem 0;
+}
+
+#formStatus {
+  font-size: 0.95rem;
+  min-height: 1.5rem;
+}

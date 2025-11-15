@@ -5,10 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Casa Vacanze al Mare</title>
   <link rel="icon" href="./img/favicon.ico" type="image/x-icon" />
-  <!-- Tailwind Play CDN v4 -->
-  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script> 
+
   <!-- Custom Stylesheet -->
   <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 </head>
 <body class="font-sans antialiased text-gray-800">
   <!-- Header / Navigation -->
@@ -145,21 +146,25 @@
     </div>
   </section>
     <!-- Mappa: Dove Siamo -->
-  <section id="dove" class="py-16 bg-white">
-    <div class="container mx-auto px-6 text-center">
-      <h2 class="text-3xl font-bold mb-8">Dove Siamo</h2>
-      <div class="w-full h-64 rounded overflow-hidden shadow-md">
-        <iframe
-          class="w-full h-full"
-          style="border:0;"
-          loading="lazy"
-          allowfullscreen
-          referrerpolicy="no-referrer-when-downgrade"
-          src="https://www.google.com/maps?q=40.305575861566815,17.67636130627453&z=15&t=&output=embed">
-        </iframe>
-      </div>
+  <section id="dove" class="py-16">
+  <div class="container mx-auto px-6 text-center">
+    
+    <h2 class="text-3xl font-bold mb-8">Dove Siamo</h2>
+    
+    <div class="w-full h-96 rounded overflow-hidden shadow-md">
+      
+      <iframe 
+        class="w-full h-full"
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d479.18833429373467!2d17.676049722164123!3d40.30558962564401!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x134694a914cf9453%3A0xbf696bad594639a8!2sVia%2015b%2C%203%2C%2074024%20San%20Pietro%20In%20Bevagna%20TA!5e0!3m2!1sit!2sit!4v1762976648511!5m2!1sit!2sit"
+        style="border:0;" 
+        allowfullscreen="" 
+        loading="lazy" 
+        referrerpolicy="no-referrer-when-downgrade">
+      </iframe>
     </div>
-  </section>
+
+  </div>
+</section>
 
   <!-- Contatti Section -->
   <section id="contatti" class="py-16 bg-gray-50">
@@ -186,15 +191,8 @@
       <p>Via Mare 123, 00000 Località | Tel: +39 123 456 7890</p>
     </div>
   </footer>
-  
-    <!-- EmailJS SDK v4 -->
-  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-  <script>
-    emailjs.init('service_z47e5q5');
-  </script>
 
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
-  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
 
   <!-- Custom Script -->
   <script src="script.js"></script>
