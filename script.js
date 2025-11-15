@@ -171,6 +171,9 @@ form.addEventListener('submit', function(e) {
     console.error('Errore di rete:', error);
     statusDiv.textContent = 'Errore di connessione. Riprova più tardi.';
     statusDiv.className   = 'text-red-600';
+  })
+  .finally(() => {
+    submitButton.disabled = false; // <-- AGGIUNGI: Riabilita il pulsante in ogni caso
   });
 });
 
