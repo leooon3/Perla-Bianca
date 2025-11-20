@@ -137,6 +137,10 @@ const WEBHOOK_URL = 'https://hook.eu1.make.com/gjnnvnlf7yvfosvaedduhllyk4wj2iwe'
 
 form.addEventListener('submit', function(e) {
   e.preventDefault();
+
+  const submitButton = form.querySelector('button[type="submit"]');
+  submitButton.disabled = true; // Disabilita durante l'invio
+
   statusDiv.textContent = 'Invio in corso…';
   statusDiv.className = 'text-gray-700';
 
@@ -175,82 +179,136 @@ form.addEventListener('submit', function(e) {
     submitButton.disabled = false; 
   });
 });
-  const REVIEWS_API_URL = 'https://hook.eu1.make.com/4q4xt2svnwlxkpgc344l563hely27ycl';
+// --- GESTIONE RECENSIONI (Google Sheets come Database) ---
 
-  const reviewsContainer = document.getElementById('reviewsContainer');
-  const averageRatingContainer = document.getElementById('averageRating');
+const SHEET_ID = '1LYQ6nRrLQSm5IQt7p5yhxN4-Hu18W8XBZsPcT2otQ8E'; 
+const SHEET_NAME = 'Risposte del modulo 1'; 
+const REVIEWS_API_URL = `https://opensheet.elk.sh/${SHEET_ID}/${encodeURIComponent(SHEET_NAME)}`;
 
-  async function fetchAndDisplayReviews() {
-    try {
-      // 1. Contatta il nostro webhook di Make.com
-      const response = await fetch(REVIEWS_API_URL); 
-      if (!response.ok) {
-        throw new Error('Errore di rete nel caricare le recensioni.');
-      }
-      
-      // 2. Ottieni i dati come JSON 
-      const reviews = await response.json(); 
+const reviewsContainer = document.getElementById('reviewsContainer');
+const averageRatingContainer = document.getElementById('averageRating');
 
-      if (reviews.length === 0) {
-        reviewsContainer.innerHTML = '<p class="text-center">Nessuna recensione ancora. Sii il primo!</p>';
-        averageRatingContainer.innerHTML = ''; 
-        return;
-      }
+// Funzione helper per ottenere le iniziali dal nome (es. "Mario Rossi" -> "MR")
+function getInitials(name) {
+  if (!name) return '?';
+  const parts = name.trim().split(' ');
+  if (parts.length === 1) return parts[0].charAt(0).toUpperCase();
+  return (parts[0].charAt(0) + parts[parts.length - 1].charAt(0)).toUpperCase();
+}
 
-      let totalRating = 0;
-      let reviewCount = 0;
-      let reviewsHtml = '';
+async function fetchAndDisplayReviews() {
+  try {
+    reviewsContainer.innerHTML = `
+      <div class="col-span-full flex justify-center py-10">
+        <div class="animate-spin rounded-full h-10 w-10 border-b-2 border-blue-500"></div>
+      </div>`;
+    
+    const response = await fetch(REVIEWS_API_URL);
+    
+    if (!response.ok) throw new Error('Errore nel caricamento');
 
-      // 3. Cicla i dati JSON
-      reviews.forEach(review => {
-        
-      const nome = review['0'];
-      const valutazione = parseInt(review['1'], 10);
-      const recensione = review['2'];   
+    const data = await response.json();
 
-        if (nome && !isNaN(valutazione)) {
-          totalRating += valutazione;
-          reviewCount++;
+    // Filtra solo le approvate ('SI', 'Si', 'si')
+    const approvedReviews = data.filter(row => row.Approvato && row.Approvato.toUpperCase() === 'SI');
 
-          // Generate stars for evaluation
-          let stars = '⭐'.repeat(valutazione) + '☆'.repeat(5 - valutazione);
-
-          reviewsHtml += `
-            <blockquote class="border-l-4 border-blue-500 pl-4 italic">
-              "${recensione}"<br>
-              <span class="font-semibold not-italic">- ${nome} (${stars})</span>
-            </blockquote>
-          `;
-        }
-      });
-
-      // 4. Calcola e mostra la media
-      if (reviewCount > 0) {
-        const average = (totalRating / reviewCount).toFixed(1);
-        const averageStars = '⭐'.repeat(Math.round(average)) + '☆'.repeat(5 - Math.round(average));
-        
-        averageRatingContainer.innerHTML = `
-          <p class="text-2xl font-bold">${average} su 5</p>
-          <p class="text-3xl">${averageStars}</p>
-          <p class="text-gray-600">basato su ${reviewCount} recensioni</p>
-        `;
-        
-        // Inserisci le recensioni
-        reviewsContainer.innerHTML = reviewsHtml;
-      } else {
-         reviewsContainer.innerHTML = '<p class="text-center">Nessuna recensione valida trovata.</p>';
-         averageRatingContainer.innerHTML = '';
-      }
-
-    } catch (error) {
-      console.error('Errore nel caricare le recensioni:', error);
-      reviewsContainer.innerHTML = '<p class="text-center text-red-600">Impossibile caricare le recensioni al momento.</p>';
+    if (approvedReviews.length === 0) {
+      reviewsContainer.innerHTML = '<p class="text-center text-gray-500 col-span-full py-10">Nessuna recensione ancora disponibile.</p>';
       averageRatingContainer.innerHTML = '';
+      return;
     }
+
+    let totalRating = 0;
+    let reviewsHtml = '';
+
+    approvedReviews.forEach(review => {
+      const nome = review['Nome e Cognome'] || 'Ospite';
+      const voto = parseInt(review['Valutazione'], 10) || 0;
+      const testo = review['Recensione'] || '';
+      const rawDate = review['Data Soggiorno'] || '';
+      
+      // Formattiamo la data se presente (opzionale, per pulizia)
+      const dataDisplay = rawDate ? rawDate.split(' ')[0] : ''; 
+
+      totalRating += voto;
+
+      const initials = getInitials(nome);
+      
+      // Stelle: usiamo SVG o caratteri. Qui uso caratteri con Tailwind per i colori
+      const starsHTML = Array(5).fill(0).map((_, i) => 
+        i < voto 
+          ? '<span class="text-yellow-400 text-lg">★</span>' 
+          : '<span class="text-gray-200 text-lg">★</span>'
+      ).join('');
+
+      // --- NUOVO DESIGN DELLA CARD ---
+      reviewsHtml += `
+        <div class="group relative bg-white p-6 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 flex flex-col h-full">
+          
+          <div class="absolute top-4 right-6 text-8xl text-blue-50 font-serif opacity-50 select-none pointer-events-none group-hover:text-blue-100 transition-colors">
+            ”
+          </div>
+
+          <div class="flex items-center gap-4 mb-4 relative z-10">
+            <div class="w-12 h-12 rounded-full bg-gradient-to-br from-blue-50 to-blue-100 flex items-center justify-center text-blue-600 font-bold text-lg border border-blue-200 shadow-sm flex-shrink-0">
+              ${initials}
+            </div>
+            <div>
+              <h3 class="font-bold text-gray-900 text-lg leading-tight">${nome}</h3>
+              <div class="flex -mt-0.5">${starsHTML}</div>
+            </div>
+          </div>
+
+          <div class="relative z-10 flex-grow">
+            <p class="text-gray-600 leading-relaxed italic text-[0.95rem]">
+              "${testo}"
+            </p>
+          </div>
+
+          ${dataDisplay ? `
+            <div class="mt-5 pt-4 border-t border-gray-50 text-xs text-gray-400 font-medium uppercase tracking-wider relative z-10 flex items-center gap-1">
+              <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+              Soggiorno: ${dataDisplay}
+            </div>
+          ` : ''}
+
+        </div>
+      `;
+    });
+
+    // --- NUOVO DESIGN DEL BOX MEDIA ---
+    const average = (totalRating / approvedReviews.length).toFixed(1);
+    // Calcolo percentuale per riempimento stelle (opzionale, qui uso metodo semplice)
+    const fullStarsCount = Math.round(average);
+    const averageStars = '★'.repeat(fullStarsCount) + '☆'.repeat(5 - fullStarsCount);
+    
+    averageRatingContainer.innerHTML = `
+      <div class="bg-white rounded-2xl p-8 shadow-lg border border-blue-50 inline-flex flex-col md:flex-row items-center gap-6 md:gap-10 transform hover:-translate-y-1 transition duration-300">
+          <div class="text-center md:text-left">
+            <div class="text-5xl font-extrabold text-blue-600 leading-none">${average}</div>
+            <div class="text-xs text-gray-400 uppercase font-semibold mt-2">Su 5.0</div>
+          </div>
+          
+          <div class="h-12 w-px bg-gray-200 hidden md:block"></div> <div class="text-center md:text-left">
+             <div class="text-2xl text-yellow-400 tracking-wider mb-1">${averageStars}</div>
+             <p class="text-gray-500 font-medium">Basato su <span class="text-blue-600 font-bold">${approvedReviews.length}</span> recensioni verificate</p>
+          </div>
+      </div>
+    `;
+
+    reviewsContainer.innerHTML = reviewsHtml;
+
+  } catch (error) {
+    console.error('Errore fetch reviews:', error);
+    reviewsContainer.innerHTML = `
+      <div class="col-span-full text-center p-6 bg-red-50 rounded-xl border border-red-100 text-red-600">
+        <p>Impossibile caricare le recensioni al momento.</p>
+      </div>
+    `;
+    averageRatingContainer.innerHTML = '';
   }
+}
 
-  // Avvia il caricamento delle recensioni
-  fetchAndDisplayReviews();
-
-
+// Avvia
+fetchAndDisplayReviews();
 }); // Parentesi di chiusura del DOMContentLoaded

@@ -31,10 +31,13 @@ html {
 }
 
 /* Effetto hover servizi */
-#servizi .text-center {
+#servizi .grid .text-center {
   transition: transform 0.3s ease, background-color 0.3s ease;
+  /* Aggiungiamo padding per evitare che il testo tocchi i bordi quando appare il colore di sfondo */
+  padding: 1rem; 
 }
-#servizi .text-center:hover {
+
+#servizi .grid .text-center:hover {
   transform: translateY(-5px);
   background-color: color-mix(in srgb, var(--color-blue-500), transparent 90%);
   border-radius: 0.75rem;
