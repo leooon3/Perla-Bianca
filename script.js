@@ -17,7 +17,6 @@ header.classList.remove('shadow-lg');
 });
 
 // --- INIZIALIZZA CAROUSEL (con Swiper.js) ---
-// (Assicurati che questo sia DENTRO 'DOMContentLoaded')
 
 const images = [
   { src: './img/1.jpg', alt: 'camera ragazzi' },
@@ -173,8 +172,85 @@ form.addEventListener('submit', function(e) {
     statusDiv.className   = 'text-red-600';
   })
   .finally(() => {
-    submitButton.disabled = false; // <-- AGGIUNGI: Riabilita il pulsante in ogni caso
+    submitButton.disabled = false; 
   });
 });
+  const REVIEWS_API_URL = 'https://hook.eu1.make.com/4q4xt2svnwlxkpgc344l563hely27ycl';
+
+  const reviewsContainer = document.getElementById('reviewsContainer');
+  const averageRatingContainer = document.getElementById('averageRating');
+
+  async function fetchAndDisplayReviews() {
+    try {
+      // 1. Contatta il nostro webhook di Make.com
+      const response = await fetch(REVIEWS_API_URL); 
+      if (!response.ok) {
+        throw new Error('Errore di rete nel caricare le recensioni.');
+      }
+      
+      // 2. Ottieni i dati come JSON 
+      const reviews = await response.json(); 
+
+      if (reviews.length === 0) {
+        reviewsContainer.innerHTML = '<p class="text-center">Nessuna recensione ancora. Sii il primo!</p>';
+        averageRatingContainer.innerHTML = ''; 
+        return;
+      }
+
+      let totalRating = 0;
+      let reviewCount = 0;
+      let reviewsHtml = '';
+
+      // 3. Cicla i dati JSON
+      reviews.forEach(review => {
+        
+      const nome = review['0'];
+      const valutazione = parseInt(review['1'], 10);
+      const recensione = review['2'];   
+
+        if (nome && !isNaN(valutazione)) {
+          totalRating += valutazione;
+          reviewCount++;
+
+          // Generate stars for evaluation
+          let stars = '⭐'.repeat(valutazione) + '☆'.repeat(5 - valutazione);
+
+          reviewsHtml += `
+            <blockquote class="border-l-4 border-blue-500 pl-4 italic">
+              "${recensione}"<br>
+              <span class="font-semibold not-italic">- ${nome} (${stars})</span>
+            </blockquote>
+          `;
+        }
+      });
+
+      // 4. Calcola e mostra la media
+      if (reviewCount > 0) {
+        const average = (totalRating / reviewCount).toFixed(1);
+        const averageStars = '⭐'.repeat(Math.round(average)) + '☆'.repeat(5 - Math.round(average));
+        
+        averageRatingContainer.innerHTML = `
+          <p class="text-2xl font-bold">${average} su 5</p>
+          <p class="text-3xl">${averageStars}</p>
+          <p class="text-gray-600">basato su ${reviewCount} recensioni</p>
+        `;
+        
+        // Inserisci le recensioni
+        reviewsContainer.innerHTML = reviewsHtml;
+      } else {
+         reviewsContainer.innerHTML = '<p class="text-center">Nessuna recensione valida trovata.</p>';
+         averageRatingContainer.innerHTML = '';
+      }
+
+    } catch (error) {
+      console.error('Errore nel caricare le recensioni:', error);
+      reviewsContainer.innerHTML = '<p class="text-center text-red-600">Impossibile caricare le recensioni al momento.</p>';
+      averageRatingContainer.innerHTML = '';
+    }
+  }
+
+  // Avvia il caricamento delle recensioni
+  fetchAndDisplayReviews();
+
 
 }); // Parentesi di chiusura del DOMContentLoaded
