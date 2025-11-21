@@ -360,5 +360,29 @@ document.addEventListener('DOMContentLoaded', function() {
     window.addEventListener('scroll', revealOnScroll);
     revealOnScroll();
   } 
+  
+  // ============================================================
+  // 7. PULSANTE TORNA SU
+  // ============================================================
+  {
+    const scrollTopBtn = document.getElementById('scrollTopBtn');
+    
+    if (scrollTopBtn) {
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 300) {
+          scrollTopBtn.classList.remove('opacity-0', 'invisible');
+        } else {
+          scrollTopBtn.classList.add('opacity-0', 'invisible');
+        }
+      });
+
+      scrollTopBtn.addEventListener('click', () => {
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth'
+        });
+      });
+    }
+  }
 
 });

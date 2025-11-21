@@ -17,6 +17,8 @@
   <meta property="twitter:image" content="https://perla-bianca.vercel.app/img/hero.webp">
   <meta name="description" content="Scopri Perla Bianca, la tua casa vacanze ideale per una vacanza indimenticabile. Vicino al centro e alla spiaggia, con tutti i comfort. Prenota ora!">
   <link rel="icon" href="./img/favicon.ico" type="image/x-icon" />
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#3b82f6">
 
   <!-- Custom Stylesheet -->
   <link rel="stylesheet" href="style.css">
@@ -185,7 +187,7 @@
       
       <div class="w-full md:w-1/2 relative reveal">
         <div class="absolute inset-0 bg-blue-500 transform translate-x-3 translate-y-3 rounded-2xl"></div>
-        <img src="./img/1.jpg" alt="Il tuo Host" class="relative z-10 rounded-2xl shadow-lg w-full h-96 object-cover">
+        <img src="./img/1.webp" alt="Il tuo Host" class="relative z-10 rounded-2xl shadow-lg w-full h-96 object-cover">
       </div>
 
       <div class="w-full md:w-1/2 reveal">
@@ -299,7 +301,9 @@
       <div class="swiper-button-prev"></div>
     </div>
   </div>
-
+  <button id="scrollTopBtn" class="fixed bottom-6 right-6 bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-full shadow-lg cursor-pointer opacity-0 invisible transition-all duration-300 z-40" title="Torna su">
+  ↑
+  </button>
 </body>
 </html>
 
