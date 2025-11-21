@@ -16,17 +16,57 @@ html {
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
-/* Menu mobile */
+/* --- MENU MOBILE ANIMATO "DOLCE" --- */
 @media (max-width: 768px) {
-  nav.open {
-    display: block;
+  nav {
+    /* Posizionamento */
     position: absolute;
-    top: 100%;
+    top: 100%; /* Esattamente sotto l'header */
     left: 0;
     width: 100%;
     background-color: #ffffff;
-    padding: 1rem;
+    
+    /* Stile del contenuto */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem; /* Spazio tra i link */
+    padding: 2rem 0;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1); /* Ombra soffice */
+    border-bottom: 1px solid var(--color-gray-100);
+
+    /* STATO CHIUSO (Default) */
+    opacity: 0;
+    visibility: hidden; /* Invisibile al mouse */
+    transform: translateY(-20px); /* Spostato leggermente in alto */
+    
+    /* Animazione */
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     z-index: 40;
+
+    max-height: 80vh; overflow-y: auto;
+  }
+
+  /* STATO APERTO (Quando JS aggiunge la classe .open) */
+  nav.open {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0); /* Scivola al suo posto */
+  }
+
+  /* Stile dei link nel menu mobile */
+  nav a {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: var(--color-gray-700);
+    width: 100%;
+    text-align: center;
+    padding: 0.5rem 0;
+  }
+  
+  nav a:hover {
+    color: var(--color-blue-500);
+    background-color: var(--color-gray-50);
   }
 }
 
@@ -132,4 +172,15 @@ html {
 #formStatus {
   font-size: 0.95rem;
   min-height: 1.5rem;
+}
+/* Animazioni Scroll Reveal */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.8s ease-out;
+}
+
+.reveal.active {
+  opacity: 1;
+  transform: translateY(0);
 }

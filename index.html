@@ -18,13 +18,14 @@
     <div class="container mx-auto px-6 py-4 flex justify-between items-center">
       <a href="index.html" class="text-xl font-bold">Perla Bianca</a>
       <div class="nav-toggle md:hidden text-3xl cursor-pointer">&#9776;</div>
-      <nav class="hidden md:flex space-x-6">
+      <nav id="mobileMenu" class="md:flex md:space-x-6 md:static md:opacity-100 md:visible md:translate-y-0 md:flex-row md:bg-transparent md:shadow-none md:p-0">
         <a href="#home" class="hover:text-blue-600">Home</a>
         <a href="#servizi" class="hover:text-blue-600">Servizi</a>
         <a href="#galleria" class="hover:text-blue-600">Galleria</a>
         <a href="#prezzi" class="hover:text-blue-600">Prezzi</a>
         <a href="#recensioni" class="hover:text-blue-600">Recensioni</a>
         <a href="#dove"class="hover:text-blue-600">Dove Siamo</a>
+        <a href="#chisiamo" class="hover:text-blue-600">Chi Siamo</a>
         <a href="#contatti" class="hover:text-blue-600">Contatti</a>
       </nav>
     </div>
@@ -44,8 +45,8 @@
   <!-- Servizi Section -->
   <section id="servizi" class="py-16 bg-gray-50">
     <div class="container mx-auto px-6">
-      <h2 class="text-3xl font-bold text-center mb-8">Comfort e Relax a Portata di Mano</h2>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <h2 class="text-3xl font-bold text-center mb-8 reveal">Comfort e Relax a Portata di Mano</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 reveal">
         <div class="text-center">
           <div class="text-blue-500 text-5xl mb-4">🌐</div>
           <h3 class="font-semibold text-xl mb-2">Wi-Fi Gratuito</h3>
@@ -83,9 +84,9 @@
   <!-- Galleria Section -->
 <section id="galleria" class="py-16">
   <div class="container mx-auto px-6">
-    <h2 class="text-3xl font-bold text-center mb-8">Galleria</h2>
+    <h2 class="text-3xl font-bold text-center mb-8 reveal">Galleria</h2>
 
-    <div style="--swiper-navigation-color: #fff; --swiper-pagination-color: #fff" class="swiper mainGallery w-full max-w-3xl mx-auto rounded">
+    <div style="--swiper-navigation-color: #fff; --swiper-pagination-color: #fff" class="swiper mainGallery w-full max-w-3xl mx-auto rounded reveal">
       <div class="swiper-wrapper">
         </div>
       <div class="swiper-button-next"></div>
@@ -103,8 +104,8 @@
   <!-- Prezzi Section -->
   <section id="prezzi" class="py-16 bg-gray-50">
     <div class="container mx-auto px-6 max-w-3xl">
-      <h2 class="text-3xl font-bold text-center mb-8">Prezzi & Disponibilità</h2>
-      <table class="w-full text-left border-collapse mb-6">
+      <h2 class="text-3xl font-bold text-center mb-8 reveal">Prezzi & Disponibilità</h2>
+      <table class="w-full text-left border-collapse mb-6 reveal">
         <thead>
           <tr>
             <th class="border-b py-2">Stagione</th>
@@ -133,12 +134,12 @@
   <!-- Recensioni Section -->
 <section id="recensioni" class="py-16">
     <div class="container mx-auto px-6 max-w-4xl">
-      <h2 class="text-3xl font-bold text-center mb-8">Cosa Dicono i Nostri Ospiti</h2>
+      <h2 class="text-3xl font-bold text-center mb-8 reveal">Cosa Dicono i Nostri Ospiti</h2>
       
-      <div id="averageRating" class="text-center mb-12">
+      <div id="averageRating" class="text-center mb-12 reveal">
         </div>
       
-      <div id="reviewsContainer" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div id="reviewsContainer" class="grid grid-cols-1 md:grid-cols-2 gap-6 reveal">
         <p class="text-center text-gray-600 col-span-full">Caricamento recensioni...</p>
       </div>
 
@@ -149,9 +150,9 @@
   <section id="dove" class="py-16">
   <div class="container mx-auto px-6 text-center">
     
-    <h2 class="text-3xl font-bold mb-8">Dove Siamo</h2>
+    <h2 class="text-3xl font-bold mb-8 reveal">Dove Siamo</h2>
     
-    <div class="w-full h-96 rounded overflow-hidden shadow-md">
+    <div class="w-full h-96 rounded overflow-hidden shadow-md reveal">
       
       <iframe 
         class="w-full h-full"
@@ -166,12 +167,44 @@
   </div>
 </section>
 
+<!-- Chi Siamo Section --> 
+<section id="chisiamo" class="py-16 bg-white overflow-hidden">
+  <div class="container mx-auto px-6">
+    <div class="flex flex-col md:flex-row items-center gap-12">
+      
+      <div class="w-full md:w-1/2 relative reveal">
+        <div class="absolute inset-0 bg-blue-500 transform translate-x-3 translate-y-3 rounded-2xl"></div>
+        <img src="./img/1.jpg" alt="Il tuo Host" class="relative z-10 rounded-2xl shadow-lg w-full h-96 object-cover">
+      </div>
+
+      <div class="w-full md:w-1/2 reveal">
+        <h4 class="text-blue-500 font-bold uppercase tracking-widest mb-2">L'Ospitalità</h4>
+        <h2 class="text-3xl md:text-4xl font-bold mb-6 text-gray-900">Benvenuti a Casa Vostra</h2>
+        <p class="text-gray-600 leading-relaxed mb-6">
+          Ciao! Siamo Riccardo e Maria. Abbiamo ristrutturato "Perla Bianca" pensando esattamente a quello che cerchiamo noi quando viaggiamo: pulizia impeccabile, comfort moderni e quel calore che solo una casa vera può dare.
+        </p>
+        <p class="text-gray-600 leading-relaxed mb-8">
+          Siamo innamorati della nostra città e saremo felici di consigliarvi i ristoranti migliori (non quelli turistici!) e le spiagge più nascoste. Il nostro obiettivo è farvi sentire non turisti, ma ospiti graditi.
+        </p>
+        
+        <div class="flex items-center gap-4">
+          <div class="border-l-4 border-blue-500 pl-4">
+            <p class="font-bold text-gray-900">Superhost Approvato</p>
+            <p class="text-sm text-gray-500">Risposte veloci e massima cura</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
   <!-- Contatti Section -->
   <section id="contatti" class="py-16 bg-gray-50">
   <div class="container mx-auto px-6 max-w-lg">
-    <h2 class="text-3xl font-bold text-center mb-8">Contattaci</h2>
+    <h2 class="text-3xl font-bold text-center mb-8 reveal">Contattaci</h2>
     
-    <form id="contactForm" class="space-y-4">
+    <form id="contactForm" class="space-y-4 reveal">
 
       <input type="text" name="nome" placeholder="Nome" class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500" required>
       <input type="email" name="email" placeholder="Email" class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500" required>
@@ -184,13 +217,59 @@
   </div>
 </section>
 
-  <!-- Footer -->
-  <footer class="bg-white border-t">
-    <div class="container mx-auto px-6 py-6 text-center">
-      <p>&copy; 2025 Casa Vacanze al Mare. Tutti i diritti riservati.</p>
-      <p>Via Mare 123, 00000 Località | Tel: +39 123 456 7890</p>
+<!-- Footer Section -->
+<footer class="bg-gray-900 text-white pt-16 pb-8 border-t border-gray-800">
+  <div class="container mx-auto px-6">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+      
+      <div class="md:col-span-1">
+        <a href="#" class="text-2xl font-bold text-white mb-4 block">Perla Bianca</a>
+        <p class="text-gray-400 text-sm leading-relaxed">
+          La tua oasi di relax a due passi dal mare. Prenota oggi la tua vacanza da sogno in totale autonomia.
+        </p>
+      </div>
+
+      <div>
+        <h3 class="text-lg font-bold mb-4 text-blue-400">Esplora</h3>
+        <ul class="space-y-2 text-gray-400 text-sm">
+          <li><a href="#home" class="hover:text-white transition">Home</a></li>
+          <li><a href="#servizi" class="hover:text-white transition">Servizi</a></li>
+          <li><a href="#galleria" class="hover:text-white transition">Galleria Foto</a></li>
+          <li><a href="#recensioni" class="hover:text-white transition">Dicono di noi</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h3 class="text-lg font-bold mb-4 text-blue-400">Info</h3>
+        <ul class="space-y-2 text-gray-400 text-sm">
+          <li>Check-in: dalle 15:00</li>
+          <li>Check-out: entro le 10:00</li>
+          <li>Parcheggio disponibile</li>
+          <li>Animali ammessi (su richiesta)</li>
+        </ul>
+      </div>
+
+      <div>
+        <h3 class="text-lg font-bold mb-4 text-blue-400">Contatti</h3>
+        <ul class="space-y-2 text-gray-400 text-sm">
+          <li class="flex items-center gap-2">
+            <span>📍</span> Via Mare 123, Località
+          </li>
+          <li class="flex items-center gap-2">
+            <span>📞</span> +39 123 456 7890
+          </li>
+          <li class="flex items-center gap-2">
+            <span>✉️</span> info@perlabianca.it
+          </li>
+        </ul>
+      </div>
     </div>
-  </footer>
+
+    <div class="border-t border-gray-800 pt-8 text-center text-gray-500 text-xs">
+      <p>&copy; 2025 Perla Bianca Casa Vacanze. Tutti i diritti riservati.</p>
+    </div>
+  </div>
+</footer>
 
 
 

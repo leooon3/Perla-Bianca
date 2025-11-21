@@ -3,11 +3,11 @@
   "version": "1.0.0",
   "description": "",
   "main": "script.js",
-"scripts": {
-  "test": "echo \"Error: no test specified\" && exit 1",
-  "build-css": "npx postcss ./input.css -o ./style.css --minify",
-  "watch-css": "npx postcss ./input.css -o ./style.css --watch"
-},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build-css": "npx postcss ./input.css -o ./style.css --minify",
+    "watch-css": "npx postcss ./input.css -o ./style.css --watch"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/leooon3/Perla-Bianca.git"
@@ -26,6 +26,7 @@
   },
   "dependencies": {
     "@tailwindcss/postcss": "^4.1.17",
+    "nodemailer": "^7.0.10",
     "postcss-cli": "^11.0.1"
   }
 }
