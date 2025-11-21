@@ -234,9 +234,7 @@ document.addEventListener('DOMContentLoaded', function() {
   // 5. RECENSIONI (Google Sheets) - CON SICUREZZA XSS
   // ============================================================
   {
-    const SHEET_ID = '1LYQ6nRrLQSm5IQt7p5yhxN4-Hu18W8XBZsPcT2otQ8E';
-    const SHEET_NAME = 'Risposte del modulo 1';
-    const REVIEWS_API_URL = `https://opensheet.elk.sh/${SHEET_ID}/${encodeURIComponent(SHEET_NAME)}`;
+    const REVIEWS_API_URL = '/api/reviews';
     const reviewsContainer = document.getElementById('reviewsContainer');
     const averageRatingContainer = document.getElementById('averageRating');
 
@@ -362,26 +360,34 @@ document.addEventListener('DOMContentLoaded', function() {
   } 
   
   // ============================================================
-  // 7. PULSANTE TORNA SU
+  // 7. PULSANTE TORNA SU (Versione Diretta)
   // ============================================================
   {
     const scrollTopBtn = document.getElementById('scrollTopBtn');
     
     if (scrollTopBtn) {
+      // 1. Logica di apparizione (Scroll)
       window.addEventListener('scroll', () => {
+        // Mostra il pulsante se scendi oltre 300px
         if (window.scrollY > 300) {
-          scrollTopBtn.classList.remove('opacity-0', 'invisible');
+          scrollTopBtn.style.opacity = '1';
+          scrollTopBtn.style.pointerEvents = 'auto'; // Riabilita il click
         } else {
-          scrollTopBtn.classList.add('opacity-0', 'invisible');
+          scrollTopBtn.style.opacity = '0';
+          scrollTopBtn.style.pointerEvents = 'none'; // Disabilita il click per non coprire altri link
         }
       });
 
-      scrollTopBtn.addEventListener('click', () => {
+      // 2. Azione di click (Torna su)
+      scrollTopBtn.addEventListener('click', (e) => {
+        e.preventDefault();
         window.scrollTo({
           top: 0,
           behavior: 'smooth'
         });
       });
+    } else {
+        console.error("ERRORE: Il pulsante #scrollTopBtn non è stato trovato nell'HTML!");
     }
   }
 

@@ -149,9 +149,23 @@
     <div class="container mx-auto px-6 max-w-4xl">
       <h2 class="text-3xl font-bold text-center mb-8 reveal">Cosa Dicono i Nostri Ospiti</h2>
       
-      <div id="averageRating" class="text-center mb-12 reveal">
+      <div id="averageRating" class="text-center mb-8 reveal">
         </div>
-      
+
+<div class="flex justify-center mb-12 reveal w-full px-4">
+  <a href="https://forms.gle/AbheUQkyFNFsLJXZ8" 
+     target="_blank" 
+     rel="noopener noreferrer" 
+     class="flex items-center justify-center gap-3 bg-blue-500 hover:bg-blue-600 text-white font-bold py-4 pl-8 pr-12 rounded-2xl shadow-lg transition-all duration-300 transform hover:-translate-y-1 hover:shadow-xl w-full sm:w-auto max-w-md mx-auto">
+     
+     <span class="text-2xl flex-shrink-0">✍️</span> 
+     
+     <span class="text-lg tracking-wide whitespace-nowrap">
+       Lascia una Recensione
+     </span>
+  </a>
+</div>
+<p class="text-center text-sm text-gray-500 -mt-8 mb-12 font-medium">Basta meno di un minuto</p>
       <div id="reviewsContainer" class="grid grid-cols-1 md:grid-cols-2 gap-6 reveal">
         <p class="text-center text-gray-600 col-span-full">Caricamento recensioni...</p>
       </div>
@@ -281,7 +295,7 @@
     <div class="border-t border-gray-800 pt-8 text-center text-gray-500 text-xs">
       <p>
         © 2025 Perla Bianca Casa Vacanze. Tutti i diritti riservati. 
-        <span class="mx-2">|</span> 
+        <span class="mx-2"></span> 
         <!-- <a href="https://www.iubenda.com/privacy-policy/LINK-TUO" target="_blank" class="hover:text-white underline">Privacy Policy</a> -->
       </p>
     </div>
@@ -301,9 +315,13 @@
       <div class="swiper-button-prev"></div>
     </div>
   </div>
-  <button id="scrollTopBtn" class="fixed bottom-6 right-6 bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-full shadow-lg cursor-pointer opacity-0 invisible transition-all duration-300 z-40" title="Torna su">
-  ↑
-  </button>
+<button id="scrollTopBtn" 
+    style="position: fixed; bottom: 20px; right: 20px; z-index: 9999; background-color: #2563eb; color: white; padding: 12px; border-radius: 50%; box-shadow: 0 4px 6px rgba(0,0,0,0.3); cursor: pointer; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; border: none;"
+    title="Torna su">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18" />
+    </svg>
+</button>
 </body>
 </html>
 
