@@ -66,21 +66,21 @@ document.addEventListener('DOMContentLoaded', function() {
   // ============================================================
   {
     const images = [
-      { src: './img/1.jpg', alt: 'camera ragazzi' },
-      { src: './img/2.jpg', alt: 'camera matrimoniale' },
-      { src: './img/3.jpg', alt: 'camera matrimoniale 2' },
-      { src: './img/4.jpg', alt: 'cucina' },
-      { src: './img/5.jpg', alt: 'bagno' },
-      { src: './img/6.jpg', alt: 'salotto' },
-      { src: './img/7.jpg', alt: 'salotto 2' },
-      { src: './img/8.jpg', alt: 'cucina + isola' },
-      { src: './img/9.jpg', alt: 'tv' },
-      { src: './img/10.jpg', alt: 'camera ragazzi' },
-      { src: './img/11.jpg', alt: 'sanitari' },
-      { src: './img/12.jpg', alt: 'vista terrazzo' },
-      { src: './img/13.jpg', alt: 'frigo + dispensa' },
-      { src: './img/14.jpg', alt: 'balcone' },
-      { src: './img/15.jpg', alt: 'disimpegno' }
+      { src: './img/1.webp', alt: 'camera ragazzi' },
+      { src: './img/2.webp', alt: 'camera matrimoniale' },
+      { src: './img/3.webp', alt: 'camera matrimoniale 2' },
+      { src: './img/4.webp', alt: 'cucina' },
+      { src: './img/5.webp', alt: 'bagno' },
+      { src: './img/6.webp', alt: 'salotto' },
+      { src: './img/7.webp', alt: 'salotto 2' },
+      { src: './img/8.webp', alt: 'cucina + isola' },
+      { src: './img/9.webp', alt: 'tv' },
+      { src: './img/10.webp', alt: 'camera ragazzi' },
+      { src: './img/11.webp', alt: 'sanitari' },
+      { src: './img/12.webp', alt: 'vista terrazzo' },
+      { src: './img/13.webp', alt: 'frigo + dispensa' },
+      { src: './img/14.webp', alt: 'balcone' },
+      { src: './img/15.webp', alt: 'disimpegno' }
     ];
 
     const mainWrapper = document.querySelector('.mainGallery .swiper-wrapper');
