@@ -176,9 +176,7 @@ document.addEventListener('DOMContentLoaded', function() {
   {
     const form = document.getElementById('contactForm');
     const statusDiv = document.getElementById('formStatus');
-    
-    // Puntiamo alla nostra funzione interna
-    const API_URL = '/api/email';
+    const API_URL = '/api/email'; // Percorso relativo
 
     if (form && statusDiv) {
       form.addEventListener('submit', function(e) {
@@ -202,18 +200,27 @@ document.addEventListener('DOMContentLoaded', function() {
             body: JSON.stringify(formData),
           })
           .then(async response => {
-            const data = await response.json();
+            // Proviamo a leggere la risposta. Se non è JSON valido, gestiamo l'errore.
+            let data;
+            try {
+                data = await response.json();
+            } catch (err) {
+                // Se il server risponde con un errore HTML (es. 404 o 500 generico) il json() fallisce
+                throw new Error(`Errore del server: ${response.status} ${response.statusText}`);
+            }
+
             if (response.ok) {
               statusDiv.textContent = 'Messaggio inviato con successo! 😊';
               statusDiv.className = 'text-green-600';
               form.reset();
             } else {
-              throw new Error(data.message || 'Errore server');
+              // Usa il messaggio del server se c'è, altrimenti uno generico
+              throw new Error(data.message || 'Errore sconosciuto');
             }
           })
           .catch(error => {
-            console.error(error);
-            statusDiv.textContent = 'Errore nell\'invio. Riprova più tardi.';
+            console.error("Errore Fetch:", error);
+            statusDiv.textContent = 'Errore: ' + error.message;
             statusDiv.className = 'text-red-600';
           })
           .finally(() => {
