@@ -390,5 +390,93 @@ document.addEventListener('DOMContentLoaded', function() {
         console.error("ERRORE: Il pulsante #scrollTopBtn non è stato trovato nell'HTML!");
     }
   }
+  
+  // ============================================================
+  // 8. GESTIONE NUOVO FORM RECENSIONI (Logica Stelle + Invio)
+  // ============================================================
+  {
+    const starContainer = document.getElementById('starContainer');
+    const votoInput = document.getElementById('votoInput');
+    const reviewForm = document.getElementById('internalReviewForm');
+    const statusDiv = document.getElementById('reviewFormStatus');
+    const submitBtn = document.getElementById('submitReviewBtn');
+
+    if (starContainer && reviewForm) {
+      
+      // --- A. LOGICA VISIVA STELLE ---
+      const stars = starContainer.querySelectorAll('.star');
+      
+      // Funzione che colora le stelle fino al voto selezionato
+      const highlightStars = (rating) => {
+        stars.forEach(star => {
+          const val = parseInt(star.getAttribute('data-value'));
+          if (val <= rating) {
+            star.classList.remove('text-gray-300');
+            star.classList.add('text-yellow-400');
+          } else {
+            star.classList.add('text-gray-300');
+            star.classList.remove('text-yellow-400');
+          }
+        });
+      };
+
+      // Gestione Click
+      stars.forEach(star => {
+        star.addEventListener('click', () => {
+          const val = parseInt(star.getAttribute('data-value'));
+          votoInput.value = val; // Salva il numero nell'input nascosto
+          highlightStars(val);   // Aggiorna i colori
+        });
+      });
+
+      // --- B. INVIO DATI A VERCEL ---
+      reviewForm.addEventListener('submit', async (e) => {
+        e.preventDefault(); // Ferma il ricaricamento della pagina
+        
+        // Blocca il pulsante durante l'invio
+        submitBtn.disabled = true;
+        submitBtn.textContent = "Invio in corso...";
+        submitBtn.classList.add('opacity-75', 'cursor-not-allowed');
+        
+        statusDiv.className = 'hidden'; // Nascondi vecchi messaggi
+
+        const formData = {
+          nome: reviewForm.nome.value.trim(),
+          voto: reviewForm.voto.value,
+          messaggio: reviewForm.messaggio.value.trim()
+        };
+
+        try {
+          // Chiama la nostra API (che creeremo nel punto 3)
+          const response = await fetch('/api/submit-review', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(formData)
+          });
+
+          const result = await response.json();
+
+          if (response.ok) {
+            // Successo!
+            reviewForm.reset(); // Pulisci il form
+            highlightStars(5);  // Resetta stelle a 5
+            statusDiv.textContent = "✅ Grazie! La tua recensione è stata inviata ed è in attesa di approvazione.";
+            statusDiv.className = "text-center text-sm font-medium mt-4 p-3 rounded-lg bg-green-100 text-green-700 block";
+          } else {
+            throw new Error(result.message || 'Errore sconosciuto');
+          }
+        } catch (error) {
+          console.error(error);
+          statusDiv.textContent = "❌ Errore: " + error.message;
+          statusDiv.className = "text-center text-sm font-medium mt-4 p-3 rounded-lg bg-red-100 text-red-700 block";
+        } finally {
+          // Riabilita il pulsante
+          submitBtn.disabled = false;
+          submitBtn.textContent = "Pubblica Recensione";
+          submitBtn.classList.remove('opacity-75', 'cursor-not-allowed');
+        }
+      });
+    }
+  }
 
 });
