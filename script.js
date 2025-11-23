@@ -360,21 +360,21 @@ document.addEventListener('DOMContentLoaded', function() {
   } 
   
   // ============================================================
-  // 7. PULSANTE TORNA SU (Versione Diretta)
+  // 7. PULSANTE TORNA SU (Corretto per gestire pagine senza pulsante)
   // ============================================================
   {
     const scrollTopBtn = document.getElementById('scrollTopBtn');
     
+    // Esegui la logica SOLO se il pulsante esiste nella pagina
     if (scrollTopBtn) {
       // 1. Logica di apparizione (Scroll)
       window.addEventListener('scroll', () => {
-        // Mostra il pulsante se scendi oltre 300px
         if (window.scrollY > 300) {
           scrollTopBtn.style.opacity = '1';
-          scrollTopBtn.style.pointerEvents = 'auto'; // Riabilita il click
+          scrollTopBtn.style.pointerEvents = 'auto';
         } else {
           scrollTopBtn.style.opacity = '0';
-          scrollTopBtn.style.pointerEvents = 'none'; // Disabilita il click per non coprire altri link
+          scrollTopBtn.style.pointerEvents = 'none';
         }
       });
 
@@ -386,9 +386,9 @@ document.addEventListener('DOMContentLoaded', function() {
           behavior: 'smooth'
         });
       });
-    } else {
-        console.error("ERRORE: Il pulsante #scrollTopBtn non è stato trovato nell'HTML!");
-    }
+    } 
+    // Ho rimosso l'ELSE che generava l'errore. 
+    // Ora se il pulsante non c'è, lo script continua silenziosamente verso il punto 8.
   }
   
   // ============================================================
