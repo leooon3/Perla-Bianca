@@ -16,20 +16,27 @@
   <meta property="twitter:description" content="Vieni a rilassarti a due passi dalla spiaggia. Appartamento ristrutturato, WiFi, A/C.">
   <meta property="twitter:image" content="https://perla-bianca.vercel.app/img/hero.webp">
   <meta name="description" content="Scopri Perla Bianca, la tua casa vacanze ideale per una vacanza indimenticabile. Vicino al centro e alla spiaggia, con tutti i comfort. Prenota ora!">
-  <link rel="icon" href="./img/favicon.ico" type="image/x-icon" />
+  <link rel="icon" href="./img/logo.ico" type="image/ico" />
   <link rel="manifest" href="/manifest.json">
   <meta name="theme-color" content="#3b82f6">
 
   <!-- Custom Stylesheet -->
   <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
   <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 </head>
 <body class="font-sans antialiased text-gray-800">
   <!-- Header / Navigation -->
-  <header id="header" class="bg-white shadow sticky top-0 z-50 transition-shadow duration-300">
+  <header id="header" class="bg-blue-100/90 shadow sticky top-0 z-50 transition-shadow duration-300">
     <div class="container mx-auto px-6 py-4 flex justify-between items-center">
-      <a href="index.html" class="text-xl font-bold">Perla Bianca</a>
+      <a href="index.html" class="flex items-center gap-3 group">
+  <img src="./img/logo.png" alt="Logo Perla Bianca" 
+       class="h-10 w-auto transition-transform group-hover:scale-110">
+  
+  <span class="text-xl font-bold text-blue-600 tracking-tight">
+    Perla Bianca
+  </span>
+</a>
       <div class="nav-toggle md:hidden text-3xl cursor-pointer">&#9776;</div>
       <nav id="mobileMenu" class="md:flex md:space-x-6 md:static md:opacity-100 md:visible md:translate-y-0 md:flex-row md:bg-transparent md:shadow-none md:p-0">
         <a href="#home" class="hover:text-blue-600">Home</a>
