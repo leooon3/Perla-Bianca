@@ -20,14 +20,12 @@ document.addEventListener('DOMContentLoaded', function() {
     const navMenu = document.querySelector('nav');
 
     if (navToggle && navMenu) {
-      // Toggle apertura/chiusura
       navToggle.addEventListener('click', (e) => {
         e.stopPropagation();
         navMenu.classList.toggle('open');
         navToggle.textContent = navMenu.classList.contains('open') ? '✕' : '☰';
       });
 
-      // Chiudi cliccando sui link
       navMenu.querySelectorAll('a').forEach(link => {
         link.addEventListener('click', () => {
           navMenu.classList.remove('open');
@@ -35,7 +33,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
       });
 
-      // Chiudi cliccando fuori
       document.addEventListener('click', (e) => {
         if (!navMenu.contains(e.target) && !navToggle.contains(e.target)) {
           navMenu.classList.remove('open');
@@ -87,27 +84,22 @@ document.addEventListener('DOMContentLoaded', function() {
     const thumbWrapper = document.querySelector('.thumbnailGallery .swiper-wrapper');
     const fullscreenWrapper = document.querySelector('.fullscreenGallery .swiper-wrapper');
 
-    // Verifica che gli elementi esistano prima di popolarli
     if (mainWrapper && thumbWrapper && fullscreenWrapper) {
       images.forEach(img => {
-        // Slide Main
         mainWrapper.innerHTML += `
           <div class="swiper-slide">
             <img src="${img.src}" alt="${img.alt}" class="w-full h-96 object-cover cursor-pointer">
           </div>`;
-        // Slide Thumb
         thumbWrapper.innerHTML += `
           <div class="swiper-slide">
             <img src="${img.src}" alt="${img.alt}" class="w-full h-24 object-cover rounded cursor-pointer">
           </div>`;
-        // Slide Fullscreen
         fullscreenWrapper.innerHTML += `
           <div class="swiper-slide">
             <img src="${img.src}" alt="${img.alt}" class="w-auto h-auto max-w-[90vw] max-h-[90vh] object-contain">
           </div>`;
       });
 
-      // Inizializzazione Swiper Thumb
       const thumbnailSwiper = new Swiper(".thumbnailGallery", {
         spaceBetween: 10,
         slidesPerView: 4,
@@ -115,7 +107,6 @@ document.addEventListener('DOMContentLoaded', function() {
         watchSlidesProgress: true
       });
 
-      // Inizializzazione Swiper Fullscreen
       const fullscreenSwiper = new Swiper(".fullscreenGallery", {
         loop: true,
         navigation: {
@@ -124,7 +115,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
       });
 
-      // Inizializzazione Swiper Main
       const mainSwiper = new Swiper(".mainGallery", {
         spaceBetween: 10,
         loop: true,
@@ -144,25 +134,19 @@ document.addEventListener('DOMContentLoaded', function() {
         }
       });
 
-      // Sincronizzazione inversa
       fullscreenSwiper.controller.control = mainSwiper;
 
-      // Logica Modale (Lightbox)
       const modal = document.getElementById('fullscreenModal');
       const closeModalBtn = document.getElementById('closeFsModal');
 
       if (modal && closeModalBtn) {
-        // Apri modale al click
         mainSwiper.on('click', () => {
           fullscreenSwiper.slideToLoop(mainSwiper.realIndex, 0);
           modal.classList.remove('invisible', 'opacity-0');
         });
 
-        // Chiudi modale
         const closeModal = () => modal.classList.add('invisible', 'opacity-0');
         closeModalBtn.addEventListener('click', closeModal);
-        
-        // Chiudi cliccando fuori dall'immagine
         modal.addEventListener('click', (e) => {
           if (e.target === modal) closeModal();
         });
@@ -171,12 +155,12 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   // ============================================================
-  // 4. FORM CONTATTI (Vercel Serverless Function)
+  // 4. FORM CONTATTI
   // ============================================================
   {
     const form = document.getElementById('contactForm');
     const statusDiv = document.getElementById('formStatus');
-    const API_URL = '/api/email'; // Percorso relativo
+    const API_URL = '/api/email'; 
 
     if (form && statusDiv) {
       form.addEventListener('submit', function(e) {
@@ -194,32 +178,22 @@ document.addEventListener('DOMContentLoaded', function() {
 
         fetch(API_URL, {
             method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(formData),
           })
           .then(async response => {
-            // Proviamo a leggere la risposta. Se non è JSON valido, gestiamo l'errore.
             let data;
-            try {
-                data = await response.json();
-            } catch (err) {
-                // Se il server risponde con un errore HTML (es. 404 o 500 generico) il json() fallisce
-                throw new Error(`Errore del server: ${response.status} ${response.statusText}`);
-            }
+            try { data = await response.json(); } catch (err) {}
 
             if (response.ok) {
               statusDiv.textContent = 'Messaggio inviato con successo! 😊';
               statusDiv.className = 'text-green-600';
               form.reset();
             } else {
-              // Usa il messaggio del server se c'è, altrimenti uno generico
-              throw new Error(data.message || 'Errore sconosciuto');
+              throw new Error(data?.message || 'Errore sconosciuto');
             }
           })
           .catch(error => {
-            console.error("Errore Fetch:", error);
             statusDiv.textContent = 'Errore: ' + error.message;
             statusDiv.className = 'text-red-600';
           })
@@ -231,14 +205,13 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   // ============================================================
-  // 5. RECENSIONI (Google Sheets) - CON SICUREZZA XSS
+  // 5. VISUALIZZAZIONE RECENSIONI
   // ============================================================
   {
     const REVIEWS_API_URL = '/api/reviews';
     const reviewsContainer = document.getElementById('reviewsContainer');
     const averageRatingContainer = document.getElementById('averageRating');
 
-    // Funzione per iniziali
     const getInitials = (name) => {
       if (!name) return '?';
       const parts = name.trim().split(' ');
@@ -259,7 +232,6 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!response.ok) throw new Error('Errore nel caricamento');
         const data = await response.json();
 
-        // Filtra solo le recensioni approvate
         const approvedReviews = data.filter(row => row.Approvato && row.Approvato.toUpperCase() === 'SI');
 
         if (approvedReviews.length === 0) {
@@ -272,17 +244,14 @@ document.addEventListener('DOMContentLoaded', function() {
         let reviewsHtml = '';
 
         approvedReviews.forEach(review => {
-          // Sanitizzazione input
           const nome = escapeHTML(review['Nome e Cognome'] || 'Ospite');
           const testo = escapeHTML(review['Recensione'] || '');
-          const rawDate = escapeHTML(review['Data Soggiorno'] || '');
+          const dataSoggiorno = escapeHTML(review['Data Soggiorno'] || '');
           const voto = parseInt(review['Valutazione'], 10) || 0;
-          const dataDisplay = rawDate ? rawDate.split(' ')[0] : '';
           const initials = getInitials(nome);
 
           totalRating += voto;
 
-          // Generazione stelle
           const starsHTML = Array(5).fill(0).map((_, i) =>
             i < voto ?
             '<span class="text-yellow-400 text-lg">★</span>' :
@@ -304,15 +273,14 @@ document.addEventListener('DOMContentLoaded', function() {
               <div class="relative z-10 flex-grow">
                 <p class="text-gray-600 leading-relaxed italic text-[0.95rem]">"${testo}"</p>
               </div>
-              ${dataDisplay ? `
+              ${dataSoggiorno ? `
                 <div class="mt-5 pt-4 border-t border-gray-50 text-xs text-gray-400 font-medium uppercase tracking-wider relative z-10 flex items-center gap-1">
                   <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                  Soggiorno: ${dataDisplay}
+                  Soggiorno: ${dataSoggiorno}
                 </div>` : ''}
             </div>`;
         });
 
-        // Calcolo media
         const average = (totalRating / approvedReviews.length).toFixed(1);
         const fullStarsCount = Math.round(average);
         const averageStars = '★'.repeat(fullStarsCount) + '☆'.repeat(5 - fullStarsCount);
@@ -330,19 +298,15 @@ document.addEventListener('DOMContentLoaded', function() {
           </div>`;
 
         reviewsContainer.innerHTML = reviewsHtml;
-
       } catch (error) {
-        console.error(error);
         reviewsContainer.innerHTML = `<div class="col-span-full text-center p-6 bg-red-50 rounded-xl border border-red-100 text-red-600"><p>Impossibile caricare le recensioni.</p></div>`;
       }
     }
-
-    // Avvia
     fetchAndDisplayReviews();
   }
 
   // ============================================================
-  // 6. ANIMAZIONI SCROLL REVEAL
+  // 6. SCROLL REVEAL
   // ============================================================
   {
     const revealElements = document.querySelectorAll('.reveal');
@@ -360,39 +324,32 @@ document.addEventListener('DOMContentLoaded', function() {
   } 
   
   // ============================================================
-  // 7. PULSANTE TORNA SU (Corretto per gestire pagine senza pulsante)
+  // 7. PULSANTE TORNA SU (Versione Corretta)
   // ============================================================
   {
     const scrollTopBtn = document.getElementById('scrollTopBtn');
     
-    // Esegui la logica SOLO se il pulsante esiste nella pagina
+    // Esegui SOLO se il pulsante esiste (evita errori sulla pagina recensioni)
     if (scrollTopBtn) {
-      // 1. Logica di apparizione (Scroll)
       window.addEventListener('scroll', () => {
         if (window.scrollY > 300) {
           scrollTopBtn.style.opacity = '1';
-          scrollTopBtn.style.pointerEvents = 'auto';
+          scrollTopBtn.style.pointerEvents = 'auto'; 
         } else {
           scrollTopBtn.style.opacity = '0';
-          scrollTopBtn.style.pointerEvents = 'none';
+          scrollTopBtn.style.pointerEvents = 'none'; 
         }
       });
 
-      // 2. Azione di click (Torna su)
       scrollTopBtn.addEventListener('click', (e) => {
         e.preventDefault();
-        window.scrollTo({
-          top: 0,
-          behavior: 'smooth'
-        });
+        window.scrollTo({ top: 0, behavior: 'smooth' });
       });
-    } 
-    // Ho rimosso l'ELSE che generava l'errore. 
-    // Ora se il pulsante non c'è, lo script continua silenziosamente verso il punto 8.
+    }
   }
   
   // ============================================================
-  // 8. GESTIONE NUOVO FORM RECENSIONI (Logica Stelle + Invio)
+  // 8. INVIO RECENSIONI (Logica Stelle + Date + Invio)
   // ============================================================
   {
     const starContainer = document.getElementById('starContainer');
@@ -405,7 +362,6 @@ document.addEventListener('DOMContentLoaded', function() {
       
       // --- A. LOGICA VISIVA STELLE ---
       const stars = starContainer.querySelectorAll('.star');
-      
       const highlightStars = (rating) => {
         stars.forEach(star => {
           const val = parseInt(star.getAttribute('data-value'));
@@ -431,16 +387,29 @@ document.addEventListener('DOMContentLoaded', function() {
       reviewForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         
+        // Disabilita pulsante
         submitBtn.disabled = true;
         submitBtn.textContent = "Invio in corso...";
         submitBtn.classList.add('opacity-75', 'cursor-not-allowed');
-        
         statusDiv.className = 'hidden'; 
+
+        // Helper date: 2025-11-23 -> 23/11/2025
+        const formatDate = (dateStr) => {
+            if (!dateStr) return '';
+            const [y, m, d] = dateStr.split('-');
+            return `${d}/${m}/${y}`;
+        };
+
+        // Raccolta dati
+        const arrivo = reviewForm.data_arrivo.value;
+        const partenza = reviewForm.data_partenza.value;
+        const dataFormattata = `${formatDate(arrivo)} - ${formatDate(partenza)}`;
 
         const formData = {
           nome: reviewForm.nome.value.trim(),
           voto: reviewForm.voto.value,
-          messaggio: reviewForm.messaggio.value.trim()
+          messaggio: reviewForm.messaggio.value.trim(),
+          dataSoggiorno: dataFormattata // Inviamo la data custom
         };
 
         try {
@@ -453,11 +422,10 @@ document.addEventListener('DOMContentLoaded', function() {
           const result = await response.json();
 
           if (response.ok) {
-            // SUCCESS: Mostra messaggio e reindirizza
             statusDiv.textContent = "✅ Recensione inviata! Ti stiamo riportando alla Home...";
             statusDiv.className = "text-center text-sm font-medium mt-4 p-3 rounded-lg bg-green-100 text-green-700 block";
             
-            // Reindirizza dopo 2 secondi
+            // Redirect dopo 2 sec
             setTimeout(() => {
                 window.location.href = 'index.html#recensioni';
             }, 2000);
@@ -470,7 +438,7 @@ document.addEventListener('DOMContentLoaded', function() {
           statusDiv.textContent = "❌ Errore: " + error.message;
           statusDiv.className = "text-center text-sm font-medium mt-4 p-3 rounded-lg bg-red-100 text-red-700 block";
           
-          // Riabilita il bottone solo in caso di errore
+          // Riabilita solo se errore
           submitBtn.disabled = false;
           submitBtn.textContent = "Pubblica Recensione";
           submitBtn.classList.remove('opacity-75', 'cursor-not-allowed');

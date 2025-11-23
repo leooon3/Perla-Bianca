@@ -11,18 +11,18 @@ export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ message: 'Solo POST' });
 
   try {
-    const { nome, voto, messaggio } = req.body;
+    const { nome, voto, messaggio, dataSoggiorno } = req.body;
 
-    if (!nome || !voto || !messaggio) {
-      return res.status(400).json({ message: 'Compila tutti i campi' });
+    if (!nome || !voto || !messaggio || !dataSoggiorno) {
+      return res.status(400).json({ message: 'Compila tutti i campi, incluse le date.' });
     }
 
     if (!process.env.GOOGLE_PRIVATE_KEY) {
         throw new Error('Manca la variabile GOOGLE_PRIVATE_KEY su Vercel');
     }
 
-    // --- SOLUZIONE BASE64 (INFALLIBILE) ---
-    // Decodifichiamo la stringa sicura in una chiave reale
+    // --- DECODIFICA CHIAVE (BASE64) ---
+    // Questo previene tutti gli errori di formattazione della chiave
     let privateKey;
     try {
       privateKey = Buffer.from(process.env.GOOGLE_PRIVATE_KEY, 'base64').toString('utf-8');
@@ -30,7 +30,7 @@ export default async function handler(req, res) {
       throw new Error('La chiave su Vercel non è in formato Base64 valido');
     }
 
-    // Piccola pulizia extra di sicurezza nel caso la decodifica lasci residui
+    // Pulizia finale di sicurezza
     if (privateKey.includes('\\n')) {
        privateKey = privateKey.replace(/\\n/g, '\n');
     }
@@ -49,11 +49,12 @@ export default async function handler(req, res) {
     const sheet = doc.sheetsByIndex[0]; 
 
     // --- SALVATAGGIO ---
+    // Assicurati che le colonne nel foglio Excel si chiamino ESATTAMENTE così:
     await sheet.addRow({
       'Nome e Cognome': nome,
       'Valutazione': voto,
       'Recensione': messaggio,
-      'Data Soggiorno': new Date().toLocaleDateString('it-IT'),
+      'Data Soggiorno': dataSoggiorno, // Usa la data custom "dal - al"
       'Approvato': 'NO' 
     });
 
