@@ -17,17 +17,23 @@ export default async function handler(req, res) {
       return res.status(400).json({ message: 'Compila tutti i campi' });
     }
 
-    // --- PULIZIA CHIAVE ---
-    // 1. Prende la chiave
-    // 2. Rimuove eventuali doppi apici all'inizio/fine (se copiati dal JSON)
-    // 3. Trasforma i \n letterali in veri a capo
     if (!process.env.GOOGLE_PRIVATE_KEY) {
         throw new Error('Manca la variabile GOOGLE_PRIVATE_KEY su Vercel');
     }
 
-    const privateKey = process.env.GOOGLE_PRIVATE_KEY
-        .replace(/\\n/g, '\n') // Converte \n in a capo
-        .replace(/"/g, '');    // Rimuove virgolette extra se presenti
+    // --- SOLUZIONE BASE64 (INFALLIBILE) ---
+    // Decodifichiamo la stringa sicura in una chiave reale
+    let privateKey;
+    try {
+      privateKey = Buffer.from(process.env.GOOGLE_PRIVATE_KEY, 'base64').toString('utf-8');
+    } catch (e) {
+      throw new Error('La chiave su Vercel non è in formato Base64 valido');
+    }
+
+    // Piccola pulizia extra di sicurezza nel caso la decodifica lasci residui
+    if (privateKey.includes('\\n')) {
+       privateKey = privateKey.replace(/\\n/g, '\n');
+    }
 
     // --- AUTENTICAZIONE ---
     const serviceAccountAuth = new JWT({
@@ -55,11 +61,9 @@ export default async function handler(req, res) {
 
   } catch (error) {
     console.error('Errore API:', error);
-    // Restituiamo l'errore completo per capire meglio (solo in fase di debug)
     return res.status(500).json({ 
         message: 'Errore interno server', 
-        error: error.message,
-        details: error.code // Ci aiuta a vedere se è ancora OSSL
+        error: error.message
     });
   }
 }
