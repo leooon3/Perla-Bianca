@@ -406,7 +406,6 @@ document.addEventListener('DOMContentLoaded', function() {
       // --- A. LOGICA VISIVA STELLE ---
       const stars = starContainer.querySelectorAll('.star');
       
-      // Funzione che colora le stelle fino al voto selezionato
       const highlightStars = (rating) => {
         stars.forEach(star => {
           const val = parseInt(star.getAttribute('data-value'));
@@ -420,25 +419,23 @@ document.addEventListener('DOMContentLoaded', function() {
         });
       };
 
-      // Gestione Click
       stars.forEach(star => {
         star.addEventListener('click', () => {
           const val = parseInt(star.getAttribute('data-value'));
-          votoInput.value = val; // Salva il numero nell'input nascosto
-          highlightStars(val);   // Aggiorna i colori
+          votoInput.value = val;
+          highlightStars(val);
         });
       });
 
       // --- B. INVIO DATI A VERCEL ---
       reviewForm.addEventListener('submit', async (e) => {
-        e.preventDefault(); // Ferma il ricaricamento della pagina
+        e.preventDefault();
         
-        // Blocca il pulsante durante l'invio
         submitBtn.disabled = true;
         submitBtn.textContent = "Invio in corso...";
         submitBtn.classList.add('opacity-75', 'cursor-not-allowed');
         
-        statusDiv.className = 'hidden'; // Nascondi vecchi messaggi
+        statusDiv.className = 'hidden'; 
 
         const formData = {
           nome: reviewForm.nome.value.trim(),
@@ -447,7 +444,6 @@ document.addEventListener('DOMContentLoaded', function() {
         };
 
         try {
-          // Chiama la nostra API (che creeremo nel punto 3)
           const response = await fetch('/api/submit-review', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -457,11 +453,15 @@ document.addEventListener('DOMContentLoaded', function() {
           const result = await response.json();
 
           if (response.ok) {
-            // Successo!
-            reviewForm.reset(); // Pulisci il form
-            highlightStars(5);  // Resetta stelle a 5
-            statusDiv.textContent = "✅ Grazie! La tua recensione è stata inviata ed è in attesa di approvazione.";
+            // SUCCESS: Mostra messaggio e reindirizza
+            statusDiv.textContent = "✅ Recensione inviata! Ti stiamo riportando alla Home...";
             statusDiv.className = "text-center text-sm font-medium mt-4 p-3 rounded-lg bg-green-100 text-green-700 block";
+            
+            // Reindirizza dopo 2 secondi
+            setTimeout(() => {
+                window.location.href = 'index.html#recensioni';
+            }, 2000);
+
           } else {
             throw new Error(result.message || 'Errore sconosciuto');
           }
@@ -469,8 +469,8 @@ document.addEventListener('DOMContentLoaded', function() {
           console.error(error);
           statusDiv.textContent = "❌ Errore: " + error.message;
           statusDiv.className = "text-center text-sm font-medium mt-4 p-3 rounded-lg bg-red-100 text-red-700 block";
-        } finally {
-          // Riabilita il pulsante
+          
+          // Riabilita il bottone solo in caso di errore
           submitBtn.disabled = false;
           submitBtn.textContent = "Pubblica Recensione";
           submitBtn.classList.remove('opacity-75', 'cursor-not-allowed');

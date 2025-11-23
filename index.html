@@ -152,44 +152,14 @@
     
     <div id="averageRating" class="text-center mb-12 reveal"></div>
 
-    <div class="max-w-2xl mx-auto bg-gray-50 p-8 rounded-2xl shadow-md border border-gray-100 mb-16 reveal">
-      <h3 class="text-xl font-bold text-gray-800 mb-4 text-center">Hai soggiornato qui? Lascia una recensione</h3>
-      
-      <form id="internalReviewForm" class="space-y-5">
-        
-        <div>
-          <label class="block text-sm font-bold text-gray-700 mb-1">Nome e Cognome</label>
-          <input type="text" name="nome" required placeholder="Es. Mario Rossi" 
-                 class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition bg-white">
-        </div>
-
-        <div>
-          <label class="block text-sm font-bold text-gray-700 mb-1">La tua valutazione</label>
-          <input type="hidden" name="voto" id="votoInput" value="5" required>
-          
-          <div class="flex gap-1 cursor-pointer text-3xl" id="starContainer">
-            <span data-value="1" class="star transition hover:scale-110 text-yellow-400">★</span>
-            <span data-value="2" class="star transition hover:scale-110 text-yellow-400">★</span>
-            <span data-value="3" class="star transition hover:scale-110 text-yellow-400">★</span>
-            <span data-value="4" class="star transition hover:scale-110 text-yellow-400">★</span>
-            <span data-value="5" class="star transition hover:scale-110 text-yellow-400">★</span>
-          </div>
-        </div>
-
-        <div>
-          <label class="block text-sm font-bold text-gray-700 mb-1">La tua esperienza</label>
-          <textarea name="messaggio" rows="4" required placeholder="Raccontaci cosa ti è piaciuto di più..." 
-                    class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition bg-white"></textarea>
-        </div>
-
-        <button type="submit" id="submitReviewBtn"
-                class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl shadow-lg transition-all transform hover:-translate-y-1">
-          Pubblica Recensione
-        </button>
-
-        <div id="reviewFormStatus" class="text-center text-sm font-medium mt-4 hidden p-3 rounded-lg"></div>
-      </form>
-    </div>
+<div class="max-w-2xl mx-auto text-center mb-16 reveal">
+  <h3 class="text-xl text-gray-600 mb-6">Hai soggiornato qui di recente?</h3>
+  
+  <a href="lascia-recensione.html" 
+     class="inline-block bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-xl shadow-lg transition-all transform hover:-translate-y-1">
+    Scrivi una Recensione
+  </a>
+</div>
 
     <div id="reviewsContainer" class="grid grid-cols-1 md:grid-cols-2 gap-6 reveal">
       <p class="text-center text-gray-500 col-span-full">Caricamento recensioni...</p>
