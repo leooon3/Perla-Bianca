@@ -39,9 +39,9 @@ export default async function handler(req, res) {
 
     // 1. Configura la mail per TE (Admin)
     const adminMailOptions = {
-      from: `"${nome}" <${process.env.EMAIL_USER}>`, // Mittente fittizio
-      to: process.env.EMAIL_TO, // Arriva a te
-      replyTo: email, // Se clicchi rispondi, rispondi al cliente
+      from: `"${nome}" <${process.env.EMAIL_USER}>`, // Mittente fittizio per evitare spam block
+      to: process.env.EMAIL_TO || process.env.EMAIL_USER, // Usa EMAIL_TO se c'è, altrimenti manda a te stesso
+      replyTo: email, // Rispondi direttamente al cliente
       subject: `Nuovo messaggio dal sito da: ${nome}`,
       text: `Hai ricevuto un nuovo messaggio:\n\nNome: ${nome}\nEmail: ${email}\n\nMessaggio:\n${messaggio}`,
       html: `
@@ -75,7 +75,8 @@ export default async function handler(req, res) {
       `,
     };
 
-    // 3. Invia ENTRAMBE le mail simultaneamente (Promise.all)
+    // 3. Invia ENTRAMBE le mail simultaneamente
+    // Se la mail del cliente è errata, questo blocco fallirà e andrà nel catch
     await Promise.all([
       transporter.sendMail(adminMailOptions),
       transporter.sendMail(userMailOptions),
@@ -84,8 +85,13 @@ export default async function handler(req, res) {
     return res.status(200).json({ message: "Email inviate con successo" });
   } catch (error) {
     console.error("Errore invio email:", error);
-    return res
-      .status(500)
-      .json({ message: "Errore interno del server", error: error.message });
+
+    // MODIFICA IMPORTANTE:
+    // Restituiamo un messaggio chiaro che il frontend mostrerà all'utente
+    return res.status(500).json({
+      message:
+        "Errore nell'invio della mail. Controlla l'indirizzo o riprova più tardi.",
+      error: error.message,
+    });
   }
 }

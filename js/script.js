@@ -172,6 +172,26 @@ document.addEventListener("DOMContentLoaded", function () {
     if (form && statusDiv) {
       form.addEventListener("submit", function (e) {
         e.preventDefault();
+
+        // --- NUOVA MODIFICA: VALIDAZIONE CLIENT ---
+        // Controlliamo subito se la mail è valida prima di fare qualsiasi altra cosa
+        const emailValue = form.email.value.trim();
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Regex: testo @ testo . testo
+
+        if (!emailRegex.test(emailValue)) {
+          statusDiv.textContent = "Inserisci un indirizzo email valido.";
+          statusDiv.className = "text-red-600";
+
+          // Nascondi l'errore dopo 3 secondi
+          setTimeout(() => {
+            statusDiv.textContent = "";
+            statusDiv.className = "";
+          }, 3000);
+
+          return; // STOP! Non esegue il codice qui sotto
+        }
+        // ------------------------------------------
+
         const submitButton = form.querySelector('button[type="submit"]');
         submitButton.disabled = true;
         statusDiv.textContent = "Invio in corso…";
@@ -179,7 +199,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         const formData = {
           nome: escapeHTML(form.nome.value.trim()),
-          email: escapeHTML(form.email.value.trim()),
+          email: escapeHTML(emailValue), // Usiamo il valore già pulito
           messaggio: escapeHTML(form.messaggio.value.trim()),
         };
 
@@ -198,6 +218,11 @@ document.addEventListener("DOMContentLoaded", function () {
               statusDiv.textContent = "Messaggio inviato con successo! 😊";
               statusDiv.className = "text-green-600";
               form.reset();
+              // Opzionale: rimuovi messaggio di successo dopo qualche secondo
+              setTimeout(() => {
+                statusDiv.textContent = "";
+                statusDiv.className = "";
+              }, 5000);
             } else {
               throw new Error(data?.message || "Errore sconosciuto");
             }
