@@ -201,6 +201,7 @@ document.addEventListener("DOMContentLoaded", function () {
           nome: escapeHTML(form.nome.value.trim()),
           email: escapeHTML(emailValue), // Usiamo il valore già pulito
           messaggio: escapeHTML(form.messaggio.value.trim()),
+          honeypot: form.honeypot.value,
         };
 
         fetch(API_URL, {
@@ -485,7 +486,6 @@ document.addEventListener("DOMContentLoaded", function () {
           voto: reviewForm.voto.value,
           messaggio: reviewForm.messaggio.value.trim(),
           dataSoggiorno: dataFormattata, // Inviamo la data custom
-          honeypot: form.honeypot.value,
         };
 
         try {
