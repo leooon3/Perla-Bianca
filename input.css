@@ -2,7 +2,7 @@
 
 /* Diciamo a Tailwind dove guardare per generare le classi */
 @source "./index.html";
-@source "./script.js";
+@source "./js/script.js";
 
 /* --- IL TUO CSS PERSONALIZZATO --- */
 

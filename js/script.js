@@ -205,6 +205,10 @@ document.addEventListener("DOMContentLoaded", function () {
           .catch((error) => {
             statusDiv.textContent = "Errore: " + error.message;
             statusDiv.className = "text-red-600";
+            setTimeout(() => {
+              statusDiv.textContent = "";
+              statusDiv.className = "";
+            }, 5000);
           })
           .finally(() => {
             submitButton.disabled = false;
