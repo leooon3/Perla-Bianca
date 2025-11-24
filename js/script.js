@@ -485,6 +485,7 @@ document.addEventListener("DOMContentLoaded", function () {
           voto: reviewForm.voto.value,
           messaggio: reviewForm.messaggio.value.trim(),
           dataSoggiorno: dataFormattata, // Inviamo la data custom
+          honeypot: form.honeypot.value,
         };
 
         try {

@@ -29,10 +29,25 @@ export default async function handler(req, res) {
     return res.status(405).json({ message: "Method Not Allowed" });
   }
 
-  const { nome, email, messaggio } = req.body;
+  // 1. Estraiamo anche il campo 'honeypot'
+  const { nome, email, messaggio, honeypot } = req.body;
 
+  // 2. CONTROLLO ANTI-SPAM (Honeypot)
+  // Se il campo nascosto è compilato, è un bot.
+  if (honeypot) {
+    // Rispondiamo "ok" per ingannare il bot, ma non inviamo nulla.
+    return res.status(200).json({ message: "Email inviata con successo" });
+  }
+
+  // 3. Validazione Campi Vuoti
   if (!nome || !email || !messaggio) {
     return res.status(400).json({ message: "Tutti i campi sono obbligatori" });
+  }
+
+  // 4. Validazione Formato Email (Server-side)
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email)) {
+    return res.status(400).json({ message: "Indirizzo email non valido." });
   }
 
   try {
@@ -44,11 +59,11 @@ export default async function handler(req, res) {
       },
     });
 
-    // 1. Configura la mail per TE (Admin)
+    // Configura la mail per TE (Admin)
     const adminMailOptions = {
-      from: `"${nome}" <${process.env.EMAIL_USER}>`, // Mittente fittizio per evitare spam block
-      to: process.env.EMAIL_TO || process.env.EMAIL_USER, // Usa EMAIL_TO se c'è, altrimenti manda a te stesso
-      replyTo: email, // Rispondi direttamente al cliente
+      from: `"${nome}" <${process.env.EMAIL_USER}>`,
+      to: process.env.EMAIL_TO || process.env.EMAIL_USER,
+      replyTo: email,
       subject: `Nuovo messaggio dal sito da: ${nome}`,
       text: `Hai ricevuto un nuovo messaggio:\n\nNome: ${nome}\nEmail: ${email}\n\nMessaggio:\n${messaggio}`,
       html: `
@@ -62,10 +77,10 @@ export default async function handler(req, res) {
       `,
     };
 
-    // 2. Configura la mail per il CLIENTE (Auto-reply)
+    // Configura la mail per il CLIENTE (Auto-reply)
     const userMailOptions = {
       from: `"Perla Bianca" <${process.env.EMAIL_USER}>`,
-      to: email, // Arriva al cliente
+      to: email,
       subject: "Grazie per averci contattato - Perla Bianca",
       html: `
         <div style="font-family: sans-serif; color: #333;">
@@ -82,8 +97,6 @@ export default async function handler(req, res) {
       `,
     };
 
-    // 3. Invia ENTRAMBE le mail simultaneamente
-    // Se la mail del cliente è errata, questo blocco fallirà e andrà nel catch
     await Promise.all([
       transporter.sendMail(adminMailOptions),
       transporter.sendMail(userMailOptions),
@@ -92,9 +105,6 @@ export default async function handler(req, res) {
     return res.status(200).json({ message: "Email inviate con successo" });
   } catch (error) {
     console.error("Errore invio email:", error);
-
-    // MODIFICA IMPORTANTE:
-    // Restituiamo un messaggio chiaro che il frontend mostrerà all'utente
     return res.status(500).json({
       message:
         "Errore nell'invio della mail. Controlla l'indirizzo o riprova più tardi.",
