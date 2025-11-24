@@ -3,7 +3,14 @@ import nodemailer from "nodemailer";
 export default async function handler(req, res) {
   // --- GESTIONE CORS ---
   res.setHeader("Access-Control-Allow-Credentials", true);
-  res.setHeader("Access-Control-Allow-Origin", "*");
+  const allowedOrigins = [
+    "https://perla-bianca.vercel.app",
+    "http://localhost:3000",
+  ];
+  const origin = req.headers.origin;
+  if (allowedOrigins.includes(origin)) {
+    res.setHeader("Access-Control-Allow-Origin", origin);
+  }
   res.setHeader(
     "Access-Control-Allow-Methods",
     "GET,OPTIONS,PATCH,DELETE,POST,PUT"

@@ -440,6 +440,26 @@ document.addEventListener("DOMContentLoaded", function () {
       reviewForm.addEventListener("submit", async (e) => {
         e.preventDefault();
 
+        const arrivoValue = reviewForm.data_arrivo.value;
+        const partenzaValue = reviewForm.data_partenza.value;
+
+        // --- VALIDAZIONE DATE ---
+        if (arrivoValue && partenzaValue) {
+          const dArrivo = new Date(arrivoValue);
+          const dPartenza = new Date(partenzaValue);
+
+          if (dPartenza <= dArrivo) {
+            statusDiv.textContent =
+              "⚠️ La data di partenza deve essere successiva all'arrivo.";
+            statusDiv.className =
+              "text-center text-sm font-medium mt-4 p-3 rounded-lg bg-red-100 text-red-700 block";
+            // Nascondi errore dopo 4 secondi
+            setTimeout(() => {
+              statusDiv.className = "hidden";
+            }, 4000);
+            return; // Interrompe l'invio
+          }
+        }
         // Disabilita pulsante
         submitBtn.disabled = true;
         submitBtn.textContent = "Invio in corso...";
