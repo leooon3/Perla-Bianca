@@ -13,7 +13,7 @@ html {
 
 /* Header sticky */
 #header.sticky {
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 /* --- MENU MOBILE ANIMATO "DOLCE" --- */
@@ -25,7 +25,7 @@ html {
     left: 0;
     width: 100%;
     background-color: #ffffff;
-    
+
     /* Stile del contenuto */
     display: flex;
     flex-direction: column;
@@ -39,12 +39,13 @@ html {
     opacity: 0;
     visibility: hidden; /* Invisibile al mouse */
     transform: translateY(-20px); /* Spostato leggermente in alto */
-    
+
     /* Animazione */
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     z-index: 40;
 
-    max-height: 80vh; overflow-y: auto;
+    max-height: 80vh;
+    overflow-y: auto;
   }
 
   /* STATO APERTO (Quando JS aggiunge la classe .open) */
@@ -63,7 +64,7 @@ html {
     text-align: center;
     padding: 0.5rem 0;
   }
-  
+
   nav a:hover {
     color: var(--color-blue-500);
     background-color: var(--color-gray-50);
@@ -74,7 +75,7 @@ html {
 #servizi .grid .text-center {
   transition: transform 0.3s ease, background-color 0.3s ease;
   /* Aggiungiamo padding per evitare che il testo tocchi i bordi quando appare il colore di sfondo */
-  padding: 1rem; 
+  padding: 1rem;
 }
 
 #servizi .grid .text-center:hover {
@@ -154,7 +155,8 @@ html {
   width: 100%;
   border-collapse: collapse;
 }
-#prezzi th, #prezzi td {
+#prezzi th,
+#prezzi td {
   padding: 0.75rem;
   border-bottom: 1px solid var(--color-gray-200);
 }
