@@ -14,24 +14,25 @@ export default async function handler(req, res) {
   if (allowedOrigins.includes(origin)) {
     res.setHeader("Access-Control-Allow-Origin", origin);
   }
+  res.setHeader("Access-Control-Allow-Methods", "POST,OPTIONS");
+  res.setHeader(
+    "Access-Control-Allow-Headers",
+    "Content-Type, x-admin-password"
+  );
 
-  res.setHeader("Access-Control-Allow-Credentials", true);
-  res.setHeader("Access-Control-Allow-Methods", "GET,OPTIONS");
+  if (req.method === "OPTIONS") return res.status(200).end();
 
-  if (req.method === "OPTIONS") {
-    res.status(200).end();
-    return;
+  // ============================================================
+  // 2. SICUREZZA (VERIFICA PASSWORD ADMIN)
+  // ============================================================
+  if (req.headers["x-admin-password"] !== process.env.ADMIN_PASSWORD) {
+    return res.status(401).json({ message: "Password non valida" });
   }
 
   try {
     // ============================================================
-    // 2. AUTENTICAZIONE GOOGLE & CONNESSIONE FOGLIO
+    // 3. AUTENTICAZIONE GOOGLE (Service Account)
     // ============================================================
-    if (!process.env.GOOGLE_PRIVATE_KEY || !process.env.GOOGLE_SHEET_ID) {
-      throw new Error("Configurazione Google mancante");
-    }
-
-    // Decodifica la chiave privata (gestione Base64 e newline)
     let privateKey = process.env.GOOGLE_PRIVATE_KEY;
     if (!privateKey.includes("BEGIN PRIVATE KEY")) {
       try {
@@ -48,31 +49,30 @@ export default async function handler(req, res) {
       scopes: ["https://www.googleapis.com/auth/spreadsheets"],
     });
 
+    // ============================================================
+    // 4. GESTIONE FOGLIO & AGGIORNAMENTO RIGA
+    // ============================================================
     const doc = new GoogleSpreadsheet(
       process.env.GOOGLE_SHEET_ID,
       serviceAccountAuth
     );
-
     await doc.loadInfo();
-    const sheet = doc.sheetsByIndex[0]; // Assumiamo che le recensioni siano nel primo foglio
-
-    // ============================================================
-    // 3. LETTURA E FORMATTAZIONE DATI
-    // ============================================================
+    const sheet = doc.sheetsByIndex[0]; // Foglio Recensioni
     const rows = await sheet.getRows();
 
-    // Trasformiamo le righe grezze in un oggetto JSON pulito
-    const reviews = rows.map((row) => ({
-      "Nome e Cognome": row.get("Nome e Cognome"),
-      Valutazione: row.get("Valutazione"),
-      Recensione: row.get("Recensione"),
-      "Data Soggiorno": row.get("Data Soggiorno"),
-      Approvato: row.get("Approvato"),
-    }));
+    // Logica di approvazione
+    const { rowIndex } = req.body;
 
-    res.status(200).json(reviews);
+    // Verifichiamo che la riga esista
+    if (rows[rowIndex]) {
+      rows[rowIndex].assign({ Approvato: "SI" });
+      await rows[rowIndex].save();
+      return res.status(200).json({ success: true });
+    } else {
+      throw new Error("Recensione non trovata");
+    }
   } catch (error) {
-    console.error("Errore API Recensioni:", error);
-    res.status(500).json({ error: "Impossibile recuperare le recensioni" });
+    console.error("Errore API Approvazione:", error);
+    return res.status(500).json({ error: error.message });
   }
 }

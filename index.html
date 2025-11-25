@@ -46,6 +46,7 @@
       href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
     />
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js"></script>
 
     <script type="application/ld+json">
       {
@@ -57,9 +58,9 @@
         "image": "https://perla-bianca.vercel.app/img/hero.webp",
         "address": {
           "@type": "PostalAddress",
-          "streetAddress": "Via Mare 123",
-          "addressLocality": "Tua Città",
-          "postalCode": "00000",
+          "streetAddress": "Via 15b",
+          "addressLocality": "Manduria",
+          "postalCode": "74024",
           "addressCountry": "IT"
         },
         "priceRange": "€120 - €200",
@@ -120,6 +121,7 @@
           <a href="#servizi" class="hover:text-blue-600">Servizi</a>
           <a href="#galleria" class="hover:text-blue-600">Galleria</a>
           <a href="#prezzi" class="hover:text-blue-600">Prezzi</a>
+          <a href="#disponibilita" class="hover:text-blue-600">Calendario</a>
           <a href="#recensioni" class="hover:text-blue-600">Recensioni</a>
           <a href="#dove" class="hover:text-blue-600">Dove Siamo</a>
           <a href="#chisiamo" class="hover:text-blue-600">Chi Siamo</a>
@@ -246,6 +248,24 @@
           Per verificare le date disponibili e prenotare, compila il modulo
           nella sezione Contatti.
         </p>
+      </div>
+    </section>
+
+    <!-- Calendario Section-->
+    <section id="disponibilita" class="py-16 bg-white">
+      <div class="container mx-auto px-6 max-w-5xl">
+        <h2 class="text-3xl font-bold text-center mb-4 reveal">
+          Verifica Disponibilità
+        </h2>
+        <p class="text-gray-600 text-center mb-8 reveal">
+          Le date segnate in rosso non sono disponibili.
+        </p>
+
+        <div
+          class="reveal bg-white p-4 rounded-2xl shadow-lg border border-gray-100"
+        >
+          <div id="calendar"></div>
+        </div>
       </div>
     </section>
 
@@ -465,7 +485,12 @@
         >
           <p>
             © 2025 Perla Bianca Casa Vacanze. Tutti i diritti riservati.
-            <span class="mx-2"></span>
+            <span class="mx-2">|</span>
+            <a
+              href="admin.html"
+              class="hover:text-white underline text-gray-600 text-[10px]"
+              >Area Riservata</a
+            >
             <!-- <a href="https://www.iubenda.com/privacy-policy/LINK-TUO" target="_blank" class="hover:text-white underline">Privacy Policy</a> -->
           </p>
         </div>

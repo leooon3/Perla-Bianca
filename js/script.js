@@ -524,4 +524,48 @@ document.addEventListener("DOMContentLoaded", function () {
       });
     }
   }
+
+  // ============================================================
+  // 9. CALENDARIO FULLCALENDAR (Integrato con Google Calendar)
+  // ============================================================
+  {
+    const calendarEl = document.getElementById("calendar");
+
+    if (calendarEl) {
+      // --- A. INIZIALIZZAZIONE CALENDARIO ---
+      const calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: "dayGridMonth", // Vista mensile
+        locale: "it", // Italiano
+        headerToolbar: {
+          left: "prev,next",
+          center: "title",
+          right: "today",
+        },
+        height: "auto", // Altezza automatica
+        contentHeight: 500, // Altezza fissa minima
+        firstDay: 1, // La settimana inizia Lunedì
+        buttonText: {
+          today: "Oggi",
+        },
+
+        // --- B. CARICAMENTO EVENTI ---
+        // FullCalendar supporta nativamente il fetch da un URL JSON
+        events: "/api/calendar",
+
+        // --- C. INTERAZIONI (Opzionale) ---
+        dateClick: function (info) {
+          // Logica futura: es. scroll al form contatti con data precompilata
+          // console.log('Data cliccata:', info.dateStr);
+        },
+
+        // Gestione errori caricamento
+        eventSourceFailure: function (error) {
+          console.error("Errore caricamento eventi calendario:", error);
+        },
+      });
+
+      // --- D. RENDERIZZAZIONE ---
+      calendar.render();
+    }
+  }
 });

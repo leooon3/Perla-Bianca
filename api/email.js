@@ -1,7 +1,9 @@
 import nodemailer from "nodemailer";
 
 export default async function handler(req, res) {
-  // --- GESTIONE CORS ---
+  // ============================================================
+  // 1. CONFIGURAZIONE CORS & PREFLIGHT
+  // ============================================================
   res.setHeader("Access-Control-Allow-Credentials", true);
   const allowedOrigins = [
     "https://perla-bianca.vercel.app",
@@ -29,28 +31,32 @@ export default async function handler(req, res) {
     return res.status(405).json({ message: "Method Not Allowed" });
   }
 
-  // 1. Estraiamo anche il campo 'honeypot'
+  // ============================================================
+  // 2. ESTRAZIONE DATI & VALIDAZIONE
+  // ============================================================
   const { nome, email, messaggio, honeypot } = req.body;
 
-  // 2. CONTROLLO ANTI-SPAM (Honeypot)
-  // Se il campo nascosto è compilato, è un bot.
+  // Controllo Anti-Spam (Honeypot)
   if (honeypot) {
     // Rispondiamo "ok" per ingannare il bot, ma non inviamo nulla.
     return res.status(200).json({ message: "Email inviata con successo" });
   }
 
-  // 3. Validazione Campi Vuoti
+  // Validazione Campi Vuoti
   if (!nome || !email || !messaggio) {
     return res.status(400).json({ message: "Tutti i campi sono obbligatori" });
   }
 
-  // 4. Validazione Formato Email (Server-side)
+  // Validazione Formato Email
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   if (!emailRegex.test(email)) {
     return res.status(400).json({ message: "Indirizzo email non valido." });
   }
 
   try {
+    // ============================================================
+    // 3. CONFIGURAZIONE TRASPORTO EMAIL (Nodemailer)
+    // ============================================================
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
@@ -59,7 +65,7 @@ export default async function handler(req, res) {
       },
     });
 
-    // Configura la mail per TE (Admin)
+    // Configura la mail per l'ADMIN
     const adminMailOptions = {
       from: `"${nome}" <${process.env.EMAIL_USER}>`,
       to: process.env.EMAIL_TO || process.env.EMAIL_USER,
@@ -97,6 +103,9 @@ export default async function handler(req, res) {
       `,
     };
 
+    // ============================================================
+    // 4. INVIO EMAIL
+    // ============================================================
     await Promise.all([
       transporter.sendMail(adminMailOptions),
       transporter.sendMail(userMailOptions),

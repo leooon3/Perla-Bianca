@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="it">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Dashboard - Perla Bianca</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://npmcdn.com/flatpickr/dist/l10n/it.js"></script>
+    <link rel="icon" href="./img/logo.ico" type="image/ico" />
+  </head>
+  <body class="bg-slate-100 font-sans text-slate-800 min-h-screen">
+    <div
+      id="loginOverlay"
+      class="fixed inset-0 bg-slate-900 z-50 flex items-center justify-center transition-opacity duration-300"
+    >
+      <div
+        class="bg-white p-8 rounded-2xl shadow-2xl max-w-sm w-full text-center mx-4"
+      >
+        <h2 class="text-2xl font-bold mb-2">Area Riservata</h2>
+        <p class="text-slate-500 mb-6 text-sm">
+          Inserisci la password amministratore
+        </p>
+        <form id="loginForm">
+          <div class="relative mb-4">
+            <input
+              type="password"
+              id="passwordInput"
+              placeholder="Password"
+              class="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none pr-10"
+              autocomplete="current-password"
+            />
+
+            <button
+              type="button"
+              id="togglePassword"
+              class="absolute inset-y-0 right-0 px-3 flex items-center text-slate-400 hover:text-blue-600 focus:outline-none"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="w-5 h-5"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z"
+                />
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                />
+              </svg>
+            </button>
+          </div>
+
+          <button
+            type="submit"
+            class="w-full bg-blue-600 text-white py-3 rounded-lg font-bold hover:bg-blue-700 transition"
+          >
+            Accedi Dashboard
+          </button>
+        </form>
+        <p id="loginError" class="text-red-500 mt-4 text-sm hidden">
+          Password errata
+        </p>
+        <a
+          href="index.html"
+          class="block mt-6 text-slate-400 text-sm hover:text-slate-600"
+          >← Torna al sito</a
+        >
+      </div>
+    </div>
+
+    <div id="dashboard" class="container mx-auto px-4 py-8 max-w-6xl hidden">
+      <header
+        class="flex flex-col md:flex-row justify-between items-center mb-10 bg-white p-6 rounded-2xl shadow-sm border border-slate-200"
+      >
+        <div class="mb-4 md:mb-0">
+          <h1 class="text-2xl font-bold text-blue-600">
+            Gestione Perla Bianca
+          </h1>
+          <p class="text-slate-400 text-sm">Pannello di controllo unificato</p>
+        </div>
+        <div class="flex gap-3">
+          <button
+            id="logoutBtn"
+            class="px-4 py-2 text-sm font-bold text-red-500 border border-red-200 rounded-lg hover:bg-red-50 transition"
+          >
+            Esci
+          </button>
+        </div>
+      </header>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <section
+          class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200"
+        >
+          <div
+            class="flex justify-between items-center mb-6 border-b border-slate-100 pb-4"
+          >
+            <h2 class="text-xl font-bold flex items-center gap-2">
+              📅 Calendario
+            </h2>
+            <button
+              id="refreshCalendar"
+              class="text-blue-500 text-sm hover:underline"
+            >
+              Aggiorna
+            </button>
+          </div>
+
+          <div class="bg-slate-50 p-4 rounded-xl mb-6 border border-slate-200">
+            <h3 class="text-xs font-bold text-slate-500 uppercase mb-3">
+              Blocca Date (Prenotazione)
+            </h3>
+            <form id="calendarForm" class="space-y-3">
+              <input
+                type="text"
+                id="bookingName"
+                placeholder="Nome Ospite (es. Mario Rossi)"
+                class="w-full p-2 border rounded-lg text-sm focus:ring-2 focus:ring-blue-500 outline-none"
+                required
+              />
+              <input
+                type="text"
+                id="dateRange"
+                placeholder="Seleziona periodo..."
+                class="w-full p-2 border rounded-lg text-sm bg-white cursor-pointer focus:ring-2 focus:ring-blue-500 outline-none"
+                required
+              />
+              <button
+                type="submit"
+                id="btnAddEvent"
+                class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 rounded-lg text-sm transition shadow-sm"
+              >
+                Aggiungi Prenotazione
+              </button>
+            </form>
+          </div>
+
+          <div>
+            <h3 class="text-xs font-bold text-slate-500 uppercase mb-3">
+              Prossime Prenotazioni
+            </h3>
+            <ul
+              id="eventsList"
+              class="space-y-2 max-h-[400px] overflow-y-auto pr-2"
+            >
+              <li class="text-center text-slate-400 py-4 text-sm">
+                Caricamento calendario...
+              </li>
+            </ul>
+          </div>
+        </section>
+
+        <section
+          class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 h-fit"
+        >
+          <div
+            class="flex justify-between items-center mb-6 border-b border-slate-100 pb-4"
+          >
+            <h2 class="text-xl font-bold flex items-center gap-2">
+              ⭐ Recensioni
+            </h2>
+            <button
+              id="refreshReviews"
+              class="text-blue-500 text-sm hover:underline"
+            >
+              Aggiorna
+            </button>
+          </div>
+
+          <div
+            id="reviewsList"
+            class="space-y-4 max-h-[600px] overflow-y-auto pr-2"
+          >
+            <li class="text-center text-slate-400 py-4 text-sm">
+              Caricamento recensioni...
+            </li>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <script src="js/admin.js"></script>
+  </body>
+</html>

@@ -2,7 +2,9 @@ import { GoogleSpreadsheet } from "google-spreadsheet";
 import { JWT } from "google-auth-library";
 
 export default async function handler(req, res) {
-  // Permessi (CORS)
+  // ============================================================
+  // 1. CONFIGURAZIONE CORS & PREFLIGHT
+  // ============================================================
   const allowedOrigins = [
     "https://perla-bianca.vercel.app",
     "http://localhost:3000",
@@ -19,6 +21,9 @@ export default async function handler(req, res) {
     return res.status(405).json({ message: "Solo POST" });
 
   try {
+    // ============================================================
+    // 2. VALIDAZIONE DATI INPUT
+    // ============================================================
     const { nome, voto, messaggio, dataSoggiorno } = req.body;
 
     if (!nome || !voto || !messaggio || !dataSoggiorno) {
@@ -27,12 +32,14 @@ export default async function handler(req, res) {
         .json({ message: "Compila tutti i campi, incluse le date." });
     }
 
+    // ============================================================
+    // 3. AUTENTICAZIONE GOOGLE & CARICAMENTO FOGLIO
+    // ============================================================
     if (!process.env.GOOGLE_PRIVATE_KEY) {
       throw new Error("Manca la variabile GOOGLE_PRIVATE_KEY su Vercel");
     }
 
-    // --- DECODIFICA CHIAVE (BASE64) ---
-    // Questo previene tutti gli errori di formattazione della chiave
+    // Decodifica chiave privata (Base64 e newline)
     let privateKey;
     try {
       privateKey = Buffer.from(
@@ -43,40 +50,40 @@ export default async function handler(req, res) {
       throw new Error("La chiave su Vercel non è in formato Base64 valido");
     }
 
-    // Pulizia finale di sicurezza
     if (privateKey.includes("\\n")) {
       privateKey = privateKey.replace(/\\n/g, "\n");
     }
 
-    // --- AUTENTICAZIONE ---
     const serviceAccountAuth = new JWT({
       email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
       key: privateKey,
       scopes: ["https://www.googleapis.com/auth/spreadsheets"],
     });
 
-    // --- CARICAMENTO FOGLIO ---
     const doc = new GoogleSpreadsheet(
       process.env.GOOGLE_SHEET_ID,
       serviceAccountAuth
     );
     await doc.loadInfo();
 
+    // Selezioniamo il primo foglio (Recensioni)
     const sheet = doc.sheetsByIndex[0];
 
-    // --- SALVATAGGIO ---
-    // Assicurati che le colonne nel foglio Excel si chiamino ESATTAMENTE così:
+    // ============================================================
+    // 4. SALVATAGGIO DATI
+    // ============================================================
+    // Le colonne nel foglio Google Sheets DEVONO corrispondere a queste chiavi
     await sheet.addRow({
       "Nome e Cognome": nome,
       Valutazione: voto,
       Recensione: messaggio,
-      "Data Soggiorno": dataSoggiorno, // Usa la data custom "dal - al"
-      Approvato: "NO",
+      "Data Soggiorno": dataSoggiorno, // Formato custom "dal - al"
+      Approvato: "NO", // Default: non approvato
     });
 
     return res.status(200).json({ success: true });
   } catch (error) {
-    console.error("Errore API:", error);
+    console.error("Errore API Submit Review:", error);
     return res.status(500).json({
       message: "Errore interno server",
       error: error.message,
