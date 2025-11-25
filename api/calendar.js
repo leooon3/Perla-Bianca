@@ -68,7 +68,7 @@ export default async function handler(req, res) {
         allDay: !event.start.dateTime,
         display: "background",
         color: "#ef4444", // Rosso vivo
-        textColor: "white",
+        textColor: "black",
       }));
 
       return res.status(200).json(events);
