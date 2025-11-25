@@ -28,7 +28,8 @@
     "@tailwindcss/postcss": "^4.1.17",
     "google-auth-library": "^9.15.1",
     "google-spreadsheet": "^4.1.5",
-    "nodemailer": "^7.0.10",
+    "jsonwebtoken": "^9.0.0",
+    "nodemailer": "^6.9.0",
     "postcss-cli": "^11.0.1",
     "googleapis": "^144.0.0"
   }

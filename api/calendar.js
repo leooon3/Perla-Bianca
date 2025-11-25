@@ -1,31 +1,13 @@
 import { google } from "googleapis";
 import { JWT } from "google-auth-library";
+import { verifyAuth, cors } from "./_utils.js"; // Importiamo i nuovi strumenti di sicurezza
 
 export default async function handler(req, res) {
-  // ============================================================
-  // 1. CONFIGURAZIONE CORS & PREFLIGHT
-  // ============================================================
-  const allowedOrigins = [
-    "https://perla-bianca.vercel.app",
-    "http://localhost:3000",
-  ];
-  const origin = req.headers.origin;
-
-  if (allowedOrigins.includes(origin)) {
-    res.setHeader("Access-Control-Allow-Origin", origin);
-  }
-  res.setHeader("Access-Control-Allow-Methods", "GET,POST,DELETE,OPTIONS");
-  res.setHeader(
-    "Access-Control-Allow-Headers",
-    "Content-Type, x-admin-password"
-  );
-
-  if (req.method === "OPTIONS") return res.status(200).end();
+  // 1. GESTIONE CORS STANDARD
+  if (cors(req, res)) return res.status(200).end();
 
   try {
-    // ============================================================
     // 2. AUTENTICAZIONE GOOGLE (Service Account)
-    // ============================================================
     let privateKey = process.env.GOOGLE_PRIVATE_KEY;
     if (!privateKey.includes("BEGIN PRIVATE KEY")) {
       try {
@@ -39,7 +21,6 @@ export default async function handler(req, res) {
     const auth = new JWT({
       email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
       key: privateKey,
-      // NOTA: Scope completo per poter scrivere sul calendario
       scopes: ["https://www.googleapis.com/auth/calendar"],
     });
 
@@ -47,8 +28,9 @@ export default async function handler(req, res) {
     const calendarId = process.env.GOOGLE_CALENDAR_ID;
 
     // ============================================================
-    // 3. GET: LEGGI EVENTI (Pubblico + Admin)
+    // 3. METODO GET: PUBBLICO (Tutti possono leggere gli eventi)
     // ============================================================
+    // Qui NON c'è "verifyAuth" perché il calendario deve essere visibile a tutti
     if (req.method === "GET") {
       const response = await calendar.events.list({
         calendarId,
@@ -58,16 +40,15 @@ export default async function handler(req, res) {
         orderBy: "startTime",
       });
 
-      // Formattiamo i dati per il frontend
       const events = response.data.items.map((event) => ({
-        id: event.id, // ID necessario per la cancellazione
-        title: "Occupato", // Titolo pubblico generico per privacy
-        realTitle: event.summary, // Titolo reale visibile solo all'admin
+        id: event.id,
+        title: "Occupato",
+        realTitle: event.summary, // Visibile nel JSON ma nascosto dalla UI pubblica
         start: event.start.date || event.start.dateTime,
         end: event.end.date || event.end.dateTime,
         allDay: !event.start.dateTime,
         display: "background",
-        color: "#ef4444", // Rosso vivo
+        color: "#ef4444",
         textColor: "black",
       }));
 
@@ -75,19 +56,21 @@ export default async function handler(req, res) {
     }
 
     // ============================================================
-    // 4. SICUREZZA (VERIFICA PASSWORD ADMIN)
+    // 4. METODI PROTETTI (POST / DELETE)
     // ============================================================
-    // Da qui in poi le operazioni richiedono la password amministratore
-    if (req.headers["x-admin-password"] !== process.env.ADMIN_PASSWORD) {
-      return res.status(401).json({ message: "Password non valida" });
+
+    // VERIFICA LOGIN: Blocca qui se l'utente non è autenticato
+    try {
+      verifyAuth(req);
+    } catch (err) {
+      return res
+        .status(401)
+        .json({ error: "Non autorizzato. Effettua il login." });
     }
 
-    // ============================================================
-    // 5. POST: AGGIUNGI EVENTO (Admin)
-    // ============================================================
+    // Aggiungi Evento (Solo se login ok)
     if (req.method === "POST") {
       const { start, end, title } = req.body;
-
       await calendar.events.insert({
         calendarId,
         requestBody: {
@@ -99,9 +82,7 @@ export default async function handler(req, res) {
       return res.status(200).json({ success: true });
     }
 
-    // ============================================================
-    // 6. DELETE: RIMUOVI EVENTO (Admin)
-    // ============================================================
+    // Rimuovi Evento (Solo se login ok)
     if (req.method === "DELETE") {
       const { eventId } = req.body;
       await calendar.events.delete({
