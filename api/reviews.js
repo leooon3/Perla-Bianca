@@ -68,6 +68,7 @@ export default async function handler(req, res) {
       Recensione: row.get("Recensione"),
       "Data Soggiorno": row.get("Data Soggiorno"),
       Approvato: row.get("Approvato"),
+      Risposta: row.get("Risposta"),
     }));
 
     res.status(200).json(reviews);

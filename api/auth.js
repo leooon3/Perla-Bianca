@@ -10,7 +10,12 @@ const JWT_SECRET = process.env.JWT_SECRET;
 const EMAIL_USER = process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL; // O la tua mail gmail diretta
 const EMAIL_PASS = process.env.EMAIL_PASS;
 // Lista delle email che possono accedere (ADMIN)
-const ALLOWED_EMAILS = ["leooonericcardo@gmail.com", "adarte05@libero.it"];
+const ALLOWED_EMAILS = [
+  "leooonericcardo@gmail.com",
+  "adarte05@libero.it",
+  "camilla.leone08@gmail.com",
+  "a.leone911@gmail.com",
+];
 
 const client = new OAuth2Client(CLIENT_ID);
 const transporter = nodemailer.createTransport({

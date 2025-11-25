@@ -296,6 +296,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
           totalRating += voto;
 
+          const rispostaAdmin = review["Risposta"]
+            ? `
+              <div class="mt-4 ml-4 p-3 bg-blue-50 border-l-4 border-blue-400 rounded-r-lg text-sm text-gray-700">
+                <p class="font-bold text-blue-800 text-xs mb-1 uppercase tracking-wider">Risposta dell'Host:</p>
+                <p class="italic">"${escapeHTML(review["Risposta"])}"</p>
+              </div>
+              `
+            : "";
+
           const starsHTML = Array(5)
             .fill(0)
             .map((_, i) =>
@@ -317,9 +326,13 @@ document.addEventListener("DOMContentLoaded", function () {
                   <div class="flex -mt-0.5">${starsHTML}</div>
                 </div>
               </div>
+
               <div class="relative z-10 flex-grow">
                 <p class="text-gray-600 leading-relaxed italic text-[0.95rem]">"${testo}"</p>
-              </div>
+                
+                ${rispostaAdmin} 
+                </div>
+
               ${
                 dataSoggiorno
                   ? `

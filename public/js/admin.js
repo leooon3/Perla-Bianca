@@ -351,13 +351,36 @@ const app = {
       list.innerHTML = filtered
         .map((r) => {
           const isApproved = r.Approvato && r.Approvato.toUpperCase() === "SI";
+          const currentReply = r.Risposta || ""; // Leggiamo la risposta esistente se c'è
 
-          // Se è approvata mostriamo tasto ELIMINA, se è in attesa mostriamo APPROVA
-          let actionButton = "";
-          if (isApproved) {
-            actionButton = `<button onclick="app.deleteReview(${r.idx})" class="w-full mt-2 text-xs bg-red-100 text-red-600 hover:bg-red-200 font-bold py-2 rounded transition border border-red-200">ELIMINA (GIÀ PUBBLICATA)</button>`;
+          // Se NON è approvata: Tasto "Approva"
+          // Se è approvata: Area di testo per la risposta e tasto Elimina
+          let adminActions = "";
+
+          if (!isApproved) {
+            adminActions = `<button onclick="app.approveReview(${r.idx})" class="w-full mt-2 text-xs bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 rounded transition">APPROVA E PUBBLICA</button>`;
           } else {
-            actionButton = `<button onclick="app.approveReview(${r.idx})" class="w-full mt-2 text-xs bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 rounded transition">APPROVA E PUBBLICA</button>`;
+            // Sezione Risposta per le recensioni approvate
+            adminActions = `
+              <div class="mt-4 pt-3 border-t border-slate-100">
+                <label class="text-xs font-bold text-slate-500 uppercase">La tua Risposta:</label>
+                <textarea 
+                  id="reply-${r.idx}" 
+                  class="w-full mt-1 p-2 text-sm border border-slate-300 rounded bg-slate-50 focus:bg-white focus:ring-2 focus:ring-blue-200 outline-none transition" 
+                  rows="2" 
+                  placeholder="Scrivi una risposta pubblica..."
+                >${currentReply}</textarea>
+                
+                <div class="flex gap-2 mt-2">
+                  <button onclick="app.saveReply(${r.idx})" class="flex-1 bg-slate-800 text-white text-xs font-bold py-2 rounded hover:bg-slate-900 transition">
+                    SALVA RISPOSTA
+                  </button>
+                  <button onclick="app.deleteReview(${r.idx})" class="flex-1 bg-white border border-red-200 text-red-500 text-xs font-bold py-2 rounded hover:bg-red-50 transition">
+                    ELIMINA
+                  </button>
+                </div>
+              </div>
+            `;
           }
 
           return `
@@ -365,9 +388,9 @@ const app = {
                     ${
                       isApproved
                         ? '<span class="absolute top-2 right-2 text-[10px] bg-green-100 text-green-700 px-2 py-0.5 rounded-full font-bold border border-green-200">PUBBLICATA</span>'
-                        : ""
+                        : '<span class="absolute top-2 right-2 text-[10px] bg-yellow-100 text-yellow-700 px-2 py-0.5 rounded-full font-bold border border-yellow-200">DA APPROVARE</span>'
                     }
-                    <div class="flex justify-between items-center mb-1 pr-16">
+                    <div class="flex justify-between items-center mb-1 pr-20">
                         <span class="font-bold text-slate-700 truncate">${
                           r["Nome e Cognome"] || "Ospite"
                         }</span> 
@@ -382,7 +405,7 @@ const app = {
                       r["Data Soggiorno"] || "-"
                     }</div>
                     
-                    ${actionButton}
+                    ${adminActions}
                 </div>
             `;
         })
@@ -429,6 +452,38 @@ const app = {
       }
     } catch (e) {
       alert("Errore: " + e.message);
+    }
+  },
+
+  saveReply: async function (idx) {
+    const replyText = document.getElementById(`reply-${idx}`).value;
+    const btn = event.target; // Il bottone cliccato
+    const originalText = btn.innerText;
+
+    btn.innerText = "Salvataggio...";
+    btn.disabled = true;
+
+    try {
+      const res = await this.fetchProtected("/api/reply-review", {
+        method: "POST",
+        body: JSON.stringify({ rowIndex: idx, replyText: replyText }),
+      });
+
+      if (res && res.ok) {
+        alert("Risposta salvata con successo!");
+        // Non ricarichiamo tutto per non perdere la posizione, ma aggiorniamo il testo bottone
+        btn.innerText = "SALVATO!";
+        setTimeout(() => {
+          btn.innerText = originalText;
+          btn.disabled = false;
+        }, 2000);
+      } else {
+        throw new Error("Errore salvataggio");
+      }
+    } catch (e) {
+      alert("Errore: " + e.message);
+      btn.innerText = originalText;
+      btn.disabled = false;
     }
   },
 };
