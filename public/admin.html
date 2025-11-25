@@ -147,15 +147,31 @@
         </div>
 
         <div class="bg-white p-6 rounded-xl shadow-sm">
-          <div class="flex justify-between mb-4">
+          <div class="flex justify-between items-center mb-4">
             <h3 class="font-bold text-lg">⭐ Recensioni</h3>
-            <button onclick="app.loadReviews()" class="text-blue-500 text-sm">
+            <button
+              onclick="app.loadReviews()"
+              class="text-blue-500 text-sm hover:underline"
+            >
               Aggiorna
             </button>
           </div>
+
+          <div class="mb-4">
+            <select
+              id="reviewFilter"
+              onchange="app.loadReviews()"
+              class="w-full p-2 border border-slate-300 rounded-lg text-sm bg-slate-50 focus:ring-2 focus:ring-blue-500 outline-none"
+            >
+              <option value="pending" selected>Da Approvare (In attesa)</option>
+              <option value="approved">Già Approvate (Pubbliche)</option>
+              <option value="all">Tutte le recensioni</option>
+            </select>
+          </div>
+
           <div
             id="reviewsList"
-            class="space-y-3 max-h-[500px] overflow-y-auto text-sm"
+            class="space-y-3 max-h-[500px] overflow-y-auto text-sm pr-1"
           ></div>
         </div>
       </div>

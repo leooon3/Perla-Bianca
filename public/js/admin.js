@@ -177,7 +177,7 @@ const app = {
 
   logout: function () {
     localStorage.removeItem("adminToken");
-    location.reload();
+    window.location.href = "index.html";
   },
 
   showDashboard: function () {
@@ -312,62 +312,120 @@ const app = {
 
   loadReviews: async function () {
     const list = document.getElementById("reviewsList");
-    if (!list) return;
+    const filterSelect = document.getElementById("reviewFilter");
+    if (!list || !filterSelect) return;
+
+    // Leggiamo il valore del filtro (default: pending)
+    const filterMode = filterSelect.value;
+
+    list.innerHTML =
+      "<div class='text-center text-slate-400 py-4'>Caricamento...</div>";
 
     try {
       const res = await fetch("/api/reviews");
       const all = await res.json();
-      // Mostra solo quelle NON approvate
-      const pending = all
-        .map((r, i) => ({ ...r, idx: i }))
-        .filter((r) => !r.Approvato || r.Approvato.toUpperCase() !== "SI");
 
-      if (!pending.length) {
+      // Aggiungiamo l'indice originale a ogni recensione per poterla modificare/eliminare
+      const allWithIndex = all.map((r, i) => ({ ...r, idx: i }));
+
+      // Logica di Filtro
+      let filtered = [];
+      if (filterMode === "pending") {
+        filtered = allWithIndex.filter(
+          (r) => !r.Approvato || r.Approvato.toUpperCase() !== "SI"
+        );
+      } else if (filterMode === "approved") {
+        filtered = allWithIndex.filter(
+          (r) => r.Approvato && r.Approvato.toUpperCase() === "SI"
+        );
+      } else {
+        filtered = allWithIndex; // Tutte
+      }
+
+      if (!filtered.length) {
         list.innerHTML =
-          "<div class='text-center py-6 bg-green-50 text-green-700 rounded-lg border border-green-100'>Tutte le recensioni sono state approvate! ✅</div>";
+          "<div class='text-center py-6 bg-slate-50 text-slate-500 rounded-lg border border-slate-100'>Nessuna recensione in questa categoria.</div>";
         return;
       }
 
-      list.innerHTML = pending
-        .map(
-          (r) => `
-                <div class="border border-slate-200 p-4 rounded-xl bg-white hover:shadow-md transition mb-3">
-                    <div class="flex justify-between items-center mb-2">
-                        <span class="font-bold text-slate-700">${
+      list.innerHTML = filtered
+        .map((r) => {
+          const isApproved = r.Approvato && r.Approvato.toUpperCase() === "SI";
+
+          // Se è approvata mostriamo tasto ELIMINA, se è in attesa mostriamo APPROVA
+          let actionButton = "";
+          if (isApproved) {
+            actionButton = `<button onclick="app.deleteReview(${r.idx})" class="w-full mt-2 text-xs bg-red-100 text-red-600 hover:bg-red-200 font-bold py-2 rounded transition border border-red-200">ELIMINA (GIÀ PUBBLICATA)</button>`;
+          } else {
+            actionButton = `<button onclick="app.approveReview(${r.idx})" class="w-full mt-2 text-xs bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 rounded transition">APPROVA E PUBBLICA</button>`;
+          }
+
+          return `
+                <div class="border border-slate-200 p-4 rounded-xl bg-white hover:shadow-md transition mb-3 relative">
+                    ${
+                      isApproved
+                        ? '<span class="absolute top-2 right-2 text-[10px] bg-green-100 text-green-700 px-2 py-0.5 rounded-full font-bold border border-green-200">PUBBLICATA</span>'
+                        : ""
+                    }
+                    <div class="flex justify-between items-center mb-1 pr-16">
+                        <span class="font-bold text-slate-700 truncate">${
                           r["Nome e Cognome"] || "Ospite"
                         }</span> 
-                        <span class="text-yellow-400 text-sm font-bold">★ ${
-                          r.Valutazione
-                        }</span>
                     </div>
-                    <p class="text-sm italic text-slate-600 mb-4">"${
+                    <div class="text-yellow-400 text-xs font-bold mb-2">★ ${
+                      r.Valutazione
+                    }</div>
+                    <p class="text-sm italic text-slate-600 mb-2 break-words">"${
                       r.Recensione
                     }"</p>
-                    <button onclick="app.approveReview(${
-                      r.idx
-                    })" class="w-full text-xs bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 rounded transition">PUBBLICA RECENSIONE</button>
+                    <div class="text-xs text-slate-400 mb-2">Soggiorno: ${
+                      r["Data Soggiorno"] || "-"
+                    }</div>
+                    
+                    ${actionButton}
                 </div>
-            `
-        )
+            `;
+        })
         .join("");
     } catch (e) {
+      console.error(e);
       list.innerHTML =
         "<p class='text-red-500 text-center'>Errore caricamento recensioni</p>";
     }
   },
 
   approveReview: async function (idx) {
-    if (!confirm("Sei sicuro di voler pubblicare questa recensione sul sito?"))
-      return;
+    if (!confirm("Vuoi pubblicare questa recensione sul sito?")) return;
     try {
       const res = await this.fetchProtected("/api/approve-review", {
         method: "POST",
         body: JSON.stringify({ rowIndex: idx }),
       });
       if (res && res.ok) {
-        this.loadReviews();
+        this.loadReviews(); // Ricarica la lista
       } else {
         alert("Errore approvazione");
+      }
+    } catch (e) {
+      alert("Errore: " + e.message);
+    }
+  },
+
+  deleteReview: async function (idx) {
+    if (
+      !confirm("ATTENZIONE: Vuoi eliminare DEFINITIVAMENTE questa recensione?")
+    )
+      return;
+    try {
+      const res = await this.fetchProtected("/api/delete-review", {
+        // Chiama la nuova API
+        method: "POST", // Usiamo POST per semplicità, o DELETE se preferisci
+        body: JSON.stringify({ rowIndex: idx }),
+      });
+      if (res && res.ok) {
+        this.loadReviews(); // Ricarica la lista
+      } else {
+        alert("Errore durante l'eliminazione");
       }
     } catch (e) {
       alert("Errore: " + e.message);
