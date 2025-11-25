@@ -37,6 +37,7 @@
     <link rel="icon" href="./img/logo.ico" type="image/ico" />
     <link rel="manifest" href="/manifest.json" />
     <meta name="theme-color" content="#3b82f6" />
+    <link rel="preload" as="image" href="./img/hero.webp" />
 
     <!-- Custom Stylesheet -->
     <link rel="stylesheet" href="style.css" />
@@ -473,6 +474,7 @@
     <!-- Custom Script -->
     <script src="js/script.js"></script>
 
+    <!-- FullScreen Gallery-->
     <div
       id="fullscreenModal"
       class="fixed inset-0 bg-black bg-opacity-90 z-[100] flex justify-center items-center opacity-0 invisible transition-opacity duration-300"
@@ -488,6 +490,8 @@
         <div class="swiper-button-prev"></div>
       </div>
     </div>
+
+    <!--Go Up Arrow-->
     <button
       id="scrollTopBtn"
       style="
@@ -524,5 +528,31 @@
         />
       </svg>
     </button>
+
+    <!--Cookie Banner-->
+    <div
+      id="cookieBanner"
+      class="fixed bottom-0 left-0 right-0 bg-gray-900 text-white p-4 text-center z-[100] hidden"
+    >
+      <p class="text-sm inline-block mr-4">
+        Utilizziamo cookie tecnici per garantirti la migliore esperienza.
+        Continuando a navigare accetti l'uso dei cookie.
+      </p>
+      <button
+        id="acceptCookies"
+        class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded text-sm font-bold"
+      >
+        Ho capito
+      </button>
+    </div>
+    <script>
+      if (!localStorage.getItem("cookiesAccepted")) {
+        document.getElementById("cookieBanner").classList.remove("hidden");
+      }
+      document.getElementById("acceptCookies").addEventListener("click", () => {
+        localStorage.setItem("cookiesAccepted", "true");
+        document.getElementById("cookieBanner").classList.add("hidden");
+      });
+    </script>
   </body>
 </html>

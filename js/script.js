@@ -451,7 +451,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
           if (dPartenza <= dArrivo) {
             statusDiv.textContent =
-              "⚠️ La data di partenza deve essere successiva all'arrivo.";
+              " La data di partenza deve essere successiva all'arrivo.";
             statusDiv.className =
               "text-center text-sm font-medium mt-4 p-3 rounded-lg bg-red-100 text-red-700 block";
             // Nascondi errore dopo 4 secondi
@@ -499,7 +499,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
           if (response.ok) {
             statusDiv.textContent =
-              "✅ Recensione inviata! Ti stiamo riportando alla Home...";
+              "Grazie! La tua recensione è in attesa di approvazione. Ti riportiamo alla Home...";
             statusDiv.className =
               "text-center text-sm font-medium mt-4 p-3 rounded-lg bg-green-100 text-green-700 block";
 
