@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", function () {
   // ============================================================
 
   // 1. RILEVAMENTO AUTOMATICO LINGUA
-  // Cerca prima se l'utente ha già scelto in passato
+
   let currentLang = localStorage.getItem("preferredLang");
 
   // Se non ha scelto, controlla la lingua del browser/telefono
