@@ -42,7 +42,6 @@ export default async function handler(req, res) {
 
       const events = response.data.items.map((event) => ({
         id: event.id,
-        title: "Occupato",
         realTitle: event.summary, // Visibile nel JSON ma nascosto dalla UI pubblica
         start: event.start.date || event.start.dateTime,
         end: event.end.date || event.end.dateTime,

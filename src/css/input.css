@@ -191,6 +191,11 @@ html {
   opacity: 1 !important;
   background-color: #ef4444 !important; /* Tailwind red-500 */
   border: 1px solid #dc2626; /* Tailwind red-600 */
+
+  /* NUOVO: Applichiamo Flexbox direttamente al contenitore */
+  display: flex !important;
+  align-items: center !important; /* Centra Verticalmente */
+  justify-content: center !important; /* Centra Orizzontalmente */
 }
 
 .fc-bg-event::after {
@@ -198,9 +203,6 @@ html {
   color: black;
   font-weight: bold;
   font-size: 0.85rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
   opacity: 0.8;
+  /* Non serve più display:flex o height qui, fa tutto il genitore sopra */
 }

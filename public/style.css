@@ -1635,16 +1635,15 @@ html {
   opacity: 1 !important;
   background-color: #ef4444 !important;
   border: 1px solid #dc2626;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
 }
 .fc-bg-event::after {
   content: "Occupato";
   color: black;
   font-weight: bold;
   font-size: 0.85rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
   opacity: 0.8;
 }
 @property --tw-translate-x {
