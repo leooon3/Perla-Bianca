@@ -186,3 +186,21 @@ html {
   opacity: 1;
   transform: translateY(0);
 }
+/* Stili personalizzati per il Calendario */
+.fc-bg-event {
+  opacity: 1 !important;
+  background-color: #ef4444 !important; /* Tailwind red-500 */
+  border: 1px solid #dc2626; /* Tailwind red-600 */
+}
+
+.fc-bg-event::after {
+  content: "Occupato";
+  color: black;
+  font-weight: bold;
+  font-size: 0.85rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  opacity: 0.8;
+}
