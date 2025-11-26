@@ -1,4 +1,267 @@
 document.addEventListener("DOMContentLoaded", function () {
+  // ============================================================
+  // CONFIGURAZIONE LINGUA & UTILITÀ
+  // ============================================================
+
+  // 1. RILEVAMENTO AUTOMATICO LINGUA
+  // Cerca prima se l'utente ha già scelto in passato
+  let currentLang = localStorage.getItem("preferredLang");
+
+  // Se non ha scelto, controlla la lingua del browser/telefono
+  if (!currentLang) {
+    const userLang = navigator.language || navigator.userLanguage;
+    // Se la lingua del dispositivo inizia con 'it', usa italiano.
+    // Per QUALSIASI altra lingua (francese, tedesco, cinese...), usa Inglese.
+    currentLang = userLang.startsWith("it") ? "it" : "en";
+  }
+  // 2. Dizionario Completo delle Traduzioni
+  const translations = {
+    it: {
+      // Navigazione
+      nav_home: "Home",
+      nav_servizi: "Servizi",
+      nav_galleria: "Galleria",
+      nav_prezzi: "Prezzi",
+      nav_calendario: "Calendario",
+      nav_recensioni: "Recensioni",
+      nav_dove: "Dove Siamo",
+      nav_chisiamo: "Chi Siamo",
+      nav_contatti: "Contatti",
+
+      // Hero
+      hero_title: "La Tua Casa al Mare",
+      hero_subtitle: "Per una vacanza indimenticabile",
+      hero_cta: "Prenota Ora",
+
+      // Servizi
+      servizi_title: "Comfort e Relax a Portata di Mano",
+      serv_wifi_title: "Wi-Fi Gratuito",
+      serv_wifi_desc: "Connettiti facilmente durante il tuo soggiorno.",
+      serv_centro_title: "A tre minuti dal centro",
+      serv_centro_desc:
+        "Raggiungi il cuore della città in soli 3 minuti a piedi.",
+      serv_ac_title: "Aria Condizionata",
+      serv_ac_desc: "Ambienti freschi e confortevoli in ogni stagione.",
+      serv_kitchen_title: "Cucina Attrezzata",
+      serv_kitchen_desc:
+        "Tutto il necessario per preparare i tuoi piatti preferiti.",
+      serv_beds_title: "Fino a cinque posti letto",
+      serv_beds_desc: "Ospita fino a cinque persone in camere spaziose.",
+      serv_beach_title: "Accesso alla Spiaggia",
+      serv_beach_desc: "Spiaggia dorata a pochi passi dalla casa.",
+
+      // Galleria
+      gallery_title: "Galleria",
+
+      // Prezzi
+      prezzi_title: "Prezzi & Disponibilità",
+      tab_stagione: "Stagione",
+      tab_prezzo: "Prezzo a Notte",
+      stagione_alta: "Alta Stagione (Luglio - Agosto)",
+      stagione_media: "Media Stagione (Giugno, Settembre)",
+      stagione_bassa: "Bassa Stagione (Ottobre - Maggio)",
+      prezzi_disclaimer:
+        "Per verificare le date disponibili e prenotare, compila il modulo nella sezione Contatti.",
+
+      // Calendario
+      calendar_title: "Verifica Disponibilità",
+      calendar_sub: "Le date segnate in rosso non sono disponibili.",
+
+      // Recensioni
+      reviews_title: "Cosa Dicono i Nostri Ospiti",
+      reviews_sub: "Hai soggiornato qui di recente?",
+      reviews_btn: "Scrivi una Recensione",
+
+      // Dove Siamo
+      location_title: "Dove Siamo",
+
+      // Chi Siamo
+      about_sup: "L'Ospitalità",
+      about_title: "Benvenuti a Casa Vostra",
+      about_p1:
+        "Ciao! Siamo Riccardo e Maria. Abbiamo ristrutturato 'Perla Bianca' pensando esattamente a quello che cerchiamo noi quando viaggiamo: pulizia impeccabile, comfort moderni e quel calore che solo una casa vera può dare.",
+      about_p2:
+        "Siamo innamorati della nostra città e saremo felici di consigliarvi i ristoranti migliori e le spiagge più nascoste.",
+      superhost_label: "Superhost Approvato",
+      superhost_desc: "Risposte veloci e massima cura",
+
+      // Contatti
+      contact_title: "Contattaci",
+      placeholder_nome: "Nome",
+      placeholder_email: "Email",
+      placeholder_msg: "Messaggio",
+      btn_send: "Invia",
+
+      // Footer
+      footer_desc:
+        "La tua oasi di relax a due passi dal mare. Prenota oggi la tua vacanza da sogno in totale autonomia.",
+      footer_explore: "Esplora",
+      footer_gallery: "Galleria Foto",
+      footer_reviews: "Dicono di noi",
+      footer_info: "Info",
+      info_checkin: "Check-in: dalle 15:00",
+      info_checkout: "Check-out: entro le 10:00",
+      info_parking: "Parcheggio disponibile",
+      info_pets: "Animali ammessi (su richiesta)",
+      footer_rights: "Tutti i diritti riservati.",
+      footer_admin: "Area Riservata",
+
+      // Cookie
+      cookie_text:
+        "Utilizziamo cookie tecnici per garantirti la migliore esperienza. Continuando a navigare accetti l'uso dei cookie.",
+      cookie_btn: "Ho capito",
+
+      // --- STRINGHE JS DINAMICHE ---
+      js_email_invalid: "Inserisci un indirizzo email valido.",
+      js_sending: "Invio in corso…",
+      js_msg_success: "Messaggio inviato con successo! 😊",
+      js_error: "Errore: ",
+      js_loading_reviews: "Caricamento recensioni...",
+      js_no_reviews: "Nessuna recensione ancora disponibile.",
+      js_host_response: "Risposta dell'Host:",
+      js_stay_date: "Soggiorno:",
+      js_calendar_req: "Salve, vorrei chiedere disponibilità per il giorno",
+      js_calendar_prompt: "Scorri al form contatti per inviare la richiesta.",
+    },
+    en: {
+      // Nav
+      nav_home: "Home",
+      nav_servizi: "Services",
+      nav_galleria: "Gallery",
+      nav_prezzi: "Prices",
+      nav_calendario: "Calendar",
+      nav_recensioni: "Reviews",
+      nav_dove: "Location",
+      nav_chisiamo: "About Us",
+      nav_contatti: "Contact",
+
+      // Hero
+      hero_title: "Your Home by the Sea",
+      hero_subtitle: "For an unforgettable holiday",
+      hero_cta: "Book Now",
+
+      // Services
+      servizi_title: "Comfort and Relax at Your Fingertips",
+      serv_wifi_title: "Free Wi-Fi",
+      serv_wifi_desc: "Stay connected easily during your stay.",
+      serv_centro_title: "Three minutes from center",
+      serv_centro_desc: "Reach the heart of the city in just a 3-minute walk.",
+      serv_ac_title: "Air Conditioning",
+      serv_ac_desc: "Fresh and comfortable environments in every season.",
+      serv_kitchen_title: "Fully Equipped Kitchen",
+      serv_kitchen_desc: "Everything you need to prepare your favorite meals.",
+      serv_beds_title: "Up to five beds",
+      serv_beds_desc: "Accommodates up to five people in spacious rooms.",
+      serv_beach_title: "Beach Access",
+      serv_beach_desc: "Golden beach just a few steps from the house.",
+
+      // Gallery
+      gallery_title: "Gallery",
+
+      // Prices
+      prezzi_title: "Prices & Availability",
+      tab_stagione: "Season",
+      tab_prezzo: "Price per Night",
+      stagione_alta: "High Season (July - August)",
+      stagione_media: "Mid Season (June, September)",
+      stagione_bassa: "Low Season (October - May)",
+      prezzi_disclaimer:
+        "To check available dates and book, fill out the form in the Contact section.",
+
+      // Calendar
+      calendar_title: "Check Availability",
+      calendar_sub: "Dates marked in red are unavailable.",
+
+      // Reviews
+      reviews_title: "What Our Guests Say",
+      reviews_sub: "Have you stayed here recently?",
+      reviews_btn: "Write a Review",
+
+      // Location
+      location_title: "Location",
+
+      // About
+      about_sup: "Hospitality",
+      about_title: "Welcome to Your Home",
+      about_p1:
+        "Hi! We are Riccardo and Maria. We renovated 'Perla Bianca' thinking exactly about what we look for when we travel: impeccable cleanliness, modern comforts, and the warmth only a real home can give.",
+      about_p2:
+        "We are in love with our city and will be happy to recommend the best restaurants and hidden beaches.",
+      superhost_label: "Approved Superhost",
+      superhost_desc: "Fast responses and maximum care",
+
+      // Contact
+      contact_title: "Contact Us",
+      placeholder_nome: "Name",
+      placeholder_email: "Email",
+      placeholder_msg: "Message",
+      btn_send: "Send",
+
+      // Footer
+      footer_desc:
+        "Your oasis of relaxation just steps from the sea. Book your dream vacation independently today.",
+      footer_explore: "Explore",
+      footer_gallery: "Photo Gallery",
+      footer_reviews: "About Us",
+      footer_info: "Info",
+      info_checkin: "Check-in: from 3:00 PM",
+      info_checkout: "Check-out: by 10:00 AM",
+      info_parking: "Parking available",
+      info_pets: "Pets allowed (on request)",
+      footer_rights: "All rights reserved.",
+      footer_admin: "Admin Area",
+
+      // Cookie
+      cookie_text:
+        "We use technical cookies to ensure the best experience. By continuing to browse, you accept the use of cookies.",
+      cookie_btn: "Got it",
+
+      // --- JS STRINGS ---
+      js_email_invalid: "Please enter a valid email address.",
+      js_sending: "Sending...",
+      js_msg_success: "Message sent successfully! 😊",
+      js_error: "Error: ",
+      js_loading_reviews: "Loading reviews...",
+      js_no_reviews: "No reviews available yet.",
+      js_host_response: "Host Response:",
+      js_stay_date: "Stay:",
+      js_calendar_req: "Hi, I would like to ask for availability for the day",
+      js_calendar_prompt: "Scroll to contact form to send request.",
+    },
+  };
+
+  // Funzione Helper per ottenere traduzioni nel codice JS
+  const t = (key) => translations[currentLang][key] || key;
+
+  // Funzione Cambio Lingua Globale
+  window.changeLanguage = function (lang) {
+    currentLang = lang;
+    localStorage.setItem("preferredLang", lang);
+
+    // 1. Aggiorna testi HTML statici
+    document.querySelectorAll("[data-i18n]").forEach((el) => {
+      const key = el.getAttribute("data-i18n");
+      if (translations[lang][key]) {
+        el.textContent = translations[lang][key];
+      }
+    });
+
+    // 2. Aggiorna Placeholders
+    document.querySelectorAll("[data-i18n-placeholder]").forEach((el) => {
+      const key = el.getAttribute("data-i18n-placeholder");
+      if (translations[lang][key]) {
+        el.placeholder = translations[lang][key];
+      }
+    });
+
+    // 3. Ricarica componenti dinamici se necessario (es. recensioni per tradurre etichette)
+    // Se siamo sulla pagina principale e le recensioni sono già caricate, potremmo volerle aggiornare.
+    // Per semplicità, l'utente vedrà le traduzioni JS dinamiche al prossimo evento/reload.
+  };
+
+  // Applica la lingua salvata all'avvio
+  window.changeLanguage(currentLang);
+
   // Funzione di utilità per la SICUREZZA (Sanitizzazione XSS)
   const escapeHTML = (str) => {
     if (!str) return "";
@@ -173,33 +436,28 @@ document.addEventListener("DOMContentLoaded", function () {
       form.addEventListener("submit", function (e) {
         e.preventDefault();
 
-        // --- NUOVA MODIFICA: VALIDAZIONE CLIENT ---
-        // Controlliamo subito se la mail è valida prima di fare qualsiasi altra cosa
+        // Validazione email
         const emailValue = form.email.value.trim();
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Regex: testo @ testo . testo
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
         if (!emailRegex.test(emailValue)) {
-          statusDiv.textContent = "Inserisci un indirizzo email valido.";
+          statusDiv.textContent = t("js_email_invalid");
           statusDiv.className = "text-red-600";
-
-          // Nascondi l'errore dopo 3 secondi
           setTimeout(() => {
             statusDiv.textContent = "";
             statusDiv.className = "";
           }, 3000);
-
-          return; // STOP! Non esegue il codice qui sotto
+          return;
         }
-        // ------------------------------------------
 
         const submitButton = form.querySelector('button[type="submit"]');
         submitButton.disabled = true;
-        statusDiv.textContent = "Invio in corso…";
+        statusDiv.textContent = t("js_sending");
         statusDiv.className = "text-gray-700";
 
         const formData = {
           nome: escapeHTML(form.nome.value.trim()),
-          email: escapeHTML(emailValue), // Usiamo il valore già pulito
+          email: escapeHTML(emailValue),
           messaggio: escapeHTML(form.messaggio.value.trim()),
           honeypot: form.honeypot.value,
         };
@@ -216,10 +474,9 @@ document.addEventListener("DOMContentLoaded", function () {
             } catch (err) {}
 
             if (response.ok) {
-              statusDiv.textContent = "Messaggio inviato con successo! 😊";
+              statusDiv.textContent = t("js_msg_success");
               statusDiv.className = "text-green-600";
               form.reset();
-              // Opzionale: rimuovi messaggio di successo dopo qualche secondo
               setTimeout(() => {
                 statusDiv.textContent = "";
                 statusDiv.className = "";
@@ -229,7 +486,7 @@ document.addEventListener("DOMContentLoaded", function () {
             }
           })
           .catch((error) => {
-            statusDiv.textContent = "Errore: " + error.message;
+            statusDiv.textContent = t("js_error") + error.message;
             statusDiv.className = "text-red-600";
             setTimeout(() => {
               statusDiv.textContent = "";
@@ -267,6 +524,7 @@ document.addEventListener("DOMContentLoaded", function () {
         reviewsContainer.innerHTML = `
           <div class="col-span-full flex justify-center py-10">
             <div class="animate-spin rounded-full h-10 w-10 border-b-2 border-blue-500"></div>
+            <span class="ml-3 text-gray-500">${t("js_loading_reviews")}</span>
           </div>`;
 
         const response = await fetch(REVIEWS_API_URL);
@@ -278,8 +536,9 @@ document.addEventListener("DOMContentLoaded", function () {
         );
 
         if (approvedReviews.length === 0) {
-          reviewsContainer.innerHTML =
-            '<p class="text-center text-gray-500 col-span-full py-10">Nessuna recensione ancora disponibile.</p>';
+          reviewsContainer.innerHTML = `<p class="text-center text-gray-500 col-span-full py-10">${t(
+            "js_no_reviews"
+          )}</p>`;
           averageRatingContainer.innerHTML = "";
           return;
         }
@@ -296,10 +555,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
           totalRating += voto;
 
+          // Traduzione dinamica etichetta risposta
           const rispostaAdmin = review["Risposta"]
             ? `
               <div class="mt-4 ml-4 p-3 bg-blue-50 border-l-4 border-blue-400 rounded-r-lg text-sm text-gray-700">
-                <p class="font-bold text-blue-800 text-xs mb-1 uppercase tracking-wider">Risposta dell'Host:</p>
+                <p class="font-bold text-blue-800 text-xs mb-1 uppercase tracking-wider">${t(
+                  "js_host_response"
+                )}</p>
                 <p class="italic">"${escapeHTML(review["Risposta"])}"</p>
               </div>
               `
@@ -329,16 +591,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
               <div class="relative z-10 flex-grow">
                 <p class="text-gray-600 leading-relaxed italic text-[0.95rem]">"${testo}"</p>
-                
                 ${rispostaAdmin} 
-                </div>
+              </div>
 
               ${
                 dataSoggiorno
                   ? `
                 <div class="mt-5 pt-4 border-t border-gray-50 text-xs text-gray-400 font-medium uppercase tracking-wider relative z-10 flex items-center gap-1">
                   <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                  Soggiorno: ${dataSoggiorno}
+                  ${t("js_stay_date")} ${dataSoggiorno}
                 </div>`
                   : ""
               }
@@ -392,12 +653,11 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // ============================================================
-  // 7. PULSANTE TORNA SU (Versione Corretta)
+  // 7. PULSANTE TORNA SU
   // ============================================================
   {
     const scrollTopBtn = document.getElementById("scrollTopBtn");
 
-    // Esegui SOLO se il pulsante esiste (evita errori sulla pagina recensioni)
     if (scrollTopBtn) {
       window.addEventListener("scroll", () => {
         if (window.scrollY > 300) {
@@ -417,7 +677,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // ============================================================
-  // 8. INVIO RECENSIONI (Logica Stelle + Date + Invio)
+  // 8. INVIO RECENSIONI (Solo pagina recensioni)
   // ============================================================
   {
     const starContainer = document.getElementById("starContainer");
@@ -464,30 +724,27 @@ document.addEventListener("DOMContentLoaded", function () {
 
           if (dPartenza <= dArrivo) {
             statusDiv.textContent =
-              " La data di partenza deve essere successiva all'arrivo.";
+              "La data di partenza deve essere successiva all'arrivo.";
             statusDiv.className =
               "text-center text-sm font-medium mt-4 p-3 rounded-lg bg-red-100 text-red-700 block";
-            // Nascondi errore dopo 4 secondi
             setTimeout(() => {
               statusDiv.className = "hidden";
             }, 4000);
-            return; // Interrompe l'invio
+            return;
           }
         }
-        // Disabilita pulsante
+
         submitBtn.disabled = true;
-        submitBtn.textContent = "Invio in corso...";
+        submitBtn.textContent = t("js_sending"); // Usa traduzione
         submitBtn.classList.add("opacity-75", "cursor-not-allowed");
         statusDiv.className = "hidden";
 
-        // Helper date: 2025-11-23 -> 23/11/2025
         const formatDate = (dateStr) => {
           if (!dateStr) return "";
           const [y, m, d] = dateStr.split("-");
           return `${d}/${m}/${y}`;
         };
 
-        // Raccolta dati
         const arrivo = reviewForm.data_arrivo.value;
         const partenza = reviewForm.data_partenza.value;
         const dataFormattata = `${formatDate(arrivo)} - ${formatDate(
@@ -498,7 +755,7 @@ document.addEventListener("DOMContentLoaded", function () {
           nome: reviewForm.nome.value.trim(),
           voto: reviewForm.voto.value,
           messaggio: reviewForm.messaggio.value.trim(),
-          dataSoggiorno: dataFormattata, // Inviamo la data custom
+          dataSoggiorno: dataFormattata,
         };
 
         try {
@@ -507,16 +764,12 @@ document.addEventListener("DOMContentLoaded", function () {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(formData),
           });
-
           const result = await response.json();
 
           if (response.ok) {
-            statusDiv.textContent =
-              "Grazie! La tua recensione è in attesa di approvazione. Ti riportiamo alla Home...";
+            statusDiv.textContent = t("js_msg_success") + " Redirect...";
             statusDiv.className =
               "text-center text-sm font-medium mt-4 p-3 rounded-lg bg-green-100 text-green-700 block";
-
-            // Redirect dopo 2 sec
             setTimeout(() => {
               window.location.href = "index.html#recensioni";
             }, 2000);
@@ -524,12 +777,9 @@ document.addEventListener("DOMContentLoaded", function () {
             throw new Error(result.message || "Errore sconosciuto");
           }
         } catch (error) {
-          console.error(error);
-          statusDiv.textContent = "❌ Errore: " + error.message;
+          statusDiv.textContent = t("js_error") + error.message;
           statusDiv.className =
             "text-center text-sm font-medium mt-4 p-3 rounded-lg bg-red-100 text-red-700 block";
-
-          // Riabilita solo se errore
           submitBtn.disabled = false;
           submitBtn.textContent = "Pubblica Recensione";
           submitBtn.classList.remove("opacity-75", "cursor-not-allowed");
@@ -539,46 +789,91 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // ============================================================
-  // 9. CALENDARIO FULLCALENDAR (Integrato con Google Calendar)
+  // 9. CALENDARIO FULLCALENDAR
   // ============================================================
   {
     const calendarEl = document.getElementById("calendar");
 
     if (calendarEl) {
-      // --- A. INIZIALIZZAZIONE CALENDARIO ---
       const calendar = new FullCalendar.Calendar(calendarEl, {
-        initialView: "dayGridMonth", // Vista mensile
-        locale: "it", // Italiano
+        initialView: "dayGridMonth",
+        locale: currentLang, // Usa la lingua corrente
         headerToolbar: {
           left: "prev,next",
           center: "title",
           right: "today",
         },
-        height: "auto", // Altezza automatica
-        contentHeight: 500, // Altezza fissa minima
-        firstDay: 1, // La settimana inizia Lunedì
+        height: "auto",
+        contentHeight: 500,
+        firstDay: 1,
         buttonText: {
-          today: "Oggi",
+          today: "Oggi", // FullCalendar ha i suoi locali, ma questo forza il testo
         },
-
-        // --- B. CARICAMENTO EVENTI ---
-        // FullCalendar supporta nativamente il fetch da un URL JSON
         events: "/api/calendar",
 
-        // --- C. INTERAZIONI (Opzionale) ---
         dateClick: function (info) {
-          // Logica futura: es. scroll al form contatti con data precompilata
-          // console.log('Data cliccata:', info.dateStr);
+          const contactSection = document.getElementById("contatti");
+          if (contactSection) {
+            contactSection.scrollIntoView({ behavior: "smooth" });
+          }
+
+          const msgInput = document.querySelector('textarea[name="messaggio"]');
+          if (msgInput) {
+            const dateParts = info.dateStr.split("-");
+            const formattedDate = `${dateParts[2]}/${dateParts[1]}/${dateParts[0]}`;
+
+            // Messaggio tradotto
+            msgInput.value = `${t("js_calendar_req")} ${formattedDate}.`;
+            msgInput.focus();
+          }
         },
 
-        // Gestione errori caricamento
         eventSourceFailure: function (error) {
           console.error("Errore caricamento eventi calendario:", error);
         },
       });
-
-      // --- D. RENDERIZZAZIONE ---
       calendar.render();
+
+      // Nota: FullCalendar richiede il pacchetto Locales per tradurre automaticamente giorni/mesi
+      // Se vuoi che cambi "January" in "Gennaio" dinamicamente, dovresti includere i locale files di FC
+      // o ricaricare il calendario al cambio lingua.
+    }
+  }
+
+  // ============================================================
+  // 10. METEO (Open-Meteo)
+  // ============================================================
+  {
+    const lat = 40.4018;
+    const lon = 17.6329;
+    const weatherWidget = document.getElementById("weatherWidget");
+
+    const getWeatherIcon = (code) => {
+      if (code === 0) return "☀️";
+      if (code >= 1 && code <= 3) return "⛅";
+      if (code >= 45 && code <= 48) return "🌫️";
+      if (code >= 51 && code <= 67) return "🌧️";
+      if (code >= 71 && code <= 77) return "❄️";
+      if (code >= 80 && code <= 82) return "🌦️";
+      if (code >= 95) return "⛈️";
+      return "🌡️";
+    };
+
+    if (weatherWidget) {
+      fetch(
+        `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,weather_code&timezone=auto`
+      )
+        .then((res) => res.json())
+        .then((data) => {
+          const temp = Math.round(data.current.temperature_2m);
+          const code = data.current.weather_code;
+
+          document.getElementById("weatherTemp").textContent = `${temp}°C`;
+          document.getElementById("weatherIcon").textContent =
+            getWeatherIcon(code);
+          weatherWidget.classList.remove("hidden");
+        })
+        .catch((err) => console.error("Err meteo:", err));
     }
   }
 });

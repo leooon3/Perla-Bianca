@@ -47,9 +47,8 @@ export default async function handler(req, res) {
         start: event.start.date || event.start.dateTime,
         end: event.end.date || event.end.dateTime,
         allDay: !event.start.dateTime,
-        display: "background",
-        color: "#ef4444",
-        textColor: "black",
+        color: "#ef4444", // Questo renderà lo sfondo Rosso pieno
+        textColor: "black", // Questo renderà il testo Nero
       }));
 
       return res.status(200).json(events);

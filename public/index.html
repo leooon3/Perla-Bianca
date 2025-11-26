@@ -117,21 +117,63 @@
           id="mobileMenu"
           class="md:flex md:space-x-6 md:static md:opacity-100 md:visible md:translate-y-0 md:flex-row md:bg-transparent md:shadow-none md:p-0"
         >
-          <a href="#home" class="hover:text-blue-600">Home</a>
-          <a href="#servizi" class="hover:text-blue-600">Servizi</a>
-          <a href="#galleria" class="hover:text-blue-600">Galleria</a>
-          <a href="#prezzi" class="hover:text-blue-600">Prezzi</a>
-          <a href="#disponibilita" class="hover:text-blue-600">Calendario</a>
-          <a href="#recensioni" class="hover:text-blue-600">Recensioni</a>
-          <a href="#dove" class="hover:text-blue-600">Dove Siamo</a>
-          <a href="#chisiamo" class="hover:text-blue-600">Chi Siamo</a>
-          <a href="#contatti" class="hover:text-blue-600">Contatti</a>
+          <a href="#servizi" class="hover:text-blue-600" data-i18n="nav_servizi"
+            >Servizi</a
+          >
+          <a
+            href="#galleria"
+            class="hover:text-blue-600"
+            data-i18n="nav_galleria"
+            >Galleria</a
+          >
+          <a href="#prezzi" class="hover:text-blue-600" data-i18n="nav_prezzi"
+            >Prezzi</a
+          >
+          <a
+            href="#disponibilita"
+            class="hover:text-blue-600"
+            data-i18n="nav_calendario"
+            >Calendario</a
+          >
+          <a
+            href="#recensioni"
+            class="hover:text-blue-600"
+            data-i18n="nav_recensioni"
+            >Recensioni</a
+          >
+          <a href="#dove" class="hover:text-blue-600" data-i18n="nav_dove"
+            >Dove Siamo</a
+          >
+          <a
+            href="#chisiamo"
+            class="hover:text-blue-600"
+            data-i18n="nav_chisiamo"
+            >Chi Siamo</a
+          >
+          <a
+            href="#contatti"
+            class="hover:text-blue-600"
+            data-i18n="nav_contatti"
+            >Contatti</a
+          >
         </nav>
       </div>
     </header>
 
     <!-- Hero Section -->
     <section id="home" class="relative">
+      <div
+        id="weatherWidget"
+        class="hidden absolute top-4 right-4 bg-white/30 backdrop-blur-md p-3 rounded-xl text-white flex items-center gap-3 shadow-lg z-20 border border-white/20"
+      >
+        <div id="weatherIcon" class="text-3xl">☀️</div>
+        <div class="leading-tight">
+          <p id="weatherTemp" class="font-bold text-xl drop-shadow-md">--°C</p>
+          <p class="text-xs font-medium uppercase tracking-wide opacity-90">
+            Manduria
+          </p>
+        </div>
+      </div>
       <img
         src="./img/hero.webp"
         alt="Vista mare"
@@ -140,11 +182,16 @@
       <div
         class="absolute inset-0 bg-black bg-opacity-30 flex flex-col justify-center items-center text-white"
       >
-        <h1 class="text-4xl md:text-6xl font-bold mb-4">La Tua Casa al Mare</h1>
-        <p class="text-lg md:text-2xl mb-6">Per una vacanza indimenticabile</p>
+        <h1 class="text-4xl md:text-6xl font-bold mb-4" data-i18n="hero_title">
+          La Tua Casa al Mare
+        </h1>
+        <p class="text-lg md:text-2xl mb-6" data-i18n="hero_subtitle">
+          Per una vacanza indimenticabile
+        </p>
         <a
           href="#contatti"
           class="bg-blue-500 hover:bg-blue-600 px-6 py-3 rounded text-white font-semibold"
+          data-i18n="hero_cta"
           >Prenota Ora</a
         >
       </div>
@@ -153,41 +200,72 @@
     <!-- Servizi Section -->
     <section id="servizi" class="py-16 bg-gray-50">
       <div class="container mx-auto px-6">
-        <h2 class="text-3xl font-bold text-center mb-8 reveal">
+        <h2
+          class="text-3xl font-bold text-center mb-8 reveal"
+          data-i18n="servizi_title"
+        >
           Comfort e Relax a Portata di Mano
         </h2>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8 reveal">
           <div class="text-center">
             <div class="text-blue-500 text-5xl mb-4">🌐</div>
-            <h3 class="font-semibold text-xl mb-2">Wi-Fi Gratuito</h3>
-            <p>Connettiti facilmente durante il tuo soggiorno.</p>
+            <h3 class="font-semibold text-xl mb-2" data-i18n="serv_wifi_title">
+              Wi-Fi Gratuito
+            </h3>
+            <p data-i18n="serv_wifi_desc">
+              Connettiti facilmente durante il tuo soggiorno.
+            </p>
           </div>
           <div class="text-center">
             <div class="text-blue-500 text-5xl mb-4">🚶‍♂️</div>
-            <h3 class="font-semibold text-xl mb-2">A tre minuti dal centro</h3>
-            <p>Raggiungi il cuore della città in soli 3 minuti a piedi.</p>
+            <h3
+              class="font-semibold text-xl mb-2"
+              data-i18n="serv_centro_title"
+            >
+              A tre minuti dal centro
+            </h3>
+            <p data-i18n="serv_centro_desc">
+              Raggiungi il cuore della città in soli 3 minuti a piedi.
+            </p>
           </div>
           <div class="text-center">
             <div class="text-blue-500 text-5xl mb-4">❄️</div>
-            <h3 class="font-semibold text-xl mb-2">Aria Condizionata</h3>
-            <p>Ambienti freschi e confortevoli in ogni stagione.</p>
+            <h3 class="font-semibold text-xl mb-2" data-i18n="serv_ac_title">
+              Aria Condizionata
+            </h3>
+            <p data-i18n="serv_ac_desc">
+              Ambienti freschi e confortevoli in ogni stagione.
+            </p>
           </div>
           <div class="text-center">
             <div class="text-blue-500 text-5xl mb-4">🍽️</div>
-            <h3 class="font-semibold text-xl mb-2">Cucina Attrezzata</h3>
-            <p>Tutto il necessario per preparare i tuoi piatti preferiti.</p>
+            <h3
+              class="font-semibold text-xl mb-2"
+              data-i18n="serv_kitchen_title"
+            >
+              Cucina Attrezzata
+            </h3>
+            <p data-i18n="serv_kitchen_desc">
+              Tutto il necessario per preparare i tuoi piatti preferiti.
+            </p>
           </div>
           <div class="text-center">
             <div class="text-blue-500 text-5xl mb-4">🛏️</div>
-            <h3 class="font-semibold text-xl mb-2">
+            <h3 class="font-semibold text-xl mb-2" data-i18n="serv_beds_title">
               Fino a cinque posti letto
             </h3>
-            <p>Ospita fino a cinque persone in camere spaziose.</p>
+            <p data-i18n="serv_beds_desc">
+              Ospita fino a cinque persone in camere spaziose.
+            </p>
           </div>
           <div class="text-center">
             <div class="text-blue-500 text-5xl mb-4">🏖️</div>
-            <h3 class="font-semibold text-xl mb-2">Accesso alla Spiaggia</h3>
-            <p>Spiaggia dorata a pochi passi dalla casa.</p>
+            <h3 class="font-semibold text-xl mb-2" data-i18n="serv_beach_title">
+              Accesso alla Spiaggia
+            </h3>
+            <p data-i18n="serv_beach_desc">
+              Spiaggia dorata a pochi passi dalla casa.
+            </p>
           </div>
         </div>
       </div>
@@ -196,7 +274,12 @@
     <!-- Galleria Section -->
     <section id="galleria" class="py-16">
       <div class="container mx-auto px-6">
-        <h2 class="text-3xl font-bold text-center mb-8 reveal">Galleria</h2>
+        <h2
+          class="text-3xl font-bold text-center mb-8 reveal"
+          data-i18n="gallery_title"
+        >
+          Galleria
+        </h2>
 
         <div
           style="
@@ -221,32 +304,43 @@
     <!-- Prezzi Section -->
     <section id="prezzi" class="py-16 bg-gray-50">
       <div class="container mx-auto px-6 max-w-3xl">
-        <h2 class="text-3xl font-bold text-center mb-8 reveal">
+        <h2
+          class="text-3xl font-bold text-center mb-8 reveal"
+          data-i18n="prezzi_title"
+        >
           Prezzi & Disponibilità
         </h2>
         <table class="w-full text-left border-collapse mb-6 reveal">
           <thead>
             <tr>
-              <th class="border-b py-2">Stagione</th>
-              <th class="border-b py-2">Prezzo a Notte</th>
+              <th class="border-b py-2" data-i18n="tab_stagione">Stagione</th>
+              <th class="border-b py-2" data-i18n="tab_prezzo">
+                Prezzo a Notte
+              </th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td class="py-2">Alta Stagione (Luglio - Agosto)</td>
+              <td class="py-2" data-i18n="stagione_alta">
+                Alta Stagione (Luglio - Agosto)
+              </td>
               <td class="py-2">€200</td>
             </tr>
             <tr class="bg-gray-100">
-              <td class="py-2">Media Stagione (Giugno, Settembre)</td>
+              <td class="py-2" data-i18n="stagione_media">
+                Media Stagione (Giugno, Settembre)
+              </td>
               <td class="py-2">€160</td>
             </tr>
             <tr>
-              <td class="py-2">Bassa Stagione (Ottobre - Maggio)</td>
+              <td class="py-2" data-i18n="stagione_bassa">
+                Bassa Stagione (Ottobre - Maggio)
+              </td>
               <td class="py-2">€120</td>
             </tr>
           </tbody>
         </table>
-        <p class="text-center mb-6">
+        <p class="text-center mb-6" data-i18n="prezzi_disclaimer">
           Per verificare le date disponibili e prenotare, compila il modulo
           nella sezione Contatti.
         </p>
@@ -256,10 +350,16 @@
     <!-- Calendario Section-->
     <section id="disponibilita" class="py-16 bg-white">
       <div class="container mx-auto px-6 max-w-5xl">
-        <h2 class="text-3xl font-bold text-center mb-4 reveal">
+        <h2
+          class="text-3xl font-bold text-center mb-4 reveal"
+          data-i18n="calendar_title"
+        >
           Verifica Disponibilità
         </h2>
-        <p class="text-gray-600 text-center mb-8 reveal">
+        <p
+          class="text-gray-600 text-center mb-8 reveal"
+          data-i18n="calendar_sub"
+        >
           Le date segnate in rosso non sono disponibili.
         </p>
 
@@ -274,20 +374,24 @@
     <!-- Recensioni Section -->
     <section id="recensioni" class="py-16 bg-white">
       <div class="container mx-auto px-6 max-w-4xl">
-        <h2 class="text-3xl font-bold text-center mb-8 reveal">
+        <h2
+          class="text-3xl font-bold text-center mb-8 reveal"
+          data-i18n="reviews_title"
+        >
           Cosa Dicono i Nostri Ospiti
         </h2>
 
         <div id="averageRating" class="text-center mb-12 reveal"></div>
 
         <div class="max-w-2xl mx-auto text-center mb-16 reveal">
-          <h3 class="text-xl text-gray-600 mb-6">
+          <h3 class="text-xl text-gray-600 mb-6" data-i18n="reviews_sub">
             Hai soggiornato qui di recente?
           </h3>
 
           <a
             href="lascia-recensione.html"
             class="inline-block bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-xl shadow-lg transition-all transform hover:-translate-y-1"
+            data-i18n="reviews_btn"
           >
             Scrivi una Recensione
           </a>
@@ -307,7 +411,9 @@
     <!-- Mappa: Dove Siamo -->
     <section id="dove" class="py-16">
       <div class="container mx-auto px-6 text-center">
-        <h2 class="text-3xl font-bold mb-8 reveal">Dove Siamo</h2>
+        <h2 class="text-3xl font-bold mb-8 reveal" data-i18n="location_title">
+          Dove Siamo
+        </h2>
 
         <div class="w-full h-96 rounded overflow-hidden shadow-md reveal">
           <iframe
@@ -339,19 +445,25 @@
           </div>
 
           <div class="w-full md:w-1/2 reveal">
-            <h4 class="text-blue-500 font-bold uppercase tracking-widest mb-2">
+            <h4
+              class="text-blue-500 font-bold uppercase tracking-widest mb-2"
+              data-i18n="about_sup"
+            >
               L'Ospitalità
             </h4>
-            <h2 class="text-3xl md:text-4xl font-bold mb-6 text-gray-900">
+            <h2
+              class="text-3xl md:text-4xl font-bold mb-6 text-gray-900"
+              data-i18n="about_title"
+            >
               Benvenuti a Casa Vostra
             </h2>
-            <p class="text-gray-600 leading-relaxed mb-6">
+            <p class="text-gray-600 leading-relaxed mb-6" data-i18n="about_p1">
               Ciao! Siamo Riccardo e Maria. Abbiamo ristrutturato "Perla Bianca"
               pensando esattamente a quello che cerchiamo noi quando viaggiamo:
               pulizia impeccabile, comfort moderni e quel calore che solo una
               casa vera può dare.
             </p>
-            <p class="text-gray-600 leading-relaxed mb-8">
+            <p class="text-gray-600 leading-relaxed mb-8" data-i18n="about_p2">
               Siamo innamorati della nostra città e saremo felici di
               consigliarvi i ristoranti migliori (non quelli turistici!) e le
               spiagge più nascoste. Il nostro obiettivo è farvi sentire non
@@ -360,8 +472,10 @@
 
             <div class="flex items-center gap-4">
               <div class="border-l-4 border-blue-500 pl-4">
-                <p class="font-bold text-gray-900">Superhost Approvato</p>
-                <p class="text-sm text-gray-500">
+                <p class="font-bold text-gray-900" data-i18n="superhost_label">
+                  Superhost Approvato
+                </p>
+                <p class="text-sm text-gray-500" data-i18n="superhost_desc">
                   Risposte veloci e massima cura
                 </p>
               </div>
@@ -374,7 +488,12 @@
     <!-- Contatti Section -->
     <section id="contatti" class="py-16 bg-gray-50">
       <div class="container mx-auto px-6 max-w-lg">
-        <h2 class="text-3xl font-bold text-center mb-8 reveal">Contattaci</h2>
+        <h2
+          class="text-3xl font-bold text-center mb-8 reveal"
+          data-i18n="contact_title"
+        >
+          Contattaci
+        </h2>
 
         <form id="contactForm" class="space-y-4 reveal">
           <input
@@ -387,6 +506,7 @@
           <input
             type="text"
             name="nome"
+            data-i18n-placeholder="placeholder_nome"
             placeholder="Nome"
             class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
             required
@@ -394,6 +514,7 @@
           <input
             type="email"
             name="email"
+            data-i18n-placeholder="placeholder_email"
             placeholder="Email"
             class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
             required
@@ -401,6 +522,7 @@
           <textarea
             name="messaggio"
             rows="5"
+            data-i18n-placeholder="placeholder_msg"
             placeholder="Messaggio"
             class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
             required
@@ -409,6 +531,7 @@
           <button
             type="submit"
             class="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 rounded"
+            data-i18n="btn_send"
           >
             Invia
           </button>
@@ -426,30 +549,52 @@
             <a href="#" class="text-2xl font-bold text-white mb-4 block"
               >Perla Bianca</a
             >
-            <p class="text-gray-400 text-sm leading-relaxed">
+            <p
+              class="text-gray-400 text-sm leading-relaxed"
+              data-i18n="footer_desc"
+            >
               La tua oasi di relax a due passi dal mare. Prenota oggi la tua
               vacanza da sogno in totale autonomia.
             </p>
           </div>
 
           <div>
-            <h3 class="text-lg font-bold mb-4 text-blue-400">Esplora</h3>
+            <h3
+              class="text-lg font-bold mb-4 text-blue-400"
+              data-i18n="footer_explore"
+            >
+              Esplora
+            </h3>
             <ul class="space-y-2 text-gray-400 text-sm">
               <li>
-                <a href="#home" class="hover:text-white transition">Home</a>
+                <a
+                  href="#home"
+                  class="hover:text-white transition"
+                  data-i18n="nav_home"
+                  >Home</a
+                >
               </li>
               <li>
-                <a href="#servizi" class="hover:text-white transition"
+                <a
+                  href="#servizi"
+                  class="hover:text-white transition"
+                  data-i18n="nav_servizi"
                   >Servizi</a
                 >
               </li>
               <li>
-                <a href="#galleria" class="hover:text-white transition"
+                <a
+                  href="#galleria"
+                  class="hover:text-white transition"
+                  data-i18n="footer_gallery"
                   >Galleria Foto</a
                 >
               </li>
               <li>
-                <a href="#recensioni" class="hover:text-white transition"
+                <a
+                  href="#recensioni"
+                  class="hover:text-white transition"
+                  data-i18n="footer_reviews"
                   >Dicono di noi</a
                 >
               </li>
@@ -457,17 +602,27 @@
           </div>
 
           <div>
-            <h3 class="text-lg font-bold mb-4 text-blue-400">Info</h3>
+            <h3
+              class="text-lg font-bold mb-4 text-blue-400"
+              data-i18n="footer_info"
+            >
+              Info
+            </h3>
             <ul class="space-y-2 text-gray-400 text-sm">
-              <li>Check-in: dalle 15:00</li>
-              <li>Check-out: entro le 10:00</li>
-              <li>Parcheggio disponibile</li>
-              <li>Animali ammessi (su richiesta)</li>
+              <li data-i18n="info_checkin">Check-in: dalle 15:00</li>
+              <li data-i18n="info_checkout">Check-out: entro le 10:00</li>
+              <li data-i18n="info_parking">Parcheggio disponibile</li>
+              <li data-i18n="info_pets">Animali ammessi (su richiesta)</li>
             </ul>
           </div>
 
           <div>
-            <h3 class="text-lg font-bold mb-4 text-blue-400">Contatti</h3>
+            <h3
+              class="text-lg font-bold mb-4 text-blue-400"
+              data-i18n="contact_title"
+            >
+              Contatti
+            </h3>
             <ul class="space-y-2 text-gray-400 text-sm">
               <li class="flex items-center gap-2">
                 <span>📍</span> Via Mare 123, Località
@@ -486,15 +641,34 @@
           class="border-t border-gray-800 pt-8 text-center text-gray-500 text-xs"
         >
           <p>
-            © 2025 Perla Bianca Casa Vacanze. Tutti i diritti riservati.
+            © 2025 Perla Bianca.
+            <span data-i18n="footer_rights">Tutti i diritti riservati.</span>
             <span class="mx-2">|</span>
             <a
               href="admin.html"
               class="hover:text-white underline text-gray-600 text-[10px]"
+              data-i18n="footer_admin"
               >Area Riservata</a
             >
             <!-- <a href="https://www.iubenda.com/privacy-policy/LINK-TUO" target="_blank" class="hover:text-white underline">Privacy Policy</a> -->
           </p>
+          <div
+            class="flex justify-center items-center gap-3 text-sm font-medium text-gray-400"
+          >
+            <button
+              onclick="changeLanguage('it')"
+              class="hover:text-white transition focus:outline-none hover:underline decoration-blue-500 underline-offset-4"
+            >
+              Italiano
+            </button>
+            <span class="opacity-20">|</span>
+            <button
+              onclick="changeLanguage('en')"
+              class="hover:text-white transition focus:outline-none hover:underline decoration-blue-500 underline-offset-4"
+            >
+              English
+            </button>
+          </div>
         </div>
       </div>
     </footer>
@@ -562,13 +736,14 @@
       id="cookieBanner"
       class="fixed bottom-0 left-0 right-0 bg-gray-900 text-white p-4 text-center z-[100] hidden"
     >
-      <p class="text-sm inline-block mr-4">
+      <p class="text-sm inline-block mr-4" data-i18n="cookie_text">
         Utilizziamo cookie tecnici per garantirti la migliore esperienza.
         Continuando a navigare accetti l'uso dei cookie.
       </p>
       <button
         id="acceptCookies"
         class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded text-sm font-bold"
+        data-i18n="cookie_btn"
       >
         Ho capito
       </button>
