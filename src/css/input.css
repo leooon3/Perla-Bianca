@@ -212,34 +212,36 @@ html {
   font-size: 0.85rem;
   opacity: 0.8;
 }
-/* --- FIX ALLINEAMENTO HEADER DEFINITIVO --- */
+/* --- FIX ALLINEAMENTO HEADER DEFINITIVO (Mobile & Desktop) --- */
 
-/* 1. Il container principale della toolbar deve essere flex */
+/* 1. Container Toolbar: Abilitiamo il "wrap" per evitare che i bottoni escano dallo schermo */
 .fc .fc-header-toolbar {
   display: flex !important;
   justify-content: space-between !important;
   align-items: center !important;
+  flex-wrap: wrap !important; /* FONDAMENTALE: Manda a capo se non c'è spazio */
+  gap: 0.5rem !important; /* Spazio tra gli elementi quando vanno a capo */
+  margin-bottom: 1rem !important;
 }
 
-/* 2. I gruppi (chunks) e SPECIALMENTE quello centrale devono essere flex row */
+/* 2. Gruppi di bottoni: Sempre in riga */
 .fc .fc-toolbar-chunk {
   display: flex !important;
-  flex-direction: row !important; /* Forza orizzontale */
-  align-items: center !important; /* Centra verticalmente */
-  gap: 0.5rem !important; /* Spazio piccolo tra frecce e mese */
+  flex-direction: row !important;
+  align-items: center !important;
+  gap: 0.5rem !important;
 }
 
-/* 3. Il titolo (Mese Anno) */
+/* 3. Titolo: Stile base */
 .fc .fc-toolbar-title {
-  margin: 0 1rem !important; /* Spazio laterale */
+  margin: 0 0.5rem !important;
   padding: 0 !important;
-  font-size: 1.25rem !important; /* Dimensione controllata */
-  white-space: nowrap !important; /* Non andare a capo */
-  display: inline-block !important; /* Non essere block */
-  text-transform: capitalize !important; /* <--- REINSERITO: Forza la maiuscola (es. Novembre) */
+  font-size: 1.25rem !important;
+  white-space: nowrap !important;
+  text-transform: capitalize !important; /* Forza Maiuscola (es. Novembre) */
 }
 
-/* 4. I bottoni (frecce e oggi) */
+/* 4. Bottoni: Flex per allineare icone e testo */
 .fc .fc-button {
   display: inline-flex !important;
   align-items: center !important;
@@ -249,4 +251,125 @@ html {
 /* 5. Maiuscola per il tasto Oggi */
 .fc-today-button {
   text-transform: capitalize !important;
+}
+
+/* --- REGOLE SPECIFICHE PER MOBILE (Schermi piccoli) --- */
+@media (max-width: 640px) {
+  /* Cambiamo l'ordine: Frecce e Oggi sulla prima riga, Titolo sotto */
+
+  .fc .fc-header-toolbar {
+    justify-content: center !important; /* Centra tutto */
+  }
+
+  /* Frecce (Sinistra) -> Ordine 1 */
+  .fc .fc-toolbar-chunk:nth-child(1) {
+    order: 1;
+  }
+
+  /* Tasto Oggi (Destra) -> Ordine 2 */
+  .fc .fc-toolbar-chunk:nth-child(3) {
+    order: 2;
+  }
+
+  /* Titolo (Centro) -> Ordine 3 (va a capo sotto) */
+  .fc .fc-toolbar-chunk:nth-child(2) {
+    order: 3;
+    width: 100% !important; /* Occupa tutta la riga sotto */
+    justify-content: center !important;
+    margin-top: 0.5rem !important; /* Spazio sopra il titolo */
+  }
+
+  .fc .fc-toolbar-title {
+    font-size: 1.1rem !important; /* Titolo leggermente più piccolo */
+  }
+
+  /* Riduciamo l'altezza delle celle per vedere più calendario senza scrollare troppo */
+  .fc .fc-daygrid-day-frame {
+    min-height: 60px !important;
+  }
+
+  /* Riduciamo il font degli eventi per farli stare meglio */
+  .fc-event {
+    font-size: 0.75rem !important;
+  }
+}
+/* Classe per nascondere il corpo finché non è pronto */
+body.lang-loading {
+  visibility: hidden;
+  opacity: 0;
+}
+/* Quando rimuovi la classe, riappare dolcemente */
+body {
+  visibility: visible;
+  opacity: 1;
+  transition: opacity 0.3s ease-in;
+}
+/* --- STILE PER LA SELEZIONE 'TAP-TAP' --- */
+
+/* Quando clicchi la prima data (Data Inizio) */
+.fc-day-selected-start {
+  background-color: #2563eb !important; /* Blu scuro ben visibile */
+  color: white !important;
+  font-weight: bold;
+  border-radius: 4px;
+}
+
+/* Manteniamo lo stile blu trasparente per il range finale (quando selezioni entrambe) */
+.fc-highlight {
+  background-color: rgba(59, 130, 246, 0.3) !important;
+  border: 1px solid #3b82f6 !important;
+}
+/* --- CALENDAR TOOLTIP / MODAL --- */
+.calendar-tooltip {
+  position: absolute;
+  z-index: 50; /* Sopra a tutto */
+  background-color: white;
+  border-radius: 0.75rem; /* rounded-xl */
+  padding: 1rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05); /* shadow-xl */
+  border: 1px solid #dbeafe; /* border-blue-100 */
+  min-width: 200px;
+  max-width: 280px;
+  text-align: center;
+  animation: popIn 0.2s ease-out;
+}
+
+.calendar-tooltip h4 {
+  font-weight: 700;
+  color: #1e3a8a; /* blue-900 */
+  margin-bottom: 0.25rem;
+  font-size: 0.9rem;
+}
+
+.calendar-tooltip p {
+  color: #4b5563; /* gray-600 */
+  font-size: 0.8rem;
+  margin-bottom: 0.75rem;
+}
+
+.calendar-tooltip button {
+  background-color: #2563eb; /* blue-600 */
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  width: 100%;
+  transition: background-color 0.2s;
+}
+
+.calendar-tooltip button:hover {
+  background-color: #1d4ed8; /* blue-700 */
+}
+
+@keyframes popIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }

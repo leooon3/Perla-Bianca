@@ -320,6 +320,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     const busyString = lang === "it" ? '"Occupato"' : '"Busy"';
     document.documentElement.style.setProperty("--busy-text", busyString);
+    document.body.classList.remove("lang-loading");
   };
 
   // Applica la lingua salvata all'avvio
@@ -777,6 +778,10 @@ document.addEventListener("DOMContentLoaded", function () {
       reviewForm.addEventListener("submit", async (e) => {
         e.preventDefault();
 
+        if (!votoInput.value) {
+          alert("Per favore, seleziona un numero di stelle.");
+          return;
+        }
         const arrivoValue = reviewForm.data_arrivo.value;
         const partenzaValue = reviewForm.data_partenza.value;
 
@@ -852,56 +857,207 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // ============================================================
-  // 9. CALENDARIO FULLCALENDAR
+  // 9. CALENDARIO FULLCALENDAR (LOGICA TAP-TAP + TOOLTIP)
   // ============================================================
   {
     const calendarEl = document.getElementById("calendar");
 
+    // Funzione helper per rimuovere il tooltip se esiste
+    const removeTooltip = () => {
+      const existing = document.querySelector(".calendar-tooltip");
+      if (existing) existing.remove();
+    };
+
     if (calendarEl) {
+      const isMobile = window.innerWidth < 768;
+      let selectionStart = null; // Memorizza il primo click
+
       window.calendar = new FullCalendar.Calendar(calendarEl, {
         initialView: "dayGridMonth",
-        locale: currentLang, // Usa la lingua corrente
+        locale: currentLang,
         headerToolbar: {
-          left: "", // Lascio vuoto a sinistra
-          // MODIFICA QUI: USO SPAZI INVECE DI VIRGOLE
-          center: "prev title next",
-          right: "today", // Tasto "Oggi" a destra
+          left: "prev,next",
+          center: "title",
+          right: "today",
         },
         height: "auto",
-        contentHeight: 500,
+        contentHeight: isMobile ? 400 : 500,
         firstDay: 1,
+
+        selectable: true,
+        selectMirror: true,
+        unselectAuto: true, // Chiude la selezione se clicchi fuori
+
+        // --- A. GESTIONE DEI DUE CLICK ---
+        dateClick: function (info) {
+          removeTooltip(); // Pulisci vecchi tooltip
+
+          if (selectionStart === null) {
+            // 1. PRIMO CLICK
+            selectionStart = info.date;
+            window.calendar.unselect(); // Pulisci selezioni precedenti
+
+            // Pulisci classi custom precedenti
+            document
+              .querySelectorAll(".fc-day-selected-start")
+              .forEach((el) => el.classList.remove("fc-day-selected-start"));
+            // Evidenzia la data cliccata (Blu Scuro)
+            info.dayEl.classList.add("fc-day-selected-start");
+
+            // NESSUNO SCROLL QUI!
+          } else {
+            // 2. SECONDO CLICK
+            const clickedDate = info.date;
+
+            // Se clicco indietro nel tempo, resetto e riparto da qui
+            if (clickedDate < selectionStart) {
+              selectionStart = clickedDate;
+              document
+                .querySelectorAll(".fc-day-selected-start")
+                .forEach((el) => el.classList.remove("fc-day-selected-start"));
+              info.dayEl.classList.add("fc-day-selected-start");
+              return;
+            }
+
+            // Selezione valida -> Creo il range
+            const endDateExclusive = new Date(clickedDate);
+            endDateExclusive.setDate(endDateExclusive.getDate() + 1);
+
+            window.calendar.select({
+              start: selectionStart,
+              end: endDateExclusive,
+            });
+
+            // Resetto variabili di stato
+            selectionStart = null;
+            document
+              .querySelectorAll(".fc-day-selected-start")
+              .forEach((el) => el.classList.remove("fc-day-selected-start"));
+          }
+        },
+
+        // --- B. QUANDO IL RANGE È SELEZIONATO (CREA TOOLTIP) ---
+        select: function (info) {
+          removeTooltip(); // Sicurezza
+
+          // 1. Calcolo Date
+          const endDate = new Date(info.end);
+          endDate.setDate(endDate.getDate() - 1); // Correzione visiva
+          const startStr = info.start.toLocaleDateString("it-IT");
+          const endStr = endDate.toLocaleDateString("it-IT");
+
+          // 2. Trova l'elemento DOM dell'ultima data per posizionare il tooltip
+          // FullCalendar usa data-date="YYYY-MM-DD"
+          const isoDate = endDate.toISOString().split("T")[0];
+          const dayEl = document.querySelector(`[data-date="${isoDate}"]`);
+
+          if (dayEl) {
+            // 3. Crea il Tooltip HTML
+            const tooltip = document.createElement("div");
+            tooltip.className = "calendar-tooltip";
+
+            // Testi tradotti
+            const title =
+              currentLang === "it" ? "Date Selezionate" : "Selected Dates";
+            const btnText =
+              currentLang === "it"
+                ? "Richiedi Disponibilità"
+                : "Request Availability";
+            const rangeText = `${startStr} - ${endStr}`;
+
+            tooltip.innerHTML = `
+              <h4>${title}</h4>
+              <p>${rangeText}</p>
+              <button id="tooltipBtn">${btnText}</button>
+            `;
+
+            // Aggiungi al body per evitare problemi di overflow/z-index
+            document.body.appendChild(tooltip);
+
+            // 4. Posizionamento (Popper-like logic semplificata)
+            const rect = dayEl.getBoundingClientRect();
+            const scrollTop =
+              window.pageYOffset || document.documentElement.scrollTop;
+            const scrollLeft =
+              window.pageXOffset || document.documentElement.scrollLeft;
+
+            // Posiziona sopra la cella
+            let top = rect.top + scrollTop - tooltip.offsetHeight - 10;
+            let left =
+              rect.left + scrollLeft + rect.width / 2 - tooltip.offsetWidth / 2;
+
+            // Fix per mobile: se esce a destra o sinistra
+            if (left < 10) left = 10;
+            if (left + tooltip.offsetWidth > window.innerWidth) {
+              left = window.innerWidth - tooltip.offsetWidth - 10;
+            }
+
+            tooltip.style.top = `${top}px`;
+            tooltip.style.left = `${left}px`;
+
+            // 5. Evento Click sul Bottone del Tooltip
+            document
+              .getElementById("tooltipBtn")
+              .addEventListener("click", () => {
+                const msgInput = document.querySelector(
+                  'textarea[name="messaggio"]'
+                );
+                const contactSection = document.getElementById("contatti");
+
+                // Compila Messaggio
+                const msgText =
+                  currentLang === "it"
+                    ? `Salve, vorrei chiedere disponibilità dal ${startStr} al ${endStr}.`
+                    : `Hi, I would like to ask for availability from ${startStr} to ${endStr}.`;
+
+                if (msgInput) msgInput.value = msgText;
+
+                // SCROLLA ORA (e solo ora)
+                if (contactSection) {
+                  contactSection.scrollIntoView({ behavior: "smooth" });
+                }
+
+                // Effetto visivo form
+                const form = document.getElementById("contactForm");
+                if (form) {
+                  form.classList.add("ring-2", "ring-blue-500");
+                  setTimeout(
+                    () => form.classList.remove("ring-2", "ring-blue-500"),
+                    2000
+                  );
+                }
+
+                removeTooltip(); // Chiudi tooltip
+              });
+          }
+        },
+
+        // Pulisci tooltip se clicco fuori o cambio vista
+        unselect: function () {
+          // removeTooltip();
+        },
+
         datesSet: function () {
-          // Scatta ogni volta che cambi mese o vista
           updateTodayBtnText(currentLang);
+          removeTooltip(); // Pulisci se cambio mese
         },
         events: "/api/calendar",
-
-        dateClick: function (info) {
-          const contactSection = document.getElementById("contatti");
-          if (contactSection) {
-            contactSection.scrollIntoView({ behavior: "smooth" });
-          }
-
-          const msgInput = document.querySelector('textarea[name="messaggio"]');
-          if (msgInput) {
-            const dateParts = info.dateStr.split("-");
-            const formattedDate = `${dateParts[2]}/${dateParts[1]}/${dateParts[0]}`;
-
-            // Messaggio tradotto
-            msgInput.value = `${t("js_calendar_req")} ${formattedDate}.`;
-            msgInput.focus();
-          }
-        },
-
         eventSourceFailure: function (error) {
-          console.error("Errore caricamento eventi calendario:", error);
+          console.error("Calendar Error:", error);
         },
       });
       window.calendar.render();
 
-      // Nota: FullCalendar richiede il pacchetto Locales per tradurre automaticamente giorni/mesi
-      // Se vuoi che cambi "January" in "Gennaio" dinamicamente, dovresti includere i locale files di FC
-      // o ricaricare il calendario al cambio lingua.
+      // Chiudi tooltip se clicco ovunque nel documento (eccetto il tooltip stesso)
+      document.addEventListener("click", (e) => {
+        if (
+          !e.target.closest(".calendar-tooltip") &&
+          !e.target.closest(".fc-daygrid-day") &&
+          !e.target.closest(".fc-event")
+        ) {
+          removeTooltip();
+        }
+      });
     }
   }
 
