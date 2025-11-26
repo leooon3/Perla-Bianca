@@ -111,6 +111,31 @@ document.addEventListener("DOMContentLoaded", function () {
         "Utilizziamo cookie tecnici per garantirti la migliore esperienza. Continuando a navigare accetti l'uso dei cookie.",
       cookie_btn: "Ho capito",
 
+      // 404 PAGE
+      "404_meta_title": "Pagina non trovata - Perla Bianca",
+      "404_title": "404",
+      "404_subtitle": "Ops! Ti sei perso?",
+      "404_text":
+        "Sembra che questa stanza non esista nella nostra casa vacanze.",
+      "404_btn": "Torna alla Home",
+
+      // LASCIA RECENSIONE PAGE
+      review_page_title: "Lascia una Recensione - Perla Bianca",
+      review_back_home: "Torna alla Home",
+      review_form_title: "La tua opinione conta",
+      review_form_subtitle:
+        "Ci auguriamo tu abbia passato un soggiorno indimenticabile.",
+      review_label_name: "Nome e Cognome",
+      review_placeholder_name: "Es. Mario Rossi",
+      review_label_from: "Dal",
+      review_label_to: "Al",
+      review_label_rating: "Valutazione",
+      review_label_message: "La tua esperienza",
+      review_placeholder_message:
+        "Cosa ti è piaciuto di più? Consiglieresti la casa?",
+      review_btn_submit: "Pubblica Recensione",
+      footer_copyright_simple: "© 2025 Perla Bianca Casa Vacanze",
+
       // --- STRINGHE JS DINAMICHE ---
       js_email_invalid: "Inserisci un indirizzo email valido.",
       js_sending: "Invio in corso…",
@@ -215,6 +240,29 @@ document.addEventListener("DOMContentLoaded", function () {
       cookie_text:
         "We use technical cookies to ensure the best experience. By continuing to browse, you accept the use of cookies.",
       cookie_btn: "Got it",
+
+      // 404 PAGE
+      "404_meta_title": "Page Not Found - Perla Bianca",
+      "404_title": "404",
+      "404_subtitle": "Oops! Are you lost?",
+      "404_text": "It seems this room doesn't exist in our holiday home.",
+      "404_btn": "Back to Home",
+
+      // LASCIA RECENSIONE PAGE
+      review_page_title: "Leave a Review - Perla Bianca",
+      review_back_home: "Back to Home",
+      review_form_title: "Your opinion matters",
+      review_form_subtitle: "We hope you had an unforgettable stay.",
+      review_label_name: "Name and Surname",
+      review_placeholder_name: "E.g. John Doe",
+      review_label_from: "From",
+      review_label_to: "To",
+      review_label_rating: "Rating",
+      review_label_message: "Your experience",
+      review_placeholder_message:
+        "What did you like the most? Would you recommend the house?",
+      review_btn_submit: "Publish Review",
+      footer_copyright_simple: "© 2025 Perla Bianca Vacation Rental",
 
       // --- JS STRINGS ---
       js_email_invalid: "Please enter a valid email address.",
