@@ -1642,12 +1642,6 @@ html {
   align-items: center !important;
   justify-content: center !important;
 }
-.fc-toolbar-title {
-  text-transform: capitalize !important;
-}
-.fc-today-button {
-  text-transform: capitalize !important;
-}
 :root {
   --busy-text: "Occupato";
 }
@@ -1657,6 +1651,33 @@ html {
   font-weight: bold;
   font-size: 0.85rem;
   opacity: 0.8;
+}
+.fc .fc-header-toolbar {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+}
+.fc .fc-toolbar-chunk {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  gap: 0.5rem !important;
+}
+.fc .fc-toolbar-title {
+  margin: 0 1rem !important;
+  padding: 0 !important;
+  font-size: 1.25rem !important;
+  white-space: nowrap !important;
+  display: inline-block !important;
+  text-transform: capitalize !important;
+}
+.fc .fc-button {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+.fc-today-button {
+  text-transform: capitalize !important;
 }
 @property --tw-translate-x {
   syntax: "*";

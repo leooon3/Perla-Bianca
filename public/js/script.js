@@ -862,9 +862,10 @@ document.addEventListener("DOMContentLoaded", function () {
         initialView: "dayGridMonth",
         locale: currentLang, // Usa la lingua corrente
         headerToolbar: {
-          left: "prev,next",
-          center: "title",
-          right: "today",
+          left: "", // Lascio vuoto a sinistra
+          // MODIFICA QUI: USO SPAZI INVECE DI VIRGOLE
+          center: "prev title next",
+          right: "today", // Tasto "Oggi" a destra
         },
         height: "auto",
         contentHeight: 500,

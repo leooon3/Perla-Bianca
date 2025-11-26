@@ -1,8 +1,10 @@
 @import "tailwindcss";
 
 /* Diciamo a Tailwind dove guardare per generare le classi */
-@source "./index.html";
-@source "./js/script.js";
+@source "../../public/index.html";
+@source "../../public/js/script.js";
+@source "../../public/lascia-recensione.html";
+@source "../../public/404.html";
 
 /* --- IL TUO CSS PERSONALIZZATO --- */
 
@@ -186,36 +188,65 @@ html {
   opacity: 1;
   transform: translateY(0);
 }
-/* Stili personalizzati per il Calendario */
+
+/* --- STILI PERSONALIZZATI CALENDARIO --- */
+
 .fc-bg-event {
   opacity: 1 !important;
   background-color: #ef4444 !important; /* Tailwind red-500 */
   border: 1px solid #dc2626; /* Tailwind red-600 */
-
-  /* NUOVO: Applichiamo Flexbox direttamente al contenitore */
   display: flex !important;
-  align-items: center !important; /* Centra Verticalmente */
-  justify-content: center !important; /* Centra Orizzontalmente */
+  align-items: center !important;
+  justify-content: center !important;
 }
-/* Forza la prima lettera maiuscola nel titolo del calendario (es. "gennaio" -> "Gennaio") */
-.fc-toolbar-title {
-  text-transform: capitalize !important;
-}
-/* Forza la maiuscola sul tasto "Oggi/Today" del calendario */
-.fc-today-button {
-  text-transform: capitalize !important;
-}
-/* src/css/input.css */
 
-/* Definiamo la variabile di default (Italiano) */
+/* VARIABILE TESTO EVENTI (Occupato/Busy) */
 :root {
   --busy-text: "Occupato";
 }
 
 .fc-bg-event::after {
-  content: var(--busy-text); /* <--- Usa la variabile qui! */
+  content: var(--busy-text);
   color: black;
   font-weight: bold;
   font-size: 0.85rem;
   opacity: 0.8;
+}
+/* --- FIX ALLINEAMENTO HEADER DEFINITIVO --- */
+
+/* 1. Il container principale della toolbar deve essere flex */
+.fc .fc-header-toolbar {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+}
+
+/* 2. I gruppi (chunks) e SPECIALMENTE quello centrale devono essere flex row */
+.fc .fc-toolbar-chunk {
+  display: flex !important;
+  flex-direction: row !important; /* Forza orizzontale */
+  align-items: center !important; /* Centra verticalmente */
+  gap: 0.5rem !important; /* Spazio piccolo tra frecce e mese */
+}
+
+/* 3. Il titolo (Mese Anno) */
+.fc .fc-toolbar-title {
+  margin: 0 1rem !important; /* Spazio laterale */
+  padding: 0 !important;
+  font-size: 1.25rem !important; /* Dimensione controllata */
+  white-space: nowrap !important; /* Non andare a capo */
+  display: inline-block !important; /* Non essere block */
+  text-transform: capitalize !important; /* <--- REINSERITO: Forza la maiuscola (es. Novembre) */
+}
+
+/* 4. I bottoni (frecce e oggi) */
+.fc .fc-button {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+/* 5. Maiuscola per il tasto Oggi */
+.fc-today-button {
+  text-transform: capitalize !important;
 }
