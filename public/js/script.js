@@ -909,8 +909,8 @@ document.addEventListener("DOMContentLoaded", function () {
   // 10. METEO (Open-Meteo)
   // ============================================================
   {
-    const lat = 40.4018;
-    const lon = 17.6329;
+    const lat = 40.305595082113115;
+    const lon = 17.67639558647628;
     const weatherWidget = document.getElementById("weatherWidget");
 
     const getWeatherIcon = (code) => {
