@@ -254,9 +254,27 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     });
 
-    // 3. Ricarica componenti dinamici se necessario (es. recensioni per tradurre etichette)
-    // Se siamo sulla pagina principale e le recensioni sono già caricate, potremmo volerle aggiornare.
-    // Per semplicità, l'utente vedrà le traduzioni JS dinamiche al prossimo evento/reload.
+    // 3. AGGIORNAMENTO FORZATO CALENDARIO
+    if (window.calendar && typeof window.calendar.setOption === "function") {
+      // A. Aggiorna la lingua interna (per i mesi e i giorni)
+      window.calendar.setOption("locale", lang);
+
+      // B. Prepara il testo corretto
+      const textOggi = lang === "it" ? "Oggi" : "Today";
+
+      // C. Aggiorna la configurazione interna (per futuri re-render)
+      window.calendar.setOption("buttonText", { today: textOggi });
+
+      // D. FORZA L'AGGIORNAMENTO VISIVO IMMEDIATO (Il trucco magico)
+      // Cerchiamo il bottone fisicamente nel sito e gli cambiamo il testo a forza
+      const todayBtn = document.querySelector(".fc-today-button");
+      if (todayBtn) {
+        todayBtn.textContent = textOggi;
+        // La maiuscola è gestita dal tuo CSS (.fc-today-button { text-transform: capitalize })
+      }
+    }
+    const busyString = lang === "it" ? '"Occupato"' : '"Busy"';
+    document.documentElement.style.setProperty("--busy-text", busyString);
   };
 
   // Applica la lingua salvata all'avvio
@@ -795,7 +813,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const calendarEl = document.getElementById("calendar");
 
     if (calendarEl) {
-      const calendar = new FullCalendar.Calendar(calendarEl, {
+      window.calendar = new FullCalendar.Calendar(calendarEl, {
         initialView: "dayGridMonth",
         locale: currentLang, // Usa la lingua corrente
         headerToolbar: {
@@ -807,7 +825,7 @@ document.addEventListener("DOMContentLoaded", function () {
         contentHeight: 500,
         firstDay: 1,
         buttonText: {
-          today: "Oggi", // FullCalendar ha i suoi locali, ma questo forza il testo
+          today: currentLang === "it" ? "Oggi" : "Today",
         },
         events: "/api/calendar",
 
@@ -832,7 +850,7 @@ document.addEventListener("DOMContentLoaded", function () {
           console.error("Errore caricamento eventi calendario:", error);
         },
       });
-      calendar.render();
+      window.calendar.render();
 
       // Nota: FullCalendar richiede il pacchetto Locales per tradurre automaticamente giorni/mesi
       // Se vuoi che cambi "January" in "Gennaio" dinamicamente, dovresti includere i locale files di FC

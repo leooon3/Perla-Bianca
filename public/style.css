@@ -1077,6 +1077,9 @@
   .text-yellow-700 {
     color: var(--color-yellow-700);
   }
+  .capitalize {
+    text-transform: capitalize;
+  }
   .uppercase {
     text-transform: uppercase;
   }
@@ -1639,8 +1642,17 @@ html {
   align-items: center !important;
   justify-content: center !important;
 }
+.fc-toolbar-title {
+  text-transform: capitalize !important;
+}
+.fc-today-button {
+  text-transform: capitalize !important;
+}
+:root {
+  --busy-text: "Occupato";
+}
 .fc-bg-event::after {
-  content: "Occupato";
+  content: var(--busy-text);
   color: black;
   font-weight: bold;
   font-size: 0.85rem;

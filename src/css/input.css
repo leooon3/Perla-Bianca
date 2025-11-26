@@ -197,12 +197,25 @@ html {
   align-items: center !important; /* Centra Verticalmente */
   justify-content: center !important; /* Centra Orizzontalmente */
 }
+/* Forza la prima lettera maiuscola nel titolo del calendario (es. "gennaio" -> "Gennaio") */
+.fc-toolbar-title {
+  text-transform: capitalize !important;
+}
+/* Forza la maiuscola sul tasto "Oggi/Today" del calendario */
+.fc-today-button {
+  text-transform: capitalize !important;
+}
+/* src/css/input.css */
+
+/* Definiamo la variabile di default (Italiano) */
+:root {
+  --busy-text: "Occupato";
+}
 
 .fc-bg-event::after {
-  content: "Occupato";
+  content: var(--busy-text); /* <--- Usa la variabile qui! */
   color: black;
   font-weight: bold;
   font-size: 0.85rem;
   opacity: 0.8;
-  /* Non serve più display:flex o height qui, fa tutto il genitore sopra */
 }
