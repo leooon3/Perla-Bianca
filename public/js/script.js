@@ -229,6 +229,15 @@ document.addEventListener("DOMContentLoaded", function () {
       js_calendar_prompt: "Scroll to contact form to send request.",
     },
   };
+  const updateTodayBtnText = (lang) => {
+    const btn = document.querySelector(".fc-today-button");
+    if (btn) {
+      // .textContent cancella tutto quello che c'era prima e mette solo il nuovo testo
+      btn.textContent = lang === "it" ? "Oggi" : "Today";
+      // Assicuriamoci che la prima lettera sia maiuscola (se non lo fa il CSS)
+      btn.style.textTransform = "capitalize";
+    }
+  };
 
   // Funzione Helper per ottenere traduzioni nel codice JS
   const t = (key) => translations[currentLang][key] || key;
@@ -254,24 +263,12 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     });
 
-    // 3. AGGIORNAMENTO FORZATO CALENDARIO
     if (window.calendar && typeof window.calendar.setOption === "function") {
-      // A. Aggiorna la lingua interna (per i mesi e i giorni)
+      // A. Aggiorna la lingua interna
       window.calendar.setOption("locale", lang);
 
-      // B. Prepara il testo corretto
-      const textOggi = lang === "it" ? "Oggi" : "Today";
-
-      // C. Aggiorna la configurazione interna (per futuri re-render)
-      window.calendar.setOption("buttonText", { today: textOggi });
-
-      // D. FORZA L'AGGIORNAMENTO VISIVO IMMEDIATO (Il trucco magico)
-      // Cerchiamo il bottone fisicamente nel sito e gli cambiamo il testo a forza
-      const todayBtn = document.querySelector(".fc-today-button");
-      if (todayBtn) {
-        todayBtn.textContent = textOggi;
-        // La maiuscola è gestita dal tuo CSS (.fc-today-button { text-transform: capitalize })
-      }
+      // B. Aggiorna SUBITO il bottone visivamente
+      updateTodayBtnText(lang);
     }
     const busyString = lang === "it" ? '"Occupato"' : '"Busy"';
     document.documentElement.style.setProperty("--busy-text", busyString);
@@ -824,8 +821,9 @@ document.addEventListener("DOMContentLoaded", function () {
         height: "auto",
         contentHeight: 500,
         firstDay: 1,
-        buttonText: {
-          today: currentLang === "it" ? "Oggi" : "Today",
+        datesSet: function () {
+          // Scatta ogni volta che cambi mese o vista
+          updateTodayBtnText(currentLang);
         },
         events: "/api/calendar",
 
