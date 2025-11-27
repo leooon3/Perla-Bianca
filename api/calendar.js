@@ -32,6 +32,10 @@ export default async function handler(req, res) {
     //#region GET Method (Public)
     // No verifyAuth here, calendar must be visible to everyone
     if (req.method === "GET") {
+      res.setHeader(
+        "Cache-Control",
+        "s-maxage=120, stale-while-revalidate=300"
+      );
       const response = await calendar.events.list({
         calendarId,
         timeMin: new Date().toISOString(),

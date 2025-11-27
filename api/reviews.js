@@ -16,6 +16,10 @@ export default async function handler(req, res) {
   res.setHeader("Access-Control-Allow-Credentials", true);
   res.setHeader("Access-Control-Allow-Methods", "GET,OPTIONS");
 
+  if (req.method === "GET") {
+    res.setHeader("Cache-Control", "s-maxage=120, stale-while-revalidate=300");
+  }
+
   if (req.method === "OPTIONS") {
     res.status(200).end();
     return;

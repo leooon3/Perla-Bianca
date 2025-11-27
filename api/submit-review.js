@@ -72,9 +72,39 @@ export default async function handler(req, res) {
       "Data Soggiorno": dataSoggiorno,
       Approvato: "NO", // Default: not approved
     });
-
-    return res.status(200).json({ success: true });
     //#endregion
+
+    //#region Send notification email to Admin
+    try {
+      const transporter = nodemailer.createTransport({
+        service: "gmail",
+        auth: {
+          user: process.env.EMAIL_USER,
+          pass: process.env.EMAIL_PASS,
+        },
+      });
+
+      await transporter.sendMail({
+        from: `"Perla Bianca Bot" <${process.env.EMAIL_USER}>`,
+        to: process.env.EMAIL_USER, //Send to yourself
+        subject: `⭐ Nuova Recensione: ${voto}/5 da ${nome}`,
+        html: `
+          <h3>Hai ricevuto una nuova recensione!</h3>
+          <p><strong>Nome:</strong> ${nome}</p>
+          <p><strong>Voto:</strong> ${voto} stelle</p>
+          <p><strong>Periodo:</strong> ${dataSoggiorno}</p>
+          <blockquote style="background: #f9f9f9; padding: 10px; border-left: 5px solid #007bff;">
+            ${messaggio}
+          </blockquote>
+          <p><a href="https://perla-bianca.vercel.app/admin.html" style="background: #007bff; color: white; padding: 10px 15px; text-decoration: none; border-radius: 5px;">Vai all'Admin per approvare</a></p>
+        `,
+      });
+    } catch (mailError) {
+      console.error("Errore invio notifica admin:", mailError);
+      // Not Blocking user review if email fails
+    }
+    //#endregion
+    return res.status(200).json({ success: true });
   } catch (error) {
     console.error("Submit Review API Error:", error);
     return res.status(500).json({

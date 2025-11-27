@@ -163,18 +163,24 @@
 
     <!-- Hero Section -->
     <section id="home" class="relative">
-      <div
+      <a
         id="weatherWidget"
-        class="hidden absolute top-4 right-4 bg-white/30 backdrop-blur-md p-3 rounded-xl text-white items-center gap-3 shadow-lg z-20 border border-white/20"
+        href="https://www.3bmeteo.com/meteo/san+pietro+in+bevagna"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="hidden absolute top-4 right-4 bg-white/30 backdrop-blur-md p-3 rounded-xl text-white items-center gap-3 shadow-lg z-20 border border-white/20 hover:scale-105 hover:bg-white/40 transition-all cursor-pointer"
+        title="Guarda le previsioni su 3B Meteo"
       >
-        <div id="weatherIcon" class="text-3xl">☀️</div>
+        <div id="weatherIcon" class="text-3xl drop-shadow-md">☀️</div>
         <div class="leading-tight">
           <p id="weatherTemp" class="font-bold text-xl drop-shadow-md">--°C</p>
-          <p class="text-xs font-medium uppercase tracking-wide opacity-90">
-            Manduria
+          <p
+            class="text-xs font-medium uppercase tracking-wide opacity-90 drop-shadow-sm"
+          >
+            S. Pietro in Bevagna
           </p>
         </div>
-      </div>
+      </a>
       <img
         src="./img/hero.webp"
         alt="Vista mare"
@@ -271,9 +277,85 @@
         </div>
       </div>
     </section>
+    <!--Faq-->
+    <section id="faq" class="py-16 bg-white">
+      <div class="container mx-auto px-6 max-w-4xl">
+        <h2
+          class="text-3xl font-bold text-center mb-8 reveal"
+          data-i18n="faq_title"
+        >
+          Domande Frequenti
+        </h2>
+
+        <div class="space-y-4 reveal">
+          <div
+            class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition"
+          >
+            <h3
+              class="font-bold text-lg text-gray-800 mb-2 flex items-center gap-2"
+            >
+              <span class="text-blue-500">?</span>
+              <span data-i18n="faq_checkin_q"
+                >A che ora sono Check-in e Check-out?</span
+              >
+            </h3>
+            <p class="text-gray-600 text-sm" data-i18n="faq_checkin_a">
+              Il check-in è disponibile dalle 15:00 in poi (spesso offriamo self
+              check-in). Il check-out è richiesto entro le 10:00 per permettere
+              le pulizie.
+            </p>
+          </div>
+
+          <div
+            class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition"
+          >
+            <h3
+              class="font-bold text-lg text-gray-800 mb-2 flex items-center gap-2"
+            >
+              <span class="text-blue-500">?</span>
+              <span data-i18n="faq_linen_q"
+                >Fornite lenzuola e asciugamani?</span
+              >
+            </h3>
+            <p class="text-gray-600 text-sm" data-i18n="faq_linen_a">
+              Sì, forniamo un set completo di biancheria da letto e asciugamani
+              per ogni ospite all'arrivo.
+            </p>
+          </div>
+
+          <div
+            class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition"
+          >
+            <h3
+              class="font-bold text-lg text-gray-800 mb-2 flex items-center gap-2"
+            >
+              <span class="text-blue-500">?</span>
+              <span data-i18n="faq_parking_q">C'è parcheggio?</span>
+            </h3>
+            <p class="text-gray-600 text-sm" data-i18n="faq_parking_a">
+              Sì, c'è parcheggio gratuito in strada proprio davanti alla
+              struttura e nelle vie adiacenti.
+            </p>
+          </div>
+        </div>
+
+        <div class="mt-10 text-center reveal">
+          <p class="text-gray-500 mb-4" data-i18n="guide_promo">
+            Vuoi scoprire i ristoranti migliori e le spiagge segrete?
+          </p>
+          <a
+            href="#contatti"
+            class="text-blue-600 font-bold underline hover:text-blue-800"
+            data-i18n="guide_link"
+          >
+            Chiedici la nostra guida locale dopo la prenotazione!
+          </a>
+        </div>
+      </div>
+    </section>
 
     <!-- Gallery Section -->
-    <section id="galleria" class="py-16">
+    <section id="galleria" class="py-16 bg-gray-50">
       <div class="container mx-auto px-6">
         <h2
           class="text-3xl font-bold text-center mb-8 reveal"
@@ -303,7 +385,7 @@
     </section>
 
     <!-- Prices Section -->
-    <section id="prezzi" class="py-16 bg-gray-50">
+    <section id="prezzi" class="py-16 bg-white">
       <div class="container mx-auto px-6 max-w-3xl">
         <h2
           class="text-3xl font-bold text-center mb-8 reveal"
@@ -349,7 +431,7 @@
     </section>
 
     <!-- Calendar Section-->
-    <section id="disponibilita" class="py-16 bg-white">
+    <section id="disponibilita" class="py-16 bg-gray-50">
       <div class="container mx-auto px-6 max-w-5xl">
         <h2
           class="text-3xl font-bold text-center mb-4 reveal"
@@ -373,7 +455,7 @@
     </section>
 
     <!-- Reviews Section -->
-    <section id="recensioni" class="py-16 bg-gray-50">
+    <section id="recensioni" class="py-16 bg-white">
       <div class="container mx-auto px-6 max-w-4xl">
         <h2
           class="text-3xl font-bold text-center mb-8 reveal"
@@ -410,7 +492,7 @@
     </section>
 
     <!-- Map: Where are we -->
-    <section id="dove" class="py-16">
+    <section id="dove" class="py-16 bg-gray-50">
       <div class="container mx-auto px-6 text-center">
         <h2 class="text-3xl font-bold mb-8 reveal" data-i18n="location_title">
           Dove Siamo
@@ -431,7 +513,7 @@
     </section>
 
     <!-- About Us Section -->
-    <section id="chisiamo" class="py-16 bg-gray-50 overflow-hidden">
+    <section id="chisiamo" class="py-16 bg-white overflow-hidden">
       <div class="container mx-auto px-6">
         <div class="flex flex-col md:flex-row items-center gap-12">
           <div class="w-full md:w-1/2 relative reveal">
@@ -487,7 +569,7 @@
     </section>
 
     <!-- Contact us Section -->
-    <section id="contatti" class="py-16 bg-white">
+    <section id="contatti" class="py-16 bg-gray-50">
       <div class="container mx-auto px-6 max-w-lg">
         <h2
           class="text-3xl font-bold text-center mb-8 reveal"

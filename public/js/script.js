@@ -127,6 +127,18 @@ document.addEventListener("DOMContentLoaded", function () {
       cal_req_msg_start: "Salve, vorrei chiedere disponibilità dal",
       cal_req_msg_end: "al",
       cal_busy: '"Occupato"',
+      faq_title: "Domande Frequenti",
+      faq_checkin_q: "A che ora sono Check-in e Check-out?",
+      faq_checkin_a:
+        "Il check-in è disponibile dalle 15:00 in poi (spesso offriamo self check-in). Il check-out è richiesto entro le 10:00 per permettere le pulizie.",
+      faq_linen_q: "Fornite lenzuola e asciugamani?",
+      faq_linen_a:
+        "Sì, forniamo un set completo di biancheria da letto e asciugamani per ogni ospite all'arrivo.",
+      faq_parking_q: "C'è parcheggio?",
+      faq_parking_a:
+        "Sì, c'è parcheggio gratuito in strada proprio davanti alla struttura e nelle vie adiacenti.",
+      guide_promo: "Vuoi scoprire i ristoranti migliori e le spiagge segrete?",
+      guide_link: "Chiedici la nostra guida locale dopo la prenotazione!",
     },
     en: {
       nav_home: "Home",
@@ -231,6 +243,18 @@ document.addEventListener("DOMContentLoaded", function () {
       cal_req_msg_start: "Hi, I would like to ask for availability from",
       cal_req_msg_end: "to",
       cal_busy: '"Busy"',
+      faq_title: "Frequently Asked Questions",
+      faq_checkin_q: "What are the Check-in and Check-out times?",
+      faq_checkin_a:
+        "Check-in is available from 3:00 PM onwards (we often offer self check-in). Check-out is required by 10:00 AM to allow for cleaning.",
+      faq_linen_q: "Do you provide bed linen and towels?",
+      faq_linen_a:
+        "Yes, we provide a complete set of bed linen and towels for each guest upon arrival.",
+      faq_parking_q: "Is there parking?",
+      faq_parking_a:
+        "Yes, there is free street parking right in front of the property and in adjacent streets.",
+      guide_promo: "Want to discover the best restaurants and secret beaches?",
+      guide_link: "Ask us for our local guide after booking!",
     },
     fr: {
       nav_home: "Accueil",
@@ -341,6 +365,19 @@ document.addEventListener("DOMContentLoaded", function () {
       cal_req_msg_start: "Bonjour, je voudrais demander la disponibilité du",
       cal_req_msg_end: "au",
       cal_busy: '"Occupé"',
+      faq_title: "Foire aux questions (FAQ)",
+      faq_checkin_q: "Quels sont les horaires d'arrivée et de départ ?",
+      faq_checkin_a:
+        "L'arrivée est possible à partir de 15h00 (nous proposons souvent l'arrivée autonome). Le départ est requis avant 10h00 pour permettre le nettoyage.",
+      faq_linen_q: "Fournissez-vous les draps et les serviettes ?",
+      faq_linen_a:
+        "Oui, nous fournissons un jeu complet de draps et de serviettes pour chaque invité à l'arrivée.",
+      faq_parking_q: "Y a-t-il un parking ?",
+      faq_parking_a:
+        "Oui, il y a un parking gratuit dans la rue juste devant la propriété et dans les rues adjacentes.",
+      guide_promo:
+        "Vous voulez découvrir les meilleurs restaurants et les plages secrètes ?",
+      guide_link: "Demandez-nous notre guide local après la réservation !",
     },
     de: {
       nav_home: "Startseite",
@@ -452,6 +489,20 @@ document.addEventListener("DOMContentLoaded", function () {
       cal_req_msg_start: "Hallo, ich möchte die Verfügbarkeit vom",
       cal_req_msg_end: "bis zum",
       cal_busy: '"Belegt"',
+      faq_title: "Häufig gestellte Fragen (FAQ)",
+      faq_checkin_q: "Wie sind die Check-in- und Check-out-Zeiten?",
+      faq_checkin_a:
+        "Der Check-in ist ab 15:00 Uhr möglich (oft bieten wir Self-Check-in an). Der Check-out muss bis 10:00 Uhr erfolgen, um die Reinigung zu ermöglichen.",
+      faq_linen_q: "Stellen Sie Bettwäsche und Handtücher zur Verfügung?",
+      faq_linen_a:
+        "Ja, wir stellen bei der Ankunft für jeden Gast ein komplettes Set an Bettwäsche und Handtüchern bereit.",
+      faq_parking_q: "Gibt es Parkplätze?",
+      faq_parking_a:
+        "Ja, es gibt kostenlose Parkplätze an der Straße direkt vor der Unterkunft und in den angrenzenden Straßen.",
+      guide_promo:
+        "Möchten Sie die besten Restaurants und geheimen Strände entdecken?",
+      guide_link:
+        "Fragen Sie uns nach der Buchung nach unserem lokalen Reiseführer!",
     },
   };
 
