@@ -876,8 +876,8 @@ document.addEventListener("DOMContentLoaded", function () {
         initialView: "dayGridMonth",
         locale: currentLang,
         headerToolbar: {
-          left: "prev,next",
-          center: "title",
+          left: "",
+          center: "prev title next",
           right: "today",
         },
         height: "auto",

@@ -5,6 +5,7 @@
 @source "../../public/js/script.js";
 @source "../../public/lascia-recensione.html";
 @source "../../public/404.html";
+@source "../../public/admin.html";
 
 /* --- IL TUO CSS PERSONALIZZATO --- */
 
@@ -257,30 +258,36 @@ html {
 @media (max-width: 640px) {
   /* Cambiamo l'ordine: Frecce e Oggi sulla prima riga, Titolo sotto */
 
+  /* Container Toolbar: Centra tutto */
   .fc .fc-header-toolbar {
-    justify-content: center !important; /* Centra tutto */
-  }
-
-  /* Frecce (Sinistra) -> Ordine 1 */
-  .fc .fc-toolbar-chunk:nth-child(1) {
-    order: 1;
-  }
-
-  /* Tasto Oggi (Destra) -> Ordine 2 */
-  .fc .fc-toolbar-chunk:nth-child(3) {
-    order: 2;
-  }
-
-  /* Titolo (Centro) -> Ordine 3 (va a capo sotto) */
-  .fc .fc-toolbar-chunk:nth-child(2) {
-    order: 3;
-    width: 100% !important; /* Occupa tutta la riga sotto */
     justify-content: center !important;
-    margin-top: 0.5rem !important; /* Spazio sopra il titolo */
+    gap: 0.5rem !important; /* Un po' di spazio extra */
   }
 
+  /* 1. Chunk Sinistro (Vuoto perché left: ""): LO NASCONDIAMO */
+  .fc .fc-toolbar-chunk:nth-child(1) {
+    display: none !important;
+  }
+
+  /* 2. Chunk Centrale (Prev + Titolo + Next): VA SOPRA (Order 1) */
+  .fc .fc-toolbar-chunk:nth-child(2) {
+    order: 1; /* Primo in alto */
+    width: 100% !important; /* Forza l'elemento ad occupare tutta la riga */
+    justify-content: center !important;
+    margin-bottom: 0.5rem !important; /* Spazio per staccarlo dal bottone sotto */
+    margin-top: 0 !important;
+  }
+
+  /* 3. Chunk Destro (Oggi): VA SOTTO (Order 2) */
+  .fc .fc-toolbar-chunk:nth-child(3) {
+    order: 2; /* Secondo in basso */
+    width: 100% !important;
+    justify-content: center !important;
+  }
+
+  /* Opzionale: Stili per rendere il titolo carino su mobile */
   .fc .fc-toolbar-title {
-    font-size: 1.1rem !important; /* Titolo leggermente più piccolo */
+    font-size: 1.1rem !important;
   }
 
   /* Riduciamo l'altezza delle celle per vedere più calendario senza scrollare troppo */
