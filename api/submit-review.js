@@ -22,7 +22,24 @@ export default async function handler(req, res) {
   try {
     //#region Input Validation
     const { nome, voto, messaggio, dataSoggiorno } = req.body;
+    if (nome.length > 50) {
+      return res
+        .status(400)
+        .json({ message: "Nome troppo lungo (max 50 caratteri)." });
+    }
+    if (messaggio.length > 1000) {
+      return res
+        .status(400)
+        .json({ message: "Messaggio troppo lungo (max 1000 caratteri)." });
+    }
 
+    const votoInt = parseInt(voto);
+    if (isNaN(votoInt) || votoInt < 1 || votoInt > 5) {
+      return res.status(400).json({ message: "Voto non valido." });
+    }
+
+    const cleanMessage = messaggio.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    const cleanName = nome.replace(/</g, "&lt;").replace(/>/g, "&gt;");
     if (!nome || !voto || !messaggio || !dataSoggiorno) {
       return res
         .status(400)
@@ -66,11 +83,11 @@ export default async function handler(req, res) {
     //#region Save Data
     // Column names MUST match Google Sheet headers
     await sheet.addRow({
-      "Nome e Cognome": nome,
-      Valutazione: voto,
-      Recensione: messaggio,
+      "Nome e Cognome": cleanName,
+      Valutazione: votoInt,
+      Recensione: cleanMessage,
       "Data Soggiorno": dataSoggiorno,
-      Approvato: "NO", // Default: not approved
+      Approvato: "NO",
     });
     //#endregion
 

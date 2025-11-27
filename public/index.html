@@ -2,6 +2,15 @@
 <html lang="it">
   <head>
     <meta charset="UTF-8" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; 
+  script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://accounts.google.com https://apis.google.com https://npmcdn.com https://www.googletagmanager.com; 
+  style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://accounts.google.com; 
+  img-src 'self' data: https://perla-bianca.vercel.app https://lh3.googleusercontent.com https://*.googleapis.com; 
+  frame-src 'self' https://accounts.google.com https://content.googleapis.com http://googleusercontent.com https://www.google.com; 
+  connect-src 'self' https://accounts.google.com https://api.open-meteo.com https://*.googleapis.com;"
+    />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Casa Vacanze al Mare</title>
     <meta property="og:type" content="website" />
@@ -850,11 +859,8 @@
       </button>
     </div>
     <script>
-      if (!localStorage.getItem("cookiesAccepted")) {
-        document.getElementById("cookieBanner").classList.remove("hidden");
-      }
+      document.getElementById("cookieBanner").classList.remove("hidden");
       document.getElementById("acceptCookies").addEventListener("click", () => {
-        localStorage.setItem("cookiesAccepted", "true");
         document.getElementById("cookieBanner").classList.add("hidden");
       });
     </script>
