@@ -4,20 +4,26 @@ document.addEventListener("DOMContentLoaded", function () {
   // ============================================================
 
   // 1. RILEVAMENTO AUTOMATICO LINGUA
-
   let currentLang = localStorage.getItem("preferredLang");
 
-  // Se non ha scelto, controlla la lingua del browser/telefono
   if (!currentLang) {
-    const userLang = navigator.language || navigator.userLanguage;
-    // Se la lingua del dispositivo inizia con 'it', usa italiano.
-    // Per QUALSIASI altra lingua (francese, tedesco, cinese...), usa Inglese.
-    currentLang = userLang.startsWith("it") ? "it" : "en";
+    const userLang = (
+      navigator.language || navigator.userLanguage
+    ).toLowerCase();
+    if (userLang.startsWith("it")) {
+      currentLang = "it";
+    } else if (userLang.startsWith("fr")) {
+      currentLang = "fr";
+    } else if (userLang.startsWith("de")) {
+      currentLang = "de";
+    } else {
+      currentLang = "en"; // Default Inglese per tutti gli altri
+    }
   }
+
   // 2. Dizionario Completo delle Traduzioni
   const translations = {
     it: {
-      // Navigazione
       nav_home: "Home",
       nav_servizi: "Servizi",
       nav_galleria: "Galleria",
@@ -27,13 +33,9 @@ document.addEventListener("DOMContentLoaded", function () {
       nav_dove: "Dove Siamo",
       nav_chisiamo: "Chi Siamo",
       nav_contatti: "Contatti",
-
-      // Hero
       hero_title: "La Tua Casa al Mare",
       hero_subtitle: "Per una vacanza indimenticabile",
       hero_cta: "Prenota Ora",
-
-      // Servizi
       servizi_title: "Comfort e Relax a Portata di Mano",
       serv_wifi_title: "Wi-Fi Gratuito",
       serv_wifi_desc: "Connettiti facilmente durante il tuo soggiorno.",
@@ -49,11 +51,7 @@ document.addEventListener("DOMContentLoaded", function () {
       serv_beds_desc: "Ospita fino a cinque persone in camere spaziose.",
       serv_beach_title: "Accesso alla Spiaggia",
       serv_beach_desc: "Spiaggia dorata a pochi passi dalla casa.",
-
-      // Galleria
       gallery_title: "Galleria",
-
-      // Prezzi
       prezzi_title: "Prezzi & Disponibilità",
       tab_stagione: "Stagione",
       tab_prezzo: "Prezzo a Notte",
@@ -62,20 +60,12 @@ document.addEventListener("DOMContentLoaded", function () {
       stagione_bassa: "Bassa Stagione (Ottobre - Maggio)",
       prezzi_disclaimer:
         "Per verificare le date disponibili e prenotare, compila il modulo nella sezione Contatti.",
-
-      // Calendario
       calendar_title: "Verifica Disponibilità",
       calendar_sub: "Le date segnate in rosso non sono disponibili.",
-
-      // Recensioni
       reviews_title: "Cosa Dicono i Nostri Ospiti",
       reviews_sub: "Hai soggiornato qui di recente?",
       reviews_btn: "Scrivi una Recensione",
-
-      // Dove Siamo
       location_title: "Dove Siamo",
-
-      // Chi Siamo
       about_sup: "L'Ospitalità",
       about_title: "Benvenuti a Casa Vostra",
       about_p1:
@@ -84,15 +74,11 @@ document.addEventListener("DOMContentLoaded", function () {
         "Siamo innamorati della nostra città e saremo felici di consigliarvi i ristoranti migliori e le spiagge più nascoste.",
       superhost_label: "Superhost Approvato",
       superhost_desc: "Risposte veloci e massima cura",
-
-      // Contatti
       contact_title: "Contattaci",
       placeholder_nome: "Nome",
       placeholder_email: "Email",
       placeholder_msg: "Messaggio",
       btn_send: "Invia",
-
-      // Footer
       footer_desc:
         "La tua oasi di relax a due passi dal mare. Prenota oggi la tua vacanza da sogno in totale autonomia.",
       footer_explore: "Esplora",
@@ -105,21 +91,15 @@ document.addEventListener("DOMContentLoaded", function () {
       info_pets: "Animali ammessi (su richiesta)",
       footer_rights: "Tutti i diritti riservati.",
       footer_admin: "Area Riservata",
-
-      // Cookie
       cookie_text:
         "Utilizziamo cookie tecnici per garantirti la migliore esperienza. Continuando a navigare accetti l'uso dei cookie.",
       cookie_btn: "Ho capito",
-
-      // 404 PAGE
       "404_meta_title": "Pagina non trovata - Perla Bianca",
       "404_title": "404",
       "404_subtitle": "Ops! Ti sei perso?",
       "404_text":
         "Sembra che questa stanza non esista nella nostra casa vacanze.",
       "404_btn": "Torna alla Home",
-
-      // LASCIA RECENSIONE PAGE
       review_page_title: "Lascia una Recensione - Perla Bianca",
       review_back_home: "Torna alla Home",
       review_form_title: "La tua opinione conta",
@@ -135,8 +115,6 @@ document.addEventListener("DOMContentLoaded", function () {
         "Cosa ti è piaciuto di più? Consiglieresti la casa?",
       review_btn_submit: "Pubblica Recensione",
       footer_copyright_simple: "© 2025 Perla Bianca Casa Vacanze",
-
-      // --- STRINGHE JS DINAMICHE ---
       js_email_invalid: "Inserisci un indirizzo email valido.",
       js_sending: "Invio in corso…",
       js_msg_success: "Messaggio inviato con successo! 😊",
@@ -147,9 +125,14 @@ document.addEventListener("DOMContentLoaded", function () {
       js_stay_date: "Soggiorno:",
       js_calendar_req: "Salve, vorrei chiedere disponibilità per il giorno",
       js_calendar_prompt: "Scorri al form contatti per inviare la richiesta.",
+      // Extra per tooltip calendario
+      cal_tooltip_title: "Date Selezionate",
+      cal_tooltip_btn: "Richiedi Disponibilità",
+      cal_req_msg_start: "Salve, vorrei chiedere disponibilità dal",
+      cal_req_msg_end: "al",
+      cal_busy: '"Occupato"',
     },
     en: {
-      // Nav
       nav_home: "Home",
       nav_servizi: "Services",
       nav_galleria: "Gallery",
@@ -159,13 +142,9 @@ document.addEventListener("DOMContentLoaded", function () {
       nav_dove: "Location",
       nav_chisiamo: "About Us",
       nav_contatti: "Contact",
-
-      // Hero
       hero_title: "Your Home by the Sea",
       hero_subtitle: "For an unforgettable holiday",
       hero_cta: "Book Now",
-
-      // Services
       servizi_title: "Comfort and Relax at Your Fingertips",
       serv_wifi_title: "Free Wi-Fi",
       serv_wifi_desc: "Stay connected easily during your stay.",
@@ -179,11 +158,7 @@ document.addEventListener("DOMContentLoaded", function () {
       serv_beds_desc: "Accommodates up to five people in spacious rooms.",
       serv_beach_title: "Beach Access",
       serv_beach_desc: "Golden beach just a few steps from the house.",
-
-      // Gallery
       gallery_title: "Gallery",
-
-      // Prices
       prezzi_title: "Prices & Availability",
       tab_stagione: "Season",
       tab_prezzo: "Price per Night",
@@ -192,20 +167,12 @@ document.addEventListener("DOMContentLoaded", function () {
       stagione_bassa: "Low Season (October - May)",
       prezzi_disclaimer:
         "To check available dates and book, fill out the form in the Contact section.",
-
-      // Calendar
       calendar_title: "Check Availability",
       calendar_sub: "Dates marked in red are unavailable.",
-
-      // Reviews
       reviews_title: "What Our Guests Say",
       reviews_sub: "Have you stayed here recently?",
       reviews_btn: "Write a Review",
-
-      // Location
       location_title: "Location",
-
-      // About
       about_sup: "Hospitality",
       about_title: "Welcome to Your Home",
       about_p1:
@@ -214,15 +181,11 @@ document.addEventListener("DOMContentLoaded", function () {
         "We are in love with our city and will be happy to recommend the best restaurants and hidden beaches.",
       superhost_label: "Approved Superhost",
       superhost_desc: "Fast responses and maximum care",
-
-      // Contact
       contact_title: "Contact Us",
       placeholder_nome: "Name",
       placeholder_email: "Email",
       placeholder_msg: "Message",
       btn_send: "Send",
-
-      // Footer
       footer_desc:
         "Your oasis of relaxation just steps from the sea. Book your dream vacation independently today.",
       footer_explore: "Explore",
@@ -235,20 +198,14 @@ document.addEventListener("DOMContentLoaded", function () {
       info_pets: "Pets allowed (on request)",
       footer_rights: "All rights reserved.",
       footer_admin: "Admin Area",
-
-      // Cookie
       cookie_text:
         "We use technical cookies to ensure the best experience. By continuing to browse, you accept the use of cookies.",
       cookie_btn: "Got it",
-
-      // 404 PAGE
       "404_meta_title": "Page Not Found - Perla Bianca",
       "404_title": "404",
       "404_subtitle": "Oops! Are you lost?",
       "404_text": "It seems this room doesn't exist in our holiday home.",
       "404_btn": "Back to Home",
-
-      // LASCIA RECENSIONE PAGE
       review_page_title: "Leave a Review - Perla Bianca",
       review_back_home: "Back to Home",
       review_form_title: "Your opinion matters",
@@ -263,8 +220,6 @@ document.addEventListener("DOMContentLoaded", function () {
         "What did you like the most? Would you recommend the house?",
       review_btn_submit: "Publish Review",
       footer_copyright_simple: "© 2025 Perla Bianca Vacation Rental",
-
-      // --- JS STRINGS ---
       js_email_invalid: "Please enter a valid email address.",
       js_sending: "Sending...",
       js_msg_success: "Message sent successfully! 😊",
@@ -275,27 +230,252 @@ document.addEventListener("DOMContentLoaded", function () {
       js_stay_date: "Stay:",
       js_calendar_req: "Hi, I would like to ask for availability for the day",
       js_calendar_prompt: "Scroll to contact form to send request.",
+      cal_tooltip_title: "Selected Dates",
+      cal_tooltip_btn: "Request Availability",
+      cal_req_msg_start: "Hi, I would like to ask for availability from",
+      cal_req_msg_end: "to",
+      cal_busy: '"Busy"',
+    },
+    fr: {
+      nav_home: "Accueil",
+      nav_servizi: "Services",
+      nav_galleria: "Galerie",
+      nav_prezzi: "Tarifs",
+      nav_calendario: "Calendrier",
+      nav_recensioni: "Avis",
+      nav_dove: "Emplacement",
+      nav_chisiamo: "À Propos",
+      nav_contatti: "Contact",
+      hero_title: "Votre Maison à la Mer",
+      hero_subtitle: "Pour des vacances inoubliables",
+      hero_cta: "Réserver",
+      servizi_title: "Confort et Détente à Portée de Main",
+      serv_wifi_title: "Wi-Fi Gratuit",
+      serv_wifi_desc: "Restez connecté facilement pendant votre séjour.",
+      serv_centro_title: "À trois minutes du centre",
+      serv_centro_desc:
+        "Rejoignez le cœur de la ville en seulement 3 minutes à pied.",
+      serv_ac_title: "Climatisation",
+      serv_ac_desc: "Environnements frais et confortables en toute saison.",
+      serv_kitchen_title: "Cuisine Équipée",
+      serv_kitchen_desc: "Tout ce qu'il faut pour préparer vos plats préférés.",
+      serv_beds_title: "Jusqu'à cinq couchages",
+      serv_beds_desc:
+        "Accueille jusqu'à cinq personnes dans des chambres spacieuses.",
+      serv_beach_title: "Accès à la Plage",
+      serv_beach_desc: "Plage dorée à quelques pas de la maison.",
+      gallery_title: "Galerie",
+      prezzi_title: "Tarifs & Disponibilité",
+      tab_stagione: "Saison",
+      tab_prezzo: "Prix par Nuit",
+      stagione_alta: "Haute Saison (Juillet - Août)",
+      stagione_media: "Moyenne Saison (Juin, Septembre)",
+      stagione_bassa: "Basse Saison (Octobre - Mai)",
+      prezzi_disclaimer:
+        "Pour vérifier les dates disponibles et réserver, remplissez le formulaire dans la section Contact.",
+      calendar_title: "Vérifier la Disponibilité",
+      calendar_sub: "Les dates marquées en rouge ne sont pas disponibles.",
+      reviews_title: "Ce que disent nos hôtes",
+      reviews_sub: "Vous avez séjourné ici récemment ?",
+      reviews_btn: "Écrire un avis",
+      location_title: "Où sommes-nous",
+      about_sup: "L'Hospitalité",
+      about_title: "Bienvenue chez vous",
+      about_p1:
+        "Bonjour ! Nous sommes Riccardo et Maria. Nous avons rénové 'Perla Bianca' en pensant exactement à ce que nous recherchons lorsque nous voyageons : une propreté impeccable, un confort moderne et cette chaleur que seule une vraie maison peut offrir.",
+      about_p2:
+        "Nous sommes amoureux de notre ville et nous serons heureux de vous recommander les meilleurs restaurants et les plages les plus secrètes.",
+      superhost_label: "Superhost Approuvé",
+      superhost_desc: "Réponses rapides et soin maximal",
+      contact_title: "Contactez-nous",
+      placeholder_nome: "Nom",
+      placeholder_email: "Email",
+      placeholder_msg: "Message",
+      btn_send: "Envoyer",
+      footer_desc:
+        "Votre oasis de détente à deux pas de la mer. Réservez dès aujourd'hui vos vacances de rêve en toute autonomie.",
+      footer_explore: "Explorer",
+      footer_gallery: "Galerie Photos",
+      footer_reviews: "Nos Avis",
+      footer_info: "Info",
+      info_checkin: "Check-in : dès 15h00",
+      info_checkout: "Check-out : avant 10h00",
+      info_parking: "Parking disponible",
+      info_pets: "Animaux admis (sur demande)",
+      footer_rights: "Tous droits réservés.",
+      footer_admin: "Espace Réservé",
+      cookie_text:
+        "Nous utilisons des cookies techniques pour vous garantir la meilleure expérience. En continuant à naviguer, vous acceptez l'utilisation de cookies.",
+      cookie_btn: "J'ai compris",
+      "404_meta_title": "Page non trouvée - Perla Bianca",
+      "404_title": "404",
+      "404_subtitle": "Oups ! Vous êtes perdu ?",
+      "404_text":
+        "Il semble que cette pièce n'existe pas dans notre maison de vacances.",
+      "404_btn": "Retour à l'accueil",
+      review_page_title: "Laisser un avis - Perla Bianca",
+      review_back_home: "Retour à l'accueil",
+      review_form_title: "Votre opinion compte",
+      review_form_subtitle:
+        "Nous espérons que vous avez passé un séjour inoubliable.",
+      review_label_name: "Prénom et Nom",
+      review_placeholder_name: "Ex. Jean Dupont",
+      review_label_from: "Du",
+      review_label_to: "Au",
+      review_label_rating: "Note",
+      review_label_message: "Votre expérience",
+      review_placeholder_message:
+        "Qu'avez-vous le plus aimé ? Recommanderiez-vous la maison ?",
+      review_btn_submit: "Publier l'avis",
+      footer_copyright_simple: "© 2025 Perla Bianca Location de Vacances",
+      js_email_invalid: "Veuillez entrer une adresse email valide.",
+      js_sending: "Envoi en cours…",
+      js_msg_success: "Message envoyé avec succès ! 😊",
+      js_error: "Erreur : ",
+      js_loading_reviews: "Chargement des avis...",
+      js_no_reviews: "Aucun avis disponible pour le moment.",
+      js_host_response: "Réponse de l'hôte :",
+      js_stay_date: "Séjour :",
+      js_calendar_req:
+        "Bonjour, je voudrais demander la disponibilité pour le jour",
+      js_calendar_prompt:
+        "Faites défiler jusqu'au formulaire de contact pour envoyer la demande.",
+      cal_tooltip_title: "Dates Sélectionnées",
+      cal_tooltip_btn: "Demander Disponibilité",
+      cal_req_msg_start: "Bonjour, je voudrais demander la disponibilité du",
+      cal_req_msg_end: "au",
+      cal_busy: '"Occupé"',
+    },
+    de: {
+      nav_home: "Startseite",
+      nav_servizi: "Dienste",
+      nav_galleria: "Galerie",
+      nav_prezzi: "Preise",
+      nav_calendario: "Kalender",
+      nav_recensioni: "Bewertungen",
+      nav_dove: "Lage",
+      nav_chisiamo: "Über Uns",
+      nav_contatti: "Kontakt",
+      hero_title: "Ihr Zuhause am Meer",
+      hero_subtitle: "Für einen unvergesslichen Urlaub",
+      hero_cta: "Jetzt Buchen",
+      servizi_title: "Komfort und Entspannung",
+      serv_wifi_title: "Kostenloses WLAN",
+      serv_wifi_desc:
+        "Bleiben Sie während Ihres Aufenthalts einfach in Verbindung.",
+      serv_centro_title: "Drei Minuten vom Zentrum",
+      serv_centro_desc:
+        "Erreichen Sie das Herz der Stadt in nur 3 Minuten zu Fuß.",
+      serv_ac_title: "Klimaanlage",
+      serv_ac_desc: "Frische und komfortable Umgebung zu jeder Jahreszeit.",
+      serv_kitchen_title: "Volle ausgestattete Küche",
+      serv_kitchen_desc:
+        "Alles, was Sie brauchen, um Ihre Lieblingsgerichte zuzubereiten.",
+      serv_beds_title: "Bis zu fünf Schlafplätze",
+      serv_beds_desc: "Platz für bis zu fünf Personen in geräumigen Zimmern.",
+      serv_beach_title: "Strandzugang",
+      serv_beach_desc: "Goldener Strand nur wenige Schritte vom Haus entfernt.",
+      gallery_title: "Galerie",
+      prezzi_title: "Preise & Verfügbarkeit",
+      tab_stagione: "Saison",
+      tab_prezzo: "Preis pro Nacht",
+      stagione_alta: "Hochsaison (Juli - August)",
+      stagione_media: "Zwischensaison (Juni, September)",
+      stagione_bassa: "Nebensaison (Oktober - Mai)",
+      prezzi_disclaimer:
+        "Um verfügbare Daten zu prüfen und zu buchen, füllen Sie das Formular im Bereich Kontakt aus.",
+      calendar_title: "Verfügbarkeit Prüfen",
+      calendar_sub: "Rot markierte Daten sind nicht verfügbar.",
+      reviews_title: "Was unsere Gäste sagen",
+      reviews_sub: "Waren Sie kürzlich hier?",
+      reviews_btn: "Bewertung schreiben",
+      location_title: "Lage",
+      about_sup: "Gastfreundschaft",
+      about_title: "Willkommen zu Hause",
+      about_p1:
+        "Hallo! Wir sind Riccardo und Maria. Wir haben 'Perla Bianca' renoviert und dabei genau an das gedacht, was wir selbst auf Reisen suchen: makellose Sauberkeit, modernen Komfort und die Wärme, die nur ein echtes Zuhause bieten kann.",
+      about_p2:
+        "Wir lieben unsere Stadt und empfehlen Ihnen gerne die besten Restaurants und versteckten Strände.",
+      superhost_label: "Anerkannter Superhost",
+      superhost_desc: "Schnelle Antworten und maximale Sorgfalt",
+      contact_title: "Kontaktieren Sie uns",
+      placeholder_nome: "Name",
+      placeholder_email: "E-Mail",
+      placeholder_msg: "Nachricht",
+      btn_send: "Senden",
+      footer_desc:
+        "Ihre Oase der Entspannung nur wenige Schritte vom Meer entfernt. Buchen Sie noch heute Ihren Traumurlaub.",
+      footer_explore: "Erkunden",
+      footer_gallery: "Fotogalerie",
+      footer_reviews: "Über uns",
+      footer_info: "Info",
+      info_checkin: "Check-in: ab 15:00 Uhr",
+      info_checkout: "Check-out: bis 10:00 Uhr",
+      info_parking: "Parkplatz vorhanden",
+      info_pets: "Haustiere erlaubt (auf Anfrage)",
+      footer_rights: "Alle Rechte vorbehalten.",
+      footer_admin: "Reservierter Bereich",
+      cookie_text:
+        "Wir verwenden technische Cookies, um das beste Erlebnis zu gewährleisten. Durch Weiterblättern akzeptieren Sie die Verwendung von Cookies.",
+      cookie_btn: "Verstanden",
+      "404_meta_title": "Seite nicht gefunden - Perla Bianca",
+      "404_title": "404",
+      "404_subtitle": "Hoppla! Haben Sie sich verirrt?",
+      "404_text":
+        "Es scheint, dass dieser Raum in unserem Ferienhaus nicht existiert.",
+      "404_btn": "Zurück zur Startseite",
+      review_page_title: "Bewertung abgeben - Perla Bianca",
+      review_back_home: "Zurück zur Startseite",
+      review_form_title: "Ihre Meinung zählt",
+      review_form_subtitle:
+        "Wir hoffen, Sie hatten einen unvergesslichen Aufenthalt.",
+      review_label_name: "Vor- und Nachname",
+      review_placeholder_name: "Z.B. Max Mustermann",
+      review_label_from: "Von",
+      review_label_to: "Bis",
+      review_label_rating: "Bewertung",
+      review_label_message: "Ihre Erfahrung",
+      review_placeholder_message:
+        "Was hat Ihnen am besten gefallen? Würden Sie das Haus weiterempfehlen?",
+      review_btn_submit: "Bewertung veröffentlichen",
+      footer_copyright_simple: "© 2025 Perla Bianca Ferienwohnung",
+      js_email_invalid: "Bitte geben Sie eine gültige E-Mail-Adresse ein.",
+      js_sending: "Wird gesendet…",
+      js_msg_success: "Nachricht erfolgreich gesendet! 😊",
+      js_error: "Fehler: ",
+      js_loading_reviews: "Bewertungen werden geladen...",
+      js_no_reviews: "Noch keine Bewertungen verfügbar.",
+      js_host_response: "Antwort des Gastgebers:",
+      js_stay_date: "Aufenthalt:",
+      js_calendar_req:
+        "Hallo, ich möchte die Verfügbarkeit für den Tag anfragen",
+      js_calendar_prompt:
+        "Scrollen Sie zum Kontaktformular, um die Anfrage zu senden.",
+      cal_tooltip_title: "Ausgewählte Daten",
+      cal_tooltip_btn: "Verfügbarkeit anfragen",
+      cal_req_msg_start: "Hallo, ich möchte die Verfügbarkeit vom",
+      cal_req_msg_end: "bis zum",
+      cal_busy: '"Belegt"',
     },
   };
+
   const updateTodayBtnText = (lang) => {
     const btn = document.querySelector(".fc-today-button");
     if (btn) {
-      // .textContent cancella tutto quello che c'era prima e mette solo il nuovo testo
-      btn.textContent = lang === "it" ? "Oggi" : "Today";
-      // Assicuriamoci che la prima lettera sia maiuscola (se non lo fa il CSS)
+      if (lang === "it") btn.textContent = "Oggi";
+      else if (lang === "fr") btn.textContent = "Aujourd'hui";
+      else if (lang === "de") btn.textContent = "Heute";
+      else btn.textContent = "Today";
       btn.style.textTransform = "capitalize";
     }
   };
 
-  // Funzione Helper per ottenere traduzioni nel codice JS
   const t = (key) => translations[currentLang][key] || key;
 
-  // Funzione Cambio Lingua Globale
   window.changeLanguage = function (lang) {
     currentLang = lang;
     localStorage.setItem("preferredLang", lang);
 
-    // 1. Aggiorna testi HTML statici
     document.querySelectorAll("[data-i18n]").forEach((el) => {
       const key = el.getAttribute("data-i18n");
       if (translations[lang][key]) {
@@ -303,7 +483,6 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     });
 
-    // 2. Aggiorna Placeholders
     document.querySelectorAll("[data-i18n-placeholder]").forEach((el) => {
       const key = el.getAttribute("data-i18n-placeholder");
       if (translations[lang][key]) {
@@ -312,18 +491,15 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     if (window.calendar && typeof window.calendar.setOption === "function") {
-      // A. Aggiorna la lingua interna
       window.calendar.setOption("locale", lang);
-
-      // B. Aggiorna SUBITO il bottone visivamente
       updateTodayBtnText(lang);
     }
-    const busyString = lang === "it" ? '"Occupato"' : '"Busy"';
-    document.documentElement.style.setProperty("--busy-text", busyString);
+
+    // Aggiornamento CSS variabile per testo eventi calendario
+    document.documentElement.style.setProperty("--busy-text", t("cal_busy"));
     document.body.classList.remove("lang-loading");
   };
 
-  // Applica la lingua salvata all'avvio
   window.changeLanguage(currentLang);
 
   // Funzione di utilità per la SICUREZZA (Sanitizzazione XSS)
@@ -644,7 +820,7 @@ document.addEventListener("DOMContentLoaded", function () {
             <div class="group relative bg-white p-6 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 flex flex-col h-full">
               <div class="absolute top-4 right-6 text-8xl text-blue-50 font-serif opacity-50 select-none pointer-events-none group-hover:text-blue-100 transition-colors">”</div>
               <div class="flex items-center gap-4 mb-4 relative z-10">
-                <div class="w-12 h-12 rounded-full bg-gradient-to-br from-blue-50 to-blue-100 flex items-center justify-center text-blue-600 font-bold text-lg border border-blue-200 shadow-sm flex-shrink-0">
+                <div class="w-12 h-12 rounded-full bg-linear-to-br from-blue-50 to-blue-100 flex items-center justify-center text-blue-600 font-bold text-lg border border-blue-200 shadow-sm shrink-0">
                   ${initials}
                 </div>
                 <div>
@@ -653,7 +829,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 </div>
               </div>
 
-              <div class="relative z-10 flex-grow">
+              <div class="relative z-10 grow">
                 <p class="text-gray-600 leading-relaxed italic text-[0.95rem]">"${testo}"</p>
                 ${rispostaAdmin} 
               </div>
@@ -956,13 +1132,8 @@ document.addEventListener("DOMContentLoaded", function () {
             const tooltip = document.createElement("div");
             tooltip.className = "calendar-tooltip";
 
-            // Testi tradotti
-            const title =
-              currentLang === "it" ? "Date Selezionate" : "Selected Dates";
-            const btnText =
-              currentLang === "it"
-                ? "Richiedi Disponibilità"
-                : "Request Availability";
+            const title = t("cal_tooltip_title");
+            const btnText = t("cal_tooltip_btn");
             const rangeText = `${startStr} - ${endStr}`;
 
             tooltip.innerHTML = `
@@ -970,7 +1141,6 @@ document.addEventListener("DOMContentLoaded", function () {
               <p>${rangeText}</p>
               <button id="tooltipBtn">${btnText}</button>
             `;
-
             // Aggiungi al body per evitare problemi di overflow/z-index
             document.body.appendChild(tooltip);
 
@@ -1005,10 +1175,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 const contactSection = document.getElementById("contatti");
 
                 // Compila Messaggio
-                const msgText =
-                  currentLang === "it"
-                    ? `Salve, vorrei chiedere disponibilità dal ${startStr} al ${endStr}.`
-                    : `Hi, I would like to ask for availability from ${startStr} to ${endStr}.`;
+                // Compila Messaggio
+                const msgText = `${t("cal_req_msg_start")} ${startStr} ${t(
+                  "cal_req_msg_end"
+                )} ${endStr}.`;
 
                 if (msgInput) msgInput.value = msgText;
 
