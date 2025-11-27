@@ -21,7 +21,7 @@ export default async function handler(req, res) {
   // --- CONTROLLO CONFIGURAZIONE (Evita il crash 500 silenzioso) ---
   const CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
   const JWT_SECRET = process.env.JWT_SECRET;
-  const EMAIL_USER = process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL;
+  const EMAIL_USER = process.env.EMAIL_USER;
   const EMAIL_PASS = process.env.EMAIL_PASS;
 
   if (!JWT_SECRET || !EMAIL_USER || !EMAIL_PASS) {
@@ -87,12 +87,9 @@ export default async function handler(req, res) {
         await transporter.verify();
       } catch (smtpError) {
         console.error("Errore SMTP:", smtpError);
-        return res
-          .status(500)
-          .json({
-            error:
-              "Impossibile inviare email. Controlla le credenziali server.",
-          });
+        return res.status(500).json({
+          error: "Impossibile inviare email. Controlla le credenziali server.",
+        });
       }
 
       const otp = Math.floor(100000 + Math.random() * 900000).toString();
