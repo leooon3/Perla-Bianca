@@ -1,11 +1,10 @@
-// api/auth.js
 import { OAuth2Client } from "google-auth-library";
 import jwt from "jsonwebtoken";
 import nodemailer from "nodemailer";
 import crypto from "crypto";
 
 export default async function handler(req, res) {
-  // CORS Setup
+  //#region CORS Setup
   const allowedOrigins = [
     "https://perla-bianca.vercel.app",
     "http://localhost:3000",
@@ -17,21 +16,22 @@ export default async function handler(req, res) {
   res.setHeader("Access-Control-Allow-Methods", "POST,OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
   if (req.method === "OPTIONS") return res.status(200).end();
+  //#endregion
 
-  // --- CONTROLLO CONFIGURAZIONE (Evita il crash 500 silenzioso) ---
+  //#region Configuration Check
   const CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
   const JWT_SECRET = process.env.JWT_SECRET;
   const EMAIL_USER = process.env.EMAIL_USER;
   const EMAIL_PASS = process.env.EMAIL_PASS;
 
   if (!JWT_SECRET || !EMAIL_USER || !EMAIL_PASS) {
-    console.error("ERRORE CONFIGURAZIONE: Mancano variabili d'ambiente.");
+    console.error("CONFIGURATION ERROR: Missing environment variables.");
     return res.status(500).json({
-      error: "Errore server: Configurazione incompleta (Env Vars missing).",
+      error: "Server error: Incomplete configuration.",
     });
   }
 
-  // Lista Admin
+  // Admin Whitelist
   const ALLOWED_EMAILS = [
     "leooonericcardo@gmail.com",
     "adarte05@libero.it",
@@ -39,11 +39,12 @@ export default async function handler(req, res) {
     "a.leone911@gmail.com",
     "tonylyon686@gmail.com",
   ];
+  //#endregion
 
   try {
     const { action, email, token, code, hash, expires } = req.body;
 
-    // --- 1. LOGIN CON GOOGLE ---
+    //#region Google Login
     if (action === "google-login") {
       const client = new OAuth2Client(CLIENT_ID);
       const ticket = await client.verifyIdToken({
@@ -55,7 +56,7 @@ export default async function handler(req, res) {
       if (!ALLOWED_EMAILS.includes(userEmail)) {
         return res
           .status(403)
-          .json({ error: "Accesso negato: Email non autorizzata." });
+          .json({ error: "Access denied: Unauthorized email." });
       }
 
       const sessionToken = jwt.sign(
@@ -65,16 +66,15 @@ export default async function handler(req, res) {
       );
       return res.status(200).json({ token: sessionToken });
     }
+    //#endregion
 
-    // --- 2. INVIO CODICE OTP (EMAIL) ---
+    //#region Send OTP (Email)
     if (action === "send-otp") {
       const userEmail = email.toLowerCase();
 
-      // Controllo whitelist immediato
+      // Immediate whitelist check
       if (!ALLOWED_EMAILS.includes(userEmail)) {
-        return res
-          .status(403)
-          .json({ error: "Email non presente nella whitelist." });
+        return res.status(403).json({ error: "Email not in whitelist." });
       }
 
       const transporter = nodemailer.createTransport({
@@ -82,18 +82,18 @@ export default async function handler(req, res) {
         auth: { user: EMAIL_USER, pass: EMAIL_PASS },
       });
 
-      // Verifica connessione SMTP prima di procedere
+      // Verify SMTP connection
       try {
         await transporter.verify();
       } catch (smtpError) {
-        console.error("Errore SMTP:", smtpError);
+        console.error("SMTP Error:", smtpError);
         return res.status(500).json({
-          error: "Impossibile inviare email. Controlla le credenziali server.",
+          error: "Cannot send email. Check server credentials.",
         });
       }
 
       const otp = Math.floor(100000 + Math.random() * 900000).toString();
-      const expiration = Date.now() + 5 * 60 * 1000; // 5 minuti
+      const expiration = Date.now() + 5 * 60 * 1000; // 5 minutes
 
       const data = `${userEmail}.${otp}.${expiration}`;
       const signedHash = crypto
@@ -104,12 +104,12 @@ export default async function handler(req, res) {
       await transporter.sendMail({
         from: `"Admin Perla Bianca" <${EMAIL_USER}>`,
         to: userEmail,
-        subject: "Codice di Accesso Admin",
+        subject: "Admin Access Code",
         html: `<div style="font-family: sans-serif; padding: 20px; text-align: center;">
-                 <h2>Codice di Accesso</h2>
-                 <p>Il tuo codice è:</p>
+                 <h2>Access Code</h2>
+                 <p>Your code is:</p>
                  <h1 style="background: #eee; padding: 10px; border-radius: 5px; display: inline-block; letter-spacing: 5px;">${otp}</h1>
-                 <p>Valido per 5 minuti.</p>
+                 <p>Valid for 5 minutes.</p>
                </div>`,
       });
 
@@ -117,18 +117,16 @@ export default async function handler(req, res) {
         .status(200)
         .json({ hash: signedHash, expires: expiration, email: userEmail });
     }
+    //#endregion
 
-    // --- 3. VERIFICA CODICE OTP ---
+    //#region Verify OTP
     if (action === "verify-otp") {
-      // 1. Controlla la scadenza
+      // Check expiration
       if (Date.now() > parseInt(expires)) {
-        return res.status(400).json({ error: "Codice scaduto." });
+        return res.status(400).json({ error: "Code expired." });
       }
 
-      // 2. CORREZIONE: Forziamo l'email in minuscolo per corrispondere all'invio
       const normalizedEmail = email.toLowerCase();
-
-      // 3. Ricostruiamo la stringa esattamente come nel passo 1
       const data = `${normalizedEmail}.${code}.${expires}`;
 
       const calculatedHash = crypto
@@ -136,34 +134,22 @@ export default async function handler(req, res) {
         .update(data)
         .digest("hex");
 
-      // Debug (Opzionale: rimuovi in produzione se vuoi pulizia)
-      console.log("Hash ricevuto:", hash);
-      console.log("Hash calcolato:", calculatedHash);
-      console.log("Dati usati:", data);
-
       if (calculatedHash !== hash) {
-        return res
-          .status(400)
-          .json({ error: "Codice non valido (Hash mismatch)." });
+        return res.status(400).json({ error: "Invalid code (Hash mismatch)." });
       }
 
       const sessionToken = jwt.sign(
         { email: normalizedEmail, role: "admin" },
         JWT_SECRET,
-        {
-          expiresIn: "24h",
-        }
+        { expiresIn: "24h" }
       );
       return res.status(200).json({ token: sessionToken });
     }
+    //#endregion
 
-    return res.status(400).json({ error: "Azione sconosciuta" });
+    return res.status(400).json({ error: "Unknown action" });
   } catch (error) {
-    // Log dettagliato dell'errore nella console del server
     console.error("Auth Error CRITICAL:", error);
-    // Ritorna l'errore al client per capire cosa succede (rimuovere in produzione se necessario)
-    res
-      .status(500)
-      .json({ error: error.message || "Errore interno del server" });
+    res.status(500).json({ error: error.message || "Internal Server Error" });
   }
 }

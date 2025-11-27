@@ -3,20 +3,22 @@ import { JWT } from "google-auth-library";
 import { verifyAuth, cors } from "./_utils.js";
 
 export default async function handler(req, res) {
+  //#region CORS & Security
   if (cors(req, res)) return res.status(200).end();
 
-  // Verifica che l'utente sia loggato come Admin
+  // Verify Admin Login
   try {
     verifyAuth(req);
   } catch (err) {
-    return res.status(401).json({ error: "Non autorizzato" });
+    return res.status(401).json({ error: "Unauthorized" });
   }
 
   if (req.method !== "POST")
     return res.status(405).json({ error: "Method not allowed" });
+  //#endregion
 
   try {
-    // Autenticazione Google Sheets (Standard)
+    //#region Google Sheet Connection
     let privateKey = process.env.GOOGLE_PRIVATE_KEY;
     if (!privateKey.includes("BEGIN PRIVATE KEY")) {
       try {
@@ -39,20 +41,22 @@ export default async function handler(req, res) {
     await doc.loadInfo();
     const sheet = doc.sheetsByIndex[0];
     const rows = await sheet.getRows();
+    //#endregion
 
-    // Dati in arrivo dal frontend
+    //#region Save Reply Logic
     const { rowIndex, replyText } = req.body;
 
     if (rows[rowIndex]) {
-      // Aggiorna solo la colonna "Risposta"
+      // Update only the "Risposta" column
       rows[rowIndex].assign({ Risposta: replyText });
       await rows[rowIndex].save();
       return res.status(200).json({ success: true });
     } else {
-      throw new Error("Recensione non trovata");
+      throw new Error("Review not found");
     }
+    //#endregion
   } catch (error) {
-    console.error("Errore salvataggio risposta:", error);
+    console.error("Save Reply Error:", error);
     return res.status(500).json({ error: error.message });
   }
 }

@@ -2,9 +2,7 @@ import { GoogleSpreadsheet } from "google-spreadsheet";
 import { JWT } from "google-auth-library";
 
 export default async function handler(req, res) {
-  // ============================================================
-  // 1. CONFIGURAZIONE CORS & PREFLIGHT
-  // ============================================================
+  //#region CORS Setup
   const allowedOrigins = [
     "https://perla-bianca.vercel.app",
     "http://localhost:3000",
@@ -18,28 +16,25 @@ export default async function handler(req, res) {
 
   if (req.method === "OPTIONS") return res.status(200).end();
   if (req.method !== "POST")
-    return res.status(405).json({ message: "Solo POST" });
+    return res.status(405).json({ message: "POST only" });
+  //#endregion
 
   try {
-    // ============================================================
-    // 2. VALIDAZIONE DATI INPUT
-    // ============================================================
+    //#region Input Validation
     const { nome, voto, messaggio, dataSoggiorno } = req.body;
 
     if (!nome || !voto || !messaggio || !dataSoggiorno) {
       return res
         .status(400)
-        .json({ message: "Compila tutti i campi, incluse le date." });
+        .json({ message: "Please fill all fields, including dates." });
     }
+    //#endregion
 
-    // ============================================================
-    // 3. AUTENTICAZIONE GOOGLE & CARICAMENTO FOGLIO
-    // ============================================================
+    //#region Google Sheet Connection
     if (!process.env.GOOGLE_PRIVATE_KEY) {
-      throw new Error("Manca la variabile GOOGLE_PRIVATE_KEY su Vercel");
+      throw new Error("Missing GOOGLE_PRIVATE_KEY on Vercel");
     }
 
-    // Decodifica chiave privata (Base64 e newline)
     let privateKey;
     try {
       privateKey = Buffer.from(
@@ -47,7 +42,7 @@ export default async function handler(req, res) {
         "base64"
       ).toString("utf-8");
     } catch (e) {
-      throw new Error("La chiave su Vercel non è in formato Base64 valido");
+      throw new Error("Key on Vercel is not valid Base64");
     }
 
     if (privateKey.includes("\\n")) {
@@ -65,27 +60,25 @@ export default async function handler(req, res) {
       serviceAccountAuth
     );
     await doc.loadInfo();
-
-    // Selezioniamo il primo foglio (Recensioni)
     const sheet = doc.sheetsByIndex[0];
+    //#endregion
 
-    // ============================================================
-    // 4. SALVATAGGIO DATI
-    // ============================================================
-    // Le colonne nel foglio Google Sheets DEVONO corrispondere a queste chiavi
+    //#region Save Data
+    // Column names MUST match Google Sheet headers
     await sheet.addRow({
       "Nome e Cognome": nome,
       Valutazione: voto,
       Recensione: messaggio,
-      "Data Soggiorno": dataSoggiorno, // Formato custom "dal - al"
-      Approvato: "NO", // Default: non approvato
+      "Data Soggiorno": dataSoggiorno,
+      Approvato: "NO", // Default: not approved
     });
 
     return res.status(200).json({ success: true });
+    //#endregion
   } catch (error) {
-    console.error("Errore API Submit Review:", error);
+    console.error("Submit Review API Error:", error);
     return res.status(500).json({
-      message: "Errore interno server",
+      message: "Internal Server Error",
       error: error.message,
     });
   }

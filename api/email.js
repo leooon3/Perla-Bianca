@@ -1,9 +1,7 @@
 import nodemailer from "nodemailer";
 
 export default async function handler(req, res) {
-  // ============================================================
-  // 1. CONFIGURAZIONE CORS & PREFLIGHT
-  // ============================================================
+  //#region CORS & Preflight
   res.setHeader("Access-Control-Allow-Credentials", true);
   const allowedOrigins = [
     "https://perla-bianca.vercel.app",
@@ -30,33 +28,31 @@ export default async function handler(req, res) {
   if (req.method !== "POST") {
     return res.status(405).json({ message: "Method Not Allowed" });
   }
+  //#endregion
 
-  // ============================================================
-  // 2. ESTRAZIONE DATI & VALIDAZIONE
-  // ============================================================
+  //#region Data Extraction & Validation
   const { nome, email, messaggio, honeypot } = req.body;
 
-  // Controllo Anti-Spam (Honeypot)
+  // Anti-Spam Check (Honeypot)
   if (honeypot) {
-    // Rispondiamo "ok" per ingannare il bot, ma non inviamo nulla.
-    return res.status(200).json({ message: "Email inviata con successo" });
+    // Return OK to fool the bot, but do not send anything
+    return res.status(200).json({ message: "Email sent successfully" });
   }
 
-  // Validazione Campi Vuoti
+  // Validate Empty Fields
   if (!nome || !email || !messaggio) {
-    return res.status(400).json({ message: "Tutti i campi sono obbligatori" });
+    return res.status(400).json({ message: "All fields are required" });
   }
 
-  // Validazione Formato Email
+  // Validate Email Format
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   if (!emailRegex.test(email)) {
-    return res.status(400).json({ message: "Indirizzo email non valido." });
+    return res.status(400).json({ message: "Invalid email address." });
   }
+  //#endregion
 
   try {
-    // ============================================================
-    // 3. CONFIGURAZIONE TRASPORTO EMAIL (Nodemailer)
-    // ============================================================
+    //#region Nodemailer Configuration
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
@@ -64,59 +60,60 @@ export default async function handler(req, res) {
         pass: process.env.EMAIL_PASS,
       },
     });
+    //#endregion
 
-    // Configura la mail per l'ADMIN
+    //#region Email Templates
+    // Admin Notification
     const adminMailOptions = {
       from: `"${nome}" <${process.env.EMAIL_USER}>`,
       to: process.env.EMAIL_TO || process.env.EMAIL_USER,
       replyTo: email,
-      subject: `Nuovo messaggio dal sito da: ${nome}`,
-      text: `Hai ricevuto un nuovo messaggio:\n\nNome: ${nome}\nEmail: ${email}\n\nMessaggio:\n${messaggio}`,
+      subject: `New website message from: ${nome}`,
+      text: `You received a new message:\n\nName: ${nome}\nEmail: ${email}\n\nMessage:\n${messaggio}`,
       html: `
-        <h3>Nuovo messaggio da Perla Bianca</h3>
-        <p><strong>Nome:</strong> ${nome}</p>
+        <h3>New message from Perla Bianca</h3>
+        <p><strong>Name:</strong> ${nome}</p>
         <p><strong>Email:</strong> ${email}</p>
-        <p><strong>Messaggio:</strong></p>
+        <p><strong>Message:</strong></p>
         <blockquote style="background: #f9f9f9; padding: 10px; border-left: 5px solid #007bff;">
           ${messaggio.replace(/\n/g, "<br>")}
         </blockquote>
       `,
     };
 
-    // Configura la mail per il CLIENTE (Auto-reply)
+    // User Auto-reply
     const userMailOptions = {
       from: `"Perla Bianca" <${process.env.EMAIL_USER}>`,
       to: email,
-      subject: "Grazie per averci contattato - Perla Bianca",
+      subject: "Thank you for contacting us - Perla Bianca",
       html: `
         <div style="font-family: sans-serif; color: #333;">
-          <h2>Grazie ${nome}!</h2>
-          <p>Abbiamo ricevuto la tua richiesta e ti risponderemo il prima possibile.</p>
+          <h2>Thank you ${nome}!</h2>
+          <p>We have received your request and will respond as soon as possible.</p>
           <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;">
           <p style="font-size: 0.9em; color: #666;">
-            <strong>Riepilogo del tuo messaggio:</strong><br>
+            <strong>Your message summary:</strong><br>
             <em>${messaggio.replace(/\n/g, "<br>")}</em>
           </p>
           <br>
-          <p>A presto,<br><strong>Lo staff di Perla Bianca</strong></p>
+          <p>See you soon,<br><strong>Perla Bianca Staff</strong></p>
         </div>
       `,
     };
+    //#endregion
 
-    // ============================================================
-    // 4. INVIO EMAIL
-    // ============================================================
+    //#region Send Emails
     await Promise.all([
       transporter.sendMail(adminMailOptions),
       transporter.sendMail(userMailOptions),
     ]);
 
-    return res.status(200).json({ message: "Email inviate con successo" });
+    return res.status(200).json({ message: "Emails sent successfully" });
+    //#endregion
   } catch (error) {
-    console.error("Errore invio email:", error);
+    console.error("Email Sending Error:", error);
     return res.status(500).json({
-      message:
-        "Errore nell'invio della mail. Controlla l'indirizzo o riprova più tardi.",
+      message: "Error sending email. Check address or try again later.",
       error: error.message,
     });
   }

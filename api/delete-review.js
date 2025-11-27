@@ -3,12 +3,18 @@ import { JWT } from "google-auth-library";
 import { verifyAuth, cors } from "./_utils.js";
 
 export default async function handler(req, res) {
+  //#region CORS & Security
   if (cors(req, res)) return res.status(200).end();
 
   try {
-    verifyAuth(req); // Protezione: Solo admin
+    verifyAuth(req); // Security: Admin only
+  } catch (err) {
+    return res.status(401).json({ error: "Unauthorized" });
+  }
+  //#endregion
 
-    // Connessione Google Sheet
+  try {
+    //#region Google Sheet Connection
     let privateKey = process.env.GOOGLE_PRIVATE_KEY;
     if (!privateKey.includes("BEGIN PRIVATE KEY")) {
       try {
@@ -31,18 +37,20 @@ export default async function handler(req, res) {
     await doc.loadInfo();
     const sheet = doc.sheetsByIndex[0];
     const rows = await sheet.getRows();
+    //#endregion
 
+    //#region Delete Logic
     const { rowIndex } = req.body;
 
-    // Elimina la riga
     if (rows[rowIndex]) {
       await rows[rowIndex].delete();
       return res.status(200).json({ success: true });
     } else {
-      throw new Error("Recensione non trovata (forse già eliminata)");
+      throw new Error("Review not found (maybe already deleted)");
     }
+    //#endregion
   } catch (error) {
-    console.error("Errore Eliminazione:", error);
+    console.error("Delete Error:", error);
     return res.status(500).json({ error: error.message });
   }
 }

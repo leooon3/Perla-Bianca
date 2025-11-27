@@ -1,13 +1,14 @@
 import { google } from "googleapis";
 import { JWT } from "google-auth-library";
-import { verifyAuth, cors } from "./_utils.js"; // Importiamo i nuovi strumenti di sicurezza
+import { verifyAuth, cors } from "./_utils.js";
 
 export default async function handler(req, res) {
-  // 1. GESTIONE CORS STANDARD
+  //#region CORS
   if (cors(req, res)) return res.status(200).end();
+  //#endregion
 
   try {
-    // 2. AUTENTICAZIONE GOOGLE (Service Account)
+    //#region Google Authentication
     let privateKey = process.env.GOOGLE_PRIVATE_KEY;
     if (!privateKey.includes("BEGIN PRIVATE KEY")) {
       try {
@@ -26,11 +27,10 @@ export default async function handler(req, res) {
 
     const calendar = google.calendar({ version: "v3", auth });
     const calendarId = process.env.GOOGLE_CALENDAR_ID;
+    //#endregion
 
-    // ============================================================
-    // 3. METODO GET: PUBBLICO (Tutti possono leggere gli eventi)
-    // ============================================================
-    // Qui NON c'è "verifyAuth" perché il calendario deve essere visibile a tutti
+    //#region GET Method (Public)
+    // No verifyAuth here, calendar must be visible to everyone
     if (req.method === "GET") {
       const response = await calendar.events.list({
         calendarId,
@@ -42,41 +42,35 @@ export default async function handler(req, res) {
 
       const events = response.data.items.map((event) => ({
         id: event.id,
-        realTitle: event.summary, // Visibile nel JSON ma nascosto dalla UI pubblica
+        realTitle: event.summary, // Visible in JSON but hidden in public UI
         start: event.start.date || event.start.dateTime,
         end: event.end.date || event.end.dateTime,
         allDay: !event.start.dateTime,
         display: "background",
-        color: "#ef4444", // Questo renderà lo sfondo Rosso pieno
-        textColor: "black", // Questo renderà il testo Nero
+        color: "#ef4444", // Full Red Background
+        textColor: "black",
       }));
 
       return res.status(200).json(events);
     }
+    //#endregion
 
-    // ============================================================
-    // 4. METODI PROTETTI (POST / DELETE)
-    // ============================================================
-
-    // VERIFICA LOGIN: Blocca qui se l'utente non è autenticato
+    //#region Protected Methods (POST / DELETE)
+    // Auth Check
     try {
       verifyAuth(req);
     } catch (err) {
-      return res
-        .status(401)
-        .json({ error: "Non autorizzato. Effettua il login." });
+      return res.status(401).json({ error: "Unauthorized. Please login." });
     }
 
-    // Aggiungi Evento (Solo se login ok)
+    // Add Event
     if (req.method === "POST") {
-      // --- MODIFICATO: Estraiamo anche description ---
       const { start, end, title, description } = req.body;
 
       await calendar.events.insert({
         calendarId,
         requestBody: {
           summary: title || "Prenotazione",
-          // --- NUOVO: Passiamo la descrizione a Google ---
           description: description || "",
           start: { date: start },
           end: { date: end },
@@ -85,7 +79,7 @@ export default async function handler(req, res) {
       return res.status(200).json({ success: true });
     }
 
-    // Rimuovi Evento (Solo se login ok)
+    // Remove Event
     if (req.method === "DELETE") {
       const { eventId } = req.body;
       await calendar.events.delete({
@@ -94,8 +88,9 @@ export default async function handler(req, res) {
       });
       return res.status(200).json({ success: true });
     }
+    //#endregion
   } catch (error) {
-    console.error("Errore Calendar API:", error);
+    console.error("Calendar API Error:", error);
     return res.status(500).json({ error: error.message });
   }
 }

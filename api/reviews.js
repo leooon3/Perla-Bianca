@@ -2,9 +2,7 @@ import { GoogleSpreadsheet } from "google-spreadsheet";
 import { JWT } from "google-auth-library";
 
 export default async function handler(req, res) {
-  // ============================================================
-  // 1. CONFIGURAZIONE CORS & PREFLIGHT
-  // ============================================================
+  //#region CORS & Preflight
   const allowedOrigins = [
     "https://perla-bianca.vercel.app",
     "http://localhost:3000",
@@ -22,16 +20,15 @@ export default async function handler(req, res) {
     res.status(200).end();
     return;
   }
+  //#endregion
 
   try {
-    // ============================================================
-    // 2. AUTENTICAZIONE GOOGLE & CONNESSIONE FOGLIO
-    // ============================================================
+    //#region Google Auth & Sheet Connection
     if (!process.env.GOOGLE_PRIVATE_KEY || !process.env.GOOGLE_SHEET_ID) {
-      throw new Error("Configurazione Google mancante");
+      throw new Error("Missing Google Configuration");
     }
 
-    // Decodifica la chiave privata (gestione Base64 e newline)
+    // Decode private key (Handle Base64 and newlines)
     let privateKey = process.env.GOOGLE_PRIVATE_KEY;
     if (!privateKey.includes("BEGIN PRIVATE KEY")) {
       try {
@@ -54,14 +51,13 @@ export default async function handler(req, res) {
     );
 
     await doc.loadInfo();
-    const sheet = doc.sheetsByIndex[0]; // Assumiamo che le recensioni siano nel primo foglio
+    const sheet = doc.sheetsByIndex[0]; // Assuming reviews are in the first sheet
+    //#endregion
 
-    // ============================================================
-    // 3. LETTURA E FORMATTAZIONE DATI
-    // ============================================================
+    //#region Data Processing
     const rows = await sheet.getRows();
 
-    // Trasformiamo le righe grezze in un oggetto JSON pulito
+    // Transform raw rows into clean JSON
     const reviews = rows.map((row) => ({
       "Nome e Cognome": row.get("Nome e Cognome"),
       Valutazione: row.get("Valutazione"),
@@ -72,8 +68,9 @@ export default async function handler(req, res) {
     }));
 
     res.status(200).json(reviews);
+    //#endregion
   } catch (error) {
-    console.error("Errore API Recensioni:", error);
-    res.status(500).json({ error: "Impossibile recuperare le recensioni" });
+    console.error("Reviews API Error:", error);
+    res.status(500).json({ error: "Unable to retrieve reviews" });
   }
 }

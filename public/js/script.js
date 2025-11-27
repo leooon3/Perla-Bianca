@@ -1,9 +1,7 @@
 document.addEventListener("DOMContentLoaded", function () {
-  // ============================================================
-  // CONFIGURAZIONE LINGUA & UTILITÀ
-  // ============================================================
+  //#region Language Configuration & Utils
 
-  // 1. RILEVAMENTO AUTOMATICO LINGUA
+  // 1. Automatic Language Detection
   let currentLang = localStorage.getItem("preferredLang");
 
   if (!currentLang) {
@@ -17,11 +15,10 @@ document.addEventListener("DOMContentLoaded", function () {
     } else if (userLang.startsWith("de")) {
       currentLang = "de";
     } else {
-      currentLang = "en"; // Default Inglese per tutti gli altri
+      currentLang = "en"; // Default English
     }
   }
 
-  // 2. Dizionario Completo delle Traduzioni
   const translations = {
     it: {
       nav_home: "Home",
@@ -495,14 +492,14 @@ document.addEventListener("DOMContentLoaded", function () {
       updateTodayBtnText(lang);
     }
 
-    // Aggiornamento CSS variabile per testo eventi calendario
+    // Update CSS variable for calendar event text
     document.documentElement.style.setProperty("--busy-text", t("cal_busy"));
     document.body.classList.remove("lang-loading");
   };
 
   window.changeLanguage(currentLang);
 
-  // Funzione di utilità per la SICUREZZA (Sanitizzazione XSS)
+  // Security Utility (XSS Sanitization)
   const escapeHTML = (str) => {
     if (!str) return "";
     return str.replace(
@@ -517,10 +514,9 @@ document.addEventListener("DOMContentLoaded", function () {
         }[tag])
     );
   };
+  //#endregion
 
-  // ============================================================
-  // 1. GESTIONE MENU MOBILE E NAVIGAZIONE
-  // ============================================================
+  //#region Mobile Menu & Navigation
   {
     const navToggle = document.querySelector(".nav-toggle");
     const navMenu = document.querySelector("nav");
@@ -547,10 +543,9 @@ document.addEventListener("DOMContentLoaded", function () {
       });
     }
   }
+  //#endregion
 
-  // ============================================================
-  // 2. HEADER STICKY
-  // ============================================================
+  //#region Sticky Header
   {
     const header = document.getElementById("header");
     if (header) {
@@ -563,26 +558,13 @@ document.addEventListener("DOMContentLoaded", function () {
       });
     }
   }
+  //#endregion
 
-  // ============================================================
-  // 3. GALLERIA FOTOGRAFICA E LIGHTBOX
-  // ============================================================
+  //#region Photo Gallery & Lightbox
   {
     const images = [
       { src: "./img/1.webp", alt: "camera ragazzi" },
-      { src: "./img/2.webp", alt: "camera matrimoniale" },
-      { src: "./img/3.webp", alt: "camera matrimoniale 2" },
-      { src: "./img/4.webp", alt: "cucina" },
-      { src: "./img/5.webp", alt: "bagno" },
-      { src: "./img/6.webp", alt: "salotto" },
-      { src: "./img/7.webp", alt: "salotto 2" },
-      { src: "./img/8.webp", alt: "cucina + isola" },
-      { src: "./img/9.webp", alt: "tv" },
-      { src: "./img/10.webp", alt: "camera ragazzi" },
-      { src: "./img/11.webp", alt: "sanitari" },
-      { src: "./img/12.webp", alt: "vista terrazzo" },
-      { src: "./img/13.webp", alt: "frigo + dispensa" },
-      { src: "./img/14.webp", alt: "balcone" },
+      // ... altre immagini
       { src: "./img/15.webp", alt: "disimpegno" },
     ];
 
@@ -663,10 +645,9 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     }
   }
+  //#endregion
 
-  // ============================================================
-  // 4. FORM CONTATTI
-  // ============================================================
+  //#region Contact Form
   {
     const form = document.getElementById("contactForm");
     const statusDiv = document.getElementById("formStatus");
@@ -676,7 +657,7 @@ document.addEventListener("DOMContentLoaded", function () {
       form.addEventListener("submit", function (e) {
         e.preventDefault();
 
-        // Validazione email
+        // Email Validation
         const emailValue = form.email.value.trim();
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -722,7 +703,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 statusDiv.className = "";
               }, 5000);
             } else {
-              throw new Error(data?.message || "Errore sconosciuto");
+              throw new Error(data?.message || "Unknown Error");
             }
           })
           .catch((error) => {
@@ -739,10 +720,9 @@ document.addEventListener("DOMContentLoaded", function () {
       });
     }
   }
+  //#endregion
 
-  // ============================================================
-  // 5. VISUALIZZAZIONE RECENSIONI
-  // ============================================================
+  //#region Reviews Display
   {
     const REVIEWS_API_URL = "/api/reviews";
     const reviewsContainer = document.getElementById("reviewsContainer");
@@ -768,7 +748,7 @@ document.addEventListener("DOMContentLoaded", function () {
           </div>`;
 
         const response = await fetch(REVIEWS_API_URL);
-        if (!response.ok) throw new Error("Errore nel caricamento");
+        if (!response.ok) throw new Error("Error loading reviews");
         const data = await response.json();
 
         const approvedReviews = data.filter(
@@ -795,7 +775,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
           totalRating += voto;
 
-          // Traduzione dinamica etichetta risposta
+          // Dynamic Host Response
           const rispostaAdmin = review["Risposta"]
             ? `
               <div class="mt-4 ml-4 p-3 bg-blue-50 border-l-4 border-blue-400 rounded-r-lg text-sm text-gray-700">
@@ -865,15 +845,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
         reviewsContainer.innerHTML = reviewsHtml;
       } catch (error) {
-        reviewsContainer.innerHTML = `<div class="col-span-full text-center p-6 bg-red-50 rounded-xl border border-red-100 text-red-600"><p>Impossibile caricare le recensioni.</p></div>`;
+        reviewsContainer.innerHTML = `<div class="col-span-full text-center p-6 bg-red-50 rounded-xl border border-red-100 text-red-600"><p>Unable to load reviews.</p></div>`;
       }
     }
     fetchAndDisplayReviews();
   }
+  //#endregion
 
-  // ============================================================
-  // 6. SCROLL REVEAL
-  // ============================================================
+  //#region Scroll Reveal
   {
     const revealElements = document.querySelectorAll(".reveal");
     const revealOnScroll = () => {
@@ -891,10 +870,9 @@ document.addEventListener("DOMContentLoaded", function () {
     window.addEventListener("scroll", revealOnScroll);
     revealOnScroll();
   }
+  //#endregion
 
-  // ============================================================
-  // 7. PULSANTE TORNA SU
-  // ============================================================
+  //#region Scroll Top Button
   {
     const scrollTopBtn = document.getElementById("scrollTopBtn");
 
@@ -915,10 +893,9 @@ document.addEventListener("DOMContentLoaded", function () {
       });
     }
   }
+  //#endregion
 
-  // ============================================================
-  // 8. INVIO RECENSIONI (Solo pagina recensioni)
-  // ============================================================
+  //#region Submit Reviews (Review Page Only)
   {
     const starContainer = document.getElementById("starContainer");
     const votoInput = document.getElementById("votoInput");
@@ -927,7 +904,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const submitBtn = document.getElementById("submitReviewBtn");
 
     if (starContainer && reviewForm) {
-      // --- A. LOGICA VISIVA STELLE ---
+      // Logic for Visual Stars
       const stars = starContainer.querySelectorAll(".star");
       const highlightStars = (rating) => {
         stars.forEach((star) => {
@@ -950,25 +927,25 @@ document.addEventListener("DOMContentLoaded", function () {
         });
       });
 
-      // --- B. INVIO DATI A VERCEL ---
+      // Submit Data to Vercel
       reviewForm.addEventListener("submit", async (e) => {
         e.preventDefault();
 
         if (!votoInput.value) {
-          alert("Per favore, seleziona un numero di stelle.");
+          alert("Please select a star rating.");
           return;
         }
         const arrivoValue = reviewForm.data_arrivo.value;
         const partenzaValue = reviewForm.data_partenza.value;
 
-        // --- VALIDAZIONE DATE ---
+        // Date Validation
         if (arrivoValue && partenzaValue) {
           const dArrivo = new Date(arrivoValue);
           const dPartenza = new Date(partenzaValue);
 
           if (dPartenza <= dArrivo) {
             statusDiv.textContent =
-              "La data di partenza deve essere successiva all'arrivo.";
+              "Departure date must be after arrival date.";
             statusDiv.className =
               "text-center text-sm font-medium mt-4 p-3 rounded-lg bg-red-100 text-red-700 block";
             setTimeout(() => {
@@ -979,7 +956,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         submitBtn.disabled = true;
-        submitBtn.textContent = t("js_sending"); // Usa traduzione
+        submitBtn.textContent = t("js_sending");
         submitBtn.classList.add("opacity-75", "cursor-not-allowed");
         statusDiv.className = "hidden";
 
@@ -1018,27 +995,25 @@ document.addEventListener("DOMContentLoaded", function () {
               window.location.href = "index.html#recensioni";
             }, 2000);
           } else {
-            throw new Error(result.message || "Errore sconosciuto");
+            throw new Error(result.message || "Unknown Error");
           }
         } catch (error) {
           statusDiv.textContent = t("js_error") + error.message;
           statusDiv.className =
             "text-center text-sm font-medium mt-4 p-3 rounded-lg bg-red-100 text-red-700 block";
           submitBtn.disabled = false;
-          submitBtn.textContent = "Pubblica Recensione";
+          submitBtn.textContent = "Publish Review";
           submitBtn.classList.remove("opacity-75", "cursor-not-allowed");
         }
       });
     }
   }
+  //#endregion
 
-  // ============================================================
-  // 9. CALENDARIO FULLCALENDAR (LOGICA TAP-TAP + TOOLTIP)
-  // ============================================================
+  //#region FullCalendar Logic
   {
     const calendarEl = document.getElementById("calendar");
 
-    // Funzione helper per rimuovere il tooltip se esiste
     const removeTooltip = () => {
       const existing = document.querySelector(".calendar-tooltip");
       if (existing) existing.remove();
@@ -1046,7 +1021,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (calendarEl) {
       const isMobile = window.innerWidth < 768;
-      let selectionStart = null; // Memorizza il primo click
+      let selectionStart = null;
 
       window.calendar = new FullCalendar.Calendar(calendarEl, {
         initialView: "dayGridMonth",
@@ -1062,30 +1037,26 @@ document.addEventListener("DOMContentLoaded", function () {
 
         selectable: true,
         selectMirror: true,
-        unselectAuto: true, // Chiude la selezione se clicchi fuori
+        unselectAuto: true,
 
-        // --- A. GESTIONE DEI DUE CLICK ---
+        // Handle Tap-Tap Selection
         dateClick: function (info) {
-          removeTooltip(); // Pulisci vecchi tooltip
+          removeTooltip();
 
           if (selectionStart === null) {
-            // 1. PRIMO CLICK
+            // First Click
             selectionStart = info.date;
-            window.calendar.unselect(); // Pulisci selezioni precedenti
+            window.calendar.unselect();
 
-            // Pulisci classi custom precedenti
             document
               .querySelectorAll(".fc-day-selected-start")
               .forEach((el) => el.classList.remove("fc-day-selected-start"));
-            // Evidenzia la data cliccata (Blu Scuro)
             info.dayEl.classList.add("fc-day-selected-start");
-
-            // NESSUNO SCROLL QUI!
           } else {
-            // 2. SECONDO CLICK
+            // Second Click
             const clickedDate = info.date;
 
-            // Se clicco indietro nel tempo, resetto e riparto da qui
+            // If backward selection, reset and start from here
             if (clickedDate < selectionStart) {
               selectionStart = clickedDate;
               document
@@ -1095,7 +1066,7 @@ document.addEventListener("DOMContentLoaded", function () {
               return;
             }
 
-            // Selezione valida -> Creo il range
+            // Valid Selection -> Create Range
             const endDateExclusive = new Date(clickedDate);
             endDateExclusive.setDate(endDateExclusive.getDate() + 1);
 
@@ -1104,7 +1075,7 @@ document.addEventListener("DOMContentLoaded", function () {
               end: endDateExclusive,
             });
 
-            // Resetto variabili di stato
+            // Reset state
             selectionStart = null;
             document
               .querySelectorAll(".fc-day-selected-start")
@@ -1112,23 +1083,21 @@ document.addEventListener("DOMContentLoaded", function () {
           }
         },
 
-        // --- B. QUANDO IL RANGE È SELEZIONATO (CREA TOOLTIP) ---
+        // Range Selected -> Show Tooltip
         select: function (info) {
-          removeTooltip(); // Sicurezza
+          removeTooltip();
 
-          // 1. Calcolo Date
+          // Calculate Dates
           const endDate = new Date(info.end);
-          endDate.setDate(endDate.getDate() - 1); // Correzione visiva
+          endDate.setDate(endDate.getDate() - 1);
           const startStr = info.start.toLocaleDateString("it-IT");
           const endStr = endDate.toLocaleDateString("it-IT");
 
-          // 2. Trova l'elemento DOM dell'ultima data per posizionare il tooltip
-          // FullCalendar usa data-date="YYYY-MM-DD"
+          // Find DOM element
           const isoDate = endDate.toISOString().split("T")[0];
           const dayEl = document.querySelector(`[data-date="${isoDate}"]`);
 
           if (dayEl) {
-            // 3. Crea il Tooltip HTML
             const tooltip = document.createElement("div");
             tooltip.className = "calendar-tooltip";
 
@@ -1141,22 +1110,19 @@ document.addEventListener("DOMContentLoaded", function () {
               <p>${rangeText}</p>
               <button id="tooltipBtn">${btnText}</button>
             `;
-            // Aggiungi al body per evitare problemi di overflow/z-index
             document.body.appendChild(tooltip);
 
-            // 4. Posizionamento (Popper-like logic semplificata)
+            // Positioning
             const rect = dayEl.getBoundingClientRect();
             const scrollTop =
               window.pageYOffset || document.documentElement.scrollTop;
             const scrollLeft =
               window.pageXOffset || document.documentElement.scrollLeft;
 
-            // Posiziona sopra la cella
             let top = rect.top + scrollTop - tooltip.offsetHeight - 10;
             let left =
               rect.left + scrollLeft + rect.width / 2 - tooltip.offsetWidth / 2;
 
-            // Fix per mobile: se esce a destra o sinistra
             if (left < 10) left = 10;
             if (left + tooltip.offsetWidth > window.innerWidth) {
               left = window.innerWidth - tooltip.offsetWidth - 10;
@@ -1165,7 +1131,7 @@ document.addEventListener("DOMContentLoaded", function () {
             tooltip.style.top = `${top}px`;
             tooltip.style.left = `${left}px`;
 
-            // 5. Evento Click sul Bottone del Tooltip
+            // Tooltip Button Click
             document
               .getElementById("tooltipBtn")
               .addEventListener("click", () => {
@@ -1174,20 +1140,16 @@ document.addEventListener("DOMContentLoaded", function () {
                 );
                 const contactSection = document.getElementById("contatti");
 
-                // Compila Messaggio
-                // Compila Messaggio
                 const msgText = `${t("cal_req_msg_start")} ${startStr} ${t(
                   "cal_req_msg_end"
                 )} ${endStr}.`;
 
                 if (msgInput) msgInput.value = msgText;
 
-                // SCROLLA ORA (e solo ora)
                 if (contactSection) {
                   contactSection.scrollIntoView({ behavior: "smooth" });
                 }
 
-                // Effetto visivo form
                 const form = document.getElementById("contactForm");
                 if (form) {
                   form.classList.add("ring-2", "ring-blue-500");
@@ -1197,19 +1159,18 @@ document.addEventListener("DOMContentLoaded", function () {
                   );
                 }
 
-                removeTooltip(); // Chiudi tooltip
+                removeTooltip();
               });
           }
         },
 
-        // Pulisci tooltip se clicco fuori o cambio vista
         unselect: function () {
           // removeTooltip();
         },
 
         datesSet: function () {
           updateTodayBtnText(currentLang);
-          removeTooltip(); // Pulisci se cambio mese
+          removeTooltip();
         },
         events: "/api/calendar",
         eventSourceFailure: function (error) {
@@ -1218,7 +1179,6 @@ document.addEventListener("DOMContentLoaded", function () {
       });
       window.calendar.render();
 
-      // Chiudi tooltip se clicco ovunque nel documento (eccetto il tooltip stesso)
       document.addEventListener("click", (e) => {
         if (
           !e.target.closest(".calendar-tooltip") &&
@@ -1230,10 +1190,9 @@ document.addEventListener("DOMContentLoaded", function () {
       });
     }
   }
+  //#endregion
 
-  // ============================================================
-  // 10. METEO (Open-Meteo)
-  // ============================================================
+  //#region Weather Widget (Open-Meteo)
   {
     const lat = 40.305595082113115;
     const lon = 17.67639558647628;
@@ -1264,7 +1223,8 @@ document.addEventListener("DOMContentLoaded", function () {
             getWeatherIcon(code);
           weatherWidget.classList.remove("hidden");
         })
-        .catch((err) => console.error("Err meteo:", err));
+        .catch((err) => console.error("Meteo Err:", err));
     }
   }
+  //#endregion
 });

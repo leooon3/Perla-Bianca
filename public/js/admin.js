@@ -1,7 +1,6 @@
 // public/js/admin.js
 
-// === CONFIGURAZIONE ===
-// Incolla qui sotto il tuo Client ID preso da Google Cloud Console
+//#region Configuration
 const GOOGLE_CLIENT_ID =
   "980340338302-43hbupefo8neh0hbksdra5afdr95b6pj.apps.googleusercontent.com";
 
@@ -10,14 +9,9 @@ const app = {
   otpData: null,
 
   init: function () {
-    // Se l'utente non ha configurato l'ID, avvisiamo
     if (GOOGLE_CLIENT_ID.includes("INCOLLA_QUI")) {
-      console.error(
-        "ERRORE: Devi inserire il Google Client ID nel file js/admin.js"
-      );
-      alert(
-        "Configurazione mancante: Inserisci il Google Client ID nel codice."
-      );
+      console.error("ERROR: Insert Google Client ID in js/admin.js");
+      alert("Missing Configuration: Insert Google Client ID in code.");
       return;
     }
 
@@ -27,7 +21,7 @@ const app = {
       this.initGoogleLogin();
     }
 
-    // Listener Form Email
+    // Email Form Listener
     const emailForm = document.getElementById("emailAuthForm");
     if (emailForm) {
       emailForm.addEventListener("submit", (e) => {
@@ -49,7 +43,7 @@ const app = {
     const logoutBtn = document.getElementById("logoutBtn");
     if (logoutBtn) logoutBtn.addEventListener("click", () => this.logout());
 
-    // Listener Form Calendario
+    // Calendar Form Listener
     const eventDates = document.getElementById("eventDates");
     if (eventDates) {
       const fp = flatpickr("#eventDates", {
@@ -65,8 +59,9 @@ const app = {
         });
     }
   },
+  //#endregion
 
-  // --- AUTENTICAZIONE ---
+  //#region Authentication Logic
   initGoogleLogin: function () {
     if (!window.google) return;
 
@@ -96,7 +91,7 @@ const app = {
         }),
       });
       const data = await res.json();
-      if (!res.ok) throw new Error(data.error || "Errore login Google");
+      if (!res.ok) throw new Error(data.error || "Google login error");
 
       this.loginSuccess(data.token);
     } catch (err) {
@@ -111,7 +106,7 @@ const app = {
 
     const btn = document.querySelector("#step1 button");
     const oldText = btn.innerText;
-    btn.innerText = "Invio in corso...";
+    btn.innerText = "Sending...";
     btn.disabled = true;
 
     try {
@@ -121,12 +116,12 @@ const app = {
         body: JSON.stringify({ action: "send-otp", email }),
       });
       const data = await res.json();
-      if (!res.ok) throw new Error(data.error || "Errore invio codice");
+      if (!res.ok) throw new Error(data.error || "Error sending code");
 
-      this.otpData = data; // Salviamo hash e email
+      this.otpData = data;
       document.getElementById("step1").classList.add("hidden");
       document.getElementById("step2").classList.remove("hidden");
-      this.showError(""); // Pulisci errori
+      this.showError("");
     } catch (err) {
       this.showError(err.message);
     } finally {
@@ -142,7 +137,7 @@ const app = {
 
     const btn = document.getElementById("verifyBtn");
     const oldText = btn.innerText;
-    btn.innerText = "Verifica...";
+    btn.innerText = "Verifying...";
     btn.disabled = true;
 
     try {
@@ -158,7 +153,7 @@ const app = {
         }),
       });
       const data = await res.json();
-      if (!res.ok) throw new Error(data.error || "Codice non valido");
+      if (!res.ok) throw new Error(data.error || "Invalid code");
 
       this.loginSuccess(data.token);
     } catch (err) {
@@ -179,7 +174,9 @@ const app = {
     localStorage.removeItem("adminToken");
     window.location.href = "index.html";
   },
+  //#endregion
 
+  //#region Dashboard UI
   showDashboard: function () {
     const loginScreen = document.getElementById("loginScreen");
     const dashboard = document.getElementById("dashboard");
@@ -199,8 +196,9 @@ const app = {
       alert(msg);
     }
   },
+  //#endregion
 
-  // --- API HELPER PROTETTO ---
+  //#region Protected API Helper
   fetchProtected: async function (url, options = {}) {
     const headers = {
       "Content-Type": "application/json",
@@ -209,19 +207,20 @@ const app = {
     const res = await fetch(url, { ...options, headers });
 
     if (res.status === 401) {
-      this.logout(); // Token scaduto
+      this.logout(); // Token expired
       return null;
     }
     return res;
   },
+  //#endregion
 
-  // --- LOGICA DATI ---
+  //#region Data Logic (Calendar & Reviews)
   loadCalendar: async function () {
     const list = document.getElementById("calendarList");
     if (!list) return;
-    list.innerHTML = "<li class='text-slate-400'>Caricamento...</li>";
+    list.innerHTML = "<li class='text-slate-400'>Loading...</li>";
     try {
-      // GET è pubblica, usiamo fetch normale
+      // GET is public
       const res = await fetch("/api/calendar");
       const events = await res.json();
 
@@ -231,7 +230,7 @@ const app = {
 
       if (!future.length) {
         list.innerHTML =
-          "<li class='text-slate-500 italic'>Nessuna prenotazione futura</li>";
+          "<li class='text-slate-500 italic'>No future bookings</li>";
         return;
       }
 
@@ -241,7 +240,7 @@ const app = {
                 <li class="flex justify-between items-center bg-slate-50 p-3 rounded border border-slate-100 mb-2">
                     <div>
                         <div class="font-bold text-slate-700">${
-                          e.realTitle || "Occupato"
+                          e.realTitle || "Occupied"
                         }</div>
                         <div class="text-xs text-slate-500">${
                           e.start.split("T")[0]
@@ -255,13 +254,12 @@ const app = {
         )
         .join("");
     } catch (e) {
-      list.innerHTML = "<li class='text-red-500'>Errore caricamento</li>";
+      list.innerHTML = "<li class='text-red-500'>Load Error</li>";
     }
   },
 
   addEvent: async function (dates) {
-    if (!dates || dates.length < 2)
-      return alert("Seleziona una data di inizio e fine");
+    if (!dates || dates.length < 2) return alert("Select start and end dates");
 
     const start = dates[0].toLocaleDateString("en-CA");
     const endObj = new Date(dates[1]);
@@ -271,15 +269,13 @@ const app = {
     const titleInput = document.getElementById("eventName");
     const title = titleInput.value;
 
-    // --- NUOVO: Recupera le note ---
+    // Get notes
     const notesInput = document.getElementById("eventNotes");
     const description = notesInput ? notesInput.value : "";
-    // -----------------------------
 
     try {
       const res = await this.fetchProtected("/api/calendar", {
         method: "POST",
-        // --- MODIFICATO: Includiamo description nel body ---
         body: JSON.stringify({ start, end, title, description }),
       });
 
@@ -289,17 +285,17 @@ const app = {
           document.querySelector("#eventDates")._flatpickr.clear();
         }
         this.loadCalendar();
-        alert("Prenotazione salvata!");
+        alert("Booking saved!");
       } else {
-        throw new Error("Errore salvataggio");
+        throw new Error("Save error");
       }
     } catch (e) {
-      alert("Errore: " + e.message);
+      alert("Error: " + e.message);
     }
   },
 
   deleteEvent: async function (id) {
-    if (!confirm("Vuoi davvero cancellare questa prenotazione?")) return;
+    if (!confirm("Really delete this booking?")) return;
     try {
       const res = await this.fetchProtected("/api/calendar", {
         method: "DELETE",
@@ -308,7 +304,7 @@ const app = {
       if (res && res.ok) {
         this.loadCalendar();
       } else {
-        alert("Errore durante la cancellazione");
+        alert("Delete error");
       }
     } catch (e) {
       alert(e.message);
@@ -320,20 +316,17 @@ const app = {
     const filterSelect = document.getElementById("reviewFilter");
     if (!list || !filterSelect) return;
 
-    // Leggiamo il valore del filtro (default: pending)
     const filterMode = filterSelect.value;
 
     list.innerHTML =
-      "<div class='text-center text-slate-400 py-4'>Caricamento...</div>";
+      "<div class='text-center text-slate-400 py-4'>Loading...</div>";
 
     try {
       const res = await fetch("/api/reviews");
       const all = await res.json();
 
-      // Aggiungiamo l'indice originale a ogni recensione per poterla modificare/eliminare
       const allWithIndex = all.map((r, i) => ({ ...r, idx: i }));
 
-      // Logica di Filtro
       let filtered = [];
       if (filterMode === "pending") {
         filtered = allWithIndex.filter(
@@ -344,44 +337,41 @@ const app = {
           (r) => r.Approvato && r.Approvato.toUpperCase() === "SI"
         );
       } else {
-        filtered = allWithIndex; // Tutte
+        filtered = allWithIndex;
       }
 
       if (!filtered.length) {
         list.innerHTML =
-          "<div class='text-center py-6 bg-slate-50 text-slate-500 rounded-lg border border-slate-100'>Nessuna recensione in questa categoria.</div>";
+          "<div class='text-center py-6 bg-slate-50 text-slate-500 rounded-lg border border-slate-100'>No reviews in this category.</div>";
         return;
       }
 
       list.innerHTML = filtered
         .map((r) => {
           const isApproved = r.Approvato && r.Approvato.toUpperCase() === "SI";
-          const currentReply = r.Risposta || ""; // Leggiamo la risposta esistente se c'è
+          const currentReply = r.Risposta || "";
 
-          // Se NON è approvata: Tasto "Approva"
-          // Se è approvata: Area di testo per la risposta e tasto Elimina
           let adminActions = "";
 
           if (!isApproved) {
-            adminActions = `<button onclick="app.approveReview(${r.idx})" class="w-full mt-2 text-xs bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 rounded transition">APPROVA E PUBBLICA</button>`;
+            adminActions = `<button onclick="app.approveReview(${r.idx})" class="w-full mt-2 text-xs bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 rounded transition">APPROVE AND PUBLISH</button>`;
           } else {
-            // Sezione Risposta per le recensioni approvate
             adminActions = `
               <div class="mt-4 pt-3 border-t border-slate-100">
-                <label class="text-xs font-bold text-slate-500 uppercase">La tua Risposta:</label>
+                <label class="text-xs font-bold text-slate-500 uppercase">Your Reply:</label>
                 <textarea 
                   id="reply-${r.idx}" 
                   class="w-full mt-1 p-2 text-sm border border-slate-300 rounded bg-slate-50 focus:bg-white focus:ring-2 focus:ring-blue-200 outline-none transition" 
                   rows="2" 
-                  placeholder="Scrivi una risposta pubblica..."
+                  placeholder="Write a public reply..."
                 >${currentReply}</textarea>
                 
                 <div class="flex gap-2 mt-2">
                   <button onclick="app.saveReply(${r.idx})" class="flex-1 bg-slate-800 text-white text-xs font-bold py-2 rounded hover:bg-slate-900 transition">
-                    SALVA RISPOSTA
+                    SAVE REPLY
                   </button>
                   <button onclick="app.deleteReview(${r.idx})" class="flex-1 bg-white border border-red-200 text-red-500 text-xs font-bold py-2 rounded hover:bg-red-50 transition">
-                    ELIMINA
+                    DELETE
                   </button>
                 </div>
               </div>
@@ -392,12 +382,12 @@ const app = {
                 <div class="border border-slate-200 p-4 rounded-xl bg-white hover:shadow-md transition mb-3 relative">
                     ${
                       isApproved
-                        ? '<span class="absolute top-2 right-2 text-[10px] bg-green-100 text-green-700 px-2 py-0.5 rounded-full font-bold border border-green-200">PUBBLICATA</span>'
-                        : '<span class="absolute top-2 right-2 text-[10px] bg-yellow-100 text-yellow-700 px-2 py-0.5 rounded-full font-bold border border-yellow-200">DA APPROVARE</span>'
+                        ? '<span class="absolute top-2 right-2 text-[10px] bg-green-100 text-green-700 px-2 py-0.5 rounded-full font-bold border border-green-200">PUBLISHED</span>'
+                        : '<span class="absolute top-2 right-2 text-[10px] bg-yellow-100 text-yellow-700 px-2 py-0.5 rounded-full font-bold border border-yellow-200">PENDING</span>'
                     }
                     <div class="flex justify-between items-center mb-1 pr-20">
                         <span class="font-bold text-slate-700 truncate">${
-                          r["Nome e Cognome"] || "Ospite"
+                          r["Nome e Cognome"] || "Guest"
                         }</span> 
                     </div>
                     <div class="text-yellow-400 text-xs font-bold mb-2">★ ${
@@ -406,7 +396,7 @@ const app = {
                     <p class="text-sm italic text-slate-600 mb-2 wrap-break-word">"${
                       r.Recensione
                     }"</p>
-                    <div class="text-xs text-slate-400 mb-2">Soggiorno: ${
+                    <div class="text-xs text-slate-400 mb-2">Stay: ${
                       r["Data Soggiorno"] || "-"
                     }</div>
                     
@@ -418,54 +408,50 @@ const app = {
     } catch (e) {
       console.error(e);
       list.innerHTML =
-        "<p class='text-red-500 text-center'>Errore caricamento recensioni</p>";
+        "<p class='text-red-500 text-center'>Error loading reviews</p>";
     }
   },
 
   approveReview: async function (idx) {
-    if (!confirm("Vuoi pubblicare questa recensione sul sito?")) return;
+    if (!confirm("Publish this review on the website?")) return;
     try {
       const res = await this.fetchProtected("/api/approve-review", {
         method: "POST",
         body: JSON.stringify({ rowIndex: idx }),
       });
       if (res && res.ok) {
-        this.loadReviews(); // Ricarica la lista
+        this.loadReviews();
       } else {
-        alert("Errore approvazione");
+        alert("Approval error");
       }
     } catch (e) {
-      alert("Errore: " + e.message);
+      alert("Error: " + e.message);
     }
   },
 
   deleteReview: async function (idx) {
-    if (
-      !confirm("ATTENZIONE: Vuoi eliminare DEFINITIVAMENTE questa recensione?")
-    )
-      return;
+    if (!confirm("WARNING: Permanently delete this review?")) return;
     try {
       const res = await this.fetchProtected("/api/delete-review", {
-        // Chiama la nuova API
-        method: "POST", // Usiamo POST per semplicità, o DELETE se preferisci
+        method: "POST",
         body: JSON.stringify({ rowIndex: idx }),
       });
       if (res && res.ok) {
-        this.loadReviews(); // Ricarica la lista
+        this.loadReviews();
       } else {
-        alert("Errore durante l'eliminazione");
+        alert("Delete error");
       }
     } catch (e) {
-      alert("Errore: " + e.message);
+      alert("Error: " + e.message);
     }
   },
 
   saveReply: async function (idx) {
     const replyText = document.getElementById(`reply-${idx}`).value;
-    const btn = event.target; // Il bottone cliccato
+    const btn = event.target;
     const originalText = btn.innerText;
 
-    btn.innerText = "Salvataggio...";
+    btn.innerText = "Saving...";
     btn.disabled = true;
 
     try {
@@ -475,23 +461,23 @@ const app = {
       });
 
       if (res && res.ok) {
-        alert("Risposta salvata con successo!");
-        // Non ricarichiamo tutto per non perdere la posizione, ma aggiorniamo il testo bottone
-        btn.innerText = "SALVATO!";
+        alert("Reply saved!");
+        btn.innerText = "SAVED!";
         setTimeout(() => {
           btn.innerText = originalText;
           btn.disabled = false;
         }, 2000);
       } else {
-        throw new Error("Errore salvataggio");
+        throw new Error("Save error");
       }
     } catch (e) {
-      alert("Errore: " + e.message);
+      alert("Error: " + e.message);
       btn.innerText = originalText;
       btn.disabled = false;
     }
   },
+  //#endregion
 };
 
-// Inizializza tutto al caricamento
+// Initialize on load
 document.addEventListener("DOMContentLoaded", () => app.init());

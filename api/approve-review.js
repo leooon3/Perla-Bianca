@@ -1,24 +1,24 @@
 import { GoogleSpreadsheet } from "google-spreadsheet";
 import { JWT } from "google-auth-library";
-import { verifyAuth, cors } from "./_utils.js"; // Importiamo i nuovi strumenti di sicurezza
+import { verifyAuth, cors } from "./_utils.js";
 
 export default async function handler(req, res) {
-  // 1. GESTIONE CORS STANDARD
-  // Se è una richiesta di "pre-flight" (OPTIONS), rispondiamo OK e ci fermiamo.
+  //#region CORS & Security
+  // Handle CORS preflight
   if (cors(req, res)) return res.status(200).end();
 
-  // 2. SICUREZZA: VERIFICA TOKEN
-  // Sostituisce il vecchio controllo "x-admin-password"
+  // Verify Admin Token
   try {
-    verifyAuth(req); // Se il token non è valido, questa funzione lancia un errore
+    verifyAuth(req);
   } catch (err) {
     return res
       .status(401)
-      .json({ error: "Sessione scaduta o non valida. Effettua il login." });
+      .json({ error: "Session expired or invalid. Please login." });
   }
+  //#endregion
 
-  // 3. LOGICA GOOGLE SHEETS (Uguale a prima)
   try {
+    //#region Google Sheet Connection
     let privateKey = process.env.GOOGLE_PRIVATE_KEY;
     if (!privateKey.includes("BEGIN PRIVATE KEY")) {
       try {
@@ -40,9 +40,11 @@ export default async function handler(req, res) {
       serviceAccountAuth
     );
     await doc.loadInfo();
-    const sheet = doc.sheetsByIndex[0]; // Foglio Recensioni
+    const sheet = doc.sheetsByIndex[0]; // Reviews Sheet
     const rows = await sheet.getRows();
+    //#endregion
 
+    //#region Approval Logic
     const { rowIndex } = req.body;
 
     if (rows[rowIndex]) {
@@ -50,10 +52,11 @@ export default async function handler(req, res) {
       await rows[rowIndex].save();
       return res.status(200).json({ success: true });
     } else {
-      throw new Error("Recensione non trovata");
+      throw new Error("Review not found");
     }
+    //#endregion
   } catch (error) {
-    console.error("Errore API Approvazione:", error);
+    console.error("Approval API Error:", error);
     return res.status(500).json({ error: error.message });
   }
 }

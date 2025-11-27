@@ -1,49 +1,45 @@
 @import "tailwindcss";
 
-/* Diciamo a Tailwind dove guardare per generare le classi */
+/* Tell Tailwind where to look for class generation */
 @source "../../public/index.html";
 @source "../../public/js/script.js";
 @source "../../public/lascia-recensione.html";
 @source "../../public/404.html";
 @source "../../public/admin.html";
 
-/* --- IL TUO CSS PERSONALIZZATO --- */
-
-/* Smooth scrolling */
+/* #region Global Styles */
 html {
   scroll-behavior: smooth;
 }
 
-/* Header sticky */
 #header.sticky {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
+/* #endregion */
 
-/* --- MENU MOBILE ANIMATO "DOLCE" --- */
+/* #region Mobile Navigation */
+/* Smooth animated mobile menu */
 @media (max-width: 768px) {
   nav {
-    /* Posizionamento */
     position: absolute;
-    top: 100%; /* Esattamente sotto l'header */
+    top: 100%; /* Directly below header */
     left: 0;
     width: 100%;
     background-color: #ffffff;
 
-    /* Stile del contenuto */
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 1.5rem; /* Spazio tra i link */
+    gap: 1.5rem;
     padding: 2rem 0;
-    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1); /* Ombra soffice */
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
     border-bottom: 1px solid var(--color-gray-100);
 
-    /* STATO CHIUSO (Default) */
+    /* Closed State */
     opacity: 0;
-    visibility: hidden; /* Invisibile al mouse */
-    transform: translateY(-20px); /* Spostato leggermente in alto */
+    visibility: hidden;
+    transform: translateY(-20px);
 
-    /* Animazione */
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     z-index: 40;
 
@@ -51,14 +47,13 @@ html {
     overflow-y: auto;
   }
 
-  /* STATO APERTO (Quando JS aggiunge la classe .open) */
+  /* Open State */
   nav.open {
     opacity: 1;
     visibility: visible;
-    transform: translateY(0); /* Scivola al suo posto */
+    transform: translateY(0);
   }
 
-  /* Stile dei link nel menu mobile */
   nav a {
     font-size: 1.1rem;
     font-weight: 500;
@@ -73,11 +68,11 @@ html {
     background-color: var(--color-gray-50);
   }
 }
+/* #endregion */
 
-/* Effetto hover servizi */
+/* #region Services Section */
 #servizi .grid .text-center {
   transition: transform 0.3s ease, background-color 0.3s ease;
-  /* Aggiungiamo padding per evitare che il testo tocchi i bordi quando appare il colore di sfondo */
   padding: 1rem;
 }
 
@@ -86,8 +81,9 @@ html {
   background-color: color-mix(in srgb, var(--color-blue-500), transparent 90%);
   border-radius: 0.75rem;
 }
+/* #endregion */
 
-/* --- STILI SWIPER --- */
+/* #region Swiper Gallery */
 .mainGallery .swiper-button-next,
 .mainGallery .swiper-button-prev {
   color: var(--color-blue-500) !important;
@@ -127,7 +123,7 @@ html {
   border-color: var(--color-blue-500);
 }
 
-/* Fullscreen Modal */
+/* Fullscreen Modal Styles */
 .fullscreenGallery .swiper-slide {
   display: flex;
   justify-content: center;
@@ -152,8 +148,9 @@ html {
 .fullscreenGallery .swiper-button-prev:after {
   font-size: 1.5rem !important;
 }
+/* #endregion */
 
-/* Prezzi e Recensioni */
+/* #region Prices & Reviews */
 #prezzi table {
   width: 100%;
   border-collapse: collapse;
@@ -178,7 +175,9 @@ html {
   font-size: 0.95rem;
   min-height: 1.5rem;
 }
-/* Animazioni Scroll Reveal */
+/* #endregion */
+
+/* #region Scroll Animations */
 .reveal {
   opacity: 0;
   transform: translateY(30px);
@@ -189,9 +188,9 @@ html {
   opacity: 1;
   transform: translateY(0);
 }
+/* #endregion */
 
-/* --- STILI PERSONALIZZATI CALENDARIO --- */
-
+/* #region FullCalendar Customization */
 .fc-bg-event {
   opacity: 1 !important;
   background-color: #ef4444 !important; /* Tailwind red-500 */
@@ -201,7 +200,7 @@ html {
   justify-content: center !important;
 }
 
-/* VARIABILE TESTO EVENTI (Occupato/Busy) */
+/* Variable for event text localization */
 :root {
   --busy-text: "Occupato";
 }
@@ -213,19 +212,17 @@ html {
   font-size: 0.85rem;
   opacity: 0.8;
 }
-/* --- FIX ALLINEAMENTO HEADER DEFINITIVO (Mobile & Desktop) --- */
 
-/* 1. Container Toolbar: Abilitiamo il "wrap" per evitare che i bottoni escano dallo schermo */
+/* Header Alignment Fix */
 .fc .fc-header-toolbar {
   display: flex !important;
   justify-content: space-between !important;
   align-items: center !important;
-  flex-wrap: wrap !important; /* FONDAMENTALE: Manda a capo se non c'è spazio */
-  gap: 0.5rem !important; /* Spazio tra gli elementi quando vanno a capo */
+  flex-wrap: wrap !important;
+  gap: 0.5rem !important;
   margin-bottom: 1rem !important;
 }
 
-/* 2. Gruppi di bottoni: Sempre in riga */
 .fc .fc-toolbar-chunk {
   display: flex !important;
   flex-direction: row !important;
@@ -233,109 +230,101 @@ html {
   gap: 0.5rem !important;
 }
 
-/* 3. Titolo: Stile base */
 .fc .fc-toolbar-title {
   margin: 0 0.5rem !important;
   padding: 0 !important;
   font-size: 1.25rem !important;
   white-space: nowrap !important;
-  text-transform: capitalize !important; /* Forza Maiuscola (es. Novembre) */
+  text-transform: capitalize !important;
 }
 
-/* 4. Bottoni: Flex per allineare icone e testo */
 .fc .fc-button {
   display: inline-flex !important;
   align-items: center !important;
   justify-content: center !important;
 }
 
-/* 5. Maiuscola per il tasto Oggi */
 .fc-today-button {
   text-transform: capitalize !important;
 }
 
-/* --- REGOLE SPECIFICHE PER MOBILE (Schermi piccoli) --- */
+/* Mobile specific calendar styles */
 @media (max-width: 640px) {
-  /* Cambiamo l'ordine: Frecce e Oggi sulla prima riga, Titolo sotto */
-
-  /* Container Toolbar: Centra tutto */
   .fc .fc-header-toolbar {
     justify-content: center !important;
-    gap: 0.5rem !important; /* Un po' di spazio extra */
+    gap: 0.5rem !important;
   }
 
-  /* 1. Chunk Sinistro (Vuoto perché left: ""): LO NASCONDIAMO */
+  /* Hide left chunk */
   .fc .fc-toolbar-chunk:nth-child(1) {
     display: none !important;
   }
 
-  /* 2. Chunk Centrale (Prev + Titolo + Next): VA SOPRA (Order 1) */
+  /* Center chunk on top */
   .fc .fc-toolbar-chunk:nth-child(2) {
-    order: 1; /* Primo in alto */
-    width: 100% !important; /* Forza l'elemento ad occupare tutta la riga */
+    order: 1;
+    width: 100% !important;
     justify-content: center !important;
-    margin-bottom: 0.5rem !important; /* Spazio per staccarlo dal bottone sotto */
+    margin-bottom: 0.5rem !important;
     margin-top: 0 !important;
   }
 
-  /* 3. Chunk Destro (Oggi): VA SOTTO (Order 2) */
+  /* Right chunk (Today) on bottom */
   .fc .fc-toolbar-chunk:nth-child(3) {
-    order: 2; /* Secondo in basso */
+    order: 2;
     width: 100% !important;
     justify-content: center !important;
   }
 
-  /* Opzionale: Stili per rendere il titolo carino su mobile */
   .fc .fc-toolbar-title {
     font-size: 1.1rem !important;
   }
 
-  /* Riduciamo l'altezza delle celle per vedere più calendario senza scrollare troppo */
   .fc .fc-daygrid-day-frame {
     min-height: 60px !important;
   }
 
-  /* Riduciamo il font degli eventi per farli stare meglio */
   .fc-event {
     font-size: 0.75rem !important;
   }
 }
-/* Classe per nascondere il corpo finché non è pronto */
+
+/* Loading state class */
 body.lang-loading {
   visibility: hidden;
   opacity: 0;
 }
-/* Quando rimuovi la classe, riappare dolcemente */
+
 body {
   visibility: visible;
   opacity: 1;
   transition: opacity 0.3s ease-in;
 }
-/* --- STILE PER LA SELEZIONE 'TAP-TAP' --- */
 
-/* Quando clicchi la prima data (Data Inizio) */
+/* Selection Styles (Tap-Tap logic) */
 .fc-day-selected-start {
-  background-color: #2563eb !important; /* Blu scuro ben visibile */
+  background-color: #2563eb !important;
   color: white !important;
   font-weight: bold;
   border-radius: 4px;
 }
 
-/* Manteniamo lo stile blu trasparente per il range finale (quando selezioni entrambe) */
 .fc-highlight {
   background-color: rgba(59, 130, 246, 0.3) !important;
   border: 1px solid #3b82f6 !important;
 }
-/* --- CALENDAR TOOLTIP / MODAL --- */
+/* #endregion */
+
+/* #region Calendar Tooltip */
 .calendar-tooltip {
   position: absolute;
-  z-index: 50; /* Sopra a tutto */
+  z-index: 50;
   background-color: white;
-  border-radius: 0.75rem; /* rounded-xl */
+  border-radius: 0.75rem;
   padding: 1rem;
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
-    0 4px 6px -2px rgba(0, 0, 0, 0.05); /* shadow-xl */
-  border: 1px solid #dbeafe; /* border-blue-100 */
+    0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  border: 1px solid #dbeafe;
   min-width: 200px;
   max-width: 280px;
   text-align: center;
@@ -344,19 +333,19 @@ body {
 
 .calendar-tooltip h4 {
   font-weight: 700;
-  color: #1e3a8a; /* blue-900 */
+  color: #1e3a8a;
   margin-bottom: 0.25rem;
   font-size: 0.9rem;
 }
 
 .calendar-tooltip p {
-  color: #4b5563; /* gray-600 */
+  color: #4b5563;
   font-size: 0.8rem;
   margin-bottom: 0.75rem;
 }
 
 .calendar-tooltip button {
-  background-color: #2563eb; /* blue-600 */
+  background-color: #2563eb;
   color: white;
   padding: 0.5rem 1rem;
   border-radius: 0.5rem;
@@ -367,7 +356,7 @@ body {
 }
 
 .calendar-tooltip button:hover {
-  background-color: #1d4ed8; /* blue-700 */
+  background-color: #1d4ed8;
 }
 
 @keyframes popIn {
@@ -380,3 +369,4 @@ body {
     transform: translateY(0) scale(1);
   }
 }
+/* #endregion */
