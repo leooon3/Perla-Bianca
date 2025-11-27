@@ -216,7 +216,7 @@ const app = {
   loadCalendar: async function () {
     const list = document.getElementById("calendarList");
     if (!list) return;
-    list.innerHTML = "<li class='text-slate-400'>Loading...</li>";
+    list.innerHTML = "<li class='text-slate-400'>Caricamento...</li>";
     try {
       // GET is public
       const res = await fetch("/api/calendar");
@@ -238,7 +238,7 @@ const app = {
                 <li class="flex justify-between items-center bg-slate-50 p-3 rounded border border-slate-100 mb-2">
                     <div>
                         <div class="font-bold text-slate-700">${
-                          e.realTitle || "Occupied"
+                          e.realTitle || "Occupato"
                         }</div>
                         <div class="text-xs text-slate-500">${
                           e.start.split("T")[0]
@@ -257,7 +257,8 @@ const app = {
   },
 
   addEvent: async function (dates) {
-    if (!dates || dates.length < 2) return alert("Select start and end dates");
+    if (!dates || dates.length < 2)
+      return alert("Seleziona date di inizio e fine");
 
     const start = dates[0].toLocaleDateString("en-CA");
     const endObj = new Date(dates[1]);
@@ -283,7 +284,7 @@ const app = {
           document.querySelector("#eventDates")._flatpickr.clear();
         }
         this.loadCalendar();
-        alert("Booking saved!");
+        alert("Prenotazione salvata!");
       } else {
         throw new Error("Save error");
       }
@@ -293,7 +294,7 @@ const app = {
   },
 
   deleteEvent: async function (id) {
-    if (!confirm("Really delete this booking?")) return;
+    if (!confirm("Davvoero vuoi eliminare questa prenotazione?")) return;
     try {
       const res = await this.fetchProtected("/api/calendar", {
         method: "DELETE",
@@ -302,7 +303,7 @@ const app = {
       if (res && res.ok) {
         this.loadCalendar();
       } else {
-        alert("Delete error");
+        alert("Errore di eliminazione");
       }
     } catch (e) {
       alert(e.message);
@@ -317,7 +318,7 @@ const app = {
     const filterMode = filterSelect.value;
 
     list.innerHTML =
-      "<div class='text-center text-slate-400 py-4'>Loading...</div>";
+      "<div class='text-center text-slate-400 py-4'>Caricamento...</div>";
 
     try {
       const res = await fetch("/api/reviews");
@@ -394,7 +395,7 @@ const app = {
                     <p class="text-sm italic text-slate-600 mb-2 wrap-break-word">"${
                       r.Recensione
                     }"</p>
-                    <div class="text-xs text-slate-400 mb-2">Stay: ${
+                    <div class="text-xs text-slate-400 mb-2">Soggiorno: ${
                       r["Data Soggiorno"] || "-"
                     }</div>
                     
