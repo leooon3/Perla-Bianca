@@ -122,7 +122,6 @@ document.addEventListener("DOMContentLoaded", function () {
       js_stay_date: "Soggiorno:",
       js_calendar_req: "Salve, vorrei chiedere disponibilità per il giorno",
       js_calendar_prompt: "Scorri al form contatti per inviare la richiesta.",
-      // Extra per tooltip calendario
       cal_tooltip_title: "Date Selezionate",
       cal_tooltip_btn: "Richiedi Disponibilità",
       cal_req_msg_start: "Salve, vorrei chiedere disponibilità dal",
@@ -564,7 +563,19 @@ document.addEventListener("DOMContentLoaded", function () {
   {
     const images = [
       { src: "./img/1.webp", alt: "camera ragazzi" },
-      // ... altre immagini
+      { src: "./img/2.webp", alt: "camera matrimoniale" },
+      { src: "./img/3.webp", alt: "camera matrimoniale 2" },
+      { src: "./img/4.webp", alt: "cucina" },
+      { src: "./img/5.webp", alt: "bagno" },
+      { src: "./img/6.webp", alt: "salotto" },
+      { src: "./img/7.webp", alt: "salotto 2" },
+      { src: "./img/8.webp", alt: "cucina + isola" },
+      { src: "./img/9.webp", alt: "tv" },
+      { src: "./img/10.webp", alt: "camera ragazzi" },
+      { src: "./img/11.webp", alt: "sanitari" },
+      { src: "./img/12.webp", alt: "vista terrazzo" },
+      { src: "./img/13.webp", alt: "frigo + dispensa" },
+      { src: "./img/14.webp", alt: "balcone" },
       { src: "./img/15.webp", alt: "disimpegno" },
     ];
 

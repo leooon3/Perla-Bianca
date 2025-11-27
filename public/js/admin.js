@@ -1,5 +1,3 @@
-// public/js/admin.js
-
 //#region Configuration
 const GOOGLE_CLIENT_ID =
   "980340338302-43hbupefo8neh0hbksdra5afdr95b6pj.apps.googleusercontent.com";
