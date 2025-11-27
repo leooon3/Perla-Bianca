@@ -325,10 +325,10 @@
   .z-50 {
     z-index: 50;
   }
-  .z-\[100\] {
+  .z-100 {
     z-index: 100;
   }
-  .z-\[110\] {
+  .z-110 {
     z-index: 110;
   }
   .col-span-full {
@@ -442,6 +442,9 @@
   .h-10 {
     height: calc(var(--spacing) * 10);
   }
+  .h-11 {
+    height: calc(var(--spacing) * 11);
+  }
   .h-12 {
     height: calc(var(--spacing) * 12);
   }
@@ -450,9 +453,6 @@
   }
   .h-96 {
     height: calc(var(--spacing) * 96);
-  }
-  .h-\[44px\] {
-    height: 44px;
   }
   .h-auto {
     height: auto;
@@ -521,6 +521,9 @@
     flex: 1;
   }
   .flex-shrink-0 {
+    flex-shrink: 0;
+  }
+  .shrink-0 {
     flex-shrink: 0;
   }
   .flex-grow {
