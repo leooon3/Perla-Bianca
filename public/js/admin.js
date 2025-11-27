@@ -340,7 +340,7 @@ const app = {
 
       if (!filtered.length) {
         list.innerHTML =
-          "<div class='text-center py-6 bg-slate-50 text-slate-500 rounded-lg border border-slate-100'>No reviews in this category.</div>";
+          "<div class='text-center py-6 bg-slate-50 text-slate-500 rounded-lg border border-slate-100'>Nessuna recensione in questa categoria.</div>";
         return;
       }
 
@@ -352,24 +352,24 @@ const app = {
           let adminActions = "";
 
           if (!isApproved) {
-            adminActions = `<button onclick="app.approveReview(${r.idx})" class="w-full mt-2 text-xs bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 rounded transition">APPROVE AND PUBLISH</button>`;
+            adminActions = `<button onclick="app.approveReview(${r.idx})" class="w-full mt-2 text-xs bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 rounded transition">APPROVA E PUBBLICA</button>`;
           } else {
             adminActions = `
               <div class="mt-4 pt-3 border-t border-slate-100">
-                <label class="text-xs font-bold text-slate-500 uppercase">Your Reply:</label>
+                <label class="text-xs font-bold text-slate-500 uppercase">La tua risposta:</label>
                 <textarea 
                   id="reply-${r.idx}" 
                   class="w-full mt-1 p-2 text-sm border border-slate-300 rounded bg-slate-50 focus:bg-white focus:ring-2 focus:ring-blue-200 outline-none transition" 
                   rows="2" 
-                  placeholder="Write a public reply..."
+                  placeholder="Scrivi una risposta pubblica..."
                 >${currentReply}</textarea>
                 
                 <div class="flex gap-2 mt-2">
                   <button onclick="app.saveReply(${r.idx})" class="flex-1 bg-slate-800 text-white text-xs font-bold py-2 rounded hover:bg-slate-900 transition">
-                    SAVE REPLY
+                    SALVA RISPOSTA
                   </button>
                   <button onclick="app.deleteReview(${r.idx})" class="flex-1 bg-white border border-red-200 text-red-500 text-xs font-bold py-2 rounded hover:bg-red-50 transition">
-                    DELETE
+                    ELIMINA
                   </button>
                 </div>
               </div>
@@ -380,12 +380,12 @@ const app = {
                 <div class="border border-slate-200 p-4 rounded-xl bg-white hover:shadow-md transition mb-3 relative">
                     ${
                       isApproved
-                        ? '<span class="absolute top-2 right-2 text-[10px] bg-green-100 text-green-700 px-2 py-0.5 rounded-full font-bold border border-green-200">PUBLISHED</span>'
-                        : '<span class="absolute top-2 right-2 text-[10px] bg-yellow-100 text-yellow-700 px-2 py-0.5 rounded-full font-bold border border-yellow-200">PENDING</span>'
+                        ? '<span class="absolute top-2 right-2 text-[10px] bg-green-100 text-green-700 px-2 py-0.5 rounded-full font-bold border border-green-200">PUBBLICATA</span>'
+                        : '<span class="absolute top-2 right-2 text-[10px] bg-yellow-100 text-yellow-700 px-2 py-0.5 rounded-full font-bold border border-yellow-200">IN ATTESA</span>'
                     }
                     <div class="flex justify-between items-center mb-1 pr-20">
                         <span class="font-bold text-slate-700 truncate">${
-                          r["Nome e Cognome"] || "Guest"
+                          r["Nome e Cognome"] || "Ospite"
                         }</span> 
                     </div>
                     <div class="text-yellow-400 text-xs font-bold mb-2">★ ${
@@ -406,12 +406,12 @@ const app = {
     } catch (e) {
       console.error(e);
       list.innerHTML =
-        "<p class='text-red-500 text-center'>Error loading reviews</p>";
+        "<p class='text-red-500 text-center'>Errore nel caricamento recensioni</p>";
     }
   },
 
   approveReview: async function (idx) {
-    if (!confirm("Publish this review on the website?")) return;
+    if (!confirm("Pubblicare la recensione sul sito?")) return;
     try {
       const res = await this.fetchProtected("/api/approve-review", {
         method: "POST",
@@ -420,7 +420,7 @@ const app = {
       if (res && res.ok) {
         this.loadReviews();
       } else {
-        alert("Approval error");
+        alert("Errore di approvazione");
       }
     } catch (e) {
       alert("Error: " + e.message);
@@ -428,7 +428,8 @@ const app = {
   },
 
   deleteReview: async function (idx) {
-    if (!confirm("WARNING: Permanently delete this review?")) return;
+    if (!confirm("ATTENZIONE: Eliminare permanentemente questa recensione?"))
+      return;
     try {
       const res = await this.fetchProtected("/api/delete-review", {
         method: "POST",
@@ -437,7 +438,7 @@ const app = {
       if (res && res.ok) {
         this.loadReviews();
       } else {
-        alert("Delete error");
+        alert("Errore di eliminazione");
       }
     } catch (e) {
       alert("Error: " + e.message);
@@ -449,7 +450,7 @@ const app = {
     const btn = event.target;
     const originalText = btn.innerText;
 
-    btn.innerText = "Saving...";
+    btn.innerText = "Salvataggio...";
     btn.disabled = true;
 
     try {
@@ -459,14 +460,14 @@ const app = {
       });
 
       if (res && res.ok) {
-        alert("Reply saved!");
-        btn.innerText = "SAVED!";
+        alert("Risposta salvata!");
+        btn.innerText = "SALVATA!";
         setTimeout(() => {
           btn.innerText = originalText;
           btn.disabled = false;
         }, 2000);
       } else {
-        throw new Error("Save error");
+        throw new Error("Errore di salvataggio");
       }
     } catch (e) {
       alert("Error: " + e.message);
