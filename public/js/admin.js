@@ -263,19 +263,24 @@ const app = {
     if (!dates || dates.length < 2)
       return alert("Seleziona una data di inizio e fine");
 
-    // Formatta le date per Google Calendar (YYYY-MM-DD)
-    const start = dates[0].toLocaleDateString("en-CA"); // YYYY-MM-DD locale safe
+    const start = dates[0].toLocaleDateString("en-CA");
     const endObj = new Date(dates[1]);
-    endObj.setDate(endObj.getDate() + 1); // Google vuole la data di fine esclusiva (+1 giorno)
+    endObj.setDate(endObj.getDate() + 1);
     const end = endObj.toLocaleDateString("en-CA");
 
     const titleInput = document.getElementById("eventName");
     const title = titleInput.value;
 
+    // --- NUOVO: Recupera le note ---
+    const notesInput = document.getElementById("eventNotes");
+    const description = notesInput ? notesInput.value : "";
+    // -----------------------------
+
     try {
       const res = await this.fetchProtected("/api/calendar", {
         method: "POST",
-        body: JSON.stringify({ start, end, title }),
+        // --- MODIFICATO: Includiamo description nel body ---
+        body: JSON.stringify({ start, end, title, description }),
       });
 
       if (res && res.ok) {
@@ -398,7 +403,7 @@ const app = {
                     <div class="text-yellow-400 text-xs font-bold mb-2">★ ${
                       r.Valutazione
                     }</div>
-                    <p class="text-sm italic text-slate-600 mb-2 break-words">"${
+                    <p class="text-sm italic text-slate-600 mb-2 wrap-break-word">"${
                       r.Recensione
                     }"</p>
                     <div class="text-xs text-slate-400 mb-2">Soggiorno: ${

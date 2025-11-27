@@ -69,11 +69,15 @@ export default async function handler(req, res) {
 
     // Aggiungi Evento (Solo se login ok)
     if (req.method === "POST") {
-      const { start, end, title } = req.body;
+      // --- MODIFICATO: Estraiamo anche description ---
+      const { start, end, title, description } = req.body;
+
       await calendar.events.insert({
         calendarId,
         requestBody: {
           summary: title || "Prenotazione",
+          // --- NUOVO: Passiamo la descrizione a Google ---
+          description: description || "",
           start: { date: start },
           end: { date: end },
         },
