@@ -42,6 +42,7 @@ const app = {
     if (logoutBtn) logoutBtn.addEventListener("click", () => this.logout());
 
     // Calendar Form Listener
+
     const eventDates = document.getElementById("eventDates");
     if (eventDates) {
       const fp = flatpickr("#eventDates", {
@@ -49,6 +50,32 @@ const app = {
         locale: "it",
         minDate: "today",
       });
+
+      const blockCheck = document.getElementById("isBlockedDate");
+      const nameInput = document.getElementById("eventName");
+
+      if (blockCheck && nameInput) {
+        blockCheck.addEventListener("change", (e) => {
+          if (e.target.checked) {
+            nameInput.value = "NON DISPONIBILE";
+            nameInput.readOnly = true;
+            nameInput.classList.add(
+              "bg-slate-200",
+              "text-slate-500",
+              "cursor-not-allowed"
+            );
+          } else {
+            nameInput.value = "";
+            nameInput.readOnly = false;
+            nameInput.classList.remove(
+              "bg-slate-200",
+              "text-slate-500",
+              "cursor-not-allowed"
+            );
+          }
+        });
+      }
+
       document
         .getElementById("addEventForm")
         .addEventListener("submit", (e) => {

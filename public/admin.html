@@ -119,17 +119,31 @@
             id="addEventForm"
             class="bg-slate-50 p-4 rounded-lg mb-4 space-y-3"
           >
+            <div class="flex items-center gap-2 mb-1">
+              <input
+                type="checkbox"
+                id="isBlockedDate"
+                class="w-4 h-4 text-blue-600 rounded focus:ring-blue-500 border-gray-300"
+              />
+              <label
+                for="isBlockedDate"
+                class="text-xs font-bold text-slate-500 uppercase cursor-pointer select-none"
+              >
+                Segna come Chiuso / Manutenzione
+              </label>
+            </div>
+
             <input
               type="text"
               id="eventName"
               placeholder="Nome Ospite"
-              class="w-full p-2 border rounded text-sm"
+              class="w-full p-2 border rounded text-sm transition-colors"
               required
             />
             <input
               type="text"
               id="eventDates"
-              placeholder="Date..."
+              placeholder="Seleziona Date..."
               class="w-full p-2 border rounded text-sm bg-white"
               required
             />
@@ -142,7 +156,7 @@
               type="submit"
               class="w-full bg-blue-600 text-white py-2 rounded text-sm font-bold hover:bg-blue-700"
             >
-              Aggiungi Prenotazione
+              Aggiungi Prenotazione / Blocco
             </button>
           </form>
           <ul
