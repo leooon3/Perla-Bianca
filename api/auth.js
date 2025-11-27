@@ -120,21 +120,40 @@ export default async function handler(req, res) {
 
     // --- 3. VERIFICA CODICE OTP ---
     if (action === "verify-otp") {
-      if (Date.now() > parseInt(expires))
+      // 1. Controlla la scadenza
+      if (Date.now() > parseInt(expires)) {
         return res.status(400).json({ error: "Codice scaduto." });
+      }
 
-      const data = `${email}.${code}.${expires}`;
+      // 2. CORREZIONE: Forziamo l'email in minuscolo per corrispondere all'invio
+      const normalizedEmail = email.toLowerCase();
+
+      // 3. Ricostruiamo la stringa esattamente come nel passo 1
+      const data = `${normalizedEmail}.${code}.${expires}`;
+
       const calculatedHash = crypto
         .createHmac("sha256", JWT_SECRET)
         .update(data)
         .digest("hex");
 
-      if (calculatedHash !== hash)
-        return res.status(400).json({ error: "Codice non valido." });
+      // Debug (Opzionale: rimuovi in produzione se vuoi pulizia)
+      console.log("Hash ricevuto:", hash);
+      console.log("Hash calcolato:", calculatedHash);
+      console.log("Dati usati:", data);
 
-      const sessionToken = jwt.sign({ email, role: "admin" }, JWT_SECRET, {
-        expiresIn: "24h",
-      });
+      if (calculatedHash !== hash) {
+        return res
+          .status(400)
+          .json({ error: "Codice non valido (Hash mismatch)." });
+      }
+
+      const sessionToken = jwt.sign(
+        { email: normalizedEmail, role: "admin" },
+        JWT_SECRET,
+        {
+          expiresIn: "24h",
+        }
+      );
       return res.status(200).json({ token: sessionToken });
     }
 
