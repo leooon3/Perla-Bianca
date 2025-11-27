@@ -15,6 +15,7 @@ const ALLOWED_EMAILS = [
   "adarte05@libero.it",
   "camilla.leone08@gmail.com",
   "a.leone911@gmail.com",
+  "tonylyon686@gmail.com",
 ];
 
 const client = new OAuth2Client(CLIENT_ID);
