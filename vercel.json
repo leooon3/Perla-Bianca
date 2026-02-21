@@ -1,4 +1,11 @@
 {
+  "redirects": [
+    {
+      "source": "/perla-bianca",
+      "destination": "/perla-bianca/",
+      "permanent": true
+    }
+  ],
   "headers": [
     {
       "source": "/(.*)",

@@ -1,10 +1,13 @@
 import { GoogleSpreadsheet } from "google-spreadsheet";
 import { JWT } from "google-auth-library";
+import nodemailer from "nodemailer";
 
 export default async function handler(req, res) {
   //#region CORS Setup
   const allowedOrigins = [
     "https://perla-bianca.vercel.app",
+    "https://isarcofagidelre.it",
+    "https://www.isarcofagidelre.it",
     "http://localhost:3000",
   ];
   const origin = req.headers.origin;
@@ -22,6 +25,11 @@ export default async function handler(req, res) {
   try {
     //#region Input Validation
     const { nome, voto, messaggio, dataSoggiorno } = req.body;
+    if (!nome || !voto || !messaggio || !dataSoggiorno) {
+      return res
+        .status(400)
+        .json({ message: "Please fill all fields, including dates." });
+    }
     if (nome.length > 50) {
       return res
         .status(400)
@@ -40,11 +48,6 @@ export default async function handler(req, res) {
 
     const cleanMessage = messaggio.replace(/</g, "&lt;").replace(/>/g, "&gt;");
     const cleanName = nome.replace(/</g, "&lt;").replace(/>/g, "&gt;");
-    if (!nome || !voto || !messaggio || !dataSoggiorno) {
-      return res
-        .status(400)
-        .json({ message: "Please fill all fields, including dates." });
-    }
     //#endregion
 
     //#region Google Sheet Connection

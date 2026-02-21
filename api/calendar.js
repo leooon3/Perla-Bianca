@@ -29,13 +29,21 @@ export default async function handler(req, res) {
     const calendarId = process.env.GOOGLE_CALENDAR_ID;
     //#endregion
 
-    //#region GET Method (Public)
-    // No verifyAuth here, calendar must be visible to everyone
+    //#region GET Method (Public, realTitle only for admins)
     if (req.method === "GET") {
-      res.setHeader(
-        "Cache-Control",
-        "s-maxage=120, stale-while-revalidate=300"
-      );
+      // Optional auth: admins get real booking titles
+      let isAdmin = false;
+      try {
+        verifyAuth(req);
+        isAdmin = true;
+      } catch (e) {}
+
+      if (isAdmin) {
+        res.setHeader("Cache-Control", "no-store");
+      } else {
+        res.setHeader("Cache-Control", "s-maxage=120, stale-while-revalidate=300");
+      }
+
       const response = await calendar.events.list({
         calendarId,
         timeMin: new Date().toISOString(),
@@ -44,16 +52,19 @@ export default async function handler(req, res) {
         orderBy: "startTime",
       });
 
-      const events = response.data.items.map((event) => ({
-        id: event.id,
-        realTitle: event.summary, // Visible in JSON but hidden in public UI
-        start: event.start.date || event.start.dateTime,
-        end: event.end.date || event.end.dateTime,
-        allDay: !event.start.dateTime,
-        display: "background",
-        color: "#ef4444", // Full Red Background
-        textColor: "black",
-      }));
+      const events = response.data.items.map((event) => {
+        const item = {
+          id: event.id,
+          start: event.start.date || event.start.dateTime,
+          end: event.end.date || event.end.dateTime,
+          allDay: !event.start.dateTime,
+          display: "background",
+          color: "#ef4444",
+          textColor: "black",
+        };
+        if (isAdmin) item.realTitle = event.summary;
+        return item;
+      });
 
       return res.status(200).json(events);
     }

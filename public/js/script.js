@@ -139,6 +139,11 @@ document.addEventListener("DOMContentLoaded", function () {
         "Sì, c'è parcheggio gratuito in strada proprio davanti alla struttura e nelle vie adiacenti.",
       guide_promo: "Vuoi scoprire i ristoranti migliori e le spiagge segrete?",
       guide_link: "Chiedici la nostra guida locale dopo la prenotazione!",
+      review_star_required: "Seleziona una valutazione prima di continuare.",
+      review_date_order: "La data di partenza deve essere successiva alla data di arrivo.",
+      rating_out_of: "Su 5.0",
+      rating_based_on_pre: "Basato su",
+      rating_based_on_post: "recensioni verificate",
     },
     en: {
       nav_home: "Home",
@@ -255,6 +260,11 @@ document.addEventListener("DOMContentLoaded", function () {
         "Yes, there is free street parking right in front of the property and in adjacent streets.",
       guide_promo: "Want to discover the best restaurants and secret beaches?",
       guide_link: "Ask us for our local guide after booking!",
+      review_star_required: "Please select a star rating before continuing.",
+      review_date_order: "Departure date must be after the arrival date.",
+      rating_out_of: "Out of 5.0",
+      rating_based_on_pre: "Based on",
+      rating_based_on_post: "verified reviews",
     },
     fr: {
       nav_home: "Accueil",
@@ -378,6 +388,11 @@ document.addEventListener("DOMContentLoaded", function () {
       guide_promo:
         "Vous voulez découvrir les meilleurs restaurants et les plages secrètes ?",
       guide_link: "Demandez-nous notre guide local après la réservation !",
+      review_star_required: "Veuillez sélectionner une note avant de continuer.",
+      review_date_order: "La date de départ doit être après la date d'arrivée.",
+      rating_out_of: "Sur 5.0",
+      rating_based_on_pre: "Basé sur",
+      rating_based_on_post: "avis vérifiés",
     },
     de: {
       nav_home: "Startseite",
@@ -503,6 +518,11 @@ document.addEventListener("DOMContentLoaded", function () {
         "Möchten Sie die besten Restaurants und geheimen Strände entdecken?",
       guide_link:
         "Fragen Sie uns nach der Buchung nach unserem lokalen Reiseführer!",
+      review_star_required: "Bitte wählen Sie eine Bewertung aus, bevor Sie fortfahren.",
+      review_date_order: "Das Abreisedatum muss nach dem Anreisedatum liegen.",
+      rating_out_of: "Von 5.0",
+      rating_based_on_pre: "Basierend auf",
+      rating_based_on_post: "verifizierten Bewertungen",
     },
   };
 
@@ -613,21 +633,21 @@ document.addEventListener("DOMContentLoaded", function () {
   //#region Photo Gallery & Lightbox
   {
     const images = [
-      { src: "./img/1.webp", alt: "camera ragazzi" },
-      { src: "./img/2.webp", alt: "camera matrimoniale" },
-      { src: "./img/3.webp", alt: "camera matrimoniale 2" },
-      { src: "./img/4.webp", alt: "cucina" },
-      { src: "./img/5.webp", alt: "bagno" },
-      { src: "./img/6.webp", alt: "salotto" },
-      { src: "./img/7.webp", alt: "salotto 2" },
-      { src: "./img/8.webp", alt: "cucina + isola" },
-      { src: "./img/9.webp", alt: "tv" },
-      { src: "./img/10.webp", alt: "camera ragazzi" },
-      { src: "./img/11.webp", alt: "sanitari" },
-      { src: "./img/12.webp", alt: "vista terrazzo" },
-      { src: "./img/13.webp", alt: "frigo + dispensa" },
-      { src: "./img/14.webp", alt: "balcone" },
-      { src: "./img/15.webp", alt: "disimpegno" },
+      { src: "/img/1.webp", alt: "camera ragazzi" },
+      { src: "/img/2.webp", alt: "camera matrimoniale" },
+      { src: "/img/3.webp", alt: "camera matrimoniale 2" },
+      { src: "/img/4.webp", alt: "cucina" },
+      { src: "/img/5.webp", alt: "bagno" },
+      { src: "/img/6.webp", alt: "salotto" },
+      { src: "/img/7.webp", alt: "salotto 2" },
+      { src: "/img/8.webp", alt: "cucina + isola" },
+      { src: "/img/9.webp", alt: "tv" },
+      { src: "/img/10.webp", alt: "camera ragazzi" },
+      { src: "/img/11.webp", alt: "sanitari" },
+      { src: "/img/12.webp", alt: "vista terrazzo" },
+      { src: "/img/13.webp", alt: "frigo + dispensa" },
+      { src: "/img/14.webp", alt: "balcone" },
+      { src: "/img/15.webp", alt: "disimpegno" },
     ];
 
     const mainWrapper = document.querySelector(".mainGallery .swiper-wrapper");
@@ -897,11 +917,11 @@ document.addEventListener("DOMContentLoaded", function () {
           <div class="bg-white rounded-2xl p-8 shadow-lg border border-blue-50 inline-flex flex-col md:flex-row items-center gap-6 md:gap-10 transform hover:-translate-y-1 transition duration-300">
               <div class="text-center md:text-left">
                 <div class="text-5xl font-extrabold text-blue-600 leading-none">${average}</div>
-                <div class="text-xs text-gray-400 uppercase font-semibold mt-2">Su 5.0</div>
+                <div class="text-xs text-gray-400 uppercase font-semibold mt-2">${t("rating_out_of")}</div>
               </div>
               <div class="h-12 w-px bg-gray-200 hidden md:block"></div> <div class="text-center md:text-left">
                  <div class="text-2xl text-yellow-400 tracking-wider mb-1">${averageStars}</div>
-                 <p class="text-gray-500 font-medium">Basato su <span class="text-blue-600 font-bold">${approvedReviews.length}</span> recensioni verificate</p>
+                 <p class="text-gray-500 font-medium">${t("rating_based_on_pre")} <span class="text-blue-600 font-bold">${approvedReviews.length}</span> ${t("rating_based_on_post")}</p>
               </div>
           </div>`;
 
@@ -994,7 +1014,7 @@ document.addEventListener("DOMContentLoaded", function () {
         e.preventDefault();
 
         if (!votoInput.value) {
-          alert("Please select a star rating.");
+          alert(t("review_star_required"));
           return;
         }
         const arrivoValue = reviewForm.data_arrivo.value;
@@ -1006,8 +1026,7 @@ document.addEventListener("DOMContentLoaded", function () {
           const dPartenza = new Date(partenzaValue);
 
           if (dPartenza <= dArrivo) {
-            statusDiv.textContent =
-              "Departure date must be after arrival date.";
+            statusDiv.textContent = t("review_date_order");
             statusDiv.className =
               "text-center text-sm font-medium mt-4 p-3 rounded-lg bg-red-100 text-red-700 block";
             setTimeout(() => {
@@ -1064,7 +1083,7 @@ document.addEventListener("DOMContentLoaded", function () {
           statusDiv.className =
             "text-center text-sm font-medium mt-4 p-3 rounded-lg bg-red-100 text-red-700 block";
           submitBtn.disabled = false;
-          submitBtn.textContent = "Publish Review";
+          submitBtn.textContent = t("review_btn_submit");
           submitBtn.classList.remove("opacity-75", "cursor-not-allowed");
         }
       });
@@ -1152,8 +1171,10 @@ document.addEventListener("DOMContentLoaded", function () {
           // Calculate Dates
           const endDate = new Date(info.end);
           endDate.setDate(endDate.getDate() - 1);
-          const startStr = info.start.toLocaleDateString("it-IT");
-          const endStr = endDate.toLocaleDateString("it-IT");
+          const localeMap = { it: "it-IT", en: "en-GB", fr: "fr-FR", de: "de-DE" };
+          const dateLocale = localeMap[currentLang] || "it-IT";
+          const startStr = info.start.toLocaleDateString(dateLocale);
+          const endStr = endDate.toLocaleDateString(dateLocale);
 
           // Find DOM element
           const isoDate = endDate.toISOString().split("T")[0];

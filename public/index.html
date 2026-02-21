@@ -2,868 +2,238 @@
 <html lang="it">
   <head>
     <meta charset="UTF-8" />
-    <meta
-      http-equiv="Content-Security-Policy"
-      content="default-src 'self'; 
-  script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://accounts.google.com https://apis.google.com https://npmcdn.com https://www.googletagmanager.com https://vercel.live; 
-  style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://accounts.google.com; 
-  img-src 'self' data: https://perla-bianca.vercel.app https://lh3.googleusercontent.com https://*.googleapis.com; 
-  font-src 'self' data: https://cdn.jsdelivr.net;
-  frame-src 'self' https://accounts.google.com https://content.googleapis.com http://googleusercontent.com https://www.google.com https://vercel.live; 
-  connect-src 'self' https://accounts.google.com https://api.open-meteo.com https://*.googleapis.com https://cdn.jsdelivr.net;"
-    />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Casa Vacanze al Mare</title>
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://perla-bianca.vercel.app/" />
-    <meta
-      property="og:title"
-      content="Perla Bianca - La tua Casa Vacanze al Mare"
-    />
-    <meta
-      property="og:description"
-      content="Vieni a rilassarti a due passi dalla spiaggia. Appartamento ristrutturato, WiFi, A/C e fino a 6 posti letto. Prenota ora!"
-    />
-    <meta
-      property="og:image"
-      content="https://perla-bianca.vercel.app/public/img/hero.webp"
-    />
-
-    <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:url" content="https://perla-bianca.vercel.app/" />
-    <meta property="twitter:title" content="Perla Bianca - Casa Vacanze" />
-    <meta
-      property="twitter:description"
-      content="Vieni a rilassarti a due passi dalla spiaggia. Appartamento ristrutturato, WiFi, A/C."
-    />
-    <meta
-      property="twitter:image"
-      content="https://perla-bianca.vercel.app/public/img/hero.webp"
-    />
+    <title>I Sarcofagi del Re · San Pietro in Bevagna, Puglia</title>
     <meta
       name="description"
-      content="Scopri Perla Bianca, la tua casa vacanze ideale per una vacanza indimenticabile. Vicino al centro e alla spiaggia, con tutti i comfort. Prenota ora!"
+      content="Ospitalità autentica nel cuore della Puglia. Scopri le nostre strutture a San Pietro in Bevagna, a due passi dal mare dello Ionio."
     />
+    <meta property="og:title" content="I Sarcofagi del Re · Puglia" />
+    <meta
+      property="og:description"
+      content="Ospitalità autentica tra mare e macchia mediterranea a San Pietro in Bevagna, Manduria, Puglia."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://isarcofagidelre.it/" />
+    <meta
+      property="og:image"
+      content="https://perla-bianca.vercel.app/img/hero.webp"
+    />
+
     <link rel="icon" href="./img/logo.ico" type="image/ico" />
-    <link rel="manifest" href="./manifest.json" />
-    <meta name="theme-color" content="#3b82f6" />
     <link rel="preload" as="image" href="./img/hero.webp" />
-
-    <!-- Custom Stylesheet -->
     <link rel="stylesheet" href="style.css" />
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
-    />
-    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/locales-all.global.min.js"></script>
 
-    <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "VacationRental",
-        "name": "Perla Bianca Casa Vacanze",
-        "description": "Appartamento ristrutturato a due passi dalla spiaggia. WiFi, A/C e fino a 6 posti letto.",
-        "url": "https://perla-bianca.vercel.app/",
-        "image": "https://perla-bianca.vercel.app/public/img/hero.webp",
-        "address": {
-          "@type": "PostalAddress",
-          "streetAddress": "Via 15b",
-          "addressLocality": "Manduria",
-          "postalCode": "74024",
-          "addressCountry": "IT"
-        },
-        "priceRange": "€120 - €200",
-        "checkinTime": "15:00",
-        "checkoutTime": "10:00",
-        "amenityFeature": [
-          {
-            "@type": "LocationFeatureSpecification",
-            "name": "WiFi",
-            "value": true
-          },
-          {
-            "@type": "LocationFeatureSpecification",
-            "name": "Aria Condizionata",
-            "value": true
-          },
-          {
-            "@type": "LocationFeatureSpecification",
-            "name": "Cucina",
-            "value": true
-          },
-          {
-            "@type": "LocationFeatureSpecification",
-            "name": "Accesso spiaggia",
-            "value": true
-          }
-        ]
+    <style>
+      .card-hover {
+        transition: transform 0.35s ease, box-shadow 0.35s ease;
       }
-    </script>
+      .card-hover:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 24px 48px rgba(27, 58, 92, 0.18);
+      }
+      .hero-text-shadow {
+        text-shadow: 0 2px 20px rgba(0, 0, 0, 0.45);
+      }
+    </style>
+
     <script defer src="/_vercel/insights/script.js"></script>
   </head>
-  <body class="font-sans antialiased text-gray-800 lang-loading">
-    <!-- Header / Navigation -->
-    <header
-      id="header"
-      class="bg-blue-100/90 shadow sticky top-0 z-50 transition-shadow duration-300"
-    >
-      <div
-        class="container mx-auto px-6 py-4 flex justify-between items-center"
-      >
-        <a href="index.html" class="flex items-center gap-3 group">
-          <img
-            src="./img/logo.png"
-            alt="Logo Perla Bianca"
-            class="h-10 w-auto transition-transform group-hover:scale-110"
-          />
+  <body class="font-sans antialiased" style="background-color: #faf8f4;">
 
-          <span class="text-xl font-bold text-blue-600 tracking-tight">
-            Perla Bianca
-          </span>
-        </a>
-        <div class="nav-toggle md:hidden text-3xl cursor-pointer">&#9776;</div>
-        <nav
-          id="mobileMenu"
-          class="md:flex md:space-x-6 md:static md:opacity-100 md:visible md:translate-y-0 md:flex-row md:bg-transparent md:shadow-none md:p-0"
+    <!-- Header -->
+    <header style="background-color: #1b3a5c;" class="py-4 px-6">
+      <div class="container mx-auto max-w-5xl flex items-center justify-between">
+        <div>
+          <span class="text-white text-xl font-bold tracking-wide"
+            >I Sarcofagi del Re</span
+          >
+          <span
+            class="hidden sm:inline text-xs ml-3 uppercase tracking-widest"
+            style="color: rgba(255,255,255,0.5);"
+            >San Pietro in Bevagna · Puglia</span
+          >
+        </div>
+        <a
+          href="/admin.html"
+          class="text-xs transition-colors"
+          style="color: rgba(255,255,255,0.35);"
+          onmouseover="this.style.color='rgba(255,255,255,0.7)'"
+          onmouseout="this.style.color='rgba(255,255,255,0.35)'"
+          >Area Riservata</a
         >
-          <a href="#servizi" class="hover:text-blue-600" data-i18n="nav_servizi"
-            >Servizi</a
-          >
-          <a
-            href="#galleria"
-            class="hover:text-blue-600"
-            data-i18n="nav_galleria"
-            >Galleria</a
-          >
-          <a href="#prezzi" class="hover:text-blue-600" data-i18n="nav_prezzi"
-            >Prezzi</a
-          >
-          <a
-            href="#disponibilita"
-            class="hover:text-blue-600"
-            data-i18n="nav_calendario"
-            >Calendario</a
-          >
-          <a
-            href="#recensioni"
-            class="hover:text-blue-600"
-            data-i18n="nav_recensioni"
-            >Recensioni</a
-          >
-          <a href="#dove" class="hover:text-blue-600" data-i18n="nav_dove"
-            >Dove Siamo</a
-          >
-          <a
-            href="#chisiamo"
-            class="hover:text-blue-600"
-            data-i18n="nav_chisiamo"
-            >Chi Siamo</a
-          >
-          <a
-            href="#contatti"
-            class="hover:text-blue-600"
-            data-i18n="nav_contatti"
-            >Contatti</a
-          >
-        </nav>
       </div>
     </header>
 
-    <!-- Hero Section -->
-    <section id="home" class="relative">
-      <a
-        id="weatherWidget"
-        href="https://www.3bmeteo.com/meteo/san+pietro+in+bevagna"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="hidden absolute top-4 right-4 bg-white/30 backdrop-blur-md p-3 rounded-xl text-white items-center gap-3 shadow-lg z-20 border border-white/20 hover:scale-105 hover:bg-white/40 transition-all cursor-pointer"
-        title="Guarda le previsioni su 3B Meteo"
-      >
-        <div id="weatherIcon" class="text-3xl drop-shadow-md">☀️</div>
-        <div class="leading-tight">
-          <p id="weatherTemp" class="font-bold text-xl drop-shadow-md">--°C</p>
-          <p
-            class="text-xs font-medium uppercase tracking-wide opacity-90 drop-shadow-sm"
-          >
-            S. Pietro in Bevagna
-          </p>
-        </div>
-      </a>
+    <!-- Hero -->
+    <section
+      class="relative overflow-hidden"
+      style="min-height: 55vh; background-color: #1b3a5c;"
+    >
       <img
         src="./img/hero.webp"
-        alt="Vista mare"
-        class="w-full h-96 object-cover"
+        alt="San Pietro in Bevagna, Puglia"
+        class="absolute inset-0 w-full h-full object-cover"
+        style="opacity: 0.35;"
       />
       <div
-        class="absolute inset-0 bg-black bg-opacity-30 flex flex-col justify-center items-center text-white"
+        class="relative z-10 flex flex-col items-center justify-center text-center text-white px-6"
+        style="min-height: 55vh;"
       >
-        <h1 class="text-4xl md:text-6xl font-bold mb-4" data-i18n="hero_title">
-          La Tua Casa al Mare
-        </h1>
-        <p class="text-lg md:text-2xl mb-6" data-i18n="hero_subtitle">
-          Per una vacanza indimenticabile
-        </p>
-        <a
-          href="#contatti"
-          class="bg-blue-500 hover:bg-blue-600 px-6 py-3 rounded text-white font-semibold"
-          data-i18n="hero_cta"
-          >Prenota Ora</a
-        >
-      </div>
-    </section>
-
-    <!-- Services Section -->
-    <section id="servizi" class="py-16 bg-gray-50">
-      <div class="container mx-auto px-6">
-        <h2
-          class="text-3xl font-bold text-center mb-8 reveal"
-          data-i18n="servizi_title"
-        >
-          Comfort e Relax a Portata di Mano
-        </h2>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 reveal">
-          <div class="text-center">
-            <div class="text-blue-500 text-5xl mb-4">🌐</div>
-            <h3 class="font-semibold text-xl mb-2" data-i18n="serv_wifi_title">
-              Wi-Fi Gratuito
-            </h3>
-            <p data-i18n="serv_wifi_desc">
-              Connettiti facilmente durante il tuo soggiorno.
-            </p>
-          </div>
-          <div class="text-center">
-            <div class="text-blue-500 text-5xl mb-4">🚶‍♂️</div>
-            <h3
-              class="font-semibold text-xl mb-2"
-              data-i18n="serv_centro_title"
-            >
-              A tre minuti dal centro
-            </h3>
-            <p data-i18n="serv_centro_desc">
-              Raggiungi il cuore della città in soli 3 minuti a piedi.
-            </p>
-          </div>
-          <div class="text-center">
-            <div class="text-blue-500 text-5xl mb-4">❄️</div>
-            <h3 class="font-semibold text-xl mb-2" data-i18n="serv_ac_title">
-              Aria Condizionata
-            </h3>
-            <p data-i18n="serv_ac_desc">
-              Ambienti freschi e confortevoli in ogni stagione.
-            </p>
-          </div>
-          <div class="text-center">
-            <div class="text-blue-500 text-5xl mb-4">🍽️</div>
-            <h3
-              class="font-semibold text-xl mb-2"
-              data-i18n="serv_kitchen_title"
-            >
-              Cucina Attrezzata
-            </h3>
-            <p data-i18n="serv_kitchen_desc">
-              Tutto il necessario per preparare i tuoi piatti preferiti.
-            </p>
-          </div>
-          <div class="text-center">
-            <div class="text-blue-500 text-5xl mb-4">🛏️</div>
-            <h3 class="font-semibold text-xl mb-2" data-i18n="serv_beds_title">
-              Fino a cinque posti letto
-            </h3>
-            <p data-i18n="serv_beds_desc">
-              Ospita fino a cinque persone in camere spaziose.
-            </p>
-          </div>
-          <div class="text-center">
-            <div class="text-blue-500 text-5xl mb-4">🏖️</div>
-            <h3 class="font-semibold text-xl mb-2" data-i18n="serv_beach_title">
-              Accesso alla Spiaggia
-            </h3>
-            <p data-i18n="serv_beach_desc">
-              Spiaggia dorata a pochi passi dalla casa.
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
-    <!--Faq-->
-    <section id="faq" class="py-16 bg-white">
-      <div class="container mx-auto px-6 max-w-4xl">
-        <h2
-          class="text-3xl font-bold text-center mb-8 reveal"
-          data-i18n="faq_title"
-        >
-          Domande Frequenti
-        </h2>
-
-        <div class="space-y-4 reveal">
-          <div
-            class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition"
-          >
-            <h3
-              class="font-bold text-lg text-gray-800 mb-2 flex items-center gap-2"
-            >
-              <span class="text-blue-500">?</span>
-              <span data-i18n="faq_checkin_q"
-                >A che ora sono Check-in e Check-out?</span
-              >
-            </h3>
-            <p class="text-gray-600 text-sm" data-i18n="faq_checkin_a">
-              Il check-in è disponibile dalle 15:00 in poi (spesso offriamo self
-              check-in). Il check-out è richiesto entro le 10:00 per permettere
-              le pulizie.
-            </p>
-          </div>
-
-          <div
-            class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition"
-          >
-            <h3
-              class="font-bold text-lg text-gray-800 mb-2 flex items-center gap-2"
-            >
-              <span class="text-blue-500">?</span>
-              <span data-i18n="faq_linen_q"
-                >Fornite lenzuola e asciugamani?</span
-              >
-            </h3>
-            <p class="text-gray-600 text-sm" data-i18n="faq_linen_a">
-              Sì, forniamo un set completo di biancheria da letto e asciugamani
-              per ogni ospite all'arrivo.
-            </p>
-          </div>
-
-          <div
-            class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition"
-          >
-            <h3
-              class="font-bold text-lg text-gray-800 mb-2 flex items-center gap-2"
-            >
-              <span class="text-blue-500">?</span>
-              <span data-i18n="faq_parking_q">C'è parcheggio?</span>
-            </h3>
-            <p class="text-gray-600 text-sm" data-i18n="faq_parking_a">
-              Sì, c'è parcheggio gratuito in strada proprio davanti alla
-              struttura e nelle vie adiacenti.
-            </p>
-          </div>
-        </div>
-
-        <div class="mt-10 text-center reveal">
-          <p class="text-gray-500 mb-4" data-i18n="guide_promo">
-            Vuoi scoprire i ristoranti migliori e le spiagge segrete?
-          </p>
-          <a
-            href="#contatti"
-            class="text-blue-600 font-bold underline hover:text-blue-800"
-            data-i18n="guide_link"
-          >
-            Chiedici la nostra guida locale dopo la prenotazione!
-          </a>
-        </div>
-      </div>
-    </section>
-
-    <!-- Gallery Section -->
-    <section id="galleria" class="py-16 bg-gray-50">
-      <div class="container mx-auto px-6">
-        <h2
-          class="text-3xl font-bold text-center mb-8 reveal"
-          data-i18n="gallery_title"
-        >
-          Galleria
-        </h2>
-
-        <div
-          style="
-            --swiper-navigation-color: #fff;
-            --swiper-pagination-color: #fff;
-          "
-          class="swiper mainGallery w-full max-w-3xl mx-auto rounded reveal"
-        >
-          <div class="swiper-wrapper"></div>
-          <div class="swiper-button-next"></div>
-          <div class="swiper-button-prev"></div>
-        </div>
-
-        <div
-          class="swiper thumbnailGallery w-full max-w-3xl mx-auto mt-4 box-border p-2"
-        >
-          <div class="swiper-wrapper" id="thumbnailWrapper"></div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Prices Section -->
-    <section id="prezzi" class="py-16 bg-white">
-      <div class="container mx-auto px-6 max-w-3xl">
-        <h2
-          class="text-3xl font-bold text-center mb-8 reveal"
-          data-i18n="prezzi_title"
-        >
-          Prezzi & Disponibilità
-        </h2>
-        <table class="w-full text-left border-collapse mb-6 reveal">
-          <thead>
-            <tr>
-              <th class="border-b py-2" data-i18n="tab_stagione">Stagione</th>
-              <th class="border-b py-2" data-i18n="tab_prezzo">
-                Prezzo a Notte
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td class="py-2" data-i18n="stagione_alta">
-                Alta Stagione (Luglio - Agosto)
-              </td>
-              <td class="py-2">€200</td>
-            </tr>
-            <tr>
-              <td class="py-2" data-i18n="stagione_media">
-                Media Stagione (Giugno, Settembre)
-              </td>
-              <td class="py-2">€160</td>
-            </tr>
-            <tr>
-              <td class="py-2" data-i18n="stagione_bassa">
-                Bassa Stagione (Ottobre - Maggio)
-              </td>
-              <td class="py-2">€120</td>
-            </tr>
-          </tbody>
-        </table>
-        <p class="text-center mb-6" data-i18n="prezzi_disclaimer">
-          Per verificare le date disponibili e prenotare, compila il modulo
-          nella sezione Contatti.
-        </p>
-      </div>
-    </section>
-
-    <!-- Calendar Section-->
-    <section id="disponibilita" class="py-16 bg-gray-50">
-      <div class="container mx-auto px-6 max-w-5xl">
-        <h2
-          class="text-3xl font-bold text-center mb-4 reveal"
-          data-i18n="calendar_title"
-        >
-          Verifica Disponibilità
-        </h2>
         <p
-          class="text-gray-600 text-center mb-8 reveal"
-          data-i18n="calendar_sub"
+          class="text-sm font-bold uppercase mb-5"
+          style="color: #c4622d; letter-spacing: 0.3em;"
         >
-          Le date segnate in rosso non sono disponibili.
+          San Pietro in Bevagna · Manduria · Puglia
         </p>
-
-        <div
-          class="reveal bg-white p-4 rounded-2xl shadow-lg border border-gray-100"
+        <h1 class="text-5xl md:text-7xl font-bold mb-6 leading-tight hero-text-shadow">
+          I Sarcofagi del Re
+        </h1>
+        <p
+          class="text-lg md:text-xl max-w-xl leading-relaxed"
+          style="opacity: 0.80;"
         >
-          <div id="calendar"></div>
-        </div>
+          Ospitalità autentica tra il profumo del mare e la macchia mediterranea
+        </p>
       </div>
     </section>
 
-    <!-- Reviews Section -->
-    <section id="recensioni" class="py-16 bg-white">
-      <div class="container mx-auto px-6 max-w-4xl">
+    <!-- Properties -->
+    <section class="py-20 px-6" style="background-color: #faf8f4;">
+      <div class="container mx-auto max-w-5xl">
+        <p
+          class="text-center text-sm font-bold uppercase mb-3"
+          style="color: #c4622d; letter-spacing: 0.25em;"
+        >
+          Le Nostre Strutture
+        </p>
         <h2
-          class="text-3xl font-bold text-center mb-8 reveal"
-          data-i18n="reviews_title"
+          class="text-center text-3xl md:text-4xl font-bold mb-14"
+          style="color: #1b3a5c;"
         >
-          Cosa Dicono i Nostri Ospiti
+          Scegli la tua esperienza
         </h2>
 
-        <div id="averageRating" class="text-center mb-12 reveal"></div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
 
-        <div class="max-w-2xl mx-auto text-center mb-16 reveal">
-          <h3 class="text-xl text-gray-600 mb-6" data-i18n="reviews_sub">
-            Hai soggiornato qui di recente?
-          </h3>
-
-          <a
-            href="lascia-recensione.html"
-            class="inline-block bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-xl shadow-lg transition-all transform hover:-translate-y-1"
-            data-i18n="reviews_btn"
-          >
-            Scrivi una Recensione
+          <!-- Perla Bianca -->
+          <a href="/perla-bianca/" class="block card-hover rounded-2xl overflow-hidden shadow-lg bg-white">
+            <div class="relative overflow-hidden" style="height: 240px;">
+              <img
+                src="./img/hero.webp"
+                alt="Perla Bianca - Casa Vacanze al Mare"
+                class="w-full h-full object-cover"
+              />
+              <div
+                class="absolute inset-0"
+                style="background: linear-gradient(to top, rgba(27,58,92,0.65), transparent);"
+              ></div>
+              <span
+                class="absolute top-4 right-4 text-xs font-bold text-white uppercase tracking-widest px-3 py-1 rounded-full"
+                style="background-color: #c4622d;"
+                >Disponibile</span
+              >
+            </div>
+            <div class="p-7">
+              <h3 class="text-2xl font-bold mb-3" style="color: #1b3a5c;">
+                Perla Bianca
+              </h3>
+              <p class="text-gray-500 text-sm leading-relaxed mb-5">
+                Casa vacanze ristrutturata a due passi dal mare. WiFi, aria
+                condizionata, cucina attrezzata, fino a 5 posti letto.
+              </p>
+              <div
+                class="flex items-center justify-between pt-4 border-t border-gray-100"
+              >
+                <span class="text-sm text-gray-400"
+                  >Da <strong class="text-gray-600">€120</strong>/notte</span
+                >
+                <span class="font-bold text-sm" style="color: #c4622d;"
+                  >Scopri →</span
+                >
+              </div>
+            </div>
           </a>
-        </div>
 
-        <div
-          id="reviewsContainer"
-          class="grid grid-cols-1 md:grid-cols-2 gap-6 reveal"
-        >
-          <p class="text-center text-gray-500 col-span-full">
-            Caricamento recensioni...
-          </p>
-        </div>
-      </div>
-    </section>
-
-    <!-- Map: Where are we -->
-    <section id="dove" class="py-16 bg-gray-50">
-      <div class="container mx-auto px-6 text-center">
-        <h2 class="text-3xl font-bold mb-8 reveal" data-i18n="location_title">
-          Dove Siamo
-        </h2>
-
-        <div class="w-full h-96 rounded overflow-hidden shadow-md reveal">
-          <iframe
-            class="w-full h-full"
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d479.18833429373467!2d17.676049722164123!3d40.30558962564401!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x134694a914cf9453%3A0xbf696bad594639a8!2sVia%2015b%2C%203%2C%2074024%20San%20Pietro%20In%20Bevagna%20TA!5e0!3m2!1sit!2sit!4v1762976648511!5m2!1sit!2sit"
-            style="border: 0"
-            allowfullscreen=""
-            loading="lazy"
-            referrerpolicy="no-referrer-when-downgrade"
+          <!-- Coming soon placeholder -->
+          <div
+            class="card-hover rounded-2xl overflow-hidden shadow-lg bg-white"
+            style="opacity: 0.72; cursor: default; user-select: none;"
           >
-          </iframe>
-        </div>
-      </div>
-    </section>
-
-    <!-- About Us Section -->
-    <section id="chisiamo" class="py-16 bg-white overflow-hidden">
-      <div class="container mx-auto px-6">
-        <div class="flex flex-col md:flex-row items-center gap-12">
-          <div class="w-full md:w-1/2 relative reveal">
             <div
-              class="absolute inset-0 bg-blue-500 transform translate-x-3 translate-y-3 rounded-2xl"
-            ></div>
-            <img
-              src="./img/1.webp"
-              alt="Il tuo Host"
-              class="relative z-10 rounded-2xl shadow-lg w-full h-96 object-cover"
-            />
-          </div>
-
-          <div class="w-full md:w-1/2 reveal">
-            <h4
-              class="text-blue-500 font-bold uppercase tracking-widest mb-2"
-              data-i18n="about_sup"
+              class="relative overflow-hidden flex items-center justify-center"
+              style="height: 240px; background: linear-gradient(135deg, #1b3a5c 0%, #2a5c3a 100%);"
             >
-              L'Ospitalità
-            </h4>
-            <h2
-              class="text-3xl md:text-4xl font-bold mb-6 text-gray-900"
-              data-i18n="about_title"
-            >
-              Benvenuti a Casa Vostra
-            </h2>
-            <p class="text-gray-600 leading-relaxed mb-6" data-i18n="about_p1">
-              Ciao! Siamo Riccardo e Maria. Abbiamo ristrutturato "Perla Bianca"
-              pensando esattamente a quello che cerchiamo noi quando viaggiamo:
-              pulizia impeccabile, comfort moderni e quel calore che solo una
-              casa vera può dare.
-            </p>
-            <p class="text-gray-600 leading-relaxed mb-8" data-i18n="about_p2">
-              Siamo innamorati della nostra città e saremo felici di
-              consigliarvi i ristoranti migliori (non quelli turistici!) e le
-              spiagge più nascoste. Il nostro obiettivo è farvi sentire non
-              turisti, ma ospiti graditi.
-            </p>
-
-            <div class="flex items-center gap-4">
-              <div class="border-l-4 border-blue-500 pl-4">
-                <p class="font-bold text-gray-900" data-i18n="superhost_label">
-                  Superhost Approvato
+              <div class="text-center" style="color: rgba(255,255,255,0.25);">
+                <div style="font-size: 3.5rem; line-height: 1;">🌿</div>
+                <p
+                  class="text-xs uppercase mt-3"
+                  style="opacity: 0.5; letter-spacing: 0.2em;"
+                >
+                  In arrivo
                 </p>
-                <p class="text-sm text-gray-500" data-i18n="superhost_desc">
-                  Risposte veloci e massima cura
-                </p>
+              </div>
+              <span
+                class="absolute top-4 right-4 text-xs font-bold text-white uppercase tracking-widest px-3 py-1 rounded-full"
+                style="background-color: rgba(255,255,255,0.2);"
+                >Prossimamente</span
+              >
+            </div>
+            <div class="p-7">
+              <h3 class="text-2xl font-bold mb-3" style="color: #1b3a5c;">
+                Una nuova esperienza
+              </h3>
+              <p class="text-gray-400 text-sm leading-relaxed mb-5">
+                Tra oliveti, macchia mediterranea e i profumi della Puglia
+                interna. Un progetto che nasce dalla terra. In arrivo.
+              </p>
+              <div class="flex items-center justify-end pt-4 border-t border-gray-100">
+                <span class="text-sm italic" style="color: #c8c8c8;"
+                  >In preparazione...</span
+                >
               </div>
             </div>
           </div>
+
         </div>
       </div>
     </section>
 
-    <!-- Contact us Section -->
-    <section id="contatti" class="py-16 bg-gray-50">
-      <div class="container mx-auto px-6 max-w-lg">
-        <h2
-          class="text-3xl font-bold text-center mb-8 reveal"
-          data-i18n="contact_title"
+    <!-- Territory -->
+    <section class="py-20 px-6" style="background-color: #1b3a5c;">
+      <div class="container mx-auto max-w-3xl text-center text-white">
+        <p
+          class="text-sm font-bold uppercase mb-4"
+          style="color: #c4622d; letter-spacing: 0.25em;"
         >
-          Contattaci
+          Il Territorio
+        </p>
+        <h2 class="text-3xl md:text-4xl font-bold mb-6">
+          San Pietro in Bevagna
         </h2>
-
-        <form id="contactForm" class="space-y-4 reveal">
-          <input
-            type="text"
-            name="honeypot"
-            style="display: none"
-            tabindex="-1"
-            autocomplete="off"
-          />
-          <input
-            type="text"
-            name="nome"
-            data-i18n-placeholder="placeholder_nome"
-            placeholder="Nome"
-            class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-            required
-          />
-          <input
-            type="email"
-            name="email"
-            data-i18n-placeholder="placeholder_email"
-            placeholder="Email"
-            class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-            required
-          />
-          <textarea
-            name="messaggio"
-            rows="5"
-            data-i18n-placeholder="placeholder_msg"
-            placeholder="Messaggio"
-            class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-            required
-          ></textarea>
-
-          <button
-            type="submit"
-            class="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 rounded"
-            data-i18n="btn_send"
-          >
-            Invia
-          </button>
-        </form>
-
-        <div id="formStatus" class="mt-4 text-center"></div>
+        <p class="leading-relaxed" style="opacity: 0.70; max-width: 36rem; margin: 0 auto;">
+          Una piccola perla della Puglia, affacciata sullo Ionio nel comune di
+          Manduria. Mare cristallino, dune di sabbia fine e una natura
+          incontaminata. Il luogo perfetto per una vacanza vera, lontano dalla
+          frenesia.
+        </p>
       </div>
     </section>
 
-    <!-- Footer Section -->
-    <footer class="bg-gray-900 text-white pt-16 pb-8 border-t border-gray-800">
-      <div class="container mx-auto px-6">
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
-          <div class="md:col-span-1">
-            <a href="#" class="text-2xl font-bold text-white mb-4 block"
-              >Perla Bianca</a
-            >
-            <p
-              class="text-gray-400 text-sm leading-relaxed"
-              data-i18n="footer_desc"
-            >
-              La tua oasi di relax a due passi dal mare. Prenota oggi la tua
-              vacanza da sogno in totale autonomia.
-            </p>
-          </div>
-
-          <div>
-            <h3
-              class="text-lg font-bold mb-4 text-blue-400"
-              data-i18n="footer_explore"
-            >
-              Esplora
-            </h3>
-            <ul class="space-y-2 text-gray-400 text-sm">
-              <li>
-                <a
-                  href="#home"
-                  class="hover:text-white transition"
-                  data-i18n="nav_home"
-                  >Home</a
-                >
-              </li>
-              <li>
-                <a
-                  href="#servizi"
-                  class="hover:text-white transition"
-                  data-i18n="nav_servizi"
-                  >Servizi</a
-                >
-              </li>
-              <li>
-                <a
-                  href="#galleria"
-                  class="hover:text-white transition"
-                  data-i18n="footer_gallery"
-                  >Galleria Foto</a
-                >
-              </li>
-              <li>
-                <a
-                  href="#recensioni"
-                  class="hover:text-white transition"
-                  data-i18n="footer_reviews"
-                  >Dicono di noi</a
-                >
-              </li>
-            </ul>
-          </div>
-
-          <div>
-            <h3
-              class="text-lg font-bold mb-4 text-blue-400"
-              data-i18n="footer_info"
-            >
-              Info
-            </h3>
-            <ul class="space-y-2 text-gray-400 text-sm">
-              <li data-i18n="info_checkin">Check-in: dalle 15:00</li>
-              <li data-i18n="info_checkout">Check-out: entro le 10:00</li>
-              <li data-i18n="info_parking">Parcheggio disponibile</li>
-              <li data-i18n="info_pets">Animali ammessi (su richiesta)</li>
-            </ul>
-          </div>
-
-          <div>
-            <h3
-              class="text-lg font-bold mb-4 text-blue-400"
-              data-i18n="contact_title"
-            >
-              Contatti
-            </h3>
-            <ul class="space-y-2 text-gray-400 text-sm">
-              <li class="flex items-center gap-2">
-                <span>📍</span> Via 15b, 74024
-              </li>
-              <li class="flex items-center gap-2">
-                <span>📞</span> +39 123 456 7890
-              </li>
-              <li class="flex items-center gap-2">
-                <span>✉️</span> info@perlabianca.it
-              </li>
-            </ul>
-          </div>
-        </div>
-
-        <div
-          class="border-t border-gray-800 pt-8 text-center text-gray-500 text-xs"
-        >
-          <p>
-            © 2025 Perla Bianca.
-            <span data-i18n="footer_rights">Tutti i diritti riservati.</span>
-            <span class="mx-2">|</span>
-            <a
-              href="admin.html"
-              class="hover:text-white underline text-gray-600 text-[10px]"
-              data-i18n="footer_admin"
-              >Area Riservata</a
-            >
-            <!-- <a href="https://www.iubenda.com/privacy-policy/LINK-TUO" target="_blank" class="hover:text-white underline">Privacy Policy</a> -->
-          </p>
-          <div
-            class="flex justify-center items-center gap-3 text-sm font-medium text-gray-400"
-          >
-            <button
-              onclick="changeLanguage('it')"
-              class="hover:text-white transition focus:outline-none hover:underline decoration-blue-500 underline-offset-4"
-              title="Italiano"
-            >
-              IT
-            </button>
-            <span class="opacity-20">|</span>
-            <button
-              onclick="changeLanguage('en')"
-              class="hover:text-white transition focus:outline-none hover:underline decoration-blue-500 underline-offset-4"
-              title="English"
-            >
-              EN
-            </button>
-            <span class="opacity-20">|</span>
-            <button
-              onclick="changeLanguage('fr')"
-              class="hover:text-white transition focus:outline-none hover:underline decoration-blue-500 underline-offset-4"
-              title="Français"
-            >
-              FR
-            </button>
-            <span class="opacity-20">|</span>
-            <button
-              onclick="changeLanguage('de')"
-              class="hover:text-white transition focus:outline-none hover:underline decoration-blue-500 underline-offset-4"
-              title="Deutsch"
-            >
-              DE
-            </button>
-          </div>
-        </div>
-      </div>
+    <!-- Footer -->
+    <footer class="py-10 px-6 text-center" style="background-color: #faf8f4;">
+      <p class="text-gray-400 text-xs">
+        © 2025 I Sarcofagi del Re · San Pietro in Bevagna (TA) · Puglia
+      </p>
+      <a
+        href="/admin.html"
+        class="text-xs mt-2 inline-block transition-colors"
+        style="color: #c8c8c8;"
+        onmouseover="this.style.color='#888'"
+        onmouseout="this.style.color='#c8c8c8'"
+        >Area Riservata</a
+      >
     </footer>
 
-    <!-- Custom Script -->
-    <script src="js/script.js"></script>
-
-    <!-- FullScreen Gallery-->
-    <div
-      id="fullscreenModal"
-      class="fixed inset-0 bg-black bg-opacity-90 z-100 flex justify-center items-center opacity-0 invisible transition-opacity duration-300"
-    >
-      <span
-        id="closeFsModal"
-        class="absolute top-4 right-6 text-white text-5xl font-bold cursor-pointer z-110"
-        >&times;</span
-      >
-      <div class="swiper fullscreenGallery w-full h-full">
-        <div class="swiper-wrapper"></div>
-        <div class="swiper-button-next"></div>
-        <div class="swiper-button-prev"></div>
-      </div>
-    </div>
-
-    <!--Go Up Arrow-->
-    <button
-      id="scrollTopBtn"
-      style="
-        position: fixed;
-        bottom: 20px;
-        right: 20px;
-        z-index: 9999;
-        background-color: #2563eb;
-        color: white;
-        padding: 12px;
-        border-radius: 50%;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-        cursor: pointer;
-        opacity: 0;
-        pointer-events: none;
-        transition: opacity 0.3s ease;
-        border: none;
-      "
-      title="Torna su"
-    >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="24"
-        height="24"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke="currentColor"
-      >
-        <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          d="M5 10l7-7m0 0l7 7m-7-7v18"
-        />
-      </svg>
-    </button>
-
-    <!--Cookie Banner-->
-    <div
-      id="cookieBanner"
-      class="fixed bottom-0 left-0 right-0 bg-gray-900 text-white p-4 text-center z-100 hidden"
-    >
-      <p class="text-sm inline-block mr-4" data-i18n="cookie_text">
-        Utilizziamo cookie tecnici per garantirti la migliore esperienza.
-        Continuando a navigare accetti l'uso dei cookie.
-      </p>
-      <button
-        id="acceptCookies"
-        class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded text-sm font-bold"
-        data-i18n="cookie_btn"
-      >
-        Ho capito
-      </button>
-    </div>
-    <script>
-      document.getElementById("cookieBanner").classList.remove("hidden");
-      document.getElementById("acceptCookies").addEventListener("click", () => {
-        document.getElementById("cookieBanner").classList.add("hidden");
-      });
-    </script>
   </body>
 </html>

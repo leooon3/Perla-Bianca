@@ -19,7 +19,12 @@ export function verifyAuth(req) {
 //#region CORS Configuration
 // Standard CORS configuration for APIs
 export function cors(req, res) {
-  const allowed = ["https://perla-bianca.vercel.app", "http://localhost:3000"];
+  const allowed = [
+    "https://perla-bianca.vercel.app",
+    "https://isarcofagidelre.it",
+    "https://www.isarcofagidelre.it",
+    "http://localhost:3000",
+  ];
   const origin = req.headers.origin;
 
   if (allowed.includes(origin)) {

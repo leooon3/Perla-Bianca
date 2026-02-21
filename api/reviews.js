@@ -1,10 +1,13 @@
 import { GoogleSpreadsheet } from "google-spreadsheet";
 import { JWT } from "google-auth-library";
+import { verifyAuth } from "./_utils.js";
 
 export default async function handler(req, res) {
   //#region CORS & Preflight
   const allowedOrigins = [
     "https://perla-bianca.vercel.app",
+    "https://isarcofagidelre.it",
+    "https://www.isarcofagidelre.it",
     "http://localhost:3000",
   ];
   const origin = req.headers.origin;
@@ -71,7 +74,22 @@ export default async function handler(req, res) {
       Risposta: row.get("Risposta"),
     }));
 
-    res.status(200).json(reviews);
+    // Admin sees all reviews; public only sees approved ones
+    let isAdmin = false;
+    try {
+      verifyAuth(req);
+      isAdmin = true;
+    } catch (e) {}
+
+    if (isAdmin) {
+      res.setHeader("Cache-Control", "no-store");
+      res.status(200).json(reviews);
+    } else {
+      const approved = reviews.filter(
+        (r) => r.Approvato && r.Approvato.toUpperCase() === "SI"
+      );
+      res.status(200).json(approved);
+    }
     //#endregion
   } catch (error) {
     console.error("Reviews API Error:", error);

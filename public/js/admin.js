@@ -1,3 +1,14 @@
+const escapeHTML = (str) => {
+  if (str == null) return "";
+  return String(str).replace(/[&<>'"]/g, (tag) => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    "'": "&#39;",
+    '"': "&quot;",
+  }[tag]));
+};
+
 //#region Configuration
 const GOOGLE_CLIENT_ID =
   "980340338302-43hbupefo8neh0hbksdra5afdr95b6pj.apps.googleusercontent.com";
@@ -245,8 +256,8 @@ const app = {
     if (!list) return;
     list.innerHTML = "<li class='text-slate-400'>Caricamento...</li>";
     try {
-      // GET is public
-      const res = await fetch("/api/calendar");
+      const res = await this.fetchProtected("/api/calendar");
+      if (!res) return;
       const events = await res.json();
 
       const now = new Date();
@@ -321,7 +332,7 @@ const app = {
   },
 
   deleteEvent: async function (id) {
-    if (!confirm("Davvoero vuoi eliminare questa prenotazione?")) return;
+    if (!confirm("Davvero vuoi eliminare questa prenotazione?")) return;
     try {
       const res = await this.fetchProtected("/api/calendar", {
         method: "DELETE",
@@ -348,7 +359,8 @@ const app = {
       "<div class='text-center text-slate-400 py-4'>Caricamento...</div>";
 
     try {
-      const res = await fetch("/api/reviews");
+      const res = await this.fetchProtected("/api/reviews");
+      if (!res) return;
       const all = await res.json();
 
       const allWithIndex = all.map((r, i) => ({ ...r, idx: i }));
@@ -388,12 +400,12 @@ const app = {
                 <textarea 
                   id="reply-${r.idx}" 
                   class="w-full mt-1 p-2 text-sm border border-slate-300 rounded bg-slate-50 focus:bg-white focus:ring-2 focus:ring-blue-200 outline-none transition" 
-                  rows="2" 
+                  rows="2"
                   placeholder="Scrivi una risposta pubblica..."
-                >${currentReply}</textarea>
+                >${escapeHTML(currentReply)}</textarea>
                 
                 <div class="flex gap-2 mt-2">
-                  <button onclick="app.saveReply(${r.idx})" class="flex-1 bg-slate-800 text-white text-xs font-bold py-2 rounded hover:bg-slate-900 transition">
+                  <button onclick="app.saveReply(${r.idx}, event)" class="flex-1 bg-slate-800 text-white text-xs font-bold py-2 rounded hover:bg-slate-900 transition">
                     SALVA RISPOSTA
                   </button>
                   <button onclick="app.deleteReview(${r.idx})" class="flex-1 bg-white border border-red-200 text-red-500 text-xs font-bold py-2 rounded hover:bg-red-50 transition">
@@ -413,19 +425,19 @@ const app = {
                     }
                     <div class="flex justify-between items-center mb-1 pr-20">
                         <span class="font-bold text-slate-700 truncate">${
-                          r["Nome e Cognome"] || "Ospite"
-                        }</span> 
+                          escapeHTML(r["Nome e Cognome"]) || "Ospite"
+                        }</span>
                     </div>
                     <div class="text-yellow-400 text-xs font-bold mb-2">★ ${
-                      r.Valutazione
+                      escapeHTML(r.Valutazione)
                     }</div>
                     <p class="text-sm italic text-slate-600 mb-2 wrap-break-word">"${
-                      r.Recensione
+                      escapeHTML(r.Recensione)
                     }"</p>
                     <div class="text-xs text-slate-400 mb-2">Soggiorno: ${
-                      r["Data Soggiorno"] || "-"
+                      escapeHTML(r["Data Soggiorno"]) || "-"
                     }</div>
-                    
+
                     ${adminActions}
                 </div>
             `;
@@ -473,9 +485,9 @@ const app = {
     }
   },
 
-  saveReply: async function (idx) {
+  saveReply: async function (idx, ev) {
     const replyText = document.getElementById(`reply-${idx}`).value;
-    const btn = event.target;
+    const btn = ev.target;
     const originalText = btn.innerText;
 
     btn.innerText = "Salvataggio...";

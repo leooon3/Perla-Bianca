@@ -7,6 +7,8 @@ export default async function handler(req, res) {
   //#region CORS Setup
   const allowedOrigins = [
     "https://perla-bianca.vercel.app",
+    "https://isarcofagidelre.it",
+    "https://www.isarcofagidelre.it",
     "http://localhost:3000",
   ];
   const origin = req.headers.origin;
@@ -70,6 +72,9 @@ export default async function handler(req, res) {
 
     //#region Send OTP (Email)
     if (action === "send-otp") {
+      if (!email || typeof email !== "string") {
+        return res.status(400).json({ error: "Email is required." });
+      }
       const userEmail = email.toLowerCase();
 
       // Immediate whitelist check
