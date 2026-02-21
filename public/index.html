@@ -22,218 +22,987 @@
 
     <link rel="icon" href="./img/logo.ico" type="image/ico" />
     <link rel="preload" as="image" href="./img/hero.webp" />
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
     <link rel="stylesheet" href="style.css" />
 
     <style>
-      .card-hover {
-        transition: transform 0.35s ease, box-shadow 0.35s ease;
+      :root {
+        --navy: #1b3a5c;
+        --terracotta: #c4622d;
+        --ivory: #faf8f4;
+        --navy-light: #244b73;
+        --terracotta-light: #d4784a;
       }
-      .card-hover:hover {
-        transform: translateY(-8px);
-        box-shadow: 0 24px 48px rgba(27, 58, 92, 0.18);
+
+      * { box-sizing: border-box; }
+
+      body {
+        margin: 0;
+        font-family: 'Inter', sans-serif;
+        color: #333;
+        background-color: var(--ivory);
+        overflow-x: hidden;
       }
-      .hero-text-shadow {
-        text-shadow: 0 2px 20px rgba(0, 0, 0, 0.45);
+
+      /* ─── Typography ─── */
+      .font-display { font-family: 'Playfair Display', serif; }
+      .font-body    { font-family: 'Inter', sans-serif; }
+
+      /* ─── Animations ─── */
+      @keyframes fadeInUp {
+        from { opacity: 0; transform: translateY(40px); }
+        to   { opacity: 1; transform: translateY(0); }
       }
+      @keyframes fadeIn {
+        from { opacity: 0; }
+        to   { opacity: 1; }
+      }
+      @keyframes scaleIn {
+        from { opacity: 0; transform: scale(0.92); }
+        to   { opacity: 1; transform: scale(1); }
+      }
+      @keyframes slideInLeft {
+        from { opacity: 0; transform: translateX(-60px); }
+        to   { opacity: 1; transform: translateX(0); }
+      }
+      @keyframes slideInRight {
+        from { opacity: 0; transform: translateX(60px); }
+        to   { opacity: 1; transform: translateX(0); }
+      }
+      @keyframes float {
+        0%, 100% { transform: translateY(0); }
+        50%      { transform: translateY(-10px); }
+      }
+
+      .reveal {
+        opacity: 0;
+        transform: translateY(40px);
+        transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+                    transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+      }
+      .reveal.active {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .reveal-delay-1 { transition-delay: 0.15s; }
+      .reveal-delay-2 { transition-delay: 0.30s; }
+      .reveal-delay-3 { transition-delay: 0.35s; }
+
+      /* ─── Header ─── */
+      .site-header {
+        position: fixed;
+        top: 0; left: 0; right: 0;
+        z-index: 100;
+        padding: 1.25rem 2rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        transition: background 0.4s, box-shadow 0.4s, padding 0.4s;
+      }
+      .site-header.scrolled {
+        background: rgba(27, 58, 92, 0.95);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        box-shadow: 0 4px 30px rgba(0,0,0,0.15);
+        padding: 0.75rem 2rem;
+      }
+      .header-logo {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        text-decoration: none;
+        color: #fff;
+      }
+      .header-logo img {
+        height: 42px;
+        width: auto;
+        transition: transform 0.3s;
+      }
+      .header-logo:hover img { transform: scale(1.08); }
+      .header-logo-text {
+        font-family: 'Playfair Display', serif;
+        font-size: 1.35rem;
+        font-weight: 700;
+        letter-spacing: -0.01em;
+      }
+      .header-subtitle {
+        display: none;
+        font-family: 'Inter', sans-serif;
+        font-size: 0.65rem;
+        text-transform: uppercase;
+        letter-spacing: 0.2em;
+        opacity: 0.5;
+        margin-left: 1rem;
+      }
+      @media (min-width: 640px) {
+        .header-subtitle { display: inline; }
+      }
+      .header-nav {
+        display: flex;
+        align-items: center;
+        gap: 2rem;
+      }
+      .header-nav a {
+        color: rgba(255,255,255,0.7);
+        text-decoration: none;
+        font-size: 0.8rem;
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        transition: color 0.3s;
+      }
+      .header-nav a:hover { color: #fff; }
+
+      /* Mobile nav */
+      .mobile-toggle {
+        display: none;
+        background: none;
+        border: none;
+        color: #fff;
+        font-size: 1.75rem;
+        cursor: pointer;
+        padding: 0.25rem;
+      }
+      @media (max-width: 768px) {
+        .header-nav { display: none; }
+        .mobile-toggle { display: block; }
+        .header-nav.open {
+          display: flex;
+          flex-direction: column;
+          position: absolute;
+          top: 100%;
+          left: 0; right: 0;
+          background: rgba(27, 58, 92, 0.97);
+          backdrop-filter: blur(16px);
+          padding: 2rem;
+          gap: 1.25rem;
+          animation: fadeIn 0.3s ease;
+        }
+        .header-nav.open a {
+          font-size: 1rem;
+          color: rgba(255,255,255,0.85);
+        }
+      }
+
+      /* ─── Hero ─── */
+      .hero {
+        position: relative;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+      }
+      .hero-bg {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        filter: brightness(0.45) saturate(1.15);
+        transition: transform 8s ease;
+      }
+      .hero:hover .hero-bg { transform: scale(1.03); }
+      .hero-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          180deg,
+          rgba(27, 58, 92, 0.3) 0%,
+          rgba(27, 58, 92, 0.1) 40%,
+          rgba(27, 58, 92, 0.55) 100%
+        );
+      }
+      .hero-content {
+        position: relative;
+        z-index: 10;
+        text-align: center;
+        color: #fff;
+        padding: 2rem;
+        max-width: 800px;
+      }
+      .hero-label {
+        font-family: 'Inter', sans-serif;
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.35em;
+        color: var(--terracotta-light);
+        margin-bottom: 1.5rem;
+        animation: fadeInUp 1s ease 0.2s both;
+      }
+      .hero-title {
+        font-family: 'Playfair Display', serif;
+        font-size: clamp(2.5rem, 7vw, 5.5rem);
+        font-weight: 700;
+        line-height: 1.08;
+        margin: 0 0 1.25rem;
+        text-shadow: 0 4px 40px rgba(0,0,0,0.3);
+        animation: fadeInUp 1s ease 0.4s both;
+      }
+      .hero-subtitle {
+        font-family: 'Inter', sans-serif;
+        font-size: clamp(1rem, 2.5vw, 1.25rem);
+        font-weight: 300;
+        opacity: 0.85;
+        max-width: 520px;
+        margin: 0 auto 2.5rem;
+        line-height: 1.7;
+        animation: fadeInUp 1s ease 0.6s both;
+      }
+      .hero-cta {
+        display: inline-block;
+        background: var(--terracotta);
+        color: #fff;
+        text-decoration: none;
+        padding: 1rem 2.75rem;
+        border-radius: 50px;
+        font-family: 'Inter', sans-serif;
+        font-size: 0.85rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.15em;
+        transition: background 0.3s, transform 0.3s, box-shadow 0.3s;
+        animation: fadeInUp 1s ease 0.8s both;
+      }
+      .hero-cta:hover {
+        background: var(--terracotta-light);
+        transform: translateY(-3px);
+        box-shadow: 0 12px 40px rgba(196, 98, 45, 0.35);
+      }
+      .hero-scroll {
+        position: absolute;
+        bottom: 2.5rem;
+        left: 50%;
+        transform: translateX(-50%);
+        color: rgba(255,255,255,0.5);
+        font-size: 0.7rem;
+        text-transform: uppercase;
+        letter-spacing: 0.2em;
+        text-decoration: none;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
+        animation: float 3s ease-in-out infinite;
+        z-index: 10;
+      }
+      .hero-scroll-line {
+        width: 1px;
+        height: 40px;
+        background: linear-gradient(to bottom, rgba(255,255,255,0.5), transparent);
+      }
+
+      /* ─── Section Shared ─── */
+      .section-label {
+        font-family: 'Inter', sans-serif;
+        font-size: 0.75rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.3em;
+        color: var(--terracotta);
+        margin-bottom: 0.75rem;
+      }
+      .section-title {
+        font-family: 'Playfair Display', serif;
+        font-size: clamp(1.75rem, 4vw, 2.75rem);
+        font-weight: 700;
+        color: var(--navy);
+        line-height: 1.2;
+        margin: 0 0 1rem;
+      }
+      .section-title-light { color: #fff; }
+      .section-desc {
+        font-size: 1.05rem;
+        line-height: 1.75;
+        color: #666;
+        max-width: 520px;
+      }
+      .section-desc-light {
+        color: rgba(255,255,255,0.7);
+      }
+      .section-divider {
+        width: 60px;
+        height: 3px;
+        background: var(--terracotta);
+        border-radius: 3px;
+        margin: 1.5rem 0;
+      }
+
+      /* ─── Intro / Chi Siamo ─── */
+      .intro {
+        padding: 7rem 2rem;
+        background: var(--ivory);
+      }
+      .intro-inner {
+        max-width: 1100px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 4rem;
+        align-items: center;
+      }
+      @media (max-width: 768px) {
+        .intro-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+      }
+      .intro-img-wrap {
+        position: relative;
+      }
+      .intro-img-accent {
+        position: absolute;
+        top: -12px;
+        left: -12px;
+        right: 12px;
+        bottom: 12px;
+        border: 2px solid var(--terracotta);
+        border-radius: 1rem;
+        opacity: 0.3;
+      }
+      .intro-img {
+        width: 100%;
+        height: 420px;
+        object-fit: cover;
+        border-radius: 1rem;
+        position: relative;
+        z-index: 2;
+        box-shadow: 0 25px 50px rgba(27, 58, 92, 0.15);
+      }
+
+      /* ─── Properties ─── */
+      .properties {
+        padding: 7rem 2rem;
+        background: #fff;
+      }
+      .properties-inner {
+        max-width: 1100px;
+        margin: 0 auto;
+      }
+      .properties-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2.5rem;
+        margin-top: 3.5rem;
+      }
+      @media (max-width: 768px) {
+        .properties-grid { grid-template-columns: 1fr; }
+      }
+      .prop-card {
+        border-radius: 1.25rem;
+        overflow: hidden;
+        background: #fff;
+        box-shadow: 0 4px 24px rgba(27, 58, 92, 0.08);
+        transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+                    box-shadow 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+        text-decoration: none;
+        color: inherit;
+        display: block;
+      }
+      .prop-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 30px 60px rgba(27, 58, 92, 0.16);
+      }
+      .prop-card-img-wrap {
+        position: relative;
+        height: 300px;
+        overflow: hidden;
+      }
+      .prop-card-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+      }
+      .prop-card:hover .prop-card-img { transform: scale(1.06); }
+      .prop-card-gradient {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(to top, rgba(27,58,92,0.6) 0%, transparent 60%);
+      }
+      .prop-card-badge {
+        position: absolute;
+        top: 1.25rem;
+        right: 1.25rem;
+        background: var(--terracotta);
+        color: #fff;
+        font-size: 0.65rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.15em;
+        padding: 0.4rem 1rem;
+        border-radius: 50px;
+      }
+      .prop-card-body {
+        padding: 2rem;
+      }
+      .prop-card-name {
+        font-family: 'Playfair Display', serif;
+        font-size: 1.65rem;
+        font-weight: 700;
+        color: var(--navy);
+        margin: 0 0 0.75rem;
+      }
+      .prop-card-desc {
+        font-size: 0.9rem;
+        color: #888;
+        line-height: 1.7;
+        margin: 0 0 1.5rem;
+      }
+      .prop-card-footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding-top: 1.25rem;
+        border-top: 1px solid #f0f0f0;
+      }
+      .prop-card-price {
+        font-size: 0.85rem;
+        color: #aaa;
+      }
+      .prop-card-price strong {
+        color: var(--navy);
+        font-size: 1.1rem;
+      }
+      .prop-card-link {
+        font-size: 0.8rem;
+        font-weight: 700;
+        color: var(--terracotta);
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        display: flex;
+        align-items: center;
+        gap: 0.35rem;
+        transition: gap 0.3s;
+      }
+      .prop-card:hover .prop-card-link { gap: 0.65rem; }
+
+      /* Coming soon variant */
+      .prop-card-soon {
+        opacity: 0.55;
+        cursor: default;
+        pointer-events: none;
+      }
+      .prop-card-soon .prop-card-img-wrap {
+        background: linear-gradient(135deg, var(--navy) 0%, #2a5c3a 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .prop-card-soon-icon {
+        font-size: 4rem;
+        opacity: 0.2;
+      }
+
+      /* ─── Gallery ─── */
+      .gallery {
+        padding: 7rem 2rem;
+        background: var(--ivory);
+      }
+      .gallery-inner {
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+      .gallery-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 0.75rem;
+        margin-top: 3.5rem;
+      }
+      @media (max-width: 900px) {
+        .gallery-grid { grid-template-columns: repeat(3, 1fr); }
+      }
+      @media (max-width: 600px) {
+        .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+      }
+      .gallery-item {
+        position: relative;
+        border-radius: 0.75rem;
+        overflow: hidden;
+        aspect-ratio: 4/3;
+        cursor: pointer;
+      }
+      .gallery-item img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+      }
+      .gallery-item:hover img { transform: scale(1.08); }
+      .gallery-item::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: rgba(27, 58, 92, 0.0);
+        transition: background 0.4s;
+      }
+      .gallery-item:hover::after {
+        background: rgba(27, 58, 92, 0.2);
+      }
+      /* Feature large items */
+      .gallery-item-lg {
+        grid-column: span 2;
+        grid-row: span 2;
+      }
+      @media (max-width: 600px) {
+        .gallery-item-lg { grid-column: span 1; grid-row: span 1; }
+      }
+
+      /* ─── Territory ─── */
+      .territory {
+        position: relative;
+        min-height: 70vh;
+        display: flex;
+        align-items: center;
+        overflow: hidden;
+      }
+      .territory-bg {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        filter: brightness(0.35) saturate(1.1);
+      }
+      .territory-content {
+        position: relative;
+        z-index: 10;
+        max-width: 650px;
+        padding: 5rem 3rem;
+        color: #fff;
+      }
+      @media (max-width: 768px) {
+        .territory-content {
+          padding: 4rem 2rem;
+          max-width: 100%;
+        }
+      }
+      .territory-content .section-divider {
+        background: rgba(255,255,255,0.3);
+      }
+
+      /* ─── Features ─── */
+      .features {
+        padding: 7rem 2rem;
+        background: #fff;
+      }
+      .features-inner {
+        max-width: 1000px;
+        margin: 0 auto;
+      }
+      .features-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 2.5rem;
+        margin-top: 3.5rem;
+      }
+      @media (max-width: 900px) {
+        .features-grid { grid-template-columns: repeat(2, 1fr); }
+      }
+      @media (max-width: 480px) {
+        .features-grid { grid-template-columns: 1fr; }
+      }
+      .feature-item {
+        text-align: center;
+        padding: 2rem 1rem;
+        border-radius: 1rem;
+        transition: background 0.3s, transform 0.3s;
+      }
+      .feature-item:hover {
+        background: var(--ivory);
+        transform: translateY(-5px);
+      }
+      .feature-icon {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+        display: block;
+      }
+      .feature-name {
+        font-family: 'Playfair Display', serif;
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: var(--navy);
+        margin-bottom: 0.5rem;
+      }
+      .feature-desc {
+        font-size: 0.85rem;
+        color: #999;
+        line-height: 1.6;
+      }
+
+      /* ─── Footer ─── */
+      .site-footer {
+        background: var(--navy);
+        color: #fff;
+        padding: 5rem 2rem 2rem;
+      }
+      .footer-inner {
+        max-width: 1100px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: 2fr 1fr 1fr;
+        gap: 3rem;
+      }
+      @media (max-width: 768px) {
+        .footer-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+      }
+      .footer-brand-name {
+        font-family: 'Playfair Display', serif;
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+      }
+      .footer-brand-desc {
+        font-size: 0.875rem;
+        line-height: 1.7;
+        color: rgba(255,255,255,0.5);
+        max-width: 320px;
+      }
+      .footer-col-title {
+        font-size: 0.7rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.2em;
+        color: var(--terracotta-light);
+        margin-bottom: 1.25rem;
+      }
+      .footer-links {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+      .footer-links li { margin-bottom: 0.75rem; }
+      .footer-links a {
+        color: rgba(255,255,255,0.5);
+        text-decoration: none;
+        font-size: 0.85rem;
+        transition: color 0.3s;
+      }
+      .footer-links a:hover { color: #fff; }
+      .footer-bottom {
+        max-width: 1100px;
+        margin: 3rem auto 0;
+        padding-top: 2rem;
+        border-top: 1px solid rgba(255,255,255,0.08);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 1rem;
+      }
+      .footer-copyright {
+        font-size: 0.75rem;
+        color: rgba(255,255,255,0.3);
+      }
+      .footer-admin {
+        font-size: 0.7rem;
+        color: rgba(255,255,255,0.2);
+        text-decoration: none;
+        transition: color 0.3s;
+      }
+      .footer-admin:hover { color: rgba(255,255,255,0.5); }
+
+      /* ─── Smooth scroll ─── */
+      html { scroll-behavior: smooth; }
     </style>
 
     <script defer src="/_vercel/insights/script.js"></script>
   </head>
-  <body class="font-sans antialiased" style="background-color: #faf8f4;">
+  <body>
 
-    <!-- Header -->
-    <header style="background-color: #1b3a5c;" class="py-4 px-6">
-      <div class="container mx-auto max-w-5xl flex items-center justify-between">
-        <div>
-          <span class="text-white text-xl font-bold tracking-wide"
-            >I Sarcofagi del Re</span
-          >
-          <span
-            class="hidden sm:inline text-xs ml-3 uppercase tracking-widest"
-            style="color: rgba(255,255,255,0.5);"
-            >San Pietro in Bevagna · Puglia</span
-          >
-        </div>
-        <a
-          href="/admin.html"
-          class="text-xs transition-colors"
-          style="color: rgba(255,255,255,0.35);"
-          onmouseover="this.style.color='rgba(255,255,255,0.7)'"
-          onmouseout="this.style.color='rgba(255,255,255,0.35)'"
-          >Area Riservata</a
-        >
-      </div>
+    <!-- ═══ HEADER ═══ -->
+    <header class="site-header" id="siteHeader">
+      <a href="/" class="header-logo">
+        <img src="./img/logo.png" alt="I Sarcofagi del Re" />
+        <span class="header-logo-text">I Sarcofagi del Re</span>
+        <span class="header-subtitle">San Pietro in Bevagna · Puglia</span>
+      </a>
+      <nav class="header-nav" id="headerNav">
+        <a href="#strutture">Strutture</a>
+        <a href="#galleria">Galleria</a>
+        <a href="#territorio">Territorio</a>
+        <a href="#servizi">Servizi</a>
+      </nav>
+      <button class="mobile-toggle" id="mobileToggle" aria-label="Menu">&#9776;</button>
     </header>
 
-    <!-- Hero -->
-    <section
-      class="relative overflow-hidden"
-      style="min-height: 55vh; background-color: #1b3a5c;"
-    >
+    <!-- ═══ HERO ═══ -->
+    <section class="hero" id="home">
       <img
         src="./img/hero.webp"
-        alt="San Pietro in Bevagna, Puglia"
-        class="absolute inset-0 w-full h-full object-cover"
-        style="opacity: 0.35;"
+        alt="San Pietro in Bevagna — Mare cristallino della Puglia"
+        class="hero-bg"
       />
-      <div
-        class="relative z-10 flex flex-col items-center justify-center text-center text-white px-6"
-        style="min-height: 55vh;"
-      >
-        <p
-          class="text-sm font-bold uppercase mb-5"
-          style="color: #c4622d; letter-spacing: 0.3em;"
-        >
-          San Pietro in Bevagna · Manduria · Puglia
+      <div class="hero-overlay"></div>
+      <div class="hero-content">
+        <p class="hero-label">San Pietro in Bevagna · Manduria · Puglia</p>
+        <h1 class="hero-title">I Sarcofagi<br/>del Re</h1>
+        <p class="hero-subtitle">
+          Ospitalità autentica tra il profumo del mare<br/>e la macchia mediterranea
         </p>
-        <h1 class="text-5xl md:text-7xl font-bold mb-6 leading-tight hero-text-shadow">
-          I Sarcofagi del Re
-        </h1>
-        <p
-          class="text-lg md:text-xl max-w-xl leading-relaxed"
-          style="opacity: 0.80;"
-        >
-          Ospitalità autentica tra il profumo del mare e la macchia mediterranea
-        </p>
+        <a href="#strutture" class="hero-cta">Scopri le Strutture</a>
+      </div>
+      <a href="#intro" class="hero-scroll">
+        Scopri
+        <span class="hero-scroll-line"></span>
+      </a>
+    </section>
+
+    <!-- ═══ INTRO ═══ -->
+    <section class="intro" id="intro">
+      <div class="intro-inner">
+        <div class="intro-img-wrap reveal">
+          <div class="intro-img-accent"></div>
+          <img
+            src="./img/4.webp"
+            alt="Interno della struttura"
+            class="intro-img"
+          />
+        </div>
+        <div class="reveal reveal-delay-1">
+          <p class="section-label">Chi Siamo</p>
+          <h2 class="section-title">Un'ospitalità<br/>che parla di casa</h2>
+          <div class="section-divider"></div>
+          <p class="section-desc">
+            Siamo Riccardo e Maria. Abbiamo creato questo angolo di Puglia per
+            chi cerca il calore di una casa vera, il comfort moderno e la
+            bellezza autentica del mare dello Ionio.
+          </p>
+          <p class="section-desc" style="margin-top: 1rem;">
+            Il nostro obiettivo è semplice: farvi sentire non turisti,
+            ma ospiti graditi.
+          </p>
+        </div>
       </div>
     </section>
 
-    <!-- Properties -->
-    <section class="py-20 px-6" style="background-color: #faf8f4;">
-      <div class="container mx-auto max-w-5xl">
-        <p
-          class="text-center text-sm font-bold uppercase mb-3"
-          style="color: #c4622d; letter-spacing: 0.25em;"
-        >
-          Le Nostre Strutture
-        </p>
-        <h2
-          class="text-center text-3xl md:text-4xl font-bold mb-14"
-          style="color: #1b3a5c;"
-        >
-          Scegli la tua esperienza
-        </h2>
+    <!-- ═══ PROPERTIES ═══ -->
+    <section class="properties" id="strutture">
+      <div class="properties-inner">
+        <div style="text-align: center;" class="reveal">
+          <p class="section-label">Le Nostre Strutture</p>
+          <h2 class="section-title">Scegli la tua esperienza</h2>
+        </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
-
+        <div class="properties-grid">
           <!-- Perla Bianca -->
-          <a href="/perla-bianca/" class="block card-hover rounded-2xl overflow-hidden shadow-lg bg-white">
-            <div class="relative overflow-hidden" style="height: 240px;">
+          <a href="/perla-bianca/" class="prop-card reveal reveal-delay-1">
+            <div class="prop-card-img-wrap">
               <img
                 src="./img/hero.webp"
-                alt="Perla Bianca - Casa Vacanze al Mare"
-                class="w-full h-full object-cover"
+                alt="Perla Bianca — Casa Vacanze al Mare"
+                class="prop-card-img"
               />
-              <div
-                class="absolute inset-0"
-                style="background: linear-gradient(to top, rgba(27,58,92,0.65), transparent);"
-              ></div>
-              <span
-                class="absolute top-4 right-4 text-xs font-bold text-white uppercase tracking-widest px-3 py-1 rounded-full"
-                style="background-color: #c4622d;"
-                >Disponibile</span
-              >
+              <div class="prop-card-gradient"></div>
+              <span class="prop-card-badge">Disponibile</span>
             </div>
-            <div class="p-7">
-              <h3 class="text-2xl font-bold mb-3" style="color: #1b3a5c;">
-                Perla Bianca
-              </h3>
-              <p class="text-gray-500 text-sm leading-relaxed mb-5">
+            <div class="prop-card-body">
+              <h3 class="prop-card-name">Perla Bianca</h3>
+              <p class="prop-card-desc">
                 Casa vacanze ristrutturata a due passi dal mare. WiFi, aria
                 condizionata, cucina attrezzata, fino a 5 posti letto.
               </p>
-              <div
-                class="flex items-center justify-between pt-4 border-t border-gray-100"
-              >
-                <span class="text-sm text-gray-400"
-                  >Da <strong class="text-gray-600">€120</strong>/notte</span
-                >
-                <span class="font-bold text-sm" style="color: #c4622d;"
-                  >Scopri →</span
-                >
+              <div class="prop-card-footer">
+                <span class="prop-card-price">
+                  Da <strong>€120</strong> / notte
+                </span>
+                <span class="prop-card-link">
+                  Scopri <span>→</span>
+                </span>
               </div>
             </div>
           </a>
 
-          <!-- Coming soon placeholder -->
-          <div
-            class="card-hover rounded-2xl overflow-hidden shadow-lg bg-white"
-            style="opacity: 0.72; cursor: default; user-select: none;"
-          >
-            <div
-              class="relative overflow-hidden flex items-center justify-center"
-              style="height: 240px; background: linear-gradient(135deg, #1b3a5c 0%, #2a5c3a 100%);"
-            >
-              <div class="text-center" style="color: rgba(255,255,255,0.25);">
-                <div style="font-size: 3.5rem; line-height: 1;">🌿</div>
-                <p
-                  class="text-xs uppercase mt-3"
-                  style="opacity: 0.5; letter-spacing: 0.2em;"
-                >
-                  In arrivo
-                </p>
-              </div>
-              <span
-                class="absolute top-4 right-4 text-xs font-bold text-white uppercase tracking-widest px-3 py-1 rounded-full"
-                style="background-color: rgba(255,255,255,0.2);"
-                >Prossimamente</span
-              >
+          <!-- Coming Soon -->
+          <div class="prop-card prop-card-soon reveal reveal-delay-2">
+            <div class="prop-card-img-wrap">
+              <span class="prop-card-soon-icon">🌿</span>
+              <span class="prop-card-badge" style="background: rgba(255,255,255,0.15);">Prossimamente</span>
             </div>
-            <div class="p-7">
-              <h3 class="text-2xl font-bold mb-3" style="color: #1b3a5c;">
-                Una nuova esperienza
-              </h3>
-              <p class="text-gray-400 text-sm leading-relaxed mb-5">
+            <div class="prop-card-body">
+              <h3 class="prop-card-name">Una nuova esperienza</h3>
+              <p class="prop-card-desc">
                 Tra oliveti, macchia mediterranea e i profumi della Puglia
                 interna. Un progetto che nasce dalla terra. In arrivo.
               </p>
-              <div class="flex items-center justify-end pt-4 border-t border-gray-100">
-                <span class="text-sm italic" style="color: #c8c8c8;"
-                  >In preparazione...</span
-                >
+              <div class="prop-card-footer">
+                <span></span>
+                <span class="prop-card-price" style="font-style: italic;">
+                  In preparazione…
+                </span>
               </div>
             </div>
           </div>
-
         </div>
       </div>
     </section>
 
-    <!-- Territory -->
-    <section class="py-20 px-6" style="background-color: #1b3a5c;">
-      <div class="container mx-auto max-w-3xl text-center text-white">
-        <p
-          class="text-sm font-bold uppercase mb-4"
-          style="color: #c4622d; letter-spacing: 0.25em;"
-        >
-          Il Territorio
-        </p>
-        <h2 class="text-3xl md:text-4xl font-bold mb-6">
-          San Pietro in Bevagna
+    <!-- ═══ GALLERY ═══ -->
+    <section class="gallery" id="galleria">
+      <div class="gallery-inner">
+        <div style="text-align: center;" class="reveal">
+          <p class="section-label">Galleria</p>
+          <h2 class="section-title">Scorci di Puglia</h2>
+        </div>
+
+        <div class="gallery-grid">
+          <div class="gallery-item gallery-item-lg reveal">
+            <img src="./img/hero.webp" alt="Vista mare" />
+          </div>
+          <div class="gallery-item reveal reveal-delay-1">
+            <img src="./img/5.webp" alt="Esterno" />
+          </div>
+          <div class="gallery-item reveal reveal-delay-2">
+            <img src="./img/6.webp" alt="Camera" />
+          </div>
+          <div class="gallery-item reveal">
+            <img src="./img/7.webp" alt="Dettaglio" />
+          </div>
+          <div class="gallery-item reveal reveal-delay-1">
+            <img src="./img/8.webp" alt="Cucina" />
+          </div>
+          <div class="gallery-item reveal reveal-delay-2">
+            <img src="./img/9.webp" alt="Soggiorno" />
+          </div>
+          <div class="gallery-item reveal">
+            <img src="./img/11.webp" alt="Spiaggia" />
+          </div>
+          <div class="gallery-item reveal reveal-delay-1">
+            <img src="./img/12.webp" alt="Panorama" />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ TERRITORY ═══ -->
+    <section class="territory" id="territorio">
+      <img
+        src="./img/13.webp"
+        alt="San Pietro in Bevagna — Costa selvaggia"
+        class="territory-bg"
+      />
+      <div class="territory-content reveal">
+        <p class="section-label" style="color: rgba(255,255,255,0.5);">Il Territorio</p>
+        <h2 class="section-title section-title-light">
+          San Pietro<br/>in Bevagna
         </h2>
-        <p class="leading-relaxed" style="opacity: 0.70; max-width: 36rem; margin: 0 auto;">
+        <div class="section-divider"></div>
+        <p class="section-desc section-desc-light">
           Una piccola perla della Puglia, affacciata sullo Ionio nel comune di
           Manduria. Mare cristallino, dune di sabbia fine e una natura
-          incontaminata. Il luogo perfetto per una vacanza vera, lontano dalla
-          frenesia.
+          incontaminata.
+        </p>
+        <p class="section-desc section-desc-light" style="margin-top: 1rem;">
+          Il luogo perfetto per una vacanza vera, lontano dalla frenesia.
         </p>
       </div>
     </section>
 
-    <!-- Footer -->
-    <footer class="py-10 px-6 text-center" style="background-color: #faf8f4;">
-      <p class="text-gray-400 text-xs">
-        © 2025 I Sarcofagi del Re · San Pietro in Bevagna (TA) · Puglia
-      </p>
-      <a
-        href="/admin.html"
-        class="text-xs mt-2 inline-block transition-colors"
-        style="color: #c8c8c8;"
-        onmouseover="this.style.color='#888'"
-        onmouseout="this.style.color='#c8c8c8'"
-        >Area Riservata</a
-      >
+    <!-- ═══ FEATURES ═══ -->
+    <section class="features" id="servizi">
+      <div class="features-inner">
+        <div style="text-align: center;" class="reveal">
+          <p class="section-label">Cosa Offriamo</p>
+          <h2 class="section-title">Tutto per il tuo comfort</h2>
+        </div>
+
+        <div class="features-grid">
+          <div class="feature-item reveal">
+            <span class="feature-icon">🏖️</span>
+            <p class="feature-name">Mare a due passi</p>
+            <p class="feature-desc">Spiaggia dorata raggiungibile in pochi minuti a piedi</p>
+          </div>
+          <div class="feature-item reveal reveal-delay-1">
+            <span class="feature-icon">🌿</span>
+            <p class="feature-name">Natura incontaminata</p>
+            <p class="feature-desc">Macchia mediterranea, dune e paesaggi mozzafiato</p>
+          </div>
+          <div class="feature-item reveal reveal-delay-2">
+            <span class="feature-icon">🍽️</span>
+            <p class="feature-name">Cucina pugliese</p>
+            <p class="feature-desc">Ristoranti tipici, prodotti locali e sapori autentici</p>
+          </div>
+          <div class="feature-item reveal reveal-delay-3">
+            <span class="feature-icon">🛏️</span>
+            <p class="feature-name">Comfort totale</p>
+            <p class="feature-desc">WiFi, A/C, cucina attrezzata e ogni comfort moderno</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ FOOTER ═══ -->
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <div>
+          <p class="footer-brand-name">I Sarcofagi del Re</p>
+          <p class="footer-brand-desc">
+            Ospitalità autentica nel cuore della Puglia, tra il mare dello
+            Ionio e la macchia mediterranea di San Pietro in Bevagna.
+          </p>
+        </div>
+        <div>
+          <p class="footer-col-title">Esplora</p>
+          <ul class="footer-links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#strutture">Le Strutture</a></li>
+            <li><a href="#galleria">Galleria</a></li>
+            <li><a href="#territorio">Il Territorio</a></li>
+            <li><a href="#servizi">Servizi</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="footer-col-title">Contatti</p>
+          <ul class="footer-links">
+            <li>📍 San Pietro in Bevagna (TA)</li>
+            <li>📍 Manduria, Puglia 74024</li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p class="footer-copyright">
+          © 2025 I Sarcofagi del Re · Tutti i diritti riservati
+        </p>
+        <a href="/admin.html" class="footer-admin">Area Riservata</a>
+      </div>
     </footer>
 
+    <!-- ═══ SCRIPTS ═══ -->
+    <script>
+      // ── Scroll header ──
+      const header = document.getElementById('siteHeader');
+      window.addEventListener('scroll', () => {
+        header.classList.toggle('scrolled', window.scrollY > 60);
+      });
+
+      // ── Mobile menu ──
+      const toggle = document.getElementById('mobileToggle');
+      const nav = document.getElementById('headerNav');
+      toggle.addEventListener('click', () => nav.classList.toggle('open'));
+      nav.querySelectorAll('a').forEach(a =>
+        a.addEventListener('click', () => nav.classList.remove('open'))
+      );
+
+      // ── Scroll reveal ──
+      const revealEls = document.querySelectorAll('.reveal');
+      const revealObserver = new IntersectionObserver(
+        (entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('active');
+              revealObserver.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.12, rootMargin: '0px 0px -40px 0px' }
+      );
+      revealEls.forEach(el => revealObserver.observe(el));
+    </script>
   </body>
 </html>
