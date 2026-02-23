@@ -52,10 +52,15 @@ export default async function handler(req, res) {
       scopes: ["https://www.googleapis.com/auth/spreadsheets"],
     });
 
-    const doc = new GoogleSpreadsheet(
-      process.env.GOOGLE_SHEET_ID,
-      serviceAccountAuth
-    );
+    // Resolve sheet ID per property (with fallback to default)
+    const propertyKey = (req.query?.property || "perla-bianca")
+      .toUpperCase()
+      .replace(/-/g, "_");
+    const sheetId =
+      process.env[`GOOGLE_SHEET_ID_${propertyKey}`] ||
+      process.env.GOOGLE_SHEET_ID;
+
+    const doc = new GoogleSpreadsheet(sheetId, serviceAccountAuth);
 
     await doc.loadInfo();
     const sheet = doc.sheetsByIndex[0]; // Assuming reviews are in the first sheet

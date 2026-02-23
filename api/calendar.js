@@ -26,7 +26,16 @@ export default async function handler(req, res) {
     });
 
     const calendar = google.calendar({ version: "v3", auth });
-    const calendarId = process.env.GOOGLE_CALENDAR_ID;
+
+    // Resolve calendar ID per property (with fallback to default)
+    const propertyRaw =
+      req.method === "GET" ? req.query?.property : req.body?.property;
+    const propertyKey = (propertyRaw || "perla-bianca")
+      .toUpperCase()
+      .replace(/-/g, "_");
+    const calendarId =
+      process.env[`GOOGLE_CALENDAR_ID_${propertyKey}`] ||
+      process.env.GOOGLE_CALENDAR_ID;
     //#endregion
 
     //#region GET Method (Public, realTitle only for admins)
@@ -44,9 +53,14 @@ export default async function handler(req, res) {
         res.setHeader("Cache-Control", "s-maxage=120, stale-while-revalidate=300");
       }
 
+      // Admin sees past 3 months too (for calendar navigation); public sees from today
+      const timeMin = isAdmin
+        ? new Date(Date.now() - 90 * 24 * 60 * 60 * 1000).toISOString()
+        : new Date().toISOString();
+
       const response = await calendar.events.list({
         calendarId,
-        timeMin: new Date().toISOString(),
+        timeMin,
         maxResults: 250,
         singleEvents: true,
         orderBy: "startTime",
@@ -62,7 +76,10 @@ export default async function handler(req, res) {
           color: "#ef4444",
           textColor: "black",
         };
-        if (isAdmin) item.realTitle = event.summary;
+        if (isAdmin) {
+          item.realTitle = event.summary;
+          item.description = event.description || "";
+        }
         return item;
       });
 

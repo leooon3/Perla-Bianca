@@ -4,57 +4,45 @@
     <meta charset="UTF-8" />
     <meta
       http-equiv="Content-Security-Policy"
-      content="default-src 'self'; 
-  script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://accounts.google.com https://apis.google.com https://npmcdn.com https://www.googletagmanager.com https://vercel.live; 
-  style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://accounts.google.com; 
-  img-src 'self' data: https://perla-bianca.vercel.app https://lh3.googleusercontent.com https://*.googleapis.com; 
-  font-src 'self' data: https://cdn.jsdelivr.net;
-  frame-src 'self' https://accounts.google.com https://content.googleapis.com http://googleusercontent.com https://www.google.com https://vercel.live; 
+      content="default-src 'self';
+  script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://accounts.google.com https://apis.google.com https://npmcdn.com https://www.googletagmanager.com https://vercel.live;
+  style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://accounts.google.com https://fonts.googleapis.com;
+  img-src 'self' data: https://perla-bianca.vercel.app https://lh3.googleusercontent.com https://*.googleapis.com;
+  font-src 'self' data: https://cdn.jsdelivr.net https://fonts.gstatic.com;
+  frame-src 'self' https://accounts.google.com https://content.googleapis.com http://googleusercontent.com https://www.google.com https://vercel.live;
   connect-src 'self' https://accounts.google.com https://api.open-meteo.com https://*.googleapis.com https://cdn.jsdelivr.net;"
     />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Perla Bianca - Casa Vacanze al Mare</title>
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://perla-bianca.vercel.app/" />
-    <meta
-      property="og:title"
-      content="Perla Bianca - La tua Casa Vacanze al Mare"
-    />
-    <meta
-      property="og:description"
-      content="Vieni a rilassarti a due passi dalla spiaggia. Appartamento ristrutturato, WiFi, A/C e fino a 5 posti letto. Prenota ora!"
-    />
-    <meta
-      property="og:image"
-      content="https://perla-bianca.vercel.app/img/hero.webp"
-    />
-
-    <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:url" content="https://perla-bianca.vercel.app/" />
-    <meta property="twitter:title" content="Perla Bianca - Casa Vacanze" />
-    <meta
-      property="twitter:description"
-      content="Vieni a rilassarti a due passi dalla spiaggia. Appartamento ristrutturato, WiFi, A/C."
-    />
-    <meta
-      property="twitter:image"
-      content="https://perla-bianca.vercel.app/img/hero.webp"
-    />
+    <title>Perla Bianca — Casa Vacanze al Mare · Puglia</title>
     <meta
       name="description"
-      content="Scopri Perla Bianca, la tua casa vacanze ideale per una vacanza indimenticabile. Vicino al centro e alla spiaggia, con tutti i comfort. Prenota ora!"
+      content="Scopri Perla Bianca, la tua casa vacanze a due passi dal mare di San Pietro in Bevagna. WiFi, A/C, cucina attrezzata, fino a 5 posti letto. Prenota ora!"
     />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://isarcofagidelre.it/perla-bianca/" />
+    <meta property="og:title" content="Perla Bianca — Casa Vacanze al Mare · Puglia" />
+    <meta property="og:description" content="Vieni a rilassarti a due passi dalla spiaggia. Appartamento ristrutturato, WiFi, A/C e fino a 5 posti letto. Prenota ora!" />
+    <meta property="og:image" content="https://perla-bianca.vercel.app/img/hero.webp" />
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:title" content="Perla Bianca — Casa Vacanze al Mare · Puglia" />
+    <meta property="twitter:description" content="Vieni a rilassarti a due passi dalla spiaggia. Appartamento ristrutturato, WiFi, A/C." />
+    <meta property="twitter:image" content="https://perla-bianca.vercel.app/img/hero.webp" />
+
     <link rel="icon" href="../img/logo.ico" type="image/ico" />
     <link rel="manifest" href="../manifest.json" />
-    <meta name="theme-color" content="#3b82f6" />
+    <meta name="theme-color" content="#1B3A5C" />
     <link rel="preload" as="image" href="../img/hero.webp" />
 
-    <!-- Custom Stylesheet -->
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+    <!-- Stylesheets -->
     <link rel="stylesheet" href="../style.css" />
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
-    />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
+    <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/locales-all.global.min.js"></script>
@@ -64,8 +52,8 @@
         "@context": "https://schema.org",
         "@type": "VacationRental",
         "name": "Perla Bianca Casa Vacanze",
-        "description": "Appartamento ristrutturato a due passi dalla spiaggia. WiFi, A/C e fino a 6 posti letto.",
-        "url": "https://perla-bianca.vercel.app/",
+        "description": "Appartamento ristrutturato a due passi dalla spiaggia. WiFi, A/C e fino a 5 posti letto.",
+        "url": "https://isarcofagidelre.it/perla-bianca/",
         "image": "https://perla-bianca.vercel.app/img/hero.webp",
         "address": {
           "@type": "PostalAddress",
@@ -76,107 +64,835 @@
         },
         "priceRange": "€120 - €200",
         "checkinTime": "15:00",
-        "checkoutTime": "10:00",
-        "amenityFeature": [
-          {
-            "@type": "LocationFeatureSpecification",
-            "name": "WiFi",
-            "value": true
-          },
-          {
-            "@type": "LocationFeatureSpecification",
-            "name": "Aria Condizionata",
-            "value": true
-          },
-          {
-            "@type": "LocationFeatureSpecification",
-            "name": "Cucina",
-            "value": true
-          },
-          {
-            "@type": "LocationFeatureSpecification",
-            "name": "Accesso spiaggia",
-            "value": true
-          }
-        ]
+        "checkoutTime": "10:00"
       }
     </script>
-    <script defer src="/_vercel/insights/script.js"></script>
-  </head>
-  <body class="font-sans antialiased text-gray-800 lang-loading">
-    <!-- Company breadcrumb -->
-    <div class="bg-[#1B3A5C] text-white text-xs py-1.5 text-center">
-      <a href="/" class="hover:underline opacity-75 hover:opacity-100 transition-opacity">← I Sarcofagi del Re</a>
-    </div>
-    <!-- Header / Navigation -->
-    <header
-      id="header"
-      class="bg-blue-100/90 shadow sticky top-0 z-50 transition-shadow duration-300"
-    >
-      <div
-        class="container mx-auto px-6 py-4 flex justify-between items-center"
-      >
-        <a href="index.html" class="flex items-center gap-3 group">
-          <img
-            src="../img/logo.png"
-            alt="Logo Perla Bianca"
-            class="h-10 w-auto transition-transform group-hover:scale-110"
-          />
 
-          <span class="text-xl font-bold text-blue-600 tracking-tight">
-            Perla Bianca
-          </span>
-        </a>
-        <div class="nav-toggle md:hidden text-3xl cursor-pointer">&#9776;</div>
-        <nav
-          id="mobileMenu"
-          class="md:flex md:space-x-6 md:static md:opacity-100 md:visible md:translate-y-0 md:flex-row md:bg-transparent md:shadow-none md:p-0"
-        >
-          <a href="#servizi" class="hover:text-blue-600" data-i18n="nav_servizi"
-            >Servizi</a
-          >
-          <a
-            href="#galleria"
-            class="hover:text-blue-600"
-            data-i18n="nav_galleria"
-            >Galleria</a
-          >
-          <a href="#prezzi" class="hover:text-blue-600" data-i18n="nav_prezzi"
-            >Prezzi</a
-          >
-          <a
-            href="#disponibilita"
-            class="hover:text-blue-600"
-            data-i18n="nav_calendario"
-            >Calendario</a
-          >
-          <a
-            href="#recensioni"
-            class="hover:text-blue-600"
-            data-i18n="nav_recensioni"
-            >Recensioni</a
-          >
-          <a href="#dove" class="hover:text-blue-600" data-i18n="nav_dove"
-            >Dove Siamo</a
-          >
-          <a
-            href="#chisiamo"
-            class="hover:text-blue-600"
-            data-i18n="nav_chisiamo"
-            >Chi Siamo</a
-          >
-          <a
-            href="#contatti"
-            class="hover:text-blue-600"
-            data-i18n="nav_contatti"
-            >Contatti</a
-          >
-        </nav>
-      </div>
+    <script defer src="/_vercel/insights/script.js"></script>
+
+    <style>
+      :root {
+        --navy: #1b3a5c;
+        --terracotta: #c4622d;
+        --ivory: #faf8f4;
+        --navy-light: #244b73;
+        --terracotta-light: #d4784a;
+      }
+
+      * { box-sizing: border-box; }
+
+      body {
+        margin: 0;
+        font-family: 'Inter', sans-serif;
+        color: #333;
+        background-color: var(--ivory);
+        overflow-x: hidden;
+      }
+
+      html { scroll-behavior: smooth; }
+
+      /* ─── Animations ─── */
+      @keyframes fadeInUp {
+        from { opacity: 0; transform: translateY(40px); }
+        to   { opacity: 1; transform: translateY(0); }
+      }
+      @keyframes fadeIn {
+        from { opacity: 0; }
+        to   { opacity: 1; }
+      }
+      @keyframes float {
+        0%, 100% { transform: translateY(0); }
+        50%      { transform: translateY(-10px); }
+      }
+
+      .reveal {
+        opacity: 0;
+        transform: translateY(40px);
+        transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+                    transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+      }
+      .reveal.active { opacity: 1; transform: translateY(0); }
+      .reveal-delay-1 { transition-delay: 0.15s; }
+      .reveal-delay-2 { transition-delay: 0.30s; }
+      .reveal-delay-3 { transition-delay: 0.45s; }
+
+      /* ─── Header ─── */
+      .breadcrumb-bar {
+        background: var(--navy);
+        color: rgba(255,255,255,0.6);
+        font-size: 0.7rem;
+        text-align: center;
+        padding: 0.45rem 1rem;
+        letter-spacing: 0.05em;
+      }
+      .breadcrumb-bar a {
+        color: rgba(255,255,255,0.6);
+        text-decoration: none;
+        transition: color 0.3s;
+      }
+      .breadcrumb-bar a:hover { color: #fff; }
+
+      .site-header {
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        padding: 1rem 2rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: rgba(27, 58, 92, 0.97);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        box-shadow: 0 4px 30px rgba(0,0,0,0.12);
+      }
+      .header-logo {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        text-decoration: none;
+        color: #fff;
+      }
+      .header-logo img {
+        height: 38px;
+        width: auto;
+        transition: transform 0.3s;
+      }
+      .header-logo:hover img { transform: scale(1.08); }
+      .header-logo-text {
+        font-family: 'Playfair Display', serif;
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: #fff;
+      }
+      .header-nav {
+        display: flex;
+        align-items: center;
+        gap: 1.75rem;
+      }
+      .header-nav a {
+        color: rgba(255,255,255,0.7);
+        text-decoration: none;
+        font-size: 0.78rem;
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        transition: color 0.3s;
+      }
+      .header-nav a:hover { color: #fff; }
+
+      .mobile-toggle {
+        display: none;
+        background: none;
+        border: none;
+        color: #fff;
+        font-size: 1.75rem;
+        cursor: pointer;
+        padding: 0.25rem;
+      }
+
+      @media (max-width: 768px) {
+        .header-nav { display: none; }
+        .mobile-toggle { display: block; }
+        .header-nav.open {
+          display: flex;
+          flex-direction: column;
+          position: absolute;
+          top: 100%;
+          left: 0; right: 0;
+          background: rgba(27, 58, 92, 0.98);
+          backdrop-filter: blur(16px);
+          padding: 2rem;
+          gap: 1.25rem;
+          animation: fadeIn 0.25s ease;
+        }
+        .header-nav.open a {
+          font-size: 1rem;
+          color: rgba(255,255,255,0.85);
+        }
+      }
+
+      /* ─── Hero ─── */
+      .hero {
+        position: relative;
+        min-height: 90vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+      }
+      .hero-bg {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        filter: brightness(0.45) saturate(1.15);
+        transition: transform 8s ease;
+      }
+      .hero:hover .hero-bg { transform: scale(1.03); }
+      .hero-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          180deg,
+          rgba(27, 58, 92, 0.3) 0%,
+          rgba(27, 58, 92, 0.05) 40%,
+          rgba(27, 58, 92, 0.55) 100%
+        );
+      }
+      .hero-content {
+        position: relative;
+        z-index: 10;
+        text-align: center;
+        color: #fff;
+        padding: 2rem;
+        max-width: 800px;
+      }
+      .hero-label {
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.35em;
+        color: var(--terracotta-light);
+        margin-bottom: 1.5rem;
+        animation: fadeInUp 1s ease 0.2s both;
+      }
+      .hero-title {
+        font-family: 'Playfair Display', serif;
+        font-size: clamp(3rem, 8vw, 6rem);
+        font-weight: 700;
+        line-height: 1.08;
+        margin: 0 0 1.25rem;
+        text-shadow: 0 4px 40px rgba(0,0,0,0.3);
+        animation: fadeInUp 1s ease 0.4s both;
+      }
+      .hero-subtitle {
+        font-size: clamp(1rem, 2.5vw, 1.2rem);
+        font-weight: 300;
+        opacity: 0.85;
+        max-width: 500px;
+        margin: 0 auto 2.5rem;
+        line-height: 1.7;
+        animation: fadeInUp 1s ease 0.6s both;
+      }
+      .hero-cta {
+        display: inline-block;
+        background: var(--terracotta);
+        color: #fff;
+        text-decoration: none;
+        padding: 1rem 2.75rem;
+        border-radius: 50px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.15em;
+        transition: background 0.3s, transform 0.3s, box-shadow 0.3s;
+        animation: fadeInUp 1s ease 0.8s both;
+      }
+      .hero-cta:hover {
+        background: var(--terracotta-light);
+        transform: translateY(-3px);
+        box-shadow: 0 12px 40px rgba(196, 98, 45, 0.35);
+      }
+      .hero-scroll {
+        position: absolute;
+        bottom: 2rem;
+        left: 50%;
+        transform: translateX(-50%);
+        color: rgba(255,255,255,0.5);
+        font-size: 0.65rem;
+        text-transform: uppercase;
+        letter-spacing: 0.2em;
+        text-decoration: none;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
+        animation: float 3s ease-in-out infinite;
+        z-index: 10;
+      }
+      .hero-scroll-line {
+        width: 1px;
+        height: 36px;
+        background: linear-gradient(to bottom, rgba(255,255,255,0.5), transparent);
+      }
+
+      /* ─── Weather Widget ─── */
+      #weatherWidget {
+        position: absolute;
+        top: 1.5rem;
+        right: 1.5rem;
+        z-index: 20;
+      }
+
+      /* ─── Section Shared ─── */
+      .section-wrap {
+        padding: 7rem 2rem;
+      }
+      .section-wrap-alt { background: #fff; }
+      .section-wrap-ivory { background: var(--ivory); }
+      .section-wrap-navy { background: var(--navy); }
+
+      .section-inner {
+        max-width: 1100px;
+        margin: 0 auto;
+      }
+      .section-inner-sm {
+        max-width: 720px;
+        margin: 0 auto;
+      }
+      .section-inner-md {
+        max-width: 900px;
+        margin: 0 auto;
+      }
+
+      .section-label {
+        font-size: 0.75rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.3em;
+        color: var(--terracotta);
+        margin-bottom: 0.75rem;
+      }
+      .section-title {
+        font-family: 'Playfair Display', serif;
+        font-size: clamp(1.75rem, 4vw, 2.75rem);
+        font-weight: 700;
+        color: var(--navy);
+        line-height: 1.2;
+        margin: 0 0 1rem;
+      }
+      .section-title-light { color: #fff; }
+      .section-desc {
+        font-size: 1rem;
+        line-height: 1.75;
+        color: #666;
+      }
+      .section-desc-light { color: rgba(255,255,255,0.7); }
+      .section-divider {
+        width: 56px;
+        height: 3px;
+        background: var(--terracotta);
+        border-radius: 3px;
+        margin: 1.25rem 0;
+      }
+      .section-center { text-align: center; }
+      .section-center .section-divider { margin: 1.25rem auto; }
+
+      /* ─── Features / Services ─── */
+      .features-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 2rem;
+        margin-top: 4rem;
+      }
+      @media (max-width: 768px) {
+        .features-grid { grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
+      }
+      @media (max-width: 480px) {
+        .features-grid { grid-template-columns: 1fr; }
+      }
+      .feature-item {
+        text-align: center;
+        padding: 2.25rem 1.5rem;
+        border-radius: 1.25rem;
+        background: var(--ivory);
+        transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.35s;
+      }
+      .feature-item:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 20px 40px rgba(27,58,92,0.1);
+      }
+      .feature-icon {
+        font-size: 2.5rem;
+        display: block;
+        margin-bottom: 1rem;
+      }
+      .feature-name {
+        font-family: 'Playfair Display', serif;
+        font-size: 1.05rem;
+        font-weight: 600;
+        color: var(--navy);
+        margin: 0 0 0.5rem;
+      }
+      .feature-desc {
+        font-size: 0.875rem;
+        color: #888;
+        line-height: 1.6;
+        margin: 0;
+      }
+
+      /* ─── FAQ ─── */
+      .faq-list { margin-top: 3rem; }
+      .faq-item {
+        border: 1px solid rgba(27,58,92,0.1);
+        border-radius: 1rem;
+        padding: 1.5rem 2rem;
+        margin-bottom: 1rem;
+        background: #fff;
+        transition: box-shadow 0.3s;
+      }
+      .faq-item:hover { box-shadow: 0 8px 24px rgba(27,58,92,0.08); }
+      .faq-question {
+        font-family: 'Playfair Display', serif;
+        font-size: 1.05rem;
+        font-weight: 600;
+        color: var(--navy);
+        margin: 0 0 0.75rem;
+        display: flex;
+        align-items: flex-start;
+        gap: 0.75rem;
+      }
+      .faq-question::before {
+        content: '?';
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 1.5rem;
+        height: 1.5rem;
+        min-width: 1.5rem;
+        background: var(--terracotta);
+        color: #fff;
+        border-radius: 50%;
+        font-size: 0.75rem;
+        font-weight: 700;
+        font-family: 'Inter', sans-serif;
+        margin-top: 0.1rem;
+      }
+      .faq-answer {
+        font-size: 0.9rem;
+        color: #666;
+        line-height: 1.75;
+        margin: 0;
+        padding-left: 2.25rem;
+      }
+      .faq-guide-box {
+        text-align: center;
+        margin-top: 3rem;
+        padding: 2rem;
+        background: rgba(27,58,92,0.04);
+        border-radius: 1rem;
+        border: 1px dashed rgba(27,58,92,0.15);
+      }
+      .faq-guide-box p {
+        color: #666;
+        margin: 0 0 1rem;
+      }
+      .faq-guide-link {
+        color: var(--terracotta);
+        font-weight: 700;
+        text-decoration: none;
+        border-bottom: 2px solid var(--terracotta);
+        padding-bottom: 0.1rem;
+        transition: color 0.3s, border-color 0.3s;
+      }
+      .faq-guide-link:hover { color: var(--terracotta-light); border-color: var(--terracotta-light); }
+
+      /* ─── Gallery ─── */
+      .swiper.mainGallery {
+        border-radius: 1.25rem;
+        overflow: hidden;
+        box-shadow: 0 25px 60px rgba(27,58,92,0.2);
+      }
+      .swiper.mainGallery .swiper-slide img {
+        width: 100%;
+        height: 520px;
+        object-fit: cover;
+        display: block;
+      }
+      @media (max-width: 768px) {
+        .swiper.mainGallery .swiper-slide img { height: 300px; }
+      }
+      .swiper.thumbnailGallery {
+        margin-top: 1rem;
+        border-radius: 0.75rem;
+        overflow: hidden;
+      }
+      .swiper.thumbnailGallery .swiper-slide img {
+        width: 100%;
+        height: 80px;
+        object-fit: cover;
+        border-radius: 0.5rem;
+        opacity: 0.55;
+        transition: opacity 0.3s;
+        cursor: pointer;
+      }
+      .swiper.thumbnailGallery .swiper-slide-thumb-active img { opacity: 1; }
+
+      /* ─── Prices Table ─── */
+      .prices-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 3rem;
+        border-radius: 1rem;
+        overflow: hidden;
+        box-shadow: 0 8px 30px rgba(27,58,92,0.08);
+      }
+      .prices-table thead tr {
+        background: var(--navy);
+        color: #fff;
+      }
+      .prices-table th {
+        padding: 1.1rem 1.5rem;
+        font-family: 'Inter', sans-serif;
+        font-size: 0.75rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.15em;
+        text-align: left;
+      }
+      .prices-table tbody tr {
+        background: #fff;
+        border-bottom: 1px solid rgba(27,58,92,0.07);
+        transition: background 0.2s;
+      }
+      .prices-table tbody tr:hover { background: var(--ivory); }
+      .prices-table td {
+        padding: 1.1rem 1.5rem;
+        font-size: 0.95rem;
+        color: #444;
+      }
+      .prices-table td:last-child {
+        font-family: 'Playfair Display', serif;
+        font-weight: 700;
+        color: var(--navy);
+        font-size: 1.05rem;
+      }
+      .prices-note {
+        text-align: center;
+        color: #888;
+        font-size: 0.875rem;
+        margin-top: 1.5rem;
+        line-height: 1.6;
+      }
+
+      /* ─── Calendar ─── */
+      .calendar-wrap {
+        background: #fff;
+        border-radius: 1.5rem;
+        padding: 1.5rem;
+        box-shadow: 0 10px 40px rgba(27,58,92,0.1);
+        border: 1px solid rgba(27,58,92,0.07);
+        margin-top: 3rem;
+      }
+
+      /* ─── Reviews ─── */
+      .avg-rating-wrap {
+        text-align: center;
+        margin: 2rem 0 3rem;
+      }
+      .reviews-cta {
+        text-align: center;
+        margin-bottom: 3.5rem;
+      }
+      .reviews-cta p {
+        color: #666;
+        margin: 0 0 1.25rem;
+        font-size: 1rem;
+      }
+      .reviews-btn {
+        display: inline-block;
+        background: var(--terracotta);
+        color: #fff;
+        text-decoration: none;
+        padding: 0.9rem 2.5rem;
+        border-radius: 50px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        transition: background 0.3s, transform 0.3s, box-shadow 0.3s;
+      }
+      .reviews-btn:hover {
+        background: var(--terracotta-light);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 24px rgba(196,98,45,0.3);
+      }
+      #reviewsContainer {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 1.5rem;
+      }
+
+      /* ─── Map ─── */
+      .map-wrap {
+        border-radius: 1.25rem;
+        overflow: hidden;
+        box-shadow: 0 15px 40px rgba(27,58,92,0.12);
+        margin-top: 3rem;
+        height: 420px;
+      }
+      .map-wrap iframe { width: 100%; height: 100%; border: 0; display: block; }
+
+      /* ─── About / Chi Siamo ─── */
+      .about-inner {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 5rem;
+        align-items: center;
+      }
+      @media (max-width: 768px) {
+        .about-inner { grid-template-columns: 1fr; gap: 3rem; }
+      }
+      .about-img-wrap { position: relative; }
+      .about-img-accent {
+        position: absolute;
+        top: -14px; left: -14px; right: 14px; bottom: 14px;
+        border: 2px solid var(--terracotta);
+        border-radius: 1.25rem;
+        opacity: 0.3;
+      }
+      .about-img {
+        width: 100%;
+        height: 440px;
+        object-fit: cover;
+        border-radius: 1.25rem;
+        position: relative;
+        z-index: 2;
+        box-shadow: 0 25px 50px rgba(27,58,92,0.15);
+      }
+      .about-badge {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        margin-top: 2rem;
+        padding: 1.25rem 1.5rem;
+        background: var(--ivory);
+        border-radius: 0.875rem;
+        border-left: 4px solid var(--terracotta);
+      }
+      .about-badge-title {
+        font-weight: 700;
+        color: var(--navy);
+        font-size: 0.9rem;
+        margin: 0 0 0.2rem;
+      }
+      .about-badge-sub {
+        color: #999;
+        font-size: 0.8rem;
+        margin: 0;
+      }
+
+      /* ─── Contact ─── */
+      .contact-form { display: grid; gap: 1rem; margin-top: 3rem; }
+      .contact-input {
+        width: 100%;
+        padding: 1rem 1.25rem;
+        background: rgba(255,255,255,0.08);
+        border: 1px solid rgba(255,255,255,0.15);
+        border-radius: 0.875rem;
+        color: #fff;
+        font-family: 'Inter', sans-serif;
+        font-size: 0.95rem;
+        outline: none;
+        transition: border 0.3s, background 0.3s;
+      }
+      .contact-input:focus {
+        border-color: var(--terracotta);
+        background: rgba(255,255,255,0.12);
+      }
+      .contact-input::placeholder { color: rgba(255,255,255,0.35); }
+      textarea.contact-input { resize: vertical; min-height: 140px; }
+      .contact-submit {
+        width: 100%;
+        padding: 1.1rem;
+        background: var(--terracotta);
+        color: #fff;
+        border: none;
+        border-radius: 0.875rem;
+        font-family: 'Inter', sans-serif;
+        font-size: 0.9rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        cursor: pointer;
+        transition: background 0.3s, transform 0.3s;
+        margin-top: 0.5rem;
+      }
+      .contact-submit:hover {
+        background: var(--terracotta-light);
+        transform: translateY(-2px);
+      }
+      #formStatus {
+        text-align: center;
+        font-size: 0.9rem;
+        color: rgba(255,255,255,0.7);
+        margin-top: 0.5rem;
+      }
+
+      /* ─── Footer ─── */
+      .site-footer {
+        background: var(--navy);
+        color: #fff;
+        padding: 5rem 2rem 2rem;
+      }
+      .footer-inner {
+        max-width: 1100px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: 2fr 1fr 1fr 1fr;
+        gap: 3rem;
+      }
+      @media (max-width: 900px) {
+        .footer-inner { grid-template-columns: 1fr 1fr; gap: 2.5rem; }
+      }
+      @media (max-width: 560px) {
+        .footer-inner { grid-template-columns: 1fr; }
+      }
+      .footer-brand-name {
+        font-family: 'Playfair Display', serif;
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin: 0 0 1rem;
+      }
+      .footer-brand-desc {
+        font-size: 0.875rem;
+        line-height: 1.7;
+        color: rgba(255,255,255,0.45);
+        max-width: 280px;
+        margin: 0;
+      }
+      .footer-col-title {
+        font-size: 0.7rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.2em;
+        color: var(--terracotta-light);
+        margin-bottom: 1.25rem;
+      }
+      .footer-links {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+      .footer-links li { margin-bottom: 0.75rem; color: rgba(255,255,255,0.45); font-size: 0.85rem; }
+      .footer-links a {
+        color: rgba(255,255,255,0.45);
+        text-decoration: none;
+        font-size: 0.85rem;
+        transition: color 0.3s;
+      }
+      .footer-links a:hover { color: #fff; }
+      .footer-bottom {
+        max-width: 1100px;
+        margin: 3rem auto 0;
+        padding-top: 2rem;
+        border-top: 1px solid rgba(255,255,255,0.08);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 1rem;
+      }
+      .footer-copyright { font-size: 0.75rem; color: rgba(255,255,255,0.25); }
+      .footer-lang {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+      }
+      .footer-lang button {
+        background: none;
+        border: none;
+        color: rgba(255,255,255,0.35);
+        font-size: 0.8rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: color 0.3s;
+        font-family: 'Inter', sans-serif;
+      }
+      .footer-lang button:hover { color: #fff; }
+      .footer-lang span { color: rgba(255,255,255,0.15); font-size: 0.7rem; }
+      .footer-admin {
+        font-size: 0.7rem;
+        color: rgba(255,255,255,0.2);
+        text-decoration: none;
+        transition: color 0.3s;
+      }
+      .footer-admin:hover { color: rgba(255,255,255,0.5); }
+
+      /* ─── Scroll Top Button ─── */
+      #scrollTopBtn {
+        position: fixed;
+        bottom: 1.5rem;
+        right: 1.5rem;
+        z-index: 9999;
+        background: var(--terracotta);
+        color: #fff;
+        padding: 0.875rem;
+        border-radius: 50%;
+        box-shadow: 0 4px 20px rgba(196,98,45,0.4);
+        cursor: pointer;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s, transform 0.3s;
+        border: none;
+      }
+      #scrollTopBtn:hover { transform: translateY(-2px); }
+
+      /* ─── Cookie Banner ─── */
+      #cookieBanner {
+        position: fixed;
+        bottom: 0; left: 0; right: 0;
+        background: rgba(27,58,92,0.97);
+        backdrop-filter: blur(12px);
+        color: #fff;
+        padding: 1.25rem 2rem;
+        z-index: 9998;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 1.5rem;
+        flex-wrap: wrap;
+      }
+      #cookieBanner p {
+        font-size: 0.85rem;
+        color: rgba(255,255,255,0.7);
+        margin: 0;
+      }
+      #acceptCookies {
+        background: var(--terracotta);
+        color: #fff;
+        border: none;
+        padding: 0.6rem 1.5rem;
+        border-radius: 50px;
+        font-size: 0.8rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition: background 0.3s;
+        white-space: nowrap;
+      }
+      #acceptCookies:hover { background: var(--terracotta-light); }
+    </style>
+  </head>
+
+  <body class="lang-loading">
+
+    <!-- ═══ BREADCRUMB ═══ -->
+    <div class="breadcrumb-bar">
+      <a href="/">← I Sarcofagi del Re</a>
+    </div>
+
+    <!-- ═══ HEADER ═══ -->
+    <header class="site-header" id="siteHeader">
+      <a href="index.html" class="header-logo">
+        <img src="../img/logo.png" alt="Logo Perla Bianca" />
+        <span class="header-logo-text">Perla Bianca</span>
+      </a>
+      <button class="mobile-toggle" id="mobileToggle" aria-label="Menu">&#9776;</button>
+      <nav class="header-nav" id="mobileMenu">
+        <a href="#servizi" data-i18n="nav_servizi">Servizi</a>
+        <a href="#galleria" data-i18n="nav_galleria">Galleria</a>
+        <a href="#prezzi" data-i18n="nav_prezzi">Prezzi</a>
+        <a href="#disponibilita" data-i18n="nav_calendario">Calendario</a>
+        <a href="#recensioni" data-i18n="nav_recensioni">Recensioni</a>
+        <a href="#dove" data-i18n="nav_dove">Dove Siamo</a>
+        <a href="#contatti" data-i18n="nav_contatti">Contatti</a>
+      </nav>
     </header>
 
-    <!-- Hero Section -->
-    <section id="home" class="relative">
+    <!-- ═══ HERO ═══ -->
+    <section id="home" class="hero">
+      <!-- Weather Widget -->
       <a
         id="weatherWidget"
         href="https://www.3bmeteo.com/meteo/san+pietro+in+bevagna"
@@ -188,393 +904,246 @@
         <div id="weatherIcon" class="text-3xl drop-shadow-md">☀️</div>
         <div class="leading-tight">
           <p id="weatherTemp" class="font-bold text-xl drop-shadow-md">--°C</p>
-          <p
-            class="text-xs font-medium uppercase tracking-wide opacity-90 drop-shadow-sm"
-          >
-            S. Pietro in Bevagna
-          </p>
+          <p class="text-xs font-medium uppercase tracking-wide opacity-90 drop-shadow-sm">S. Pietro in Bevagna</p>
         </div>
       </a>
-      <img
-        src="../img/hero.webp"
-        alt="Vista mare"
-        class="w-full h-96 object-cover"
-      />
-      <div
-        class="absolute inset-0 bg-black bg-opacity-30 flex flex-col justify-center items-center text-white"
-      >
-        <h1 class="text-4xl md:text-6xl font-bold mb-4" data-i18n="hero_title">
-          La Tua Casa al Mare
-        </h1>
-        <p class="text-lg md:text-2xl mb-6" data-i18n="hero_subtitle">
-          Per una vacanza indimenticabile
+
+      <img src="../img/hero.webp" alt="Vista mare — San Pietro in Bevagna" class="hero-bg" />
+      <div class="hero-overlay"></div>
+      <div class="hero-content">
+        <p class="hero-label">San Pietro in Bevagna · Manduria · Puglia</p>
+        <h1 class="hero-title" data-i18n="hero_title">Perla Bianca</h1>
+        <p class="hero-subtitle" data-i18n="hero_subtitle">
+          La tua casa al mare, ristrutturata con amore.<br/>A due passi dalla spiaggia.
         </p>
-        <a
-          href="#contatti"
-          class="bg-blue-500 hover:bg-blue-600 px-6 py-3 rounded text-white font-semibold"
-          data-i18n="hero_cta"
-          >Prenota Ora</a
-        >
+        <a href="#contatti" class="hero-cta" data-i18n="hero_cta">Prenota Ora</a>
       </div>
+      <a href="#servizi" class="hero-scroll">
+        Scopri
+        <span class="hero-scroll-line"></span>
+      </a>
     </section>
 
-    <!-- Services Section -->
-    <section id="servizi" class="py-16 bg-gray-50">
-      <div class="container mx-auto px-6">
-        <h2
-          class="text-3xl font-bold text-center mb-8 reveal"
-          data-i18n="servizi_title"
-        >
-          Comfort e Relax a Portata di Mano
-        </h2>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 reveal">
-          <div class="text-center">
-            <div class="text-blue-500 text-5xl mb-4">🌐</div>
-            <h3 class="font-semibold text-xl mb-2" data-i18n="serv_wifi_title">
-              Wi-Fi Gratuito
-            </h3>
-            <p data-i18n="serv_wifi_desc">
-              Connettiti facilmente durante il tuo soggiorno.
-            </p>
+    <!-- ═══ SERVIZI ═══ -->
+    <section id="servizi" class="section-wrap section-wrap-ivory">
+      <div class="section-inner">
+        <div class="section-center reveal">
+          <p class="section-label">I Servizi</p>
+          <h2 class="section-title" data-i18n="servizi_title">Comfort e Relax a Portata di Mano</h2>
+          <div class="section-divider"></div>
+        </div>
+        <div class="features-grid">
+          <div class="feature-item reveal">
+            <span class="feature-icon">🌐</span>
+            <p class="feature-name" data-i18n="serv_wifi_title">Wi-Fi Gratuito</p>
+            <p class="feature-desc" data-i18n="serv_wifi_desc">Connettiti facilmente durante il tuo soggiorno.</p>
           </div>
-          <div class="text-center">
-            <div class="text-blue-500 text-5xl mb-4">🚶‍♂️</div>
-            <h3
-              class="font-semibold text-xl mb-2"
-              data-i18n="serv_centro_title"
-            >
-              A tre minuti dal centro
-            </h3>
-            <p data-i18n="serv_centro_desc">
-              Raggiungi il cuore della città in soli 3 minuti a piedi.
-            </p>
+          <div class="feature-item reveal reveal-delay-1">
+            <span class="feature-icon">🚶‍♂️</span>
+            <p class="feature-name" data-i18n="serv_centro_title">A tre minuti dal centro</p>
+            <p class="feature-desc" data-i18n="serv_centro_desc">Raggiungi il cuore della città in soli 3 minuti a piedi.</p>
           </div>
-          <div class="text-center">
-            <div class="text-blue-500 text-5xl mb-4">❄️</div>
-            <h3 class="font-semibold text-xl mb-2" data-i18n="serv_ac_title">
-              Aria Condizionata
-            </h3>
-            <p data-i18n="serv_ac_desc">
-              Ambienti freschi e confortevoli in ogni stagione.
-            </p>
+          <div class="feature-item reveal reveal-delay-2">
+            <span class="feature-icon">❄️</span>
+            <p class="feature-name" data-i18n="serv_ac_title">Aria Condizionata</p>
+            <p class="feature-desc" data-i18n="serv_ac_desc">Ambienti freschi e confortevoli in ogni stagione.</p>
           </div>
-          <div class="text-center">
-            <div class="text-blue-500 text-5xl mb-4">🍽️</div>
-            <h3
-              class="font-semibold text-xl mb-2"
-              data-i18n="serv_kitchen_title"
-            >
-              Cucina Attrezzata
-            </h3>
-            <p data-i18n="serv_kitchen_desc">
-              Tutto il necessario per preparare i tuoi piatti preferiti.
-            </p>
+          <div class="feature-item reveal">
+            <span class="feature-icon">🍽️</span>
+            <p class="feature-name" data-i18n="serv_kitchen_title">Cucina Attrezzata</p>
+            <p class="feature-desc" data-i18n="serv_kitchen_desc">Tutto il necessario per preparare i tuoi piatti preferiti.</p>
           </div>
-          <div class="text-center">
-            <div class="text-blue-500 text-5xl mb-4">🛏️</div>
-            <h3 class="font-semibold text-xl mb-2" data-i18n="serv_beds_title">
-              Fino a cinque posti letto
-            </h3>
-            <p data-i18n="serv_beds_desc">
-              Ospita fino a cinque persone in camere spaziose.
-            </p>
+          <div class="feature-item reveal reveal-delay-1">
+            <span class="feature-icon">🛏️</span>
+            <p class="feature-name" data-i18n="serv_beds_title">Fino a cinque posti letto</p>
+            <p class="feature-desc" data-i18n="serv_beds_desc">Ospita fino a cinque persone in camere spaziose.</p>
           </div>
-          <div class="text-center">
-            <div class="text-blue-500 text-5xl mb-4">🏖️</div>
-            <h3 class="font-semibold text-xl mb-2" data-i18n="serv_beach_title">
-              Accesso alla Spiaggia
-            </h3>
-            <p data-i18n="serv_beach_desc">
-              Spiaggia dorata a pochi passi dalla casa.
-            </p>
+          <div class="feature-item reveal reveal-delay-2">
+            <span class="feature-icon">🏖️</span>
+            <p class="feature-name" data-i18n="serv_beach_title">Accesso alla Spiaggia</p>
+            <p class="feature-desc" data-i18n="serv_beach_desc">Spiaggia dorata a pochi passi dalla casa.</p>
           </div>
         </div>
       </div>
     </section>
-    <!--Faq-->
-    <section id="faq" class="py-16 bg-white">
-      <div class="container mx-auto px-6 max-w-4xl">
-        <h2
-          class="text-3xl font-bold text-center mb-8 reveal"
-          data-i18n="faq_title"
-        >
-          Domande Frequenti
-        </h2>
 
-        <div class="space-y-4 reveal">
-          <div
-            class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition"
-          >
-            <h3
-              class="font-bold text-lg text-gray-800 mb-2 flex items-center gap-2"
-            >
-              <span class="text-blue-500">?</span>
-              <span data-i18n="faq_checkin_q"
-                >A che ora sono Check-in e Check-out?</span
-              >
-            </h3>
-            <p class="text-gray-600 text-sm" data-i18n="faq_checkin_a">
-              Il check-in è disponibile dalle 15:00 in poi (spesso offriamo self
-              check-in). Il check-out è richiesto entro le 10:00 per permettere
-              le pulizie.
+    <!-- ═══ FAQ ═══ -->
+    <section id="faq" class="section-wrap section-wrap-alt">
+      <div class="section-inner-md">
+        <div class="section-center reveal">
+          <p class="section-label">FAQ</p>
+          <h2 class="section-title" data-i18n="faq_title">Domande Frequenti</h2>
+          <div class="section-divider"></div>
+        </div>
+        <div class="faq-list reveal reveal-delay-1">
+          <div class="faq-item">
+            <p class="faq-question" data-i18n="faq_checkin_q">A che ora sono Check-in e Check-out?</p>
+            <p class="faq-answer" data-i18n="faq_checkin_a">
+              Il check-in è disponibile dalle 15:00 in poi (spesso offriamo self check-in). Il check-out è richiesto entro le 10:00 per permettere le pulizie.
             </p>
           </div>
-
-          <div
-            class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition"
-          >
-            <h3
-              class="font-bold text-lg text-gray-800 mb-2 flex items-center gap-2"
-            >
-              <span class="text-blue-500">?</span>
-              <span data-i18n="faq_linen_q"
-                >Fornite lenzuola e asciugamani?</span
-              >
-            </h3>
-            <p class="text-gray-600 text-sm" data-i18n="faq_linen_a">
-              Sì, forniamo un set completo di biancheria da letto e asciugamani
-              per ogni ospite all'arrivo.
+          <div class="faq-item">
+            <p class="faq-question" data-i18n="faq_linen_q">Fornite lenzuola e asciugamani?</p>
+            <p class="faq-answer" data-i18n="faq_linen_a">
+              Sì, forniamo un set completo di biancheria da letto e asciugamani per ogni ospite all'arrivo.
             </p>
           </div>
-
-          <div
-            class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition"
-          >
-            <h3
-              class="font-bold text-lg text-gray-800 mb-2 flex items-center gap-2"
-            >
-              <span class="text-blue-500">?</span>
-              <span data-i18n="faq_parking_q">C'è parcheggio?</span>
-            </h3>
-            <p class="text-gray-600 text-sm" data-i18n="faq_parking_a">
-              Sì, c'è parcheggio gratuito in strada proprio davanti alla
-              struttura e nelle vie adiacenti.
+          <div class="faq-item">
+            <p class="faq-question" data-i18n="faq_parking_q">C'è parcheggio?</p>
+            <p class="faq-answer" data-i18n="faq_parking_a">
+              Sì, c'è parcheggio gratuito in strada proprio davanti alla struttura e nelle vie adiacenti.
             </p>
           </div>
         </div>
-
-        <div class="mt-10 text-center reveal">
-          <p class="text-gray-500 mb-4" data-i18n="guide_promo">
-            Vuoi scoprire i ristoranti migliori e le spiagge segrete?
-          </p>
-          <a
-            href="#contatti"
-            class="text-blue-600 font-bold underline hover:text-blue-800"
-            data-i18n="guide_link"
-          >
+        <div class="faq-guide-box reveal reveal-delay-2">
+          <p data-i18n="guide_promo">Vuoi scoprire i ristoranti migliori e le spiagge segrete?</p>
+          <a href="#contatti" class="faq-guide-link" data-i18n="guide_link">
             Chiedici la nostra guida locale dopo la prenotazione!
           </a>
         </div>
       </div>
     </section>
 
-    <!-- Gallery Section -->
-    <section id="galleria" class="py-16 bg-gray-50">
-      <div class="container mx-auto px-6">
-        <h2
-          class="text-3xl font-bold text-center mb-8 reveal"
-          data-i18n="gallery_title"
-        >
-          Galleria
-        </h2>
-
-        <div
-          style="
-            --swiper-navigation-color: #fff;
-            --swiper-pagination-color: #fff;
-          "
-          class="swiper mainGallery w-full max-w-3xl mx-auto rounded reveal"
-        >
-          <div class="swiper-wrapper"></div>
-          <div class="swiper-button-next"></div>
-          <div class="swiper-button-prev"></div>
+    <!-- ═══ GALLERIA ═══ -->
+    <section id="galleria" class="section-wrap section-wrap-ivory">
+      <div class="section-inner">
+        <div class="section-center reveal">
+          <p class="section-label">Galleria</p>
+          <h2 class="section-title" data-i18n="gallery_title">Galleria</h2>
+          <div class="section-divider"></div>
         </div>
 
-        <div
-          class="swiper thumbnailGallery w-full max-w-3xl mx-auto mt-4 box-border p-2"
-        >
-          <div class="swiper-wrapper" id="thumbnailWrapper"></div>
+        <div style="max-width: 820px; margin: 3.5rem auto 0;"  class="reveal">
+          <div
+            style="--swiper-navigation-color:#fff; --swiper-pagination-color:#fff;"
+            class="swiper mainGallery w-full"
+          >
+            <div class="swiper-wrapper"></div>
+            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev"></div>
+          </div>
+          <div class="swiper thumbnailGallery w-full mt-3 box-border p-1">
+            <div class="swiper-wrapper" id="thumbnailWrapper"></div>
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- Prices Section -->
-    <section id="prezzi" class="py-16 bg-white">
-      <div class="container mx-auto px-6 max-w-3xl">
-        <h2
-          class="text-3xl font-bold text-center mb-8 reveal"
-          data-i18n="prezzi_title"
-        >
-          Prezzi & Disponibilità
-        </h2>
-        <table class="w-full text-left border-collapse mb-6 reveal">
+    <!-- ═══ PREZZI ═══ -->
+    <section id="prezzi" class="section-wrap section-wrap-alt">
+      <div class="section-inner-sm">
+        <div class="section-center reveal">
+          <p class="section-label">Tariffe</p>
+          <h2 class="section-title" data-i18n="prezzi_title">Prezzi &amp; Disponibilità</h2>
+          <div class="section-divider"></div>
+        </div>
+        <table class="prices-table reveal reveal-delay-1">
           <thead>
             <tr>
-              <th class="border-b py-2" data-i18n="tab_stagione">Stagione</th>
-              <th class="border-b py-2" data-i18n="tab_prezzo">
-                Prezzo a Notte
-              </th>
+              <th data-i18n="tab_stagione">Stagione</th>
+              <th data-i18n="tab_prezzo">Prezzo a Notte</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td class="py-2" data-i18n="stagione_alta">
-                Alta Stagione (Luglio - Agosto)
-              </td>
-              <td class="py-2">€200</td>
+              <td data-i18n="stagione_alta">Alta Stagione (Luglio - Agosto)</td>
+              <td>€200</td>
             </tr>
             <tr>
-              <td class="py-2" data-i18n="stagione_media">
-                Media Stagione (Giugno, Settembre)
-              </td>
-              <td class="py-2">€160</td>
+              <td data-i18n="stagione_media">Media Stagione (Giugno, Settembre)</td>
+              <td>€160</td>
             </tr>
             <tr>
-              <td class="py-2" data-i18n="stagione_bassa">
-                Bassa Stagione (Ottobre - Maggio)
-              </td>
-              <td class="py-2">€120</td>
+              <td data-i18n="stagione_bassa">Bassa Stagione (Ottobre - Maggio)</td>
+              <td>€120</td>
             </tr>
           </tbody>
         </table>
-        <p class="text-center mb-6" data-i18n="prezzi_disclaimer">
-          Per verificare le date disponibili e prenotare, compila il modulo
-          nella sezione Contatti.
+        <p class="prices-note reveal reveal-delay-2" data-i18n="prezzi_disclaimer">
+          Per verificare le date disponibili e prenotare, compila il modulo nella sezione Contatti.
         </p>
       </div>
     </section>
 
-    <!-- Calendar Section-->
-    <section id="disponibilita" class="py-16 bg-gray-50">
-      <div class="container mx-auto px-6 max-w-5xl">
-        <h2
-          class="text-3xl font-bold text-center mb-4 reveal"
-          data-i18n="calendar_title"
-        >
-          Verifica Disponibilità
-        </h2>
-        <p
-          class="text-gray-600 text-center mb-8 reveal"
-          data-i18n="calendar_sub"
-        >
-          Le date segnate in rosso non sono disponibili.
-        </p>
-
-        <div
-          class="reveal bg-white p-4 rounded-2xl shadow-lg border border-gray-100"
-        >
+    <!-- ═══ CALENDARIO ═══ -->
+    <section id="disponibilita" class="section-wrap section-wrap-ivory">
+      <div class="section-inner-md">
+        <div class="section-center reveal">
+          <p class="section-label">Disponibilità</p>
+          <h2 class="section-title" data-i18n="calendar_title">Verifica Disponibilità</h2>
+          <div class="section-divider"></div>
+          <p class="section-desc" style="margin: 0 auto;" data-i18n="calendar_sub">
+            Le date segnate in rosso non sono disponibili.
+          </p>
+        </div>
+        <div class="calendar-wrap reveal reveal-delay-1">
           <div id="calendar"></div>
         </div>
       </div>
     </section>
 
-    <!-- Reviews Section -->
-    <section id="recensioni" class="py-16 bg-white">
-      <div class="container mx-auto px-6 max-w-4xl">
-        <h2
-          class="text-3xl font-bold text-center mb-8 reveal"
-          data-i18n="reviews_title"
-        >
-          Cosa Dicono i Nostri Ospiti
-        </h2>
-
-        <div id="averageRating" class="text-center mb-12 reveal"></div>
-
-        <div class="max-w-2xl mx-auto text-center mb-16 reveal">
-          <h3 class="text-xl text-gray-600 mb-6" data-i18n="reviews_sub">
-            Hai soggiornato qui di recente?
-          </h3>
-
-          <a
-            href="lascia-recensione.html"
-            class="inline-block bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-xl shadow-lg transition-all transform hover:-translate-y-1"
-            data-i18n="reviews_btn"
-          >
+    <!-- ═══ RECENSIONI ═══ -->
+    <section id="recensioni" class="section-wrap section-wrap-alt">
+      <div class="section-inner">
+        <div class="section-center reveal">
+          <p class="section-label">Recensioni</p>
+          <h2 class="section-title" data-i18n="reviews_title">Cosa Dicono i Nostri Ospiti</h2>
+          <div class="section-divider"></div>
+        </div>
+        <div id="averageRating" class="avg-rating-wrap reveal"></div>
+        <div class="reviews-cta reveal reveal-delay-1">
+          <p data-i18n="reviews_sub">Hai soggiornato qui di recente?</p>
+          <a href="lascia-recensione.html" class="reviews-btn" data-i18n="reviews_btn">
             Scrivi una Recensione
           </a>
         </div>
-
-        <div
-          id="reviewsContainer"
-          class="grid grid-cols-1 md:grid-cols-2 gap-6 reveal"
-        >
-          <p class="text-center text-gray-500 col-span-full">
-            Caricamento recensioni...
-          </p>
+        <div id="reviewsContainer" class="reveal reveal-delay-2">
+          <p style="text-align:center; color:#888; grid-column: 1/-1;">Caricamento recensioni...</p>
         </div>
       </div>
     </section>
 
-    <!-- Map: Where are we -->
-    <section id="dove" class="py-16 bg-gray-50">
-      <div class="container mx-auto px-6 text-center">
-        <h2 class="text-3xl font-bold mb-8 reveal" data-i18n="location_title">
-          Dove Siamo
-        </h2>
-
-        <div class="w-full h-96 rounded overflow-hidden shadow-md reveal">
+    <!-- ═══ DOVE SIAMO ═══ -->
+    <section id="dove" class="section-wrap section-wrap-ivory">
+      <div class="section-inner-md">
+        <div class="section-center reveal">
+          <p class="section-label">Posizione</p>
+          <h2 class="section-title" data-i18n="location_title">Dove Siamo</h2>
+          <div class="section-divider"></div>
+        </div>
+        <div class="map-wrap reveal reveal-delay-1">
           <iframe
-            class="w-full h-full"
             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d479.18833429373467!2d17.676049722164123!3d40.30558962564401!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x134694a914cf9453%3A0xbf696bad594639a8!2sVia%2015b%2C%203%2C%2074024%20San%20Pietro%20In%20Bevagna%20TA!5e0!3m2!1sit!2sit!4v1762976648511!5m2!1sit!2sit"
-            style="border: 0"
             allowfullscreen=""
             loading="lazy"
             referrerpolicy="no-referrer-when-downgrade"
-          >
-          </iframe>
+          ></iframe>
         </div>
       </div>
     </section>
 
-    <!-- About Us Section -->
-    <section id="chisiamo" class="py-16 bg-white overflow-hidden">
-      <div class="container mx-auto px-6">
-        <div class="flex flex-col md:flex-row items-center gap-12">
-          <div class="w-full md:w-1/2 relative reveal">
-            <div
-              class="absolute inset-0 bg-blue-500 transform translate-x-3 translate-y-3 rounded-2xl"
-            ></div>
-            <img
-              src="../img/1.webp"
-              alt="Il tuo Host"
-              class="relative z-10 rounded-2xl shadow-lg w-full h-96 object-cover"
-            />
+    <!-- ═══ CHI SIAMO ═══ -->
+    <section id="chisiamo" class="section-wrap section-wrap-alt">
+      <div class="section-inner">
+        <div class="about-inner">
+          <div class="about-img-wrap reveal">
+            <div class="about-img-accent"></div>
+            <img src="../img/1.webp" alt="I tuoi Host" class="about-img" />
           </div>
-
-          <div class="w-full md:w-1/2 reveal">
-            <h4
-              class="text-blue-500 font-bold uppercase tracking-widest mb-2"
-              data-i18n="about_sup"
-            >
-              L'Ospitalità
-            </h4>
-            <h2
-              class="text-3xl md:text-4xl font-bold mb-6 text-gray-900"
-              data-i18n="about_title"
-            >
-              Benvenuti a Casa Vostra
-            </h2>
-            <p class="text-gray-600 leading-relaxed mb-6" data-i18n="about_p1">
-              Ciao! Siamo Riccardo e Maria. Abbiamo ristrutturato "Perla Bianca"
-              pensando esattamente a quello che cerchiamo noi quando viaggiamo:
-              pulizia impeccabile, comfort moderni e quel calore che solo una
-              casa vera può dare.
+          <div class="reveal reveal-delay-1">
+            <p class="section-label" data-i18n="about_sup">L'Ospitalità</p>
+            <h2 class="section-title" data-i18n="about_title">Benvenuti a Casa Vostra</h2>
+            <div class="section-divider"></div>
+            <p class="section-desc" data-i18n="about_p1">
+              Ciao! Siamo Riccardo e Maria. Abbiamo ristrutturato "Perla Bianca" pensando esattamente a quello che cerchiamo noi quando viaggiamo: pulizia impeccabile, comfort moderni e quel calore che solo una casa vera può dare.
             </p>
-            <p class="text-gray-600 leading-relaxed mb-8" data-i18n="about_p2">
-              Siamo innamorati della nostra città e saremo felici di
-              consigliarvi i ristoranti migliori (non quelli turistici!) e le
-              spiagge più nascoste. Il nostro obiettivo è farvi sentire non
-              turisti, ma ospiti graditi.
+            <p class="section-desc" style="margin-top: 1rem;" data-i18n="about_p2">
+              Siamo innamorati della nostra città e saremo felici di consigliarvi i ristoranti migliori (non quelli turistici!) e le spiagge più nascoste. Il nostro obiettivo è farvi sentire non turisti, ma ospiti graditi.
             </p>
-
-            <div class="flex items-center gap-4">
-              <div class="border-l-4 border-blue-500 pl-4">
-                <p class="font-bold text-gray-900" data-i18n="superhost_label">
-                  Superhost Approvato
-                </p>
-                <p class="text-sm text-gray-500" data-i18n="superhost_desc">
-                  Risposte veloci e massima cura
-                </p>
+            <div class="about-badge" style="margin-top: 2rem;">
+              <div>
+                <p class="about-badge-title" data-i18n="superhost_label">Superhost Approvato</p>
+                <p class="about-badge-sub" data-i18n="superhost_desc">Risposte veloci e massima cura</p>
               </div>
             </div>
           </div>
@@ -582,225 +1151,133 @@
       </div>
     </section>
 
-    <!-- Contact us Section -->
-    <section id="contatti" class="py-16 bg-gray-50">
-      <div class="container mx-auto px-6 max-w-lg">
-        <h2
-          class="text-3xl font-bold text-center mb-8 reveal"
-          data-i18n="contact_title"
-        >
-          Contattaci
-        </h2>
-
-        <form id="contactForm" class="space-y-4 reveal">
-          <input
-            type="text"
-            name="honeypot"
-            style="display: none"
-            tabindex="-1"
-            autocomplete="off"
-          />
+    <!-- ═══ CONTATTI ═══ -->
+    <section id="contatti" class="section-wrap section-wrap-navy">
+      <div class="section-inner-sm">
+        <div class="section-center reveal">
+          <p class="section-label" style="color: rgba(255,255,255,0.45);">Contatti</p>
+          <h2 class="section-title section-title-light" data-i18n="contact_title">Contattaci</h2>
+          <div class="section-divider" style="margin: 1.25rem auto; background: rgba(255,255,255,0.25);"></div>
+          <p class="section-desc section-desc-light">Scrivici per informazioni, disponibilità o per prenotare il tuo soggiorno.</p>
+        </div>
+        <form id="contactForm" class="contact-form reveal reveal-delay-1">
+          <input type="text" name="honeypot" style="display:none;" tabindex="-1" autocomplete="off" />
           <input
             type="text"
             name="nome"
+            class="contact-input"
             data-i18n-placeholder="placeholder_nome"
             placeholder="Nome"
-            class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
             required
           />
           <input
             type="email"
             name="email"
+            class="contact-input"
             data-i18n-placeholder="placeholder_email"
             placeholder="Email"
-            class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
             required
           />
           <textarea
             name="messaggio"
-            rows="5"
+            class="contact-input"
             data-i18n-placeholder="placeholder_msg"
             placeholder="Messaggio"
-            class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
             required
           ></textarea>
-
-          <button
-            type="submit"
-            class="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 rounded"
-            data-i18n="btn_send"
-          >
-            Invia
-          </button>
+          <button type="submit" class="contact-submit" data-i18n="btn_send">Invia</button>
         </form>
-
-        <div id="formStatus" class="mt-4 text-center"></div>
+        <div id="formStatus"></div>
       </div>
     </section>
 
-    <!-- Footer Section -->
-    <footer class="bg-gray-900 text-white pt-16 pb-8 border-t border-gray-800">
-      <div class="container mx-auto px-6">
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
-          <div class="md:col-span-1">
-            <a href="#" class="text-2xl font-bold text-white mb-4 block"
-              >Perla Bianca</a
-            >
-            <p
-              class="text-gray-400 text-sm leading-relaxed"
-              data-i18n="footer_desc"
-            >
-              La tua oasi di relax a due passi dal mare. Prenota oggi la tua
-              vacanza da sogno in totale autonomia.
-            </p>
-          </div>
-
-          <div>
-            <h3
-              class="text-lg font-bold mb-4 text-blue-400"
-              data-i18n="footer_explore"
-            >
-              Esplora
-            </h3>
-            <ul class="space-y-2 text-gray-400 text-sm">
-              <li>
-                <a
-                  href="#home"
-                  class="hover:text-white transition"
-                  data-i18n="nav_home"
-                  >Home</a
-                >
-              </li>
-              <li>
-                <a
-                  href="#servizi"
-                  class="hover:text-white transition"
-                  data-i18n="nav_servizi"
-                  >Servizi</a
-                >
-              </li>
-              <li>
-                <a
-                  href="#galleria"
-                  class="hover:text-white transition"
-                  data-i18n="footer_gallery"
-                  >Galleria Foto</a
-                >
-              </li>
-              <li>
-                <a
-                  href="#recensioni"
-                  class="hover:text-white transition"
-                  data-i18n="footer_reviews"
-                  >Dicono di noi</a
-                >
-              </li>
-            </ul>
-          </div>
-
-          <div>
-            <h3
-              class="text-lg font-bold mb-4 text-blue-400"
-              data-i18n="footer_info"
-            >
-              Info
-            </h3>
-            <ul class="space-y-2 text-gray-400 text-sm">
-              <li data-i18n="info_checkin">Check-in: dalle 15:00</li>
-              <li data-i18n="info_checkout">Check-out: entro le 10:00</li>
-              <li data-i18n="info_parking">Parcheggio disponibile</li>
-              <li data-i18n="info_pets">Animali ammessi (su richiesta)</li>
-            </ul>
-          </div>
-
-          <div>
-            <h3
-              class="text-lg font-bold mb-4 text-blue-400"
-              data-i18n="contact_title"
-            >
-              Contatti
-            </h3>
-            <ul class="space-y-2 text-gray-400 text-sm">
-              <li class="flex items-center gap-2">
-                <span>📍</span> Via 15b, 74024
-              </li>
-              <li class="flex items-center gap-2">
-                <span>📞</span> +39 123 456 7890
-              </li>
-              <li class="flex items-center gap-2">
-                <span>✉️</span> info@perlabianca.it
-              </li>
-            </ul>
-          </div>
-        </div>
-
-        <div
-          class="border-t border-gray-800 pt-8 text-center text-gray-500 text-xs"
-        >
-          <p>
-            © 2025 Perla Bianca.
-            <span data-i18n="footer_rights">Tutti i diritti riservati.</span>
-            <span class="mx-2">|</span>
-            <a
-              href="/admin.html"
-              class="hover:text-white underline text-gray-600 text-[10px]"
-              data-i18n="footer_admin"
-              >Area Riservata</a
-            >
-            <!-- <a href="https://www.iubenda.com/privacy-policy/LINK-TUO" target="_blank" class="hover:text-white underline">Privacy Policy</a> -->
+    <!-- ═══ FOOTER ═══ -->
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <div>
+          <p class="footer-brand-name">Perla Bianca</p>
+          <p class="footer-brand-desc" data-i18n="footer_desc">
+            La tua oasi di relax a due passi dal mare. Prenota oggi la tua vacanza da sogno in totale autonomia.
           </p>
-          <div
-            class="flex justify-center items-center gap-3 text-sm font-medium text-gray-400"
-          >
-            <button
-              onclick="changeLanguage('it')"
-              class="hover:text-white transition focus:outline-none hover:underline decoration-blue-500 underline-offset-4"
-              title="Italiano"
-            >
-              IT
-            </button>
-            <span class="opacity-20">|</span>
-            <button
-              onclick="changeLanguage('en')"
-              class="hover:text-white transition focus:outline-none hover:underline decoration-blue-500 underline-offset-4"
-              title="English"
-            >
-              EN
-            </button>
-            <span class="opacity-20">|</span>
-            <button
-              onclick="changeLanguage('fr')"
-              class="hover:text-white transition focus:outline-none hover:underline decoration-blue-500 underline-offset-4"
-              title="Français"
-            >
-              FR
-            </button>
-            <span class="opacity-20">|</span>
-            <button
-              onclick="changeLanguage('de')"
-              class="hover:text-white transition focus:outline-none hover:underline decoration-blue-500 underline-offset-4"
-              title="Deutsch"
-            >
-              DE
-            </button>
-          </div>
         </div>
+        <div>
+          <p class="footer-col-title" data-i18n="footer_explore">Esplora</p>
+          <ul class="footer-links">
+            <li><a href="#home" data-i18n="nav_home">Home</a></li>
+            <li><a href="#servizi" data-i18n="nav_servizi">Servizi</a></li>
+            <li><a href="#galleria" data-i18n="footer_gallery">Galleria Foto</a></li>
+            <li><a href="#recensioni" data-i18n="footer_reviews">Dicono di noi</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="footer-col-title" data-i18n="footer_info">Info</p>
+          <ul class="footer-links">
+            <li data-i18n="info_checkin">Check-in: dalle 15:00</li>
+            <li data-i18n="info_checkout">Check-out: entro le 10:00</li>
+            <li data-i18n="info_parking">Parcheggio disponibile</li>
+            <li data-i18n="info_pets">Animali ammessi (su richiesta)</li>
+          </ul>
+        </div>
+        <div>
+          <p class="footer-col-title" data-i18n="contact_title">Contatti</p>
+          <ul class="footer-links">
+            <li>📍 Via 15b, 74024 San Pietro in Bevagna</li>
+            <li>📞 +39 123 456 7890</li>
+            <li>✉️ info@perlabianca.it</li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p class="footer-copyright">
+          © 2025 Perla Bianca · <a href="/" style="color: rgba(255,255,255,0.25); text-decoration:none;" class="hover:text-white transition">I Sarcofagi del Re</a> · Tutti i diritti riservati
+        </p>
+        <div class="footer-lang">
+          <button onclick="changeLanguage('it')" title="Italiano">IT</button>
+          <span>|</span>
+          <button onclick="changeLanguage('en')" title="English">EN</button>
+          <span>|</span>
+          <button onclick="changeLanguage('fr')" title="Français">FR</button>
+          <span>|</span>
+          <button onclick="changeLanguage('de')" title="Deutsch">DE</button>
+        </div>
+        <a href="/admin.html" class="footer-admin" data-i18n="footer_admin">Area Riservata</a>
       </div>
     </footer>
 
-    <!-- Custom Script -->
+    <!-- ═══ SCRIPTS ═══ -->
     <script src="../js/script.js"></script>
 
-    <!-- FullScreen Gallery-->
+    <!-- Mobile nav toggle -->
+    <script>
+      const toggle = document.getElementById('mobileToggle');
+      const nav = document.getElementById('mobileMenu');
+      toggle.addEventListener('click', () => nav.classList.toggle('open'));
+      nav.querySelectorAll('a').forEach(a =>
+        a.addEventListener('click', () => nav.classList.remove('open'))
+      );
+
+      // Scroll reveal
+      const revealEls = document.querySelectorAll('.reveal');
+      const revealObs = new IntersectionObserver(
+        (entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('active');
+              revealObs.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
+      );
+      revealEls.forEach(el => revealObs.observe(el));
+    </script>
+
+    <!-- Fullscreen Gallery Modal -->
     <div
       id="fullscreenModal"
-      class="fixed inset-0 bg-black bg-opacity-90 z-100 flex justify-center items-center opacity-0 invisible transition-opacity duration-300"
+      class="fixed inset-0 bg-black bg-opacity-90 z-[100] flex justify-center items-center opacity-0 invisible transition-opacity duration-300"
     >
-      <span
-        id="closeFsModal"
-        class="absolute top-4 right-6 text-white text-5xl font-bold cursor-pointer z-110"
-        >&times;</span
-      >
+      <span id="closeFsModal" class="absolute top-4 right-6 text-white text-5xl font-bold cursor-pointer z-[110]">&times;</span>
       <div class="swiper fullscreenGallery w-full h-full">
         <div class="swiper-wrapper"></div>
         <div class="swiper-button-next"></div>
@@ -808,69 +1285,28 @@
       </div>
     </div>
 
-    <!--Go Up Arrow-->
-    <button
-      id="scrollTopBtn"
-      style="
-        position: fixed;
-        bottom: 20px;
-        right: 20px;
-        z-index: 9999;
-        background-color: #2563eb;
-        color: white;
-        padding: 12px;
-        border-radius: 50%;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-        cursor: pointer;
-        opacity: 0;
-        pointer-events: none;
-        transition: opacity 0.3s ease;
-        border: none;
-      "
-      title="Torna su"
-    >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="24"
-        height="24"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke="currentColor"
-      >
-        <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          d="M5 10l7-7m0 0l7 7m-7-7v18"
-        />
+    <!-- Scroll Top Button -->
+    <button id="scrollTopBtn" title="Torna su">
+      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18" />
       </svg>
     </button>
 
-    <!--Cookie Banner-->
-    <div
-      id="cookieBanner"
-      class="fixed bottom-0 left-0 right-0 bg-gray-900 text-white p-4 text-center z-100 hidden"
-    >
-      <p class="text-sm inline-block mr-4" data-i18n="cookie_text">
-        Utilizziamo cookie tecnici per garantirti la migliore esperienza.
-        Continuando a navigare accetti l'uso dei cookie.
-      </p>
-      <button
-        id="acceptCookies"
-        class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded text-sm font-bold"
-        data-i18n="cookie_btn"
-      >
-        Ho capito
-      </button>
+    <!-- Cookie Banner -->
+    <div id="cookieBanner" class="hidden">
+      <p data-i18n="cookie_text">Utilizziamo cookie tecnici per garantirti la migliore esperienza. Continuando a navigare accetti l'uso dei cookie.</p>
+      <button id="acceptCookies" data-i18n="cookie_btn">Ho capito</button>
     </div>
     <script>
-      if (!localStorage.getItem("cookieAccepted")) {
-        document.getElementById("cookieBanner").classList.remove("hidden");
+      if (!localStorage.getItem('cookieAccepted')) {
+        document.getElementById('cookieBanner').classList.remove('hidden');
+        document.getElementById('cookieBanner').style.display = 'flex';
       }
-      document.getElementById("acceptCookies").addEventListener("click", () => {
-        localStorage.setItem("cookieAccepted", "1");
-        document.getElementById("cookieBanner").classList.add("hidden");
+      document.getElementById('acceptCookies').addEventListener('click', () => {
+        localStorage.setItem('cookieAccepted', '1');
+        document.getElementById('cookieBanner').style.display = 'none';
       });
     </script>
+
   </body>
 </html>

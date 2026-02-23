@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Admin Login - Perla Bianca</title>
+    <title>Area Riservata - I Sarcofagi del Re</title>
     <link rel="stylesheet" href="style.css" />
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     <link
@@ -13,25 +13,22 @@
     <link rel="icon" href="./img/logo.ico" type="image/ico" />
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script src="https://npmcdn.com/flatpickr/dist/l10n/it.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js"></script>
   </head>
-  <body class="bg-slate-100 font-sans text-slate-800 h-screen flex flex-col">
-    <!--Login Modal-->
+  <body class="bg-slate-100 font-sans text-slate-800 min-h-screen flex flex-col">
+
+    <!-- Login Screen -->
     <div
       id="loginScreen"
       class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900 p-4"
     >
-      <div
-        class="bg-white rounded-2xl shadow-2xl w-full max-w-md p-8 text-center"
-      >
+      <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md p-8 text-center">
         <h1 class="text-2xl font-bold text-slate-800 mb-2">Area Riservata</h1>
         <p class="text-slate-500 mb-8 text-sm">
-          Accedi per gestire prenotazioni e recensioni
+          I Sarcofagi del Re &mdash; Pannello di gestione
         </p>
 
-        <div
-          id="googleBtnContainer"
-          class="flex justify-center mb-6 h-11"
-        ></div>
+        <div id="googleBtnContainer" class="flex justify-center mb-6 h-11"></div>
 
         <div class="relative flex py-2 items-center mb-6">
           <div class="grow border-t border-slate-200"></div>
@@ -83,19 +80,18 @@
             </button>
           </div>
         </form>
+
         <p id="errorMsg" class="text-red-500 text-sm mt-4 hidden"></p>
       </div>
     </div>
 
-    <div
-      id="dashboard"
-      class="flex-1 container mx-auto px-4 py-8 max-w-6xl hidden"
-    >
-      <header
-        class="flex justify-between items-center mb-8 bg-white p-6 rounded-xl shadow-sm"
-      >
+    <!-- Dashboard -->
+    <div id="dashboard" class="flex-1 container mx-auto px-4 py-8 max-w-6xl hidden">
+
+      <!-- Header -->
+      <header class="flex justify-between items-center mb-8 bg-white p-6 rounded-xl shadow-sm">
         <div>
-          <h2 class="text-2xl font-bold text-blue-600">Dashboard</h2>
+          <h2 class="text-2xl font-bold" style="color: #1B3A5C">I Sarcofagi del Re</h2>
           <p class="text-xs text-slate-400">Pannello di controllo</p>
         </div>
         <button
@@ -106,94 +102,26 @@
         </button>
       </header>
 
-      <div class="grid md:grid-cols-2 gap-6">
-        <!--Calendar-->
-        <div class="bg-white p-6 rounded-xl shadow-sm">
-          <div class="flex justify-between mb-4">
-            <h3 class="font-bold text-lg">📅 Calendario</h3>
-            <button onclick="app.loadCalendar()" class="text-blue-500 text-sm">
-              Aggiorna
-            </button>
-          </div>
-          <form
-            id="addEventForm"
-            class="bg-slate-50 p-4 rounded-lg mb-4 space-y-3"
-          >
-            <div class="flex items-center gap-2 mb-1">
-              <input
-                type="checkbox"
-                id="isBlockedDate"
-                class="w-4 h-4 text-blue-600 rounded focus:ring-blue-500 border-gray-300"
-              />
-              <label
-                for="isBlockedDate"
-                class="text-xs font-bold text-slate-500 uppercase cursor-pointer select-none"
-              >
-                Segna come Chiuso / Manutenzione
-              </label>
-            </div>
-
-            <input
-              type="text"
-              id="eventName"
-              placeholder="Nome Ospite"
-              class="w-full p-2 border rounded text-sm transition-colors"
-              required
-            />
-            <input
-              type="text"
-              id="eventDates"
-              placeholder="Seleziona Date..."
-              class="w-full p-2 border rounded text-sm bg-white"
-              required
-            />
-            <textarea
-              id="eventNotes"
-              placeholder="Note interne (es. Pagamento, telefono...)"
-              class="w-full p-2 border rounded text-sm h-20 resize-none"
-            ></textarea>
-            <button
-              type="submit"
-              class="w-full bg-blue-600 text-white py-2 rounded text-sm font-bold hover:bg-blue-700"
-            >
-              Aggiungi Prenotazione / Blocco
-            </button>
-          </form>
-          <ul
-            id="calendarList"
-            class="space-y-2 max-h-64 overflow-y-auto text-sm"
-          ></ul>
+      <!-- Overview Section -->
+      <section class="mb-6">
+        <h3 class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-3">
+          Panoramica generale
+        </h3>
+        <div id="overviewGrid" class="grid sm:grid-cols-2 gap-4">
+          <!-- Populated by JS -->
         </div>
-        <!--Reviews-->
-        <div class="bg-white p-6 rounded-xl shadow-sm">
-          <div class="flex justify-between items-center mb-4">
-            <h3 class="font-bold text-lg">⭐ Recensioni</h3>
-            <button
-              onclick="app.loadReviews()"
-              class="text-blue-500 text-sm hover:underline"
-            >
-              Aggiorna
-            </button>
-          </div>
+      </section>
 
-          <div class="mb-4">
-            <select
-              id="reviewFilter"
-              onchange="app.loadReviews()"
-              class="w-full p-2 border border-slate-300 rounded-lg text-sm bg-slate-50 focus:ring-2 focus:ring-blue-500 outline-none"
-            >
-              <option value="pending" selected>Da Approvare (In attesa)</option>
-              <option value="approved">Già Approvate (Pubbliche)</option>
-              <option value="all">Tutte le recensioni</option>
-            </select>
-          </div>
-
-          <div
-            id="reviewsList"
-            class="space-y-3 max-h-[500px] overflow-y-auto text-sm pr-1"
-          ></div>
+      <!-- Property Tabs -->
+      <div class="bg-white rounded-xl shadow-sm overflow-hidden">
+        <div class="border-b border-slate-200">
+          <div id="tabNav" class="flex"></div>
+        </div>
+        <div id="tabContent" class="p-6">
+          <!-- Populated by JS -->
         </div>
       </div>
+
     </div>
 
     <script src="js/admin.js"></script>
