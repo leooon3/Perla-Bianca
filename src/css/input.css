@@ -3,9 +3,13 @@
 /* Tell Tailwind where to look for class generation */
 @source "../../public/index.html";
 @source "../../public/js/script.js";
+@source "../../public/js/admin.js";
 @source "../../public/lascia-recensione.html";
 @source "../../public/404.html";
 @source "../../public/admin.html";
+@source "../../public/perla-bianca/index.html";
+@source "../../public/perla-bianca/lascia-recensione.html";
+@source "../../public/struttura-2/index.html";
 
 /* #region Global Styles */
 html {

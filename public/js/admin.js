@@ -204,41 +204,43 @@ const app = {
 
     grid.innerHTML = PROPERTIES.map(
       (p) => `
-      <div class="bg-white rounded-xl border border-slate-200 p-5 shadow-sm">
-        <div class="flex items-center gap-2 mb-4">
-          <span class="text-xl">${p.icon}</span>
-          <h4 class="font-bold text-slate-700">${p.label}</h4>
+      <div style="background:white; border-radius:14px; border:1px solid #E8E0D4; padding:1.4rem 1.25rem; box-shadow:0 2px 12px rgba(0,0,0,0.05);">
+        <div style="display:flex; align-items:center; gap:0.6rem; margin-bottom:1.1rem;">
+          <span style="font-size:1.25rem;">${p.icon}</span>
+          <h4 style="font-family:'Playfair Display',serif; font-size:1.1rem; font-weight:700; color:#1B3A5C; margin:0;">${p.label}</h4>
           ${
             !p.active
-              ? '<span class="ml-auto text-xs bg-slate-100 text-slate-400 px-2 py-0.5 rounded-full font-medium">Prossimamente</span>'
+              ? '<span style="margin-left:auto; font-size:0.68rem; background:#F0EBE3; color:#aaa; padding:0.2rem 0.6rem; border-radius:50px; font-weight:600; letter-spacing:0.05em;">Prossimamente</span>'
               : ""
           }
         </div>
         ${
           p.active
             ? `
-          <div class="grid grid-cols-2 gap-3 mb-4">
-            <div class="bg-blue-50 rounded-lg p-3 text-center">
-              <div class="text-2xl font-bold text-blue-600" id="ov-bookings-${p.key}">
-                <span class="inline-block w-6 h-1.5 bg-blue-200 rounded animate-pulse mt-3"></span>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.75rem; margin-bottom:1rem;">
+            <div style="background:#EEF2F8; border-radius:10px; padding:0.875rem; text-align:center;">
+              <div style="font-size:1.6rem; font-weight:700; color:#1B3A5C; min-height:2rem;" id="ov-bookings-${p.key}">
+                <span style="display:inline-block; width:1.5rem; height:0.375rem; background:rgba(27,58,92,0.2); border-radius:4px; margin-top:0.75rem;"></span>
               </div>
-              <div class="text-xs text-blue-400 mt-1">prenotazioni<br>nei prossimi 7 giorni</div>
+              <div style="font-size:0.7rem; color:#6a88aa; margin-top:0.3rem; line-height:1.4;">prenotazioni<br>nei prossimi 7 giorni</div>
             </div>
-            <div class="bg-amber-50 rounded-lg p-3 text-center">
-              <div class="text-2xl font-bold text-amber-500" id="ov-pending-${p.key}">
-                <span class="inline-block w-6 h-1.5 bg-amber-200 rounded animate-pulse mt-3"></span>
+            <div style="background:#FBF0E8; border-radius:10px; padding:0.875rem; text-align:center;">
+              <div style="font-size:1.6rem; font-weight:700; color:#C4622D; min-height:2rem;" id="ov-pending-${p.key}">
+                <span style="display:inline-block; width:1.5rem; height:0.375rem; background:rgba(196,98,45,0.2); border-radius:4px; margin-top:0.75rem;"></span>
               </div>
-              <div class="text-xs text-amber-400 mt-1">recensioni<br>in attesa</div>
+              <div style="font-size:0.7rem; color:#b07050; margin-top:0.3rem; line-height:1.4;">recensioni<br>in attesa</div>
             </div>
           </div>
           <button
             onclick="app.switchTab('${p.key}')"
-            class="w-full text-xs font-bold py-2 rounded-lg bg-slate-800 text-white hover:bg-slate-900 transition"
+            style="width:100%; font-size:0.75rem; font-weight:700; padding:0.6rem; border-radius:8px; background:#C4622D; color:white; border:none; cursor:pointer; font-family:'Inter',sans-serif; letter-spacing:0.08em; transition:background 0.2s;"
+            onmouseover="this.style.background='#d4784a'"
+            onmouseout="this.style.background='#C4622D'"
           >
             Gestisci →
           </button>
         `
-            : `<p class="text-sm text-slate-400 italic">Struttura non ancora configurata.</p>`
+            : `<p style="font-size:0.85rem; color:#bbb; font-style:italic; margin:0;">Struttura non ancora configurata.</p>`
         }
       </div>
     `
@@ -288,28 +290,29 @@ const app = {
     const nav = document.getElementById("tabNav");
     if (!nav) return;
 
-    nav.innerHTML = PROPERTIES.map(
-      (p) => `
+    nav.innerHTML = PROPERTIES.map((p) => {
+      const isActive = this.currentProperty === p.key;
+      const isDisabled = !p.active;
+      const baseStyle = `padding:0.9rem 1.5rem; font-size:0.82rem; font-weight:600; border-bottom:2.5px solid; background:none; font-family:'Inter',sans-serif; letter-spacing:0.04em; transition:color 0.2s, border-color 0.2s; cursor:${isDisabled ? "not-allowed" : "pointer"};`;
+      const stateStyle = isActive
+        ? "border-color:#C4622D; color:#C4622D;"
+        : isDisabled
+        ? "border-color:transparent; color:#ccc;"
+        : "border-color:transparent; color:#888;";
+      const hoverAttrs = (!isDisabled && !isActive)
+        ? `onmouseover="this.style.color='#1B3A5C'" onmouseout="this.style.color='#888'"`
+        : "";
+      return `
       <button
         onclick="${p.active ? `app.switchTab('${p.key}')` : ""}"
-        ${!p.active ? "disabled" : ""}
-        class="px-6 py-4 text-sm font-semibold border-b-2 transition ${
-          this.currentProperty === p.key
-            ? "border-blue-600 text-blue-600"
-            : p.active
-            ? "border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-200 cursor-pointer"
-            : "border-transparent text-slate-300 cursor-not-allowed"
-        }"
+        ${isDisabled ? "disabled" : ""}
+        style="${baseStyle}${stateStyle}"
+        ${hoverAttrs}
       >
         ${p.icon} ${p.label}
-        ${
-          !p.active
-            ? '<span class="ml-1.5 text-[10px] font-normal bg-slate-100 text-slate-400 px-1.5 py-0.5 rounded">presto</span>'
-            : ""
-        }
-      </button>
-    `
-    ).join("");
+        ${!p.active ? '<span style="margin-left:0.4rem; font-size:0.62rem; font-weight:500; background:#F0EBE3; color:#bbb; padding:0.15rem 0.45rem; border-radius:4px;">presto</span>' : ""}
+      </button>`;
+    }).join("");
   },
 
   switchTab: function (propertyKey) {
@@ -337,17 +340,19 @@ const app = {
 
         <!-- Add Event Form -->
         <div>
-          <h3 class="font-bold text-base mb-4">📅 Aggiungi Prenotazione</h3>
-          <form id="addEventForm" class="bg-slate-50 p-4 rounded-lg space-y-3">
-            <div class="flex items-center gap-2">
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:1rem;">
+            <h3 style="font-family:'Playfair Display',serif; font-size:1.1rem; color:#1B3A5C; margin:0;">📅 Aggiungi Prenotazione</h3>
+          </div>
+          <form id="addEventForm" style="background:#FAF8F4; padding:1.1rem; border-radius:12px; border:1px solid #E8E0D4; display:flex; flex-direction:column; gap:0.65rem;">
+            <div style="display:flex; align-items:center; gap:0.6rem;">
               <input
                 type="checkbox"
                 id="isBlockedDate"
-                class="w-4 h-4 text-blue-600 rounded focus:ring-blue-500 border-gray-300"
+                style="width:1rem; height:1rem; accent-color:#C4622D; cursor:pointer;"
               />
               <label
                 for="isBlockedDate"
-                class="text-xs font-bold text-slate-500 uppercase cursor-pointer select-none"
+                style="font-size:0.72rem; font-weight:700; color:#888; text-transform:uppercase; letter-spacing:0.08em; cursor:pointer; user-select:none;"
               >
                 Segna come Chiuso / Manutenzione
               </label>
@@ -356,24 +361,27 @@ const app = {
               type="text"
               id="eventName"
               placeholder="Nome Ospite"
-              class="w-full p-2 border rounded text-sm transition-colors"
+              style="width:100%; padding:0.65rem 0.875rem; border:1.5px solid #E8E0D4; border-radius:8px; font-size:0.875rem; background:white; font-family:'Inter',sans-serif; outline:none; transition:border-color 0.2s;"
+              onfocus="this.style.borderColor='#1B3A5C'" onblur="this.style.borderColor='#E8E0D4'"
               required
             />
             <input
               type="text"
               id="eventDates"
               placeholder="Seleziona Date..."
-              class="w-full p-2 border rounded text-sm bg-white"
+              style="width:100%; padding:0.65rem 0.875rem; border:1.5px solid #E8E0D4; border-radius:8px; font-size:0.875rem; background:white; font-family:'Inter',sans-serif; outline:none;"
               required
             />
             <textarea
               id="eventNotes"
               placeholder="Note interne (es. Pagamento, telefono...)"
-              class="w-full p-2 border rounded text-sm h-20 resize-none"
+              style="width:100%; padding:0.65rem 0.875rem; border:1.5px solid #E8E0D4; border-radius:8px; font-size:0.875rem; background:white; font-family:'Inter',sans-serif; outline:none; height:5rem; resize:none; transition:border-color 0.2s;"
+              onfocus="this.style.borderColor='#1B3A5C'" onblur="this.style.borderColor='#E8E0D4'"
             ></textarea>
             <button
               type="submit"
-              class="w-full bg-blue-600 text-white py-2 rounded text-sm font-bold hover:bg-blue-700"
+              style="width:100%; background:#C4622D; color:white; padding:0.7rem; border:none; border-radius:8px; font-size:0.82rem; font-weight:700; cursor:pointer; font-family:'Inter',sans-serif; letter-spacing:0.06em; transition:background 0.2s;"
+              onmouseover="this.style.background='#d4784a'" onmouseout="this.style.background='#C4622D'"
             >
               Aggiungi Prenotazione / Blocco
             </button>
@@ -382,37 +390,37 @@ const app = {
 
         <!-- Reviews -->
         <div>
-          <div class="flex justify-between items-center mb-4">
-            <h3 class="font-bold text-base">⭐ Recensioni</h3>
-            <button onclick="app.loadReviews()" class="text-blue-500 text-sm hover:underline">
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:1rem;">
+            <h3 style="font-family:'Playfair Display',serif; font-size:1.1rem; color:#1B3A5C; margin:0;">⭐ Recensioni</h3>
+            <button onclick="app.loadReviews()" style="background:none; border:none; font-size:0.8rem; color:#C4622D; font-weight:600; cursor:pointer; font-family:'Inter',sans-serif; letter-spacing:0.04em; text-decoration:underline; text-underline-offset:3px;">
               Aggiorna
             </button>
           </div>
-          <div class="mb-4">
+          <div style="margin-bottom:1rem;">
             <select
               id="reviewFilter"
               onchange="app.loadReviews()"
-              class="w-full p-2 border border-slate-300 rounded-lg text-sm bg-slate-50 focus:ring-2 focus:ring-blue-500 outline-none"
+              style="width:100%; padding:0.65rem 0.875rem; border:1.5px solid #E8E0D4; border-radius:8px; font-size:0.875rem; background:#FAF8F4; font-family:'Inter',sans-serif; outline:none; cursor:pointer;"
             >
               <option value="pending" selected>Da Approvare (In attesa)</option>
               <option value="approved">Già Approvate (Pubbliche)</option>
               <option value="all">Tutte le recensioni</option>
             </select>
           </div>
-          <div id="reviewsList" class="space-y-3 max-h-[420px] overflow-y-auto text-sm pr-1"></div>
+          <div id="reviewsList" style="display:flex; flex-direction:column; gap:0.75rem; max-height:420px; overflow-y:auto; padding-right:0.25rem; font-size:0.875rem;"></div>
         </div>
 
       </div>
 
       <!-- Full Calendar -->
       <div>
-        <div class="flex justify-between items-center mb-4">
-          <h3 class="font-bold text-base">📆 Calendario Prenotazioni</h3>
-          <button onclick="app.loadCalendar()" class="text-blue-500 text-sm hover:underline">
+        <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:1rem;">
+          <h3 style="font-family:'Playfair Display',serif; font-size:1.1rem; color:#1B3A5C; margin:0;">📆 Calendario Prenotazioni</h3>
+          <button onclick="app.loadCalendar()" style="background:none; border:none; font-size:0.8rem; color:#C4622D; font-weight:600; cursor:pointer; font-family:'Inter',sans-serif; letter-spacing:0.04em; text-decoration:underline; text-underline-offset:3px;">
             Aggiorna
           </button>
         </div>
-        <div id="calendarEl" class="rounded-lg overflow-hidden border border-slate-200"></div>
+        <div id="calendarEl" style="border-radius:12px; overflow:hidden; border:1px solid #E8E0D4;"></div>
       </div>
     `;
 
@@ -565,46 +573,49 @@ const app = {
       "fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4";
 
     modal.innerHTML = `
-      <div class="bg-white rounded-2xl shadow-2xl w-full max-w-sm p-6" id="eventModalInner">
-        <div class="flex justify-between items-start mb-5">
-          <h3 class="font-bold text-lg text-slate-800 pr-4 leading-tight">
+      <div style="background:white; border-radius:20px; box-shadow:0 32px 80px rgba(0,0,0,0.22); width:100%; max-width:360px; padding:1.75rem;" id="eventModalInner">
+        <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:1.25rem;">
+          <h3 style="font-family:'Playfair Display',serif; font-size:1.15rem; color:#1B3A5C; margin:0; padding-right:1rem; line-height:1.3;">
             ${escapeHTML(event.title)}
           </h3>
           <button
             onclick="document.getElementById('eventDetailModal').remove()"
-            class="text-slate-400 hover:text-slate-600 text-2xl leading-none flex-shrink-0"
+            style="background:none; border:none; color:#bbb; font-size:1.6rem; line-height:1; cursor:pointer; flex-shrink:0; padding:0; transition:color 0.2s;"
+            onmouseover="this.style.color='#555'" onmouseout="this.style.color='#bbb'"
           >×</button>
         </div>
 
-        <div class="space-y-3 text-sm text-slate-600 mb-6">
-          <div class="flex items-center gap-3 bg-slate-50 rounded-lg px-3 py-2.5">
-            <span class="text-base">📅</span>
-            <span class="font-medium">${startStr}${endStr ? " &rarr; " + endStr : ""}</span>
+        <div style="display:flex; flex-direction:column; gap:0.6rem; margin-bottom:1.5rem; font-size:0.875rem; color:#555;">
+          <div style="display:flex; align-items:center; gap:0.75rem; background:#FAF8F4; border-radius:9px; padding:0.7rem 0.875rem;">
+            <span style="font-size:1rem;">📅</span>
+            <span style="font-weight:600; color:#333;">${startStr}${endStr ? " → " + endStr : ""}</span>
           </div>
           ${
             event.extendedProps.description
               ? `
-            <div class="flex items-start gap-3 bg-slate-50 rounded-lg px-3 py-2.5">
-              <span class="text-base mt-0.5">📝</span>
-              <span class="whitespace-pre-wrap leading-relaxed">${escapeHTML(
+            <div style="display:flex; align-items:flex-start; gap:0.75rem; background:#FAF8F4; border-radius:9px; padding:0.7rem 0.875rem;">
+              <span style="font-size:1rem; margin-top:0.1rem;">📝</span>
+              <span style="white-space:pre-wrap; line-height:1.55;">${escapeHTML(
                 event.extendedProps.description
               )}</span>
             </div>
           `
-              : '<p class="text-slate-400 italic text-xs px-1">Nessuna nota aggiunta.</p>'
+              : '<p style="color:#ccc; font-style:italic; font-size:0.78rem; padding:0 0.25rem; margin:0;">Nessuna nota aggiunta.</p>'
           }
         </div>
 
-        <div class="flex gap-2">
+        <div style="display:flex; gap:0.6rem;">
           <button
             onclick="app.deleteEvent('${event.id}'); document.getElementById('eventDetailModal').remove();"
-            class="flex-1 bg-red-50 border border-red-200 text-red-500 text-sm font-bold py-2.5 rounded-xl hover:bg-red-100 transition"
+            style="flex:1; background:white; border:1.5px solid #fca5a5; color:#ef4444; font-size:0.82rem; font-weight:700; padding:0.65rem; border-radius:10px; cursor:pointer; font-family:'Inter',sans-serif; letter-spacing:0.04em; transition:background 0.2s;"
+            onmouseover="this.style.background='#fef2f2'" onmouseout="this.style.background='white'"
           >
             Elimina
           </button>
           <button
             onclick="document.getElementById('eventDetailModal').remove()"
-            class="flex-1 bg-slate-100 text-slate-600 text-sm font-bold py-2.5 rounded-xl hover:bg-slate-200 transition"
+            style="flex:1; background:#F0EBE3; color:#555; font-size:0.82rem; font-weight:700; padding:0.65rem; border-radius:10px; border:none; cursor:pointer; font-family:'Inter',sans-serif; letter-spacing:0.04em; transition:background 0.2s;"
+            onmouseover="this.style.background='#E8E0D4'" onmouseout="this.style.background='#F0EBE3'"
           >
             Chiudi
           </button>
@@ -691,7 +702,7 @@ const app = {
     const filterMode = filterSelect.value;
 
     list.innerHTML =
-      "<div class='text-center text-slate-400 py-4'>Caricamento...</div>";
+      "<div style='text-align:center; color:#bbb; padding:1rem 0; font-size:0.85rem; font-family:Inter,sans-serif;'>Caricamento...</div>";
 
     try {
       const res = await this.fetchProtected(
@@ -717,7 +728,7 @@ const app = {
 
       if (!filtered.length) {
         list.innerHTML =
-          "<div class='text-center py-6 bg-slate-50 text-slate-500 rounded-lg border border-slate-100'>Nessuna recensione in questa categoria.</div>";
+          "<div style='text-align:center; padding:1.5rem; background:#FAF8F4; color:#aaa; border-radius:10px; border:1px solid #E8E0D4; font-size:0.84rem; font-family:Inter,sans-serif;'>Nessuna recensione in questa categoria.</div>";
         return;
       }
 
@@ -729,48 +740,54 @@ const app = {
           let adminActions = "";
 
           if (!isApproved) {
-            adminActions = `<button onclick="app.approveReview(${r.idx})" class="w-full mt-2 text-xs bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 rounded transition">APPROVA E PUBBLICA</button>`;
+            adminActions = `
+              <button
+                onclick="app.approveReview(${r.idx})"
+                style="display:block; width:100%; margin-top:0.6rem; font-size:0.72rem; font-weight:700; padding:0.55rem; background:#C4622D; color:white; border:none; border-radius:7px; cursor:pointer; font-family:'Inter',sans-serif; letter-spacing:0.08em; transition:background 0.2s;"
+                onmouseover="this.style.background='#d4784a'" onmouseout="this.style.background='#C4622D'"
+              >APPROVA E PUBBLICA</button>`;
           } else {
             adminActions = `
-              <div class="mt-4 pt-3 border-t border-slate-100">
-                <label class="text-xs font-bold text-slate-500 uppercase">La tua risposta:</label>
+              <div style="margin-top:0.875rem; padding-top:0.75rem; border-top:1px solid #F0EBE3;">
+                <label style="font-size:0.68rem; font-weight:700; color:#aaa; text-transform:uppercase; letter-spacing:0.1em;">La tua risposta:</label>
                 <textarea
                   id="reply-${r.idx}"
-                  class="w-full mt-1 p-2 text-sm border border-slate-300 rounded bg-slate-50 focus:bg-white focus:ring-2 focus:ring-blue-200 outline-none transition"
+                  style="display:block; width:100%; margin-top:0.4rem; padding:0.55rem 0.75rem; font-size:0.82rem; border:1.5px solid #E8E0D4; border-radius:7px; background:#FAF8F4; font-family:'Inter',sans-serif; outline:none; resize:none; transition:border-color 0.2s;"
                   rows="2"
                   placeholder="Scrivi una risposta pubblica..."
+                  onfocus="this.style.borderColor='#1B3A5C'" onblur="this.style.borderColor='#E8E0D4'"
                 >${escapeHTML(currentReply)}</textarea>
-                <div class="flex gap-2 mt-2">
-                  <button onclick="app.saveReply(${r.idx}, event)" class="flex-1 bg-slate-800 text-white text-xs font-bold py-2 rounded hover:bg-slate-900 transition">
-                    SALVA RISPOSTA
-                  </button>
-                  <button onclick="app.deleteReview(${r.idx})" class="flex-1 bg-white border border-red-200 text-red-500 text-xs font-bold py-2 rounded hover:bg-red-50 transition">
-                    ELIMINA
-                  </button>
+                <div style="display:flex; gap:0.5rem; margin-top:0.5rem;">
+                  <button
+                    onclick="app.saveReply(${r.idx}, event)"
+                    style="flex:1; background:#1B3A5C; color:white; font-size:0.72rem; font-weight:700; padding:0.5rem; border:none; border-radius:7px; cursor:pointer; font-family:'Inter',sans-serif; letter-spacing:0.06em; transition:background 0.2s;"
+                    onmouseover="this.style.background='#244b73'" onmouseout="this.style.background='#1B3A5C'"
+                  >SALVA RISPOSTA</button>
+                  <button
+                    onclick="app.deleteReview(${r.idx})"
+                    style="flex:1; background:white; border:1.5px solid #fca5a5; color:#ef4444; font-size:0.72rem; font-weight:700; padding:0.5rem; border-radius:7px; cursor:pointer; font-family:'Inter',sans-serif; letter-spacing:0.06em; transition:background 0.2s;"
+                    onmouseover="this.style.background='#fef2f2'" onmouseout="this.style.background='white'"
+                  >ELIMINA</button>
                 </div>
               </div>
             `;
           }
 
           return `
-            <div class="border border-slate-200 p-4 rounded-xl bg-white hover:shadow-md transition mb-3 relative">
+            <div style="border:1px solid #E8E0D4; padding:1rem 1.1rem; border-radius:12px; background:white; box-shadow:0 1px 4px rgba(0,0,0,0.04); position:relative; transition:box-shadow 0.2s;" onmouseover="this.style.boxShadow='0 4px 16px rgba(0,0,0,0.08)'" onmouseout="this.style.boxShadow='0 1px 4px rgba(0,0,0,0.04)'">
               ${
                 isApproved
-                  ? '<span class="absolute top-2 right-2 text-[10px] bg-green-100 text-green-700 px-2 py-0.5 rounded-full font-bold border border-green-200">PUBBLICATA</span>'
-                  : '<span class="absolute top-2 right-2 text-[10px] bg-yellow-100 text-yellow-700 px-2 py-0.5 rounded-full font-bold border border-yellow-200">IN ATTESA</span>'
+                  ? '<span style="position:absolute; top:0.6rem; right:0.75rem; font-size:0.65rem; font-weight:700; background:#dcfce7; color:#15803d; padding:0.2rem 0.55rem; border-radius:50px; border:1px solid #bbf7d0; letter-spacing:0.06em;">PUBBLICATA</span>'
+                  : '<span style="position:absolute; top:0.6rem; right:0.75rem; font-size:0.65rem; font-weight:700; background:#fef9c3; color:#a16207; padding:0.2rem 0.55rem; border-radius:50px; border:1px solid #fde68a; letter-spacing:0.06em;">IN ATTESA</span>'
               }
-              <div class="flex justify-between items-center mb-1 pr-20">
-                <span class="font-bold text-slate-700 truncate">${
+              <div style="margin-bottom:0.25rem; padding-right:5.5rem;">
+                <span style="font-weight:700; color:#1B3A5C; font-size:0.9rem;">${
                   escapeHTML(r["Nome e Cognome"]) || "Ospite"
                 }</span>
               </div>
-              <div class="text-yellow-400 text-xs font-bold mb-2">★ ${escapeHTML(
-                r.Valutazione
-              )}</div>
-              <p class="text-sm italic text-slate-600 mb-2 wrap-break-word">"${escapeHTML(
-                r.Recensione
-              )}"</p>
-              <div class="text-xs text-slate-400 mb-2">Soggiorno: ${
+              <div style="color:#f59e0b; font-size:0.75rem; font-weight:700; margin-bottom:0.4rem;">★ ${escapeHTML(r.Valutazione)}</div>
+              <p style="font-size:0.84rem; font-style:italic; color:#555; margin:0 0 0.35rem; word-break:break-word; line-height:1.55;">"${escapeHTML(r.Recensione)}"</p>
+              <div style="font-size:0.72rem; color:#bbb; margin-bottom:0.25rem;">Soggiorno: ${
                 escapeHTML(r["Data Soggiorno"]) || "-"
               }</div>
               ${adminActions}
@@ -781,7 +798,7 @@ const app = {
     } catch (e) {
       console.error(e);
       list.innerHTML =
-        "<p class='text-red-500 text-center'>Errore nel caricamento recensioni</p>";
+        "<p style='color:#ef4444; text-align:center; font-size:0.85rem;'>Errore nel caricamento recensioni</p>";
     }
   },
 

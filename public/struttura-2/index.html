@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="it">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Prossimamente · I Sarcofagi del Re</title>
+    <meta name="description" content="Una nuova struttura sta per arrivare a San Pietro in Bevagna. Torna presto per scoprirla." />
+    <meta name="robots" content="noindex, nofollow" />
+
+    <link rel="icon" href="../img/logo.ico" type="image/ico" />
+    <link rel="preload" as="image" href="../img/hero.webp" />
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+    <link rel="stylesheet" href="../style.css" />
+
+    <style>
+      :root {
+        --navy:           #1B3A5C;
+        --navy-light:     #244b73;
+        --terracotta:     #C4622D;
+        --terracotta-lt:  #d4784a;
+        --ivory:          #FAF8F4;
+      }
+
+      *, *::before, *::after { box-sizing: border-box; }
+
+      body {
+        margin: 0;
+        font-family: 'Inter', sans-serif;
+        background: var(--ivory);
+        color: #333;
+        overflow-x: hidden;
+      }
+
+      .font-display { font-family: 'Playfair Display', serif; }
+
+      /* ── Animations ── */
+      @keyframes fadeInUp {
+        from { opacity: 0; transform: translateY(36px); }
+        to   { opacity: 1; transform: translateY(0); }
+      }
+      @keyframes fadeIn {
+        from { opacity: 0; }
+        to   { opacity: 1; }
+      }
+      @keyframes float {
+        0%, 100% { transform: translateX(-50%) translateY(0); }
+        50%       { transform: translateX(-50%) translateY(-10px); }
+      }
+      @keyframes pulse-dot {
+        0%, 100% { opacity: 1; transform: scale(1); }
+        50%       { opacity: 0.4; transform: scale(0.85); }
+      }
+
+      /* ── Header ── */
+      .site-header {
+        position: fixed;
+        top: 0; left: 0; right: 0;
+        z-index: 100;
+        padding: 1.25rem 2rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        transition: background 0.4s, padding 0.4s, box-shadow 0.4s;
+      }
+      .site-header.scrolled {
+        background: rgba(27,58,92,0.96);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        box-shadow: 0 4px 30px rgba(0,0,0,0.18);
+        padding: 0.75rem 2rem;
+      }
+      .header-logo {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        text-decoration: none;
+        color: #fff;
+      }
+      .header-logo img {
+        height: 40px;
+        width: auto;
+        transition: transform 0.3s;
+      }
+      .header-logo:hover img { transform: scale(1.06); }
+      .header-logo-text {
+        font-family: 'Playfair Display', serif;
+        font-size: 1.25rem;
+        font-weight: 700;
+      }
+      .header-back {
+        color: rgba(255,255,255,0.7);
+        text-decoration: none;
+        font-size: 0.78rem;
+        font-weight: 500;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        transition: color 0.25s;
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+      }
+      .header-back:hover { color: #fff; }
+
+      /* ── Hero ── */
+      .hero {
+        position: relative;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+      }
+      .hero-bg {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        filter: brightness(0.38) saturate(1.1);
+        transition: transform 10s ease;
+      }
+      .hero:hover .hero-bg { transform: scale(1.04); }
+      .hero-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          180deg,
+          rgba(27,58,92,0.25) 0%,
+          rgba(27,58,92,0.05) 40%,
+          rgba(27,58,92,0.65) 100%
+        );
+      }
+      .hero-content {
+        position: relative;
+        z-index: 10;
+        text-align: center;
+        color: #fff;
+        padding: 2rem 1.5rem;
+        max-width: 780px;
+        animation: fadeIn 1.2s ease 0.2s both;
+      }
+      .hero-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.7rem;
+        font-weight: 600;
+        letter-spacing: 0.3em;
+        text-transform: uppercase;
+        color: var(--terracotta-lt);
+        margin-bottom: 1.75rem;
+        animation: fadeInUp 0.9s ease 0.3s both;
+      }
+      .hero-badge-dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: var(--terracotta);
+        animation: pulse-dot 2s ease-in-out infinite;
+      }
+      .hero-title {
+        font-family: 'Playfair Display', serif;
+        font-size: clamp(3rem, 8vw, 6rem);
+        font-weight: 700;
+        line-height: 1.06;
+        margin: 0 0 1.25rem;
+        text-shadow: 0 4px 40px rgba(0,0,0,0.3);
+        animation: fadeInUp 0.9s ease 0.5s both;
+      }
+      .hero-subtitle {
+        font-size: clamp(1rem, 2.5vw, 1.2rem);
+        font-weight: 300;
+        line-height: 1.75;
+        opacity: 0.82;
+        max-width: 500px;
+        margin: 0 auto 2.75rem;
+        animation: fadeInUp 0.9s ease 0.7s both;
+      }
+      .hero-cta {
+        display: inline-block;
+        background: var(--terracotta);
+        color: #fff;
+        text-decoration: none;
+        padding: 1rem 2.75rem;
+        border-radius: 50px;
+        font-size: 0.82rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.15em;
+        transition: background 0.3s, transform 0.3s, box-shadow 0.3s;
+        animation: fadeInUp 0.9s ease 0.9s both;
+      }
+      .hero-cta:hover {
+        background: var(--terracotta-lt);
+        transform: translateY(-3px);
+        box-shadow: 0 12px 40px rgba(196,98,45,0.38);
+      }
+      .hero-scroll {
+        position: absolute;
+        bottom: 2.5rem;
+        left: 50%;
+        transform: translateX(-50%);
+        color: rgba(255,255,255,0.45);
+        font-size: 0.65rem;
+        text-transform: uppercase;
+        letter-spacing: 0.2em;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
+        z-index: 10;
+        animation: float 3.5s ease-in-out infinite;
+      }
+      .hero-scroll-line {
+        width: 1px;
+        height: 50px;
+        background: linear-gradient(to bottom, rgba(255,255,255,0.5), transparent);
+      }
+
+      /* ── Section: Teaser ── */
+      .section-teaser {
+        background: var(--ivory);
+        padding: 6rem 2rem;
+      }
+      .section-inner {
+        max-width: 900px;
+        margin: 0 auto;
+        text-align: center;
+      }
+      .section-label {
+        font-size: 0.7rem;
+        font-weight: 600;
+        letter-spacing: 0.3em;
+        text-transform: uppercase;
+        color: var(--terracotta);
+        margin-bottom: 1rem;
+      }
+      .section-title {
+        font-family: 'Playfair Display', serif;
+        font-size: clamp(1.75rem, 4vw, 2.75rem);
+        color: var(--navy);
+        margin: 0 0 1.25rem;
+        line-height: 1.2;
+      }
+      .section-body {
+        font-size: 1.05rem;
+        line-height: 1.85;
+        color: #666;
+        max-width: 580px;
+        margin: 0 auto 3rem;
+        font-weight: 300;
+      }
+
+      /* ── Feature Pills ── */
+      .features-grid {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 0.75rem;
+        margin-bottom: 3rem;
+      }
+      .feature-pill {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.6rem 1.25rem;
+        background: white;
+        border: 1.5px solid #ede8e0;
+        border-radius: 50px;
+        font-size: 0.82rem;
+        font-weight: 500;
+        color: var(--navy);
+        transition: border-color 0.25s, box-shadow 0.25s;
+      }
+      .feature-pill:hover {
+        border-color: var(--terracotta);
+        box-shadow: 0 4px 16px rgba(196,98,45,0.12);
+      }
+      .feature-pill-icon {
+        font-size: 1rem;
+      }
+
+      /* ── Section: Notify ── */
+      .section-notify {
+        background: var(--navy);
+        padding: 5rem 2rem;
+        text-align: center;
+      }
+      .notify-label {
+        font-size: 0.7rem;
+        font-weight: 600;
+        letter-spacing: 0.3em;
+        text-transform: uppercase;
+        color: rgba(196,98,45,0.85);
+        margin-bottom: 1rem;
+      }
+      .notify-title {
+        font-family: 'Playfair Display', serif;
+        font-size: clamp(1.6rem, 3.5vw, 2.25rem);
+        color: #fff;
+        margin: 0 0 0.75rem;
+      }
+      .notify-sub {
+        font-size: 0.95rem;
+        color: rgba(255,255,255,0.55);
+        margin: 0 auto 2.25rem;
+        max-width: 420px;
+        line-height: 1.7;
+        font-weight: 300;
+      }
+      .notify-link {
+        display: inline-block;
+        border: 1.5px solid rgba(255,255,255,0.3);
+        color: #fff;
+        text-decoration: none;
+        padding: 0.875rem 2.25rem;
+        border-radius: 50px;
+        font-size: 0.82rem;
+        font-weight: 600;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        transition: background 0.3s, border-color 0.3s;
+      }
+      .notify-link:hover {
+        background: rgba(255,255,255,0.08);
+        border-color: rgba(255,255,255,0.6);
+      }
+
+      /* ── Footer ── */
+      .site-footer {
+        background: #0d2135;
+        padding: 2.5rem 2rem;
+        text-align: center;
+      }
+      .footer-logo {
+        font-family: 'Playfair Display', serif;
+        color: rgba(255,255,255,0.5);
+        font-size: 1rem;
+        margin-bottom: 0.5rem;
+      }
+      .footer-sub {
+        font-size: 0.72rem;
+        color: rgba(255,255,255,0.25);
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+      }
+      .footer-sub a {
+        color: rgba(255,255,255,0.35);
+        text-decoration: none;
+        transition: color 0.25s;
+      }
+      .footer-sub a:hover { color: rgba(255,255,255,0.65); }
+
+      /* ── Reveal ── */
+      .reveal {
+        opacity: 0;
+        transform: translateY(36px);
+        transition: opacity 0.85s cubic-bezier(0.22,1,0.36,1),
+                    transform 0.85s cubic-bezier(0.22,1,0.36,1);
+      }
+      .reveal.active { opacity: 1; transform: translateY(0); }
+      .reveal-d1 { transition-delay: 0.1s; }
+      .reveal-d2 { transition-delay: 0.2s; }
+      .reveal-d3 { transition-delay: 0.3s; }
+      .reveal-d4 { transition-delay: 0.4s; }
+    </style>
+  </head>
+
+  <body>
+
+    <!-- ── Header ── -->
+    <header class="site-header" id="siteHeader">
+      <a href="/" class="header-logo">
+        <img src="../img/logo.png" alt="I Sarcofagi del Re" />
+        <span class="header-logo-text">I Sarcofagi del Re</span>
+      </a>
+      <a href="/" class="header-back">
+        ← Torna al sito
+      </a>
+    </header>
+
+    <!-- ── Hero ── -->
+    <section class="hero">
+      <img src="../img/hero.webp" alt="Struttura in arrivo" class="hero-bg" />
+      <div class="hero-overlay"></div>
+
+      <div class="hero-content">
+        <div class="hero-badge">
+          <span class="hero-badge-dot"></span>
+          Nuova struttura in arrivo
+        </div>
+        <h1 class="hero-title font-display">
+          Prossimamente
+        </h1>
+        <p class="hero-subtitle">
+          Stiamo lavorando per portarvi una nuova esperienza autentica
+          a San Pietro in Bevagna, tra il profumo di macchia mediterranea
+          e il silenzio dello Ionio.
+        </p>
+        <a href="/" class="hero-cta">Scopri le nostre strutture</a>
+      </div>
+
+      <div class="hero-scroll">
+        <span>Scopri</span>
+        <div class="hero-scroll-line"></div>
+      </div>
+    </section>
+
+    <!-- ── Teaser ── -->
+    <section class="section-teaser">
+      <div class="section-inner">
+        <p class="section-label reveal">Una nuova perla</p>
+        <h2 class="section-title reveal reveal-d1">
+          <!-- TODO: inserire il nome della struttura -->
+          Un posto dove il tempo rallenta
+        </h2>
+        <p class="section-body reveal reveal-d2">
+          Ogni struttura de I Sarcofagi del Re nasce da un'idea semplice:
+          offrire un angolo di Puglia autentico, curato nei dettagli,
+          lontano dal rumore. Questa nuova realtà continuerà la stessa storia.
+        </p>
+
+        <div class="features-grid reveal reveal-d3">
+          <span class="feature-pill"><span class="feature-pill-icon">🌊</span> A due passi dal mare</span>
+          <span class="feature-pill"><span class="feature-pill-icon">🌿</span> Immersa nella natura</span>
+          <span class="feature-pill"><span class="feature-pill-icon">☀️</span> Puglia autentica</span>
+          <span class="feature-pill"><span class="feature-pill-icon">🏛️</span> Storia e cultura</span>
+          <span class="feature-pill"><span class="feature-pill-icon">🍷</span> Enogastronomia locale</span>
+          <span class="feature-pill"><span class="feature-pill-icon">✨</span> Ospitalità curata</span>
+        </div>
+
+        <a href="/" class="hero-cta reveal reveal-d4" style="animation: none; opacity: 1; transform: none;">
+          Nel frattempo, visita Perla Bianca →
+        </a>
+      </div>
+    </section>
+
+    <!-- ── Notify CTA ── -->
+    <section class="section-notify">
+      <p class="notify-label reveal">Aggiornamenti</p>
+      <h2 class="notify-title font-display reveal reveal-d1">Vuoi essere tra i primi a saperlo?</h2>
+      <p class="notify-sub reveal reveal-d2">
+        Contattaci e ti avviseremo non appena la struttura sarà disponibile.
+      </p>
+      <a href="mailto:info@isarcofagidelre.it" class="notify-link reveal reveal-d3">
+        Scrivici una mail
+      </a>
+    </section>
+
+    <!-- ── Footer ── -->
+    <footer class="site-footer">
+      <div class="footer-logo">I Sarcofagi del Re</div>
+      <p class="footer-sub">
+        San Pietro in Bevagna, Manduria · TA &nbsp;·&nbsp;
+        <a href="/">isarcofagidelre.it</a>
+      </p>
+    </footer>
+
+    <script>
+      // Header scroll effect
+      const header = document.getElementById('siteHeader');
+      window.addEventListener('scroll', () => {
+        header.classList.toggle('scrolled', window.scrollY > 60);
+      }, { passive: true });
+
+      // Reveal on scroll
+      const reveals = document.querySelectorAll('.reveal');
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('active'); observer.unobserve(e.target); } });
+      }, { threshold: 0.12 });
+      reveals.forEach(el => observer.observe(el));
+    </script>
+
+  </body>
+</html>

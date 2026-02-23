@@ -4,6 +4,11 @@
       "source": "/perla-bianca",
       "destination": "/perla-bianca/",
       "permanent": true
+    },
+    {
+      "source": "/struttura-2",
+      "destination": "/struttura-2/",
+      "permanent": true
     }
   ],
   "headers": [
