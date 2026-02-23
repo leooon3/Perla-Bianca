@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Area Riservata · I Sarcofagi del Re</title>
 
-    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
@@ -21,263 +20,519 @@
 
     <style>
       :root {
-        --navy:          #1B3A5C;
-        --navy-light:    #244b73;
-        --navy-dark:     #0d2135;
-        --terracotta:    #C4622D;
-        --terracotta-lt: #d4784a;
-        --ivory:         #FAF8F4;
-        --ivory-dark:    #F0EBE3;
-        --border:        #E8E0D4;
+        --navy:      #1B3A5C;
+        --navy-l:    #244b73;
+        --navy-dark: #0d2135;
+        --terra:     #C4622D;
+        --terra-l:   #d4784a;
+        --ivory:     #FAF8F4;
+        --ivory-d:   #F0EBE3;
+        --border:    #E8E0D4;
+        --text:      #333;
+        --soft:      #888;
       }
 
-      *, *::before, *::after { box-sizing: border-box; }
+      *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
       body {
-        margin: 0;
         font-family: 'Inter', sans-serif;
         background: var(--ivory);
-        color: #333;
+        color: var(--text);
       }
 
-      .font-display { font-family: 'Playfair Display', serif; }
+      .hidden { display: none !important; }
 
-      /* ── Login Screen ── */
+      /* ════════════════════════════════════════
+         LOGIN
+      ════════════════════════════════════════ */
       #loginScreen {
-        position: fixed;
-        inset: 0;
-        z-index: 50;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+        position: fixed; inset: 0; z-index: 50;
+        display: flex; align-items: center; justify-content: center;
         padding: 1.5rem;
         background: linear-gradient(135deg, var(--navy) 0%, var(--navy-dark) 100%);
       }
-      #loginScreen.hidden { display: none; }
-
       .login-card {
-        width: 100%;
-        max-width: 420px;
+        width: 100%; max-width: 420px;
         background: var(--ivory);
         border-radius: 24px;
-        box-shadow: 0 40px 100px rgba(0,0,0,0.45);
+        box-shadow: 0 40px 100px rgba(0,0,0,0.4);
         padding: 3rem 2.5rem;
       }
-      .login-logo-wrap {
-        text-align: center;
-        margin-bottom: 2.25rem;
-      }
-      .login-logo-wrap img {
-        height: 52px;
-        width: auto;
-        margin-bottom: 1.25rem;
-      }
-      .login-title {
+      .login-logo { text-align: center; margin-bottom: 2.25rem; }
+      .login-logo img { height: 52px; margin-bottom: 1.25rem; }
+      .login-logo h1 {
         font-family: 'Playfair Display', serif;
-        font-size: 1.7rem;
-        color: var(--navy);
-        margin: 0 0 0.35rem;
+        font-size: 1.7rem; color: var(--navy); margin-bottom: 0.3rem;
       }
-      .login-subtitle {
-        font-size: 0.72rem;
-        letter-spacing: 0.2em;
-        text-transform: uppercase;
-        color: #aaa;
-        margin: 0;
-      }
+      .login-logo p { font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase; color: #aaa; }
 
       .login-divider {
-        display: flex;
-        align-items: center;
-        gap: 1rem;
-        margin: 1.5rem 0;
+        display: flex; align-items: center; gap: 1rem; margin: 1.5rem 0;
       }
-      .login-divider-line {
-        flex: 1;
-        height: 1px;
-        background: var(--border);
+      .login-divider::before, .login-divider::after {
+        content: ''; flex: 1; height: 1px; background: var(--border);
       }
-      .login-divider-text {
-        font-size: 0.68rem;
-        letter-spacing: 0.2em;
-        text-transform: uppercase;
-        color: #c8bfb2;
-        white-space: nowrap;
-      }
+      .login-divider span { font-size: 0.68rem; letter-spacing: 0.18em; text-transform: uppercase; color: #c8bfb2; }
 
       .login-input {
-        width: 100%;
+        display: block; width: 100%;
         padding: 0.875rem 1.1rem;
-        border: 1.5px solid var(--border);
-        border-radius: 10px;
-        background: white;
-        font-family: 'Inter', sans-serif;
-        font-size: 0.9rem;
-        color: #333;
-        outline: none;
+        border: 1.5px solid var(--border); border-radius: 10px;
+        background: white; font-family: 'Inter', sans-serif; font-size: 0.9rem;
+        color: var(--text); outline: none;
         transition: border-color 0.25s, box-shadow 0.25s;
-        display: block;
       }
       .login-input:focus {
         border-color: var(--navy);
         box-shadow: 0 0 0 3px rgba(27,58,92,0.1);
       }
-      .login-input-otp {
-        text-align: center;
-        font-size: 2rem;
-        letter-spacing: 0.35em;
-        font-weight: 600;
-      }
+      .otp-input { text-align: center; font-size: 2rem; letter-spacing: 0.35em; font-weight: 600; }
 
-      .login-btn {
-        display: block;
-        width: 100%;
-        margin-top: 0.75rem;
-        padding: 0.9rem;
-        border: none;
-        border-radius: 10px;
-        font-family: 'Inter', sans-serif;
-        font-size: 0.875rem;
-        font-weight: 700;
-        letter-spacing: 0.06em;
-        cursor: pointer;
-        transition: background 0.25s, transform 0.2s;
+      .lbtn {
+        display: block; width: 100%; margin-top: 0.75rem;
+        padding: 0.9rem; border: none; border-radius: 10px;
+        font-family: 'Inter', sans-serif; font-size: 0.875rem; font-weight: 700;
+        letter-spacing: 0.05em; cursor: pointer;
+        transition: background 0.2s, transform 0.15s;
       }
-      .login-btn:active { transform: scale(0.98); }
-      .login-btn-navy {
+      .lbtn:active { transform: scale(0.98); }
+      .lbtn-navy { background: var(--navy); color: white; }
+      .lbtn-navy:hover { background: var(--navy-l); }
+      .lbtn-terra { background: var(--terra); color: white; }
+      .lbtn-terra:hover { background: var(--terra-l); }
+      .lbtn-link {
+        background: none; border: none; display: block;
+        margin-top: 0.875rem; font-size: 0.8rem; color: #b0a89e;
+        text-decoration: underline; cursor: pointer;
+        font-family: 'Inter', sans-serif; text-align: center;
+      }
+      .otp-hint { font-size: 0.84rem; color: #777; text-align: center; margin-bottom: 0.875rem; line-height: 1.5; }
+      #errorMsg { margin-top: 1rem; font-size: 0.84rem; color: #c0392b; text-align: center; }
+
+      /* ════════════════════════════════════════
+         TOP NAV
+      ════════════════════════════════════════ */
+      .top-nav {
+        position: sticky; top: 0; z-index: 40;
         background: var(--navy);
-        color: white;
-      }
-      .login-btn-navy:hover { background: var(--navy-light); }
-      .login-btn-terra {
-        background: var(--terracotta);
-        color: white;
-      }
-      .login-btn-terra:hover { background: var(--terracotta-lt); }
-      .login-btn-link {
-        display: block;
-        width: 100%;
-        background: none;
-        border: none;
-        margin-top: 0.875rem;
-        font-size: 0.8rem;
-        color: #b0a89e;
-        text-decoration: underline;
-        cursor: pointer;
-        font-family: 'Inter', sans-serif;
-        text-align: center;
+        padding: 0 1.75rem;
+        display: flex; align-items: center; gap: 0.5rem;
+        box-shadow: 0 4px 24px rgba(27,58,92,0.22);
+        min-height: 58px;
       }
 
-      .login-step2-hint {
-        font-size: 0.84rem;
-        color: #777;
-        text-align: center;
-        margin-bottom: 0.875rem;
-        line-height: 1.5;
+      /* Logo */
+      .nav-logo {
+        display: flex; align-items: center; gap: 0.7rem;
+        text-decoration: none; flex-shrink: 0; margin-right: 0.5rem;
       }
-
-      #errorMsg {
-        margin-top: 1rem;
-        font-size: 0.84rem;
-        color: #c0392b;
-        text-align: center;
-        min-height: 1.2em;
-      }
-      #errorMsg.hidden { display: none; }
-
-      /* ── Dashboard ── */
-      #dashboard { min-height: 100vh; background: var(--ivory); }
-      #dashboard.hidden { display: none; }
-
-      /* ── Dashboard Header ── */
-      .dash-header {
-        background: var(--navy);
-        padding: 1.1rem 2rem;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        box-shadow: 0 4px 24px rgba(27,58,92,0.25);
-        position: sticky;
-        top: 0;
-        z-index: 40;
-      }
-      .dash-header-logo {
-        display: flex;
-        align-items: center;
-        gap: 0.875rem;
-        text-decoration: none;
-      }
-      .dash-header-logo img { height: 36px; width: auto; }
-      .dash-header-title {
+      .nav-logo img { height: 30px; }
+      .nav-logo-name {
         font-family: 'Playfair Display', serif;
-        font-size: 1.2rem;
-        font-weight: 700;
-        color: #fff;
-        line-height: 1.1;
+        font-size: 1.05rem; font-weight: 700; color: white; white-space: nowrap;
       }
-      .dash-header-sub {
-        font-size: 0.6rem;
-        letter-spacing: 0.22em;
-        text-transform: uppercase;
-        color: rgba(255,255,255,0.38);
+      .nav-logo-sub { font-size: 0.58rem; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,0.32); }
+
+      /* Section buttons */
+      .nav-sections { display: flex; align-items: center; gap: 0.15rem; flex: 1; }
+      .nav-sec-btn {
+        position: relative;
+        display: inline-flex; align-items: center; gap: 0.45rem;
+        background: none; border: none;
+        color: rgba(255,255,255,0.5); font-family: 'Inter', sans-serif;
+        font-size: 0.82rem; font-weight: 600; letter-spacing: 0.04em;
+        padding: 0.45rem 0.9rem; border-radius: 8px;
+        cursor: pointer; white-space: nowrap;
+        transition: background 0.2s, color 0.2s;
       }
-      .dash-logout-btn {
-        background: transparent;
-        border: 1.5px solid rgba(196,98,45,0.45);
-        color: #e8a080;
-        padding: 0.45rem 1.1rem;
-        border-radius: 8px;
-        font-family: 'Inter', sans-serif;
-        font-size: 0.78rem;
-        font-weight: 700;
-        letter-spacing: 0.05em;
-        cursor: pointer;
-        transition: background 0.25s, border-color 0.25s;
-      }
-      .dash-logout-btn:hover {
-        background: rgba(196,98,45,0.14);
-        border-color: rgba(196,98,45,0.7);
+      .nav-sec-btn:hover { color: rgba(255,255,255,0.85); background: rgba(255,255,255,0.07); }
+      .nav-sec-btn.active { color: white; background: rgba(255,255,255,0.13); }
+
+      /* Nav badge */
+      .nav-badge {
+        display: inline-flex; align-items: center; justify-content: center;
+        background: var(--terra); color: white;
+        font-size: 0.62rem; font-weight: 700;
+        min-width: 17px; height: 17px; border-radius: 50px; padding: 0 4px; line-height: 1;
       }
 
-      /* ── Dashboard Body ── */
-      .dash-body {
-        max-width: 1100px;
-        margin: 0 auto;
-        padding: 2.5rem 1.5rem 4rem;
-      }
+      /* Right side */
+      .nav-right { display: flex; align-items: center; gap: 0.625rem; flex-shrink: 0; }
 
-      /* ── Section Header ── */
-      .dash-section-head {
-        margin-bottom: 1.5rem;
+      /* Property switcher */
+      .prop-wrap { position: relative; }
+      .prop-btn {
+        display: flex; align-items: center; gap: 0.4rem;
+        background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.15);
+        color: rgba(255,255,255,0.82); font-family: 'Inter', sans-serif;
+        font-size: 0.78rem; font-weight: 600;
+        padding: 0.38rem 0.8rem; border-radius: 8px; cursor: pointer;
+        transition: background 0.2s; white-space: nowrap;
       }
-      .dash-section-title {
+      .prop-btn:hover { background: rgba(255,255,255,0.17); }
+      .prop-btn svg { width: 11px; height: 11px; opacity: 0.55; transition: transform 0.2s; }
+      .prop-btn.open svg { transform: rotate(180deg); }
+      .prop-menu {
+        position: absolute; top: calc(100% + 8px); right: 0;
+        background: white; border-radius: 12px;
+        border: 1px solid var(--border);
+        box-shadow: 0 8px 32px rgba(0,0,0,0.13);
+        min-width: 190px; overflow: hidden; z-index: 100;
+      }
+      .prop-item {
+        display: flex; align-items: center; gap: 0.6rem;
+        width: 100%; padding: 0.75rem 1rem;
+        background: none; border: none; text-align: left;
+        font-family: 'Inter', sans-serif; font-size: 0.84rem; font-weight: 500;
+        color: var(--text); cursor: pointer; transition: background 0.15s;
+      }
+      .prop-item:hover { background: var(--ivory); }
+      .prop-item.cur { color: var(--navy); font-weight: 700; }
+      .prop-item:disabled { color: #bbb; cursor: not-allowed; }
+      .prop-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+      .prop-dot.on { background: #22c55e; }
+      .prop-dot.off { background: #ddd; }
+
+      /* Logout */
+      .logout-btn {
+        background: transparent; border: 1.5px solid rgba(196,98,45,0.4);
+        color: #e8a080; padding: 0.38rem 1rem; border-radius: 8px;
+        font-family: 'Inter', sans-serif; font-size: 0.78rem; font-weight: 700;
+        letter-spacing: 0.04em; cursor: pointer; white-space: nowrap;
+        transition: background 0.2s, border-color 0.2s;
+      }
+      .logout-btn:hover { background: rgba(196,98,45,0.14); border-color: rgba(196,98,45,0.65); }
+
+      /* ════════════════════════════════════════
+         MAIN CONTENT
+      ════════════════════════════════════════ */
+      .main { max-width: 1100px; margin: 0 auto; padding: 2.25rem 1.5rem 4rem; }
+
+      .section { display: none; }
+      .section.active { display: block; }
+
+      /* Section header */
+      .sec-hd {
+        display: flex; justify-content: space-between; align-items: flex-end;
+        margin-bottom: 1.75rem; gap: 1rem;
+      }
+      .sec-title {
         font-family: 'Playfair Display', serif;
-        font-size: 1.45rem;
-        color: var(--navy);
-        margin: 0 0 0.2rem;
+        font-size: 1.55rem; color: var(--navy); line-height: 1.1;
       }
-      .dash-section-sub {
-        font-size: 0.68rem;
-        letter-spacing: 0.22em;
-        text-transform: uppercase;
-        color: #bbb;
-        margin: 0;
-      }
+      .sec-sub { font-size: 0.72rem; color: var(--soft); margin-top: 0.2rem; }
 
-      /* ── Property Tabs Card ── */
-      .dash-tabs-card {
+      .btn-add {
+        display: inline-flex; align-items: center; gap: 0.35rem; flex-shrink: 0;
+        background: var(--terra); color: white;
+        font-family: 'Inter', sans-serif; font-size: 0.8rem; font-weight: 700;
+        letter-spacing: 0.06em; padding: 0.6rem 1.2rem;
+        border: none; border-radius: 10px; cursor: pointer;
+        transition: background 0.2s, transform 0.15s;
+      }
+      .btn-add:hover { background: var(--terra-l); }
+      .btn-add:active { transform: scale(0.97); }
+
+      /* ════════════════════════════════════════
+         FULLCALENDAR OVERRIDES
+      ════════════════════════════════════════ */
+      #calendarEl {
         background: white;
         border-radius: 16px;
-        box-shadow: 0 2px 20px rgba(0,0,0,0.06);
-        overflow: hidden;
         border: 1px solid var(--border);
+        overflow: hidden;
+        padding: 1.5rem;
+        box-shadow: 0 2px 16px rgba(0,0,0,0.05);
       }
-      .dash-tab-nav {
-        display: flex;
-        border-bottom: 1.5px solid var(--ivory-dark);
+
+      /* Buttons */
+      .fc .fc-button-primary {
+        background-color: var(--navy) !important;
+        border-color: var(--navy) !important;
+        font-family: 'Inter', sans-serif !important;
+        font-size: 0.78rem !important; font-weight: 600 !important;
+        letter-spacing: 0.04em !important;
+        border-radius: 8px !important; padding: 0.42rem 0.9rem !important;
+        box-shadow: none !important;
+        transition: background-color 0.2s !important;
       }
-      .dash-tab-content {
+      .fc .fc-button-primary:hover {
+        background-color: var(--navy-l) !important;
+        border-color: var(--navy-l) !important;
+      }
+      .fc .fc-button-primary:focus {
+        box-shadow: 0 0 0 3px rgba(27,58,92,0.2) !important;
+      }
+      .fc .fc-button-primary:not(:disabled):active,
+      .fc .fc-button-primary:not(:disabled).fc-button-active {
+        background-color: var(--terra) !important;
+        border-color: var(--terra) !important;
+      }
+
+      /* Title */
+      .fc .fc-toolbar-title {
+        font-family: 'Playfair Display', serif !important;
+        font-size: 1.25rem !important; font-weight: 700 !important;
+        color: var(--navy) !important;
+      }
+      .fc .fc-toolbar { margin-bottom: 1.25rem !important; }
+
+      /* Column headers */
+      .fc .fc-col-header-cell {
+        background-color: #f5f1ec !important;
+        border-color: var(--border) !important;
+      }
+      .fc .fc-col-header-cell-cushion {
+        font-family: 'Inter', sans-serif !important;
+        font-size: 0.67rem !important; font-weight: 700 !important;
+        text-transform: uppercase !important; letter-spacing: 0.1em !important;
+        color: var(--navy) !important; padding: 0.65rem 0 !important;
+        text-decoration: none !important;
+      }
+
+      /* Day numbers */
+      .fc .fc-daygrid-day-number {
+        font-family: 'Inter', sans-serif !important;
+        font-size: 0.82rem !important; color: #666 !important;
+        padding: 0.4rem 0.5rem !important; text-decoration: none !important;
+      }
+
+      /* Today */
+      .fc .fc-day-today { background-color: rgba(196,98,45,0.055) !important; }
+      .fc .fc-day-today .fc-daygrid-day-number {
+        color: var(--terra) !important; font-weight: 700 !important;
+      }
+
+      /* Day hover → dateClick hint */
+      .fc .fc-daygrid-day:hover {
+        background-color: rgba(27,58,92,0.035) !important;
+        cursor: pointer !important;
+      }
+
+      /* Grid borders */
+      .fc-theme-standard td, .fc-theme-standard th { border-color: var(--border) !important; }
+      .fc-theme-standard .fc-scrollgrid { border-color: var(--border) !important; }
+
+      /* Events */
+      .fc-event {
+        border: none !important; border-radius: 6px !important;
+        font-family: 'Inter', sans-serif !important;
+        font-size: 0.75rem !important; font-weight: 600 !important;
+        padding: 2px 6px !important; cursor: pointer !important;
+      }
+      .fc-event:hover { filter: brightness(0.9) !important; }
+
+      /* ════════════════════════════════════════
+         REVIEWS
+      ════════════════════════════════════════ */
+      .rev-tabs {
+        display: flex; border-bottom: 2px solid var(--border);
+        margin-bottom: 1.5rem;
+      }
+      .rev-tab {
+        display: inline-flex; align-items: center; gap: 0.5rem;
+        padding: 0.65rem 1.25rem; background: none; border: none;
+        font-family: 'Inter', sans-serif; font-size: 0.84rem; font-weight: 600;
+        color: var(--soft); cursor: pointer;
+        border-bottom: 2.5px solid transparent; margin-bottom: -2px;
+        transition: color 0.2s, border-color 0.2s;
+      }
+      .rev-tab:hover { color: var(--navy); }
+      .rev-tab.active { color: var(--terra); border-bottom-color: var(--terra); }
+
+      .rev-count {
+        display: inline-flex; align-items: center; justify-content: center;
+        background: var(--terra); color: white;
+        font-size: 0.62rem; font-weight: 700;
+        min-width: 17px; height: 17px; border-radius: 50px; padding: 0 3px;
+      }
+      .rev-count.zero { background: #ddd; color: #aaa; }
+
+      .reviews-list { display: flex; flex-direction: column; gap: 0.875rem; }
+
+      .rev-card {
+        background: white; border: 1px solid var(--border);
+        border-radius: 14px; padding: 1.1rem 1.25rem;
+        box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+        transition: box-shadow 0.2s;
+      }
+      .rev-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
+
+      .rev-card-top {
+        display: flex; justify-content: space-between; align-items: flex-start;
+        margin-bottom: 0.5rem;
+      }
+      .rev-name { font-weight: 700; font-size: 0.9rem; color: var(--navy); }
+      .rev-rating { font-size: 0.8rem; color: #f59e0b; font-weight: 700; margin-top: 0.15rem; }
+      .rev-status {
+        font-size: 0.63rem; font-weight: 700; letter-spacing: 0.06em;
+        padding: 0.2rem 0.6rem; border-radius: 50px; white-space: nowrap;
+        flex-shrink: 0; margin-left: 0.75rem;
+      }
+      .rev-status.pending { background: #fef9c3; color: #a16207; border: 1px solid #fde68a; }
+      .rev-status.published { background: #dcfce7; color: #15803d; border: 1px solid #bbf7d0; }
+
+      .rev-text {
+        font-size: 0.875rem; font-style: italic; color: #555;
+        line-height: 1.6; margin: 0.35rem 0; word-break: break-word;
+      }
+      .rev-date { font-size: 0.72rem; color: #bbb; margin-top: 0.25rem; }
+
+      .btn-approve {
+        display: block; width: 100%; margin-top: 0.75rem;
+        background: var(--terra); color: white;
+        font-family: 'Inter', sans-serif; font-size: 0.75rem; font-weight: 700;
+        letter-spacing: 0.08em; padding: 0.55rem;
+        border: none; border-radius: 8px; cursor: pointer;
+        transition: background 0.2s;
+      }
+      .btn-approve:hover { background: var(--terra-l); }
+
+      .rev-reply { margin-top: 0.875rem; padding-top: 0.875rem; border-top: 1px solid var(--ivory-d); }
+      .rev-reply label { font-size: 0.67rem; font-weight: 700; color: #aaa; text-transform: uppercase; letter-spacing: 0.1em; }
+      .rev-reply textarea {
+        display: block; width: 100%; margin-top: 0.4rem;
+        padding: 0.6rem 0.875rem; font-size: 0.84rem;
+        border: 1.5px solid var(--border); border-radius: 8px;
+        background: var(--ivory); font-family: 'Inter', sans-serif;
+        outline: none; resize: none;
+        transition: border-color 0.2s, background 0.2s;
+      }
+      .rev-reply textarea:focus { border-color: var(--navy); background: white; }
+      .rev-reply-btns { display: flex; gap: 0.5rem; margin-top: 0.5rem; }
+      .btn-save-reply {
+        flex: 1; background: var(--navy); color: white;
+        font-family: 'Inter', sans-serif; font-size: 0.75rem; font-weight: 700;
+        letter-spacing: 0.06em; padding: 0.5rem;
+        border: none; border-radius: 8px; cursor: pointer;
+        transition: background 0.2s;
+      }
+      .btn-save-reply:hover { background: var(--navy-l); }
+      .btn-del-rev {
+        flex: 1; background: white; border: 1.5px solid #fca5a5; color: #ef4444;
+        font-family: 'Inter', sans-serif; font-size: 0.75rem; font-weight: 700;
+        letter-spacing: 0.06em; padding: 0.5rem; border-radius: 8px;
+        cursor: pointer; transition: background 0.2s;
+      }
+      .btn-del-rev:hover { background: #fef2f2; }
+
+      .empty-state {
+        text-align: center; padding: 3.5rem 1rem;
+        background: white; border-radius: 14px; border: 1px solid var(--border);
+        color: var(--soft); font-size: 0.9rem;
+      }
+      .empty-icon { font-size: 2.25rem; margin-bottom: 0.75rem; }
+
+      .list-loading { text-align: center; padding: 2rem 0; color: #bbb; font-size: 0.85rem; }
+
+      /* ════════════════════════════════════════
+         MODALS
+      ════════════════════════════════════════ */
+      .modal {
+        position: fixed; inset: 0; z-index: 50;
+        display: flex; align-items: center; justify-content: center;
+        padding: 1.5rem;
+        background: rgba(0,0,0,0.45);
+        backdrop-filter: blur(4px);
+      }
+      .modal-card {
+        width: 100%; max-width: 400px;
+        background: white; border-radius: 20px;
+        box-shadow: 0 32px 80px rgba(0,0,0,0.22);
         padding: 1.75rem;
+        max-height: 90vh; overflow-y: auto;
+      }
+      .modal-hd {
+        display: flex; justify-content: space-between; align-items: center;
+        margin-bottom: 1.5rem;
+      }
+      .modal-title {
+        font-family: 'Playfair Display', serif;
+        font-size: 1.2rem; color: var(--navy);
+      }
+      .modal-close {
+        background: none; border: none; font-size: 1.6rem; line-height: 1;
+        color: #ccc; cursor: pointer; padding: 0; transition: color 0.2s;
+      }
+      .modal-close:hover { color: #555; }
+
+      .form-group { margin-bottom: 1rem; }
+      .form-label {
+        display: block; margin-bottom: 0.4rem;
+        font-size: 0.72rem; font-weight: 700; color: var(--soft);
+        text-transform: uppercase; letter-spacing: 0.08em;
+      }
+      .form-field {
+        display: block; width: 100%;
+        padding: 0.7rem 0.9rem;
+        border: 1.5px solid var(--border); border-radius: 9px;
+        background: white; font-family: 'Inter', sans-serif; font-size: 0.875rem;
+        color: var(--text); outline: none;
+        transition: border-color 0.2s, box-shadow 0.2s;
+      }
+      .form-field:focus { border-color: var(--navy); box-shadow: 0 0 0 3px rgba(27,58,92,0.08); }
+      .form-textarea { resize: none; height: 80px; }
+
+      .form-check {
+        display: flex; align-items: center; gap: 0.6rem;
+        padding: 0.75rem 0.9rem;
+        background: var(--ivory); border-radius: 9px; border: 1px solid var(--border);
+        margin-bottom: 1rem;
+      }
+      .form-check input[type="checkbox"] { width: 1rem; height: 1rem; accent-color: var(--terra); cursor: pointer; }
+      .form-check label {
+        font-size: 0.75rem; font-weight: 600; color: var(--soft);
+        text-transform: uppercase; letter-spacing: 0.07em; cursor: pointer; user-select: none;
+      }
+
+      .btn-submit {
+        display: block; width: 100%; margin-top: 1.25rem;
+        background: var(--terra); color: white;
+        font-family: 'Inter', sans-serif; font-size: 0.875rem; font-weight: 700;
+        letter-spacing: 0.06em; padding: 0.875rem;
+        border: none; border-radius: 10px; cursor: pointer;
+        transition: background 0.2s, transform 0.15s;
+      }
+      .btn-submit:hover { background: var(--terra-l); }
+      .btn-submit:active { transform: scale(0.98); }
+
+      /* Event modal */
+      .ev-row {
+        display: flex; align-items: flex-start; gap: 0.75rem;
+        background: var(--ivory); border-radius: 9px;
+        padding: 0.75rem; margin-bottom: 0.6rem;
+        font-size: 0.875rem; color: #555;
+      }
+      .ev-row-icon { font-size: 1rem; flex-shrink: 0; }
+      .ev-row-text { line-height: 1.55; }
+      .ev-no-notes { font-size: 0.78rem; color: #ccc; font-style: italic; padding: 0.1rem 0.25rem; margin-bottom: 0.6rem; }
+      .ev-btns { display: flex; gap: 0.6rem; margin-top: 1.25rem; }
+      .btn-ev-del {
+        flex: 1; background: white; border: 1.5px solid #fca5a5; color: #ef4444;
+        font-family: 'Inter', sans-serif; font-size: 0.82rem; font-weight: 700;
+        padding: 0.65rem; border-radius: 10px; cursor: pointer; transition: background 0.2s;
+      }
+      .btn-ev-del:hover { background: #fef2f2; }
+      .btn-ev-close {
+        flex: 1; background: var(--ivory-d); color: #555; border: none;
+        font-family: 'Inter', sans-serif; font-size: 0.82rem; font-weight: 700;
+        padding: 0.65rem; border-radius: 10px; cursor: pointer; transition: background 0.2s;
+      }
+      .btn-ev-close:hover { background: var(--border); }
+
+      /* ════════════════════════════════════════
+         RESPONSIVE
+      ════════════════════════════════════════ */
+      @media (max-width: 620px) {
+        .top-nav { padding: 0.5rem 1rem; flex-wrap: wrap; min-height: auto; }
+        .nav-logo { flex: 1; }
+        .nav-logo-sub { display: none; }
+        .nav-sections { order: 3; width: 100%; justify-content: center; padding-bottom: 0.5rem; }
+        .nav-right { order: 2; }
+        .main { padding: 1.5rem 1rem 3rem; }
+        .sec-hd { flex-direction: column; align-items: flex-start; }
+        .btn-add { width: 100%; justify-content: center; }
+        .modal-card { padding: 1.25rem; }
       }
     </style>
   </head>
@@ -289,58 +544,26 @@
     ════════════════════════════════ -->
     <div id="loginScreen">
       <div class="login-card">
-
-        <!-- Logo + Title -->
-        <div class="login-logo-wrap">
+        <div class="login-logo">
           <img src="img/logo+text.png" alt="I Sarcofagi del Re" />
-          <h1 class="login-title">Area Riservata</h1>
-          <p class="login-subtitle">Pannello di gestione</p>
+          <h1>Area Riservata</h1>
+          <p>Pannello di gestione</p>
         </div>
 
-        <!-- Google Button -->
-        <div id="googleBtnContainer" style="display:flex; justify-content:center; height:44px; margin-bottom:1.25rem;"></div>
+        <div id="googleBtnContainer" style="display:flex; justify-content:center; height:44px; margin-bottom:1rem;"></div>
 
-        <!-- Divider -->
-        <div class="login-divider">
-          <div class="login-divider-line"></div>
-          <span class="login-divider-text">Oppure email</span>
-          <div class="login-divider-line"></div>
-        </div>
+        <div class="login-divider"><span>Oppure email</span></div>
 
-        <!-- Email Auth Form -->
         <form id="emailAuthForm">
-          <!-- Step 1: email -->
           <div id="step1">
-            <input
-              type="email"
-              id="emailInput"
-              class="login-input"
-              placeholder="tua@email.com"
-              autocomplete="email"
-              required
-            />
-            <button type="submit" class="login-btn login-btn-navy">
-              Ricevi Codice
-            </button>
+            <input type="email" id="emailInput" class="login-input" placeholder="tua@email.com" autocomplete="email" required />
+            <button type="submit" class="lbtn lbtn-navy">Ricevi Codice</button>
           </div>
-
-          <!-- Step 2: OTP -->
           <div id="step2" class="hidden">
-            <p class="login-step2-hint">Inserisci il codice ricevuto via mail:</p>
-            <input
-              type="text"
-              id="otpInput"
-              class="login-input login-input-otp"
-              placeholder="123456"
-              maxlength="6"
-              inputmode="numeric"
-            />
-            <button type="button" id="verifyBtn" class="login-btn login-btn-terra">
-              Accedi
-            </button>
-            <button type="button" id="backBtn" class="login-btn-link">
-              Cambia indirizzo mail
-            </button>
+            <p class="otp-hint">Inserisci il codice ricevuto via mail:</p>
+            <input type="text" id="otpInput" class="login-input otp-input" placeholder="123456" maxlength="6" inputmode="numeric" />
+            <button type="button" id="verifyBtn" class="lbtn lbtn-terra">Accedi</button>
+            <button type="button" id="backBtn" class="lbtn-link">Cambia indirizzo mail</button>
           </div>
         </form>
 
@@ -352,46 +575,124 @@
     <!-- ════════════════════════════════
          DASHBOARD
     ════════════════════════════════ -->
-    <div id="dashboard" class="hidden">
+    <div id="dashboard" class="hidden" style="min-height:100vh; display:flex; flex-direction:column;">
 
-      <!-- Header -->
-      <header class="dash-header">
-        <a href="/" class="dash-header-logo">
+      <!-- Top Nav -->
+      <nav class="top-nav">
+        <a href="/" class="nav-logo">
           <img src="img/logo.png" alt="Logo" />
           <div>
-            <div class="dash-header-title">I Sarcofagi del Re</div>
-            <div class="dash-header-sub">Pannello di controllo</div>
+            <div class="nav-logo-name">I Sarcofagi del Re</div>
+            <div class="nav-logo-sub">Pannello di controllo</div>
           </div>
         </a>
-        <button id="logoutBtn" class="dash-logout-btn">Esci</button>
-      </header>
 
-      <!-- Body -->
-      <div class="dash-body">
-
-        <!-- Overview -->
-        <section style="margin-bottom: 2.5rem;">
-          <div class="dash-section-head">
-            <h2 class="dash-section-title">Panoramica</h2>
-            <p class="dash-section-sub">Stato delle strutture</p>
-          </div>
-          <div id="overviewGrid" class="grid sm:grid-cols-2 gap-4">
-            <!-- Populated by JS -->
-          </div>
-        </section>
-
-        <!-- Property Tabs -->
-        <div class="dash-tabs-card">
-          <div class="dash-tab-nav" id="tabNav">
-            <!-- Populated by JS -->
-          </div>
-          <div class="dash-tab-content" id="tabContent">
-            <!-- Populated by JS -->
-          </div>
+        <div class="nav-sections">
+          <button class="nav-sec-btn active" id="navBtnCalendario" data-section="calendario" onclick="app.showSection('calendario')">
+            Calendario
+            <span class="nav-badge hidden" id="badgeCal">0</span>
+          </button>
+          <button class="nav-sec-btn" id="navBtnRecensioni" data-section="recensioni" onclick="app.showSection('recensioni')">
+            Recensioni
+            <span class="nav-badge hidden" id="badgeRev">0</span>
+          </button>
         </div>
 
+        <div class="nav-right">
+          <div class="prop-wrap" id="propWrap">
+            <button class="prop-btn" id="propBtn" onclick="app.togglePropMenu()">
+              <span id="propLabel">Perla Bianca</span>
+              <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5">
+                <polyline points="2,4 6,8 10,4"/>
+              </svg>
+            </button>
+            <div class="prop-menu hidden" id="propMenu"></div>
+          </div>
+          <button id="logoutBtn" class="logout-btn">Esci</button>
+        </div>
+      </nav>
+
+      <!-- Main -->
+      <main class="main" style="flex:1;">
+
+        <!-- ── CALENDARIO ── -->
+        <section id="sectionCalendario" class="section active">
+          <div class="sec-hd">
+            <div>
+              <h2 class="sec-title">Calendario</h2>
+              <p class="sec-sub">Clicca su un giorno per aggiungere una prenotazione</p>
+            </div>
+            <button class="btn-add" onclick="app.openAddModal()">
+              + Nuova prenotazione
+            </button>
+          </div>
+          <div id="calendarEl"></div>
+        </section>
+
+        <!-- ── RECENSIONI ── -->
+        <section id="sectionRecensioni" class="section">
+          <div class="sec-hd">
+            <div>
+              <h2 class="sec-title">Recensioni</h2>
+            </div>
+          </div>
+          <div class="rev-tabs">
+            <button class="rev-tab active" id="revTabAttesa" onclick="app.switchReviewTab('attesa')">
+              In attesa
+              <span class="rev-count zero" id="countAttesa">0</span>
+            </button>
+            <button class="rev-tab" id="revTabPubbliche" onclick="app.switchReviewTab('pubblicate')">
+              Pubblicate
+            </button>
+          </div>
+          <div id="reviewsList" class="reviews-list"></div>
+        </section>
+
+      </main>
+    </div>
+
+
+    <!-- ════════════════════════════════
+         MODAL: Aggiungi prenotazione
+    ════════════════════════════════ -->
+    <div id="addModal" class="modal hidden">
+      <div class="modal-card" id="addModalCard">
+        <div class="modal-hd">
+          <h3 class="modal-title">Nuova prenotazione</h3>
+          <button class="modal-close" onclick="app.closeAddModal()">×</button>
+        </div>
+        <form id="addEventForm">
+          <div class="form-check">
+            <input type="checkbox" id="isBlockedDate" />
+            <label for="isBlockedDate">Chiuso / Manutenzione</label>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="eventName">Nome ospite</label>
+            <input type="text" id="eventName" class="form-field" placeholder="Es. Mario Rossi" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="eventDates">Date</label>
+            <input type="text" id="eventDates" class="form-field" placeholder="Seleziona date..." readonly />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="eventNotes">Note interne</label>
+            <textarea id="eventNotes" class="form-field form-textarea" placeholder="Pagamento, telefono..."></textarea>
+          </div>
+          <button type="submit" class="btn-submit">Salva prenotazione</button>
+        </form>
       </div>
     </div>
+
+
+    <!-- ════════════════════════════════
+         MODAL: Dettaglio evento
+    ════════════════════════════════ -->
+    <div id="eventModal" class="modal hidden">
+      <div class="modal-card" id="eventModalCard">
+        <div id="eventModalContent"></div>
+      </div>
+    </div>
+
 
     <script src="js/admin.js"></script>
   </body>
