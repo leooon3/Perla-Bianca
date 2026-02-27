@@ -1,37 +1,149 @@
 <!DOCTYPE html>
 <html lang="it">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title data-i18n="404_meta_title">Pagina non trovata - Perla Bianca</title>
-    <link rel="stylesheet" href="style.css" />
-    <link rel="icon" href="./img/logo.ico" type="image/ico" />
-  </head>
-  <body
-    class="bg-gray-50 flex items-center justify-center h-screen text-center px-6"
-  >
-    <div>
-      <h1 class="text-9xl font-extrabold text-blue-200" data-i18n="404_title">
-        404
-      </h1>
-      <h2
-        class="text-3xl font-bold text-gray-800 mt-4"
-        data-i18n="404_subtitle"
-      >
-        Ops! Ti sei perso?
-      </h2>
-      <p class="text-gray-600 mt-2 mb-8" data-i18n="404_text">
-        Sembra che questa stanza non esista nella nostra casa vacanze.
-      </p>
-      <a
-        href="/"
-        class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 px-8 rounded-full transition shadow-lg"
-        data-i18n="404_btn"
-      >
-        Torna alla Home
-      </a>
-    </div>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pagina non trovata — I Sarcofagi del Re</title>
+  <link rel="icon" href="/img/logo.ico" type="image/x-icon" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    <script src="js/script.js"></script>
-  </body>
+    :root {
+      --navy:   #1B3A5C;
+      --terra:  #C4622D;
+      --ivory:  #FAF8F4;
+      --soft:   #888;
+    }
+
+    html, body {
+      height: 100%;
+      font-family: 'Inter', sans-serif;
+      background: var(--ivory);
+      color: var(--navy);
+    }
+
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 2rem;
+      text-align: center;
+    }
+
+    .logo {
+      margin-bottom: 3rem;
+    }
+    .logo img {
+      height: 44px;
+      opacity: 0.85;
+    }
+
+    .error-num {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(6rem, 20vw, 11rem);
+      font-weight: 700;
+      line-height: 1;
+      color: transparent;
+      -webkit-text-stroke: 2px var(--navy);
+      letter-spacing: -0.02em;
+      opacity: 0.18;
+      user-select: none;
+      position: absolute;
+    }
+
+    .content {
+      position: relative;
+      z-index: 1;
+    }
+
+    .wrapper {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .icon {
+      font-size: 3.5rem;
+      margin-bottom: 1.25rem;
+    }
+
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.6rem, 4vw, 2.4rem);
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 0.75rem;
+      line-height: 1.2;
+    }
+
+    p {
+      font-size: 1rem;
+      color: var(--soft);
+      line-height: 1.65;
+      max-width: 380px;
+      margin-bottom: 2.25rem;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--terra);
+      color: #fff;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.875rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      padding: 0.875rem 2rem;
+      border-radius: 50px;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .btn:hover { background: #d4784a; }
+    .btn:active { transform: scale(0.97); }
+
+    .divider {
+      width: 3rem;
+      height: 2px;
+      background: var(--terra);
+      opacity: 0.4;
+      border-radius: 2px;
+      margin: 1.75rem auto;
+    }
+
+    .footer-note {
+      font-size: 0.78rem;
+      color: #bbb;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="logo">
+    <img src="/img/logo+text.png" alt="I Sarcofagi del Re" onerror="this.style.display='none'" />
+  </div>
+
+  <div class="wrapper">
+    <div class="error-num" aria-hidden="true">404</div>
+    <div class="content">
+      <div class="icon">🏖️</div>
+      <h1>Pagina non trovata</h1>
+      <p>Sembra che questa stanza non esista nella nostra struttura.<br>Forse cercavi qualcosa d'altro?</p>
+      <a href="/" class="btn">
+        ← Torna alla Home
+      </a>
+      <div class="divider"></div>
+      <p class="footer-note">I Sarcofagi del Re &middot; Puglia</p>
+    </div>
+  </div>
+
+</body>
 </html>

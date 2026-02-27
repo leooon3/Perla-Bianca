@@ -27,6 +27,7 @@ const app = {
   fpBlockInstance:  null,
   reviewsCache:     null, // raw array with .idx
   messagesCache:    null,
+  pricesCache:      null,
 
   // ══════════════════════════════════════════════════════════════
   // INIT & AUTH
@@ -245,6 +246,11 @@ const app = {
       this.loadMessages();
     }
 
+    if (name === "prezzi") {
+      this.pricesCache = null;
+      this.loadPrices();
+    }
+
     if (name === "log") {
       this.loadLog();
     }
@@ -317,6 +323,8 @@ const app = {
       this.loadMessages();
     } else if (this.currentSection === "dashboard") {
       this.loadDashboard();
+    } else if (this.currentSection === "prezzi") {
+      this.loadPrices();
     } else if (this.currentSection === "log") {
       this.loadLog();
     }
@@ -1107,6 +1115,197 @@ const app = {
         </div>`;
     } catch(e) {
       list.innerHTML = '<div class="dash-loading" style="color:#ef4444;">Errore caricamento log</div>';
+    }
+  },
+
+  // ══════════════════════════════════════════════════════════════
+  // CSV EXPORT
+  // ══════════════════════════════════════════════════════════════
+
+  _downloadCSV(rows, filename) {
+    const esc = (v) => `"${String(v ?? "").replace(/"/g, '""')}"`;
+    const csv = rows.map((r) => r.map(esc).join(",")).join("\r\n");
+    const blob = new Blob(["\uFEFF" + csv], { type: "text/csv;charset=utf-8;" });
+    const url  = URL.createObjectURL(blob);
+    const a    = Object.assign(document.createElement("a"), { href: url, download: filename });
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(() => URL.revokeObjectURL(url), 1500);
+  },
+
+  async exportCalendarCSV() {
+    const btn = document.getElementById("btnExportCal");
+    if (btn) { btn.textContent = "…"; btn.disabled = true; }
+    try {
+      const res = await this.fetchProtected(`/api/calendar?property=${this.currentProperty}`);
+      if (!res) return;
+      const events = await res.json();
+      const rows = [["Nome/Titolo", "Check-in", "Check-out", "Notti", "Note", "Tipo"]];
+      for (const e of events) {
+        const start  = new Date(e.start);
+        const end    = new Date(e.end);
+        const nights = Math.round((end - start) / 86_400_000);
+        rows.push([
+          e.realTitle || "—",
+          e.start,
+          e.end,
+          nights,
+          e.description || "",
+          e.color === "#C4622D" ? "Blocco" : "Prenotazione",
+        ]);
+      }
+      const date = new Date().toISOString().slice(0, 10);
+      this._downloadCSV(rows, `prenotazioni-${this.currentProperty}-${date}.csv`);
+    } catch (err) {
+      console.error("Export cal CSV error:", err);
+      alert("Errore export: " + err.message);
+    } finally {
+      if (btn) { btn.textContent = "📥 Esporta CSV"; btn.disabled = false; }
+    }
+  },
+
+  async exportReviewsCSV() {
+    const btn = document.getElementById("btnExportRev");
+    if (btn) { btn.textContent = "…"; btn.disabled = true; }
+    try {
+      const res = await this.fetchProtected(`/api/reviews?property=${this.currentProperty}`);
+      if (!res) return;
+      const reviews = await res.json();
+      const rows = [["Nome", "Voto", "Recensione", "Data Soggiorno", "Stato", "Risposta"]];
+      for (const r of reviews) {
+        rows.push([
+          r["Nome e Cognome"] || "—",
+          r["Valutazione"]    || "—",
+          r["Recensione"]     || "—",
+          r["Data Soggiorno"] || "—",
+          (r["Approvato"] || "").toUpperCase() === "SI" ? "Pubblicata" : "In attesa",
+          r["Risposta"] || "",
+        ]);
+      }
+      const date = new Date().toISOString().slice(0, 10);
+      this._downloadCSV(rows, `recensioni-${this.currentProperty}-${date}.csv`);
+    } catch (err) {
+      console.error("Export reviews CSV error:", err);
+      alert("Errore export: " + err.message);
+    } finally {
+      if (btn) { btn.textContent = "📥 Esporta CSV"; btn.disabled = false; }
+    }
+  },
+
+  // ══════════════════════════════════════════════════════════════
+  // PREZZI
+  // ══════════════════════════════════════════════════════════════
+
+  async loadPrices() {
+    const editor = document.getElementById("prezziEditor");
+    if (!editor) return;
+    editor.innerHTML = '<div class="dash-loading">Caricamento prezzi...</div>';
+    const lbl = document.getElementById("prezziPropLabel");
+    const current = PROPERTIES.find((p) => p.key === this.currentProperty);
+    if (lbl && current) lbl.textContent = current.label;
+    try {
+      const res = await this.fetchProtected(`/api/prices?property=${this.currentProperty}`);
+      if (!res) return;
+      this.pricesCache = await res.json();
+      this.renderPrices();
+    } catch (e) {
+      editor.innerHTML = '<div class="dash-loading" style="color:#ef4444;">Errore caricamento prezzi</div>';
+    }
+  },
+
+  renderPrices() {
+    const editor = document.getElementById("prezziEditor");
+    if (!editor) return;
+    const rows = this.pricesCache || [];
+    if (!rows.length) {
+      editor.innerHTML = '<div class="empty-state"><div class="empty-icon">💶</div>Nessuna tariffa trovata.</div>';
+      return;
+    }
+    editor.innerHTML = `
+      <div style="overflow-x:auto;">
+        <table class="prices-table-admin">
+          <thead>
+            <tr>
+              <th>Stagione</th>
+              <th>Dal</th>
+              <th>Al</th>
+              <th>€/Notte</th>
+              <th>Min.Notti</th>
+              <th>Pulizie €</th>
+              <th>Caparra</th>
+              <th>Note</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="pricesTableBody">
+            ${rows.map((r, i) => `
+              <tr data-idx="${i}">
+                <td><input class="price-input" value="${escapeHTML(r.stagione || "")}" data-field="stagione" style="min-width:120px;" /></td>
+                <td><input class="price-input" value="${escapeHTML(r.dal || "")}" data-field="dal" style="width:72px;" placeholder="01/07" /></td>
+                <td><input class="price-input" value="${escapeHTML(r.al || "")}" data-field="al" style="width:72px;" placeholder="31/08" /></td>
+                <td><input class="price-input" type="number" value="${r.prezzoNotte || ""}" data-field="prezzoNotte" style="width:72px;" /></td>
+                <td><input class="price-input" type="number" value="${r.minNotti || ""}" data-field="minNotti" style="width:62px;" /></td>
+                <td><input class="price-input" type="number" value="${r.pulizie || ""}" data-field="pulizie" style="width:72px;" /></td>
+                <td><input class="price-input" value="${escapeHTML(r.caparra || "")}" data-field="caparra" style="width:62px;" /></td>
+                <td><input class="price-input" value="${escapeHTML(r.note || "")}" data-field="note" style="min-width:100px;" /></td>
+                <td><button class="btn-del-price" onclick="app.deletePriceRow(${i})" title="Elimina">🗑</button></td>
+              </tr>
+            `).join("")}
+          </tbody>
+        </table>
+      </div>`;
+  },
+
+  addPriceRow() {
+    if (!this.pricesCache) this.pricesCache = [];
+    this.pricesCache.push({
+      stagione: "Nuova Stagione", dal: "", al: "",
+      prezzoNotte: 0, minNotti: 1, pulizie: 0, caparra: "30%", note: "",
+    });
+    this.renderPrices();
+  },
+
+  deletePriceRow(idx) {
+    if (!this.pricesCache) return;
+    this.pricesCache.splice(idx, 1);
+    this.renderPrices();
+  },
+
+  _collectPricesFromDOM() {
+    const rows = document.querySelectorAll("#pricesTableBody tr");
+    const data = [];
+    rows.forEach((tr) => {
+      const row = {};
+      tr.querySelectorAll("[data-field]").forEach((inp) => {
+        const field = inp.dataset.field;
+        row[field] = inp.type === "number" ? (parseFloat(inp.value) || 0) : inp.value;
+      });
+      data.push(row);
+    });
+    return data;
+  },
+
+  async savePrices() {
+    const btn = document.getElementById("btnSavePrices");
+    if (btn) { btn.textContent = "Salvataggio..."; btn.disabled = true; }
+    try {
+      const prices = this._collectPricesFromDOM();
+      const res = await this.fetchProtected("/api/prices", {
+        method: "POST",
+        body: JSON.stringify({ prices, property: this.currentProperty }),
+      });
+      if (res?.ok) {
+        this.pricesCache = prices;
+        await this.logActivity("Prezzi aggiornati", `${prices.length} righe — ${this.currentProperty}`);
+        if (btn) btn.textContent = "✓ Salvato!";
+        setTimeout(() => { if (btn) { btn.textContent = "💾 Salva prezzi"; btn.disabled = false; } }, 2000);
+      } else {
+        throw new Error(`HTTP ${res?.status}`);
+      }
+    } catch (e) {
+      alert("Errore salvataggio: " + e.message);
+      if (btn) { btn.textContent = "💾 Salva prezzi"; btn.disabled = false; }
     }
   },
 

@@ -1,25 +1,24 @@
 import { GoogleSpreadsheet } from "google-spreadsheet";
 import { JWT } from "google-auth-library";
 import nodemailer from "nodemailer";
+import { cors, validateOrigin, rateLimit } from "./_utils.js";
 
 export default async function handler(req, res) {
-  //#region CORS Setup
-  const allowedOrigins = [
-    "https://perla-bianca.vercel.app",
-    "https://isarcofagidelre.it",
-    "https://www.isarcofagidelre.it",
-    "http://localhost:3000",
-  ];
-  const origin = req.headers.origin;
-  if (allowedOrigins.includes(origin)) {
-    res.setHeader("Access-Control-Allow-Origin", origin);
-  }
-  res.setHeader("Access-Control-Allow-Methods", "POST,OPTIONS");
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+  //#region CORS + Security
+  if (cors(req, res)) return res.status(200).end();
+  if (req.method !== "POST") return res.status(405).json({ message: "POST only" });
 
-  if (req.method === "OPTIONS") return res.status(200).end();
-  if (req.method !== "POST")
-    return res.status(405).json({ message: "POST only" });
+  // CSRF: reject requests from unknown origins
+  if (!validateOrigin(req)) {
+    return res.status(403).json({ message: "Forbidden: invalid origin." });
+  }
+
+  // Rate limit: max 5 review submissions per IP per minute
+  const rl = rateLimit(req, "review", 5, 60_000);
+  if (!rl.ok) {
+    res.setHeader("Retry-After", rl.retryAfter);
+    return res.status(429).json({ message: `Troppi invii. Riprova tra ${rl.retryAfter}s.` });
+  }
   //#endregion
 
   try {

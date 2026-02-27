@@ -10,6 +10,7 @@ import { initContact } from './modules/contact.js';
 import { initReviewForm } from './modules/review-form.js';
 import { initScroll } from './modules/scroll.js';
 import { initWeather } from './modules/weather.js';
+import { initPrices }  from './modules/prices.js';
 
 // i18n prima (async) — deve completarsi prima del calendario che usa currentLang
 await initI18n();
@@ -22,3 +23,4 @@ initContact();
 initReviewForm();
 initScroll();
 initWeather();
+initPrices();

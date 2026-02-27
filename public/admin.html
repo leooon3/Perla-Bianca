@@ -86,6 +86,9 @@
             Messaggi
             <span class="nav-badge hidden" id="badgeMsg">0</span>
           </button>
+          <button class="nav-sec-btn" id="navBtnPrezzi" data-section="prezzi" onclick="app.showSection('prezzi')">
+            Prezzi
+          </button>
           <button class="nav-sec-btn" id="navBtnLog" data-section="log" onclick="app.showSection('log')">
             Log
           </button>
@@ -130,6 +133,7 @@
             </div>
             <div style="display:flex; gap:0.5rem; align-items:center; flex-wrap:wrap;">
               <button class="btn-block-period" onclick="app.openBlockModal()">🔒 Blocca periodo</button>
+              <button class="btn-block-period" id="btnExportCal" onclick="app.exportCalendarCSV()">📥 Esporta CSV</button>
               <button class="btn-add" onclick="app.openAddModal()">
                 + Nuova prenotazione
               </button>
@@ -144,6 +148,7 @@
             <div>
               <h2 class="sec-title">Recensioni</h2>
             </div>
+            <button class="btn-block-period" id="btnExportRev" onclick="app.exportReviewsCSV()">📥 Esporta CSV</button>
           </div>
           <div class="rev-tabs">
             <button class="rev-tab active" id="revTabAttesa" onclick="app.switchReviewTab('attesa')">
@@ -170,6 +175,23 @@
             <button class="rev-tab" id="msgTabTutti" onclick="app.switchMsgTab('tutti')">Tutti</button>
           </div>
           <div id="messaggiList" class="msg-list"></div>
+        </section>
+
+        <!-- ── PREZZI ── -->
+        <section id="sectionPrezzi" class="section">
+          <div class="sec-hd">
+            <div>
+              <h2 class="sec-title">Prezzi</h2>
+              <p class="sec-sub">Tariffe per stagione — <span id="prezziPropLabel">Perla Bianca</span></p>
+            </div>
+            <button class="btn-add" onclick="app.addPriceRow()">+ Aggiungi stagione</button>
+          </div>
+          <div id="prezziEditor" class="prezzi-editor">
+            <div class="dash-loading">Caricamento prezzi...</div>
+          </div>
+          <div class="prezzi-actions">
+            <button class="btn-submit" id="btnSavePrices" onclick="app.savePrices()">💾 Salva prezzi</button>
+          </div>
         </section>
 
         <!-- ── LOG ATTIVITÀ ── -->

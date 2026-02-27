@@ -2,6 +2,7 @@ import { OAuth2Client } from "google-auth-library";
 import jwt from "jsonwebtoken";
 import nodemailer from "nodemailer";
 import crypto from "crypto";
+import { rateLimit } from "./_utils.js";
 
 export default async function handler(req, res) {
   //#region CORS Setup
@@ -72,6 +73,11 @@ export default async function handler(req, res) {
 
     //#region Send OTP (Email)
     if (action === "send-otp") {
+      const rl = rateLimit(req, "otp-send", 3, 60_000);
+      if (!rl.ok) {
+        return res.status(429).json({ error: `Troppi tentativi. Riprova tra ${rl.retryAfter}s.` });
+      }
+
       if (!email || typeof email !== "string") {
         return res.status(400).json({ error: "Email is required." });
       }
@@ -126,6 +132,11 @@ export default async function handler(req, res) {
 
     //#region Verify OTP
     if (action === "verify-otp") {
+      const rl = rateLimit(req, "otp-verify", 5, 60_000);
+      if (!rl.ok) {
+        return res.status(429).json({ error: `Troppi tentativi. Riprova tra ${rl.retryAfter}s.` });
+      }
+
       // Check expiration
       if (Date.now() > parseInt(expires)) {
         return res.status(400).json({ error: "Code expired." });

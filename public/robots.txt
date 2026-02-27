@@ -1,3 +1,6 @@
 User-agent: *
 Allow: /
-Sitemap: https://perla-bianca.vercel.app/sitemap.xml
+Disallow: /admin.html
+Disallow: /api/
+
+Sitemap: https://isarcofagidelre.it/sitemap.xml

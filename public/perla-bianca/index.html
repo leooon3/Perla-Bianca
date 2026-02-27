@@ -245,28 +245,43 @@
           <h2 class="section-title" data-i18n="prezzi_title">Prezzi &amp; Disponibilità</h2>
           <div class="section-divider"></div>
         </div>
-        <table class="prices-table reveal reveal-delay-1">
-          <thead>
-            <tr>
-              <th data-i18n="tab_stagione">Stagione</th>
-              <th data-i18n="tab_prezzo">Prezzo a Notte</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td data-i18n="stagione_alta">Alta Stagione (Luglio - Agosto)</td>
-              <td>€200</td>
-            </tr>
-            <tr>
-              <td data-i18n="stagione_media">Media Stagione (Giugno, Settembre)</td>
-              <td>€160</td>
-            </tr>
-            <tr>
-              <td data-i18n="stagione_bassa">Bassa Stagione (Ottobre - Maggio)</td>
-              <td>€120</td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="prices-table-wrap reveal reveal-delay-1">
+          <table class="prices-table">
+            <thead>
+              <tr>
+                <th data-i18n="tab_stagione">Stagione</th>
+                <th data-i18n="tab_periodo">Periodo</th>
+                <th data-i18n="tab_prezzo">€ / Notte</th>
+                <th data-i18n="tab_min_notti">Min. Notti</th>
+                <th data-i18n="tab_pulizie">Pulizie</th>
+              </tr>
+            </thead>
+            <tbody id="pricesTbody">
+              <!-- Fallback statico — sostituito da JS se l'API risponde -->
+              <tr>
+                <td data-i18n="stagione_alta">Alta Stagione (Luglio - Agosto)</td>
+                <td>01/07 &ndash; 31/08</td>
+                <td class="price-highlight">€200</td>
+                <td>7 notti min.</td>
+                <td>€80</td>
+              </tr>
+              <tr>
+                <td data-i18n="stagione_media">Media Stagione (Giugno, Settembre)</td>
+                <td>01/06 &ndash; 30/09</td>
+                <td class="price-highlight">€160</td>
+                <td>5 notti min.</td>
+                <td>€60</td>
+              </tr>
+              <tr>
+                <td data-i18n="stagione_bassa">Bassa Stagione (Ottobre - Maggio)</td>
+                <td>01/10 &ndash; 31/05</td>
+                <td class="price-highlight">€120</td>
+                <td>3 notti min.</td>
+                <td>€50</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
         <p class="prices-note reveal reveal-delay-2" data-i18n="prezzi_disclaimer">
           Per verificare le date disponibili e prenotare, compila il modulo nella sezione Contatti.
         </p>

@@ -1,32 +1,21 @@
 import nodemailer from "nodemailer";
+import { cors, validateOrigin, rateLimit } from "./_utils.js";
 
 export default async function handler(req, res) {
-  //#region CORS & Preflight
-  res.setHeader("Access-Control-Allow-Credentials", true);
-  const allowedOrigins = [
-    "https://perla-bianca.vercel.app",
-    "http://localhost:3000",
-  ];
-  const origin = req.headers.origin;
-  if (allowedOrigins.includes(origin)) {
-    res.setHeader("Access-Control-Allow-Origin", origin);
-  }
-  res.setHeader(
-    "Access-Control-Allow-Methods",
-    "GET,OPTIONS,PATCH,DELETE,POST,PUT"
-  );
-  res.setHeader(
-    "Access-Control-Allow-Headers",
-    "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version"
-  );
+  //#region CORS + Security
+  if (cors(req, res)) return res.status(200).end();
+  if (req.method !== "POST") return res.status(405).json({ message: "Method Not Allowed" });
 
-  if (req.method === "OPTIONS") {
-    res.status(200).end();
-    return;
+  // CSRF: reject requests from unknown origins
+  if (!validateOrigin(req)) {
+    return res.status(403).json({ message: "Forbidden: invalid origin." });
   }
 
-  if (req.method !== "POST") {
-    return res.status(405).json({ message: "Method Not Allowed" });
+  // Rate limit: max 5 contact messages per IP per minute
+  const rl = rateLimit(req, "contact", 5, 60_000);
+  if (!rl.ok) {
+    res.setHeader("Retry-After", rl.retryAfter);
+    return res.status(429).json({ message: `Troppi invii. Riprova tra ${rl.retryAfter}s.` });
   }
   //#endregion
 
@@ -35,7 +24,6 @@ export default async function handler(req, res) {
 
   // Anti-Spam Check (Honeypot)
   if (honeypot) {
-    // Return OK to fool the bot, but do not send anything
     return res.status(200).json({ message: "Email sent successfully" });
   }
 
