@@ -38,7 +38,17 @@ const app = {
 
     // Login form listeners
     document.getElementById("emailAuthForm")
-      ?.addEventListener("submit", (e) => { e.preventDefault(); this.sendOtp(); });
+      ?.addEventListener("submit", (e) => {
+        e.preventDefault();
+        // Se step2 è visibile (OTP inserito), invio Enter → verifica OTP
+        // altrimenti → invia OTP via email
+        const step2 = document.getElementById("step2");
+        if (step2 && !step2.classList.contains("hidden")) {
+          this.verifyOtp();
+        } else {
+          this.sendOtp();
+        }
+      });
     document.getElementById("verifyBtn")
       ?.addEventListener("click", () => this.verifyOtp());
     document.getElementById("backBtn")
@@ -130,8 +140,8 @@ const app = {
   },
 
   async verifyOtp() {
-    const code = document.getElementById("otpInput")?.value;
-    if (!code) return;
+    const code = document.getElementById("otpInput")?.value?.trim().replace(/\D/g, "");
+    if (!code || code.length !== 6) return;
     const btn = document.getElementById("verifyBtn");
     btn.textContent = "Verifica..."; btn.disabled = true;
     try {
@@ -605,7 +615,10 @@ const app = {
                <button class="btn-del-rev" onclick="app.deleteReview(${r.idx})">Elimina</button>
              </div>
            </div>`
-        : `<button class="btn-approve" onclick="app.approveReview(${r.idx})">Approva e Pubblica</button>`;
+        : `<div class="rev-pending-btns">
+             <button class="btn-approve" onclick="app.approveReview(${r.idx})">Approva e Pubblica</button>
+             <button class="btn-del-rev" onclick="app.deleteReview(${r.idx})">Elimina</button>
+           </div>`;
 
       return `
         <div class="rev-card">

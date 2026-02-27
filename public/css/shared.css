@@ -1,0 +1,322 @@
+/* ════════════════════════════════════════
+   SHARED — I Sarcofagi del Re
+   Stili comuni a tutte le pagine public
+════════════════════════════════════════ */
+
+/* ─── Variables ─── */
+:root {
+  --navy:             #1b3a5c;
+  --terracotta:       #c4622d;
+  --ivory:            #faf8f4;
+  --navy-light:       #244b73;
+  --terracotta-light: #d4784a;
+}
+
+/* ─── Reset / Base ─── */
+*, *::before, *::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  color: #333;
+  background-color: var(--ivory);
+  overflow-x: hidden;
+}
+
+.font-display { font-family: 'Playfair Display', serif; }
+.font-body    { font-family: 'Inter', sans-serif; }
+
+/* ─── Animations ─── */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(40px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.92); }
+  to   { opacity: 1; transform: scale(1); }
+}
+@keyframes slideInLeft {
+  from { opacity: 0; transform: translateX(-60px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(60px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-10px); }
+}
+
+/* ─── Reveal / Scroll animations ─── */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.reveal.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+.reveal-delay-1 { transition-delay: 0.15s; }
+.reveal-delay-2 { transition-delay: 0.30s; }
+.reveal-delay-3 { transition-delay: 0.45s; }
+
+/* ─── Header (base condivisa) ─── */
+.site-header {
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: background 0.4s, box-shadow 0.4s, padding 0.4s;
+}
+.header-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  text-decoration: none;
+  color: #fff;
+}
+.header-logo img {
+  width: auto;
+  transition: transform 0.3s;
+}
+.header-logo:hover img { transform: scale(1.08); }
+.header-logo-text {
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+.header-nav {
+  display: flex;
+  align-items: center;
+}
+.header-nav a {
+  color: rgba(255,255,255,0.7);
+  text-decoration: none;
+  font-weight: 500;
+  text-transform: uppercase;
+  transition: color 0.3s;
+}
+.header-nav a:hover { color: #fff; }
+
+.mobile-toggle {
+  display: none;
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 1.75rem;
+  cursor: pointer;
+  padding: 0.25rem;
+}
+
+/* ─── Hero (base condivisa) ─── */
+.hero {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(0.45) saturate(1.15);
+  transition: transform 8s ease;
+}
+.hero:hover .hero-bg { transform: scale(1.03); }
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(27, 58, 92, 0.3) 0%,
+    rgba(27, 58, 92, 0.1) 40%,
+    rgba(27, 58, 92, 0.55) 100%
+  );
+}
+.hero-content {
+  position: relative;
+  z-index: 10;
+  text-align: center;
+  color: #fff;
+  padding: 2rem;
+  max-width: 800px;
+}
+.hero-label {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.35em;
+  color: var(--terracotta-light);
+  margin-bottom: 1.5rem;
+  animation: fadeInUp 1s ease 0.2s both;
+}
+.hero-title {
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+  line-height: 1.08;
+  margin: 0 0 1.25rem;
+  text-shadow: 0 4px 40px rgba(0,0,0,0.3);
+  animation: fadeInUp 1s ease 0.4s both;
+}
+.hero-subtitle {
+  font-family: 'Inter', sans-serif;
+  font-weight: 300;
+  opacity: 0.85;
+  margin: 0 auto 2.5rem;
+  line-height: 1.7;
+  animation: fadeInUp 1s ease 0.6s both;
+}
+.hero-cta {
+  display: inline-block;
+  background: var(--terracotta);
+  color: #fff;
+  text-decoration: none;
+  padding: 1rem 2.75rem;
+  border-radius: 50px;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  transition: background 0.3s, transform 0.3s, box-shadow 0.3s;
+  animation: fadeInUp 1s ease 0.8s both;
+}
+.hero-cta:hover {
+  background: var(--terracotta-light);
+  transform: translateY(-3px);
+  box-shadow: 0 12px 40px rgba(196, 98, 45, 0.35);
+}
+.hero-scroll {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  color: rgba(255,255,255,0.5);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  animation: float 3s ease-in-out infinite;
+  z-index: 10;
+}
+.hero-scroll-line {
+  width: 1px;
+  background: linear-gradient(to bottom, rgba(255,255,255,0.5), transparent);
+}
+
+/* ─── Section Shared ─── */
+.section-label {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.3em;
+  color: var(--terracotta);
+  margin-bottom: 0.75rem;
+}
+.section-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.75rem, 4vw, 2.75rem);
+  font-weight: 700;
+  color: var(--navy);
+  line-height: 1.2;
+  margin: 0 0 1rem;
+}
+.section-title-light { color: #fff; }
+.section-desc {
+  font-size: 1.05rem;
+  line-height: 1.75;
+  color: #666;
+}
+.section-desc-light { color: rgba(255,255,255,0.7); }
+.section-divider {
+  width: 60px;
+  height: 3px;
+  background: var(--terracotta);
+  border-radius: 3px;
+  margin: 1.5rem 0;
+}
+
+/* ─── Footer (base condivisa) ─── */
+.site-footer {
+  background: var(--navy);
+  color: #fff;
+  padding: 5rem 2rem 2rem;
+}
+.footer-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  gap: 3rem;
+}
+.footer-brand-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+.footer-brand-desc {
+  font-size: 0.875rem;
+  line-height: 1.7;
+  color: rgba(255,255,255,0.5);
+  max-width: 320px;
+}
+.footer-col-title {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--terracotta-light);
+  margin-bottom: 1.25rem;
+}
+.footer-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.footer-links li { margin-bottom: 0.75rem; }
+.footer-links a {
+  color: rgba(255,255,255,0.5);
+  text-decoration: none;
+  font-size: 0.85rem;
+  transition: color 0.3s;
+}
+.footer-links a:hover { color: #fff; }
+.footer-bottom {
+  max-width: 1100px;
+  margin: 3rem auto 0;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(255,255,255,0.08);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+.footer-copyright {
+  font-size: 0.75rem;
+  color: rgba(255,255,255,0.3);
+}
+.footer-admin {
+  font-size: 0.7rem;
+  color: rgba(255,255,255,0.2);
+  text-decoration: none;
+  transition: color 0.3s;
+}
+.footer-admin:hover { color: rgba(255,255,255,0.5); }
