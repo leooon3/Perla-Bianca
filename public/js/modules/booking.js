@@ -5,6 +5,7 @@
  */
 
 import { getLang } from "./i18n.js";
+import { track } from "./analytics.js";
 
 // Modelli di messaggio per lingua
 const MSG_TEMPLATES = {
@@ -46,6 +47,8 @@ export function initBooking() {
     const lang       = getLang();
     const template   = MSG_TEMPLATES[lang] ?? MSG_TEMPLATES.it;
     const message    = template(from, to);
+
+    track("booking_request", { check_in: from, check_out: to });
 
     // Pre-compila textarea
     const textarea = document.getElementById("contactMessaggio");

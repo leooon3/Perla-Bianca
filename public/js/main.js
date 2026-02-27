@@ -10,8 +10,9 @@ import { initContact } from './modules/contact.js';
 import { initReviewForm } from './modules/review-form.js';
 import { initScroll } from './modules/scroll.js';
 import { initWeather } from './modules/weather.js';
-import { initPrices }   from './modules/prices.js';
-import { initBooking }  from './modules/booking.js';
+import { initPrices }    from './modules/prices.js';
+import { initBooking }   from './modules/booking.js';
+import { initAnalytics } from './modules/analytics.js';
 
 // i18n prima (async) — deve completarsi prima del calendario che usa currentLang
 await initI18n();
@@ -26,3 +27,4 @@ initScroll();
 initWeather();
 initPrices();
 initBooking();
+initAnalytics();

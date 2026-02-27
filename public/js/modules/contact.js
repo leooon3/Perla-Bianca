@@ -4,6 +4,7 @@
 
 import { t } from "./i18n.js";
 import { escapeHTML } from "./utils.js";
+import { track } from "./analytics.js";
 
 export function initContact() {
   const form = document.getElementById("contactForm");
@@ -45,6 +46,7 @@ export function initContact() {
         try { data = await response.json(); } catch (err) {}
 
         if (response.ok) {
+          track("generate_lead", { form_type: "contact" });
           statusDiv.textContent = t("js_msg_success");
           statusDiv.className = "text-green-600";
           form.reset();

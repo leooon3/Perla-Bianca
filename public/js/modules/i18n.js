@@ -86,6 +86,11 @@ async function applyLanguage(lang) {
   );
 
   document.body.classList.remove("lang-loading");
+
+  // GA4: traccia cambio lingua (solo se non è il caricamento iniziale)
+  if (typeof gtag === "function" && document.readyState === "complete") {
+    gtag("event", "select_language", { language: lang });
+  }
 }
 
 /**

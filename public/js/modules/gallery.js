@@ -3,6 +3,8 @@
  * Dipendenza: Swiper (globale CDN)
  */
 
+import { track } from "./analytics.js";
+
 export function initGallery() {
   const mainWrapper = document.querySelector(".mainGallery .swiper-wrapper");
   const thumbWrapper = document.querySelector(".thumbnailGallery .swiper-wrapper");
@@ -79,6 +81,7 @@ export function initGallery() {
     mainSwiper.on("click", () => {
       fullscreenSwiper.slideToLoop(mainSwiper.realIndex, 0);
       modal.classList.remove("invisible", "opacity-0");
+      track("gallery_opened", { slide_index: mainSwiper.realIndex });
     });
 
     const closeModal = () => modal.classList.add("invisible", "opacity-0");

@@ -10,7 +10,7 @@
   img-src 'self' data: https://isarcofagidelre.it https://lh3.googleusercontent.com https://*.googleapis.com;
   font-src 'self' data: https://cdn.jsdelivr.net https://fonts.gstatic.com;
   frame-src 'self' https://accounts.google.com https://content.googleapis.com http://googleusercontent.com https://www.google.com https://vercel.live;
-  connect-src 'self' https://accounts.google.com https://api.open-meteo.com https://*.googleapis.com https://cdn.jsdelivr.net;"
+  connect-src 'self' https://accounts.google.com https://api.open-meteo.com https://*.googleapis.com https://cdn.jsdelivr.net https://www.google-analytics.com https://analytics.google.com;"
     />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Perla Bianca — Casa Vacanze al Mare · Puglia</title>
@@ -74,6 +74,15 @@
     </script>
 
     <script defer src="/_vercel/insights/script.js"></script>
+
+    <!-- Google Analytics GA4 — sostituisci G-XXXXXXXXXX con il tuo Measurement ID -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-XXXXXXXXXX');
+    </script>
   </head>
 
   <body class="lang-loading">
@@ -129,7 +138,7 @@
         <p class="hero-subtitle" data-i18n="hero_subtitle">
           La tua casa al mare, ristrutturata con amore.<br/>A due passi dalla spiaggia.
         </p>
-        <a href="#contatti" class="hero-cta" data-i18n="hero_cta">Prenota Ora</a>
+        <a href="#contatti" class="hero-cta" data-i18n="hero_cta" data-track-cta="hero_prenota_ora">Prenota Ora</a>
       </div>
       <a href="#servizi" class="hero-scroll">
         Scopri
@@ -320,7 +329,7 @@
               placeholder="Seleziona le date del soggiorno…"
               readonly
             />
-            <button id="bookingBtn" class="booking-btn" data-i18n="booking_btn">
+            <button id="bookingBtn" class="booking-btn" data-i18n="booking_btn" data-track-cta="booking_richiedi_periodo">
               Richiedi questo periodo →
             </button>
           </div>
