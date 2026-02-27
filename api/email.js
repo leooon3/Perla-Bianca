@@ -108,6 +108,39 @@ export default async function handler(req, res) {
       transporter.sendMail(userMailOptions),
     ]);
 
+    // Save to Google Sheets (fire-and-forget)
+    (async () => {
+      try {
+        const { GoogleSpreadsheet } = await import("google-spreadsheet");
+        const { JWT } = await import("google-auth-library");
+        let privateKey = process.env.GOOGLE_PRIVATE_KEY;
+        if (!privateKey.includes("BEGIN PRIVATE KEY")) {
+          try { privateKey = Buffer.from(privateKey, "base64").toString("utf-8"); } catch(e){}
+        }
+        if (privateKey.includes("\\n")) privateKey = privateKey.replace(/\\n/g, "\n");
+        const auth = new JWT({
+          email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
+          key: privateKey,
+          scopes: ["https://www.googleapis.com/auth/spreadsheets"],
+        });
+        const doc = new GoogleSpreadsheet(process.env.GOOGLE_SHEET_ID, auth);
+        await doc.loadInfo();
+        let sheet = doc.sheetsByTitle["Messaggi"];
+        if (!sheet) {
+          sheet = await doc.addSheet({ title: "Messaggi", headerValues: ["Timestamp","Nome","Email","Messaggio","Proprieta","Letto","Risposto"] });
+        }
+        await sheet.addRow({
+          Timestamp: new Date().toISOString(),
+          Nome: nome,
+          Email: email,
+          Messaggio: messaggio,
+          Proprieta: req.body?.property || "perla-bianca",
+          Letto: "NO",
+          Risposto: "NO",
+        });
+      } catch(e) { console.warn("Messages sheet save failed:", e.message); }
+    })();
+
     return res.status(200).json({ message: "Emails sent successfully" });
     //#endregion
   } catch (error) {

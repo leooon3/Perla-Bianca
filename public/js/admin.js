@@ -19,11 +19,14 @@ const app = {
   token:            localStorage.getItem("adminToken"),
   otpData:          null,
   currentProperty:  PROPERTIES[0].key,
-  currentSection:   "calendario",
+  currentSection:   "dashboard",
   currentReviewTab: "attesa",
+  currentMsgTab:    "nuovi",
   calendarInstance: null,
   fpInstance:       null,
+  fpBlockInstance:  null,
   reviewsCache:     null, // raw array with .idx
+  messagesCache:    null,
 
   // ══════════════════════════════════════════════════════════════
   // INIT & AUTH
@@ -80,9 +83,15 @@ const app = {
         if (e.target === document.getElementById("eventModal")) this.closeEventModal();
       });
 
+    // Block modal listeners
+    document.getElementById("blockForm")
+      ?.addEventListener("submit", (e) => { e.preventDefault(); this.submitBlock(); });
+    document.getElementById("blockModal")
+      ?.addEventListener("click", (e) => { if (e.target === document.getElementById("blockModal")) this.closeBlockModal(); });
+
     // ESC key closes modals
     document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape") { this.closeAddModal(); this.closeEventModal(); }
+      if (e.key === "Escape") { this.closeAddModal(); this.closeEventModal(); this.closeBlockModal(); }
     });
   },
 
@@ -185,7 +194,7 @@ const app = {
   },
 
   // ══════════════════════════════════════════════════════════════
-  // DASHBOARD
+  // DASHBOARD (main panel show)
   // ══════════════════════════════════════════════════════════════
 
   showDashboard() {
@@ -194,7 +203,7 @@ const app = {
     if (dash) dash.classList.remove("hidden");
 
     this.renderPropMenu();
-    this.loadCalendar();
+    this.loadDashboard();
     this.updateBadges();
   },
 
@@ -213,6 +222,10 @@ const app = {
       sec.classList.toggle("active", sec.id === `section${cap(name)}`);
     });
 
+    if (name === "dashboard") {
+      this.loadDashboard();
+    }
+
     if (name === "calendario") {
       // Re-init or just resize if already exists
       if (this.calendarInstance) {
@@ -225,6 +238,15 @@ const app = {
     if (name === "recensioni") {
       this.reviewsCache = null;
       this.loadReviews();
+    }
+
+    if (name === "messaggi") {
+      this.messagesCache = null;
+      this.loadMessages();
+    }
+
+    if (name === "log") {
+      this.loadLog();
     }
   },
 
@@ -268,6 +290,7 @@ const app = {
 
     this.currentProperty  = key;
     this.reviewsCache     = null;
+    this.messagesCache    = null;
     this.currentReviewTab = "attesa";
 
     // Reset review tab UI
@@ -281,10 +304,21 @@ const app = {
     this.renderPropMenu();
     this.updateBadges();
 
+    // Update dashPropLabel
+    const current = PROPERTIES.find((p) => p.key === key);
+    const dashLbl = document.getElementById("dashPropLabel");
+    if (dashLbl && current) dashLbl.textContent = current.label;
+
     if (this.currentSection === "calendario") {
       this.loadCalendar();
-    } else {
+    } else if (this.currentSection === "recensioni") {
       this.loadReviews();
+    } else if (this.currentSection === "messaggi") {
+      this.loadMessages();
+    } else if (this.currentSection === "dashboard") {
+      this.loadDashboard();
+    } else if (this.currentSection === "log") {
+      this.loadLog();
     }
   },
 
@@ -294,9 +328,10 @@ const app = {
 
   async updateBadges() {
     try {
-      const [calRes, revRes] = await Promise.all([
+      const [calRes, revRes, msgRes] = await Promise.all([
         this.fetchProtected(`/api/calendar?property=${this.currentProperty}`),
         this.fetchProtected(`/api/reviews?property=${this.currentProperty}`),
+        this.fetchProtected(`/api/messages?property=${this.currentProperty}`),
       ]);
 
       if (calRes?.ok) {
@@ -324,9 +359,173 @@ const app = {
           countEl.classList.toggle("zero", pending === 0);
         }
       }
+
+      if (msgRes?.ok) {
+        const messages = await msgRes.json();
+        const unread = messages.filter((m) => m.letto !== "SI").length;
+        const badge = document.getElementById("badgeMsg");
+        if (badge) { badge.textContent = unread; badge.classList.toggle("hidden", unread === 0); }
+      }
     } catch (e) {
       console.error("updateBadges error:", e);
     }
+  },
+
+  // ══════════════════════════════════════════════════════════════
+  // DASHBOARD STATISTICHE
+  // ══════════════════════════════════════════════════════════════
+
+  async loadDashboard() {
+    const container = document.getElementById("dashboardContent");
+    if (!container) return;
+    container.innerHTML = '<div class="dash-loading">Caricamento...</div>';
+
+    // Update dashPropLabel
+    const current = PROPERTIES.find((p) => p.key === this.currentProperty);
+    const dashLbl = document.getElementById("dashPropLabel");
+    if (dashLbl && current) dashLbl.textContent = current.label;
+
+    try {
+      const [calRes, revRes] = await Promise.all([
+        this.fetchProtected(`/api/calendar?property=${this.currentProperty}`),
+        this.fetchProtected(`/api/reviews?property=${this.currentProperty}`),
+      ]);
+
+      const events  = calRes?.ok  ? await calRes.json()  : [];
+      const reviews = revRes?.ok  ? await revRes.json()  : [];
+
+      const now   = new Date();
+      const year  = now.getFullYear();
+      const month = now.getMonth(); // 0-based
+
+      // ── Prenotazioni questo mese ──
+      const thisMonthStart = new Date(year, month, 1);
+      const thisMonthEnd   = new Date(year, month + 1, 0); // last day of month
+      const lastMonthStart = new Date(year, month - 1, 1);
+      const lastMonthEnd   = new Date(year, month, 0);
+
+      const bookingsThisMonth = events.filter((e) => {
+        const s = new Date(e.start);
+        return s >= thisMonthStart && s <= thisMonthEnd;
+      });
+      const bookingsLastMonth = events.filter((e) => {
+        const s = new Date(e.start);
+        return s >= lastMonthStart && s <= lastMonthEnd;
+      });
+
+      const trendDiff = bookingsThisMonth.length - bookingsLastMonth.length;
+      let trendClass  = "flat";
+      let trendText   = "= stesso del mese scorso";
+      if (trendDiff > 0) { trendClass = "up";   trendText = `+${trendDiff} rispetto al mese scorso`; }
+      if (trendDiff < 0) { trendClass = "down";  trendText = `${trendDiff} rispetto al mese scorso`; }
+
+      // ── Tasso occupazione mese corrente ──
+      const daysInMonth = new Date(year, month + 1, 0).getDate();
+      const occupiedDays = new Set();
+      events.forEach((e) => {
+        const start = new Date(e.start);
+        // end in Google Calendar is exclusive
+        const end = e.end ? new Date(e.end) : new Date(start.getTime() + 24 * 60 * 60 * 1000);
+        const cur = new Date(start);
+        while (cur < end) {
+          if (cur.getFullYear() === year && cur.getMonth() === month) {
+            occupiedDays.add(cur.getDate());
+          }
+          cur.setDate(cur.getDate() + 1);
+        }
+      });
+      const occupancyPct = Math.round((occupiedDays.size / daysInMonth) * 100);
+      const monthNames = ["Gennaio","Febbraio","Marzo","Aprile","Maggio","Giugno",
+                          "Luglio","Agosto","Settembre","Ottobre","Novembre","Dicembre"];
+      const monthLabel = monthNames[month];
+
+      // ── Prossimi check-in (7 giorni) ──
+      const today = new Date(); today.setHours(0, 0, 0, 0);
+      const in7   = new Date(today.getTime() + 7 * 24 * 60 * 60 * 1000);
+      const upcoming = events.filter((e) => {
+        const s = new Date(e.start);
+        return s >= today && s <= in7;
+      }).sort((a, b) => new Date(a.start) - new Date(b.start));
+
+      // ── Rating medio (solo recensioni approvate) ──
+      const approved = reviews.filter((r) => r.Approvato?.toUpperCase() === "SI");
+      const ratings  = approved.map((r) => parseInt(r.Valutazione) || 0).filter((v) => v > 0);
+      const avgRating = ratings.length
+        ? (ratings.reduce((s, v) => s + v, 0) / ratings.length).toFixed(1)
+        : null;
+      const avgNum    = avgRating ? parseFloat(avgRating) : 0;
+      const fullStars = Math.round(avgNum);
+      const starsHTML = "★".repeat(fullStars) + "☆".repeat(5 - fullStars);
+
+      this.renderDashboard({
+        bookingsThisMonth: bookingsThisMonth.length,
+        trendClass,
+        trendText,
+        occupancyPct,
+        monthLabel,
+        upcoming,
+        avgRating,
+        avgNum,
+        starsHTML,
+        reviewCount: ratings.length,
+      });
+    } catch (e) {
+      container.innerHTML = '<div class="dash-loading" style="color:#ef4444;">Errore di caricamento</div>';
+      console.error("loadDashboard error:", e);
+    }
+  },
+
+  renderDashboard(stats) {
+    const container = document.getElementById("dashboardContent");
+    if (!container) return;
+
+    const checkinItems = stats.upcoming.length
+      ? stats.upcoming.map((e) => {
+          const d = new Date(e.start);
+          const dateStr = d.toLocaleDateString("it-IT", { day: "2-digit", month: "short" });
+          return `<div class="checkin-item">
+            <span class="checkin-name">${escapeHTML(e.realTitle || "Ospite")}</span>
+            <span class="checkin-date">${dateStr}</span>
+          </div>`;
+        }).join("")
+      : '<div class="checkin-empty">Nessun check-in nei prossimi 7 giorni</div>';
+
+    const ratingHTML = stats.avgRating !== null
+      ? `<div class="stat-value">${stats.avgRating}</div>
+         <div class="stat-label">Rating medio</div>
+         <div class="stat-sublabel">da ${stats.reviewCount} recension${stats.reviewCount === 1 ? "e" : "i"}</div>
+         <div class="stat-stars">${stats.starsHTML}</div>`
+      : `<div class="stat-value" style="font-size:1.5rem;color:#ccc;">—</div>
+         <div class="stat-label">Rating medio</div>
+         <div class="stat-sublabel">Nessuna recensione approvata</div>`;
+
+    container.innerHTML = `
+      <div class="dash-grid">
+        <div class="stat-card">
+          <div class="stat-icon">📅</div>
+          <div class="stat-value">${stats.bookingsThisMonth}</div>
+          <div class="stat-label">Prenotazioni questo mese</div>
+          <div class="stat-trend ${stats.trendClass}">${stats.trendText}</div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon">📊</div>
+          <div class="stat-value">${stats.occupancyPct}%</div>
+          <div class="stat-label">Tasso occupazione — ${stats.monthLabel}</div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon">🏠</div>
+          <div class="stat-label">Prossimi check-in</div>
+          <div class="checkin-list">${checkinItems}</div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon">⭐</div>
+          ${ratingHTML}
+        </div>
+      </div>
+    `;
   },
 
   // ══════════════════════════════════════════════════════════════
@@ -385,6 +584,66 @@ const app = {
       this.calendarInstance.render();
     } catch (e) {
       calEl.innerHTML = '<div class="list-loading" style="color:#ef4444;">Errore di caricamento</div>';
+    }
+  },
+
+  // ══════════════════════════════════════════════════════════════
+  // BLOCCO RAPIDO DATE
+  // ══════════════════════════════════════════════════════════════
+
+  openBlockModal() {
+    document.getElementById("blockModal")?.classList.remove("hidden");
+    document.getElementById("blockForm")?.reset();
+    if (this.fpBlockInstance) { this.fpBlockInstance.destroy(); this.fpBlockInstance = null; }
+    this.fpBlockInstance = flatpickr("#blockDates", {
+      mode: "range", locale: "it", minDate: "today", dateFormat: "d/m/Y",
+    });
+  },
+
+  closeBlockModal() {
+    document.getElementById("blockModal")?.classList.add("hidden");
+    if (this.fpBlockInstance) { this.fpBlockInstance.destroy(); this.fpBlockInstance = null; }
+  },
+
+  async submitBlock() {
+    const btn     = document.querySelector("#blockForm button[type='submit']");
+    const tipo    = document.getElementById("blockType")?.value;
+    const datesVal = document.getElementById("blockDates")?.value;
+    const notes   = document.getElementById("blockNotes")?.value || "";
+
+    if (!datesVal || !datesVal.includes(" to ")) {
+      alert("Seleziona un intervallo di date valido (almeno 2 giorni).");
+      return;
+    }
+
+    const parts = datesVal.split(" to ");
+    const parseDate = (s) => {
+      const [d, m, y] = s.split("/");
+      return `${y}-${m.padStart(2,"0")}-${d.padStart(2,"0")}`;
+    };
+    const start   = parseDate(parts[0]);
+    // end in Google Calendar è esclusivo → +1 giorno
+    const endDate = new Date(parseDate(parts[1]));
+    endDate.setDate(endDate.getDate() + 1);
+    const end = endDate.toISOString().split("T")[0];
+
+    btn.textContent = "Salvataggio..."; btn.disabled = true;
+    try {
+      const res = await this.fetchProtected("/api/calendar", {
+        method: "POST",
+        body: JSON.stringify({ start, end, title: tipo, description: notes, property: this.currentProperty }),
+      });
+      if (res?.ok) {
+        await this.loadCalendar();
+        this.closeBlockModal();
+        await this.logActivity(`Blocco date: ${tipo}`, `${start} → ${parseDate(parts[1])}`);
+      } else {
+        alert("Errore durante il blocco del periodo.");
+      }
+    } catch (e) {
+      alert("Errore: " + e.message);
+    } finally {
+      btn.textContent = "Blocca periodo"; btn.disabled = false;
     }
   },
 
@@ -470,6 +729,7 @@ const app = {
         this.closeAddModal();
         await this.loadCalendar();
         this.updateBadges();
+        await this.logActivity("Aggiunta prenotazione", title + " · " + start);
       } else {
         throw new Error("Errore di salvataggio");
       }
@@ -544,6 +804,7 @@ const app = {
         this.closeEventModal();
         await this.loadCalendar();
         this.updateBadges();
+        await this.logActivity("Eliminata prenotazione", "ID: " + id);
       } else {
         alert("Errore di eliminazione");
       }
@@ -657,6 +918,7 @@ const app = {
         this.reviewsCache = null;
         await this.loadReviews();
         this.updateBadges();
+        await this.logActivity("Approvata recensione", "Row #" + idx);
       } else {
         alert("Errore di approvazione");
       }
@@ -676,6 +938,7 @@ const app = {
         this.reviewsCache = null;
         await this.loadReviews();
         this.updateBadges();
+        await this.logActivity("Eliminata recensione", "Row #" + idx);
       } else {
         alert("Errore di eliminazione");
       }
@@ -700,6 +963,7 @@ const app = {
         // Update cache locally — avoids a full re-fetch
         const cached = this.reviewsCache?.find((r) => r.idx === idx);
         if (cached) cached.Risposta = replyText;
+        await this.logActivity("Risposta aggiunta", "Row #" + idx);
         setTimeout(() => { btn.textContent = origText; btn.disabled = false; }, 2000);
       } else {
         throw new Error("Errore di salvataggio");
@@ -707,6 +971,142 @@ const app = {
     } catch (e) {
       alert("Errore: " + e.message);
       btn.textContent = origText; btn.disabled = false;
+    }
+  },
+
+  // ══════════════════════════════════════════════════════════════
+  // MESSAGGI
+  // ══════════════════════════════════════════════════════════════
+
+  async loadMessages() {
+    const list = document.getElementById("messaggiList");
+    if (!list) return;
+    list.innerHTML = '<div class="dash-loading">Caricamento messaggi...</div>';
+    try {
+      const res = await this.fetchProtected(`/api/messages?property=${this.currentProperty}`);
+      if (!res) return;
+      this.messagesCache = await res.json();
+      this.renderMessages();
+    } catch(e) {
+      list.innerHTML = '<div class="dash-loading" style="color:#ef4444;">Errore caricamento</div>';
+    }
+  },
+
+  renderMessages() {
+    const list = document.getElementById("messaggiList");
+    if (!list || !this.messagesCache) return;
+
+    const isNuovi  = this.currentMsgTab === "nuovi";
+    const filtered = isNuovi
+      ? this.messagesCache.filter((m) => m.letto !== "SI")
+      : this.messagesCache;
+
+    if (!filtered.length) {
+      list.innerHTML = `<div class="empty-state"><div class="empty-icon">${isNuovi ? "📬" : "💬"}</div>${isNuovi ? "Nessun messaggio non letto." : "Nessun messaggio ricevuto."}</div>`;
+      return;
+    }
+
+    list.innerHTML = filtered.map((m) => `
+      <div class="msg-card ${m.letto === "SI" ? "msg-read" : ""}">
+        <div class="msg-header">
+          <div>
+            <span class="msg-name">${escapeHTML(m.nome)}</span>
+            <span class="msg-email">${escapeHTML(m.email)}</span>
+          </div>
+          <div class="msg-meta-right">
+            <span class="msg-date">${m.timestamp ? new Date(m.timestamp).toLocaleDateString("it-IT", {day:"2-digit",month:"short",year:"numeric"}) : "—"}</span>
+            ${m.letto !== "SI" ? '<span class="msg-badge-new">NUOVO</span>' : ""}
+          </div>
+        </div>
+        <p class="msg-body">${escapeHTML(m.messaggio)}</p>
+        <div class="msg-actions">
+          ${m.letto !== "SI"
+            ? `<button class="btn-msg-read" onclick="app.markMsgRead(${m.idx})">✓ Segna letto</button>`
+            : '<span class="msg-status-read">✓ Letto</span>'}
+          ${m.risposto !== "SI"
+            ? `<button class="btn-msg-replied" onclick="app.markMsgReplied(${m.idx})">↩ Segna risposto</button>`
+            : '<span class="msg-status-replied">↩ Risposto</span>'}
+        </div>
+      </div>
+    `).join("");
+  },
+
+  switchMsgTab(tab) {
+    this.currentMsgTab = tab;
+    document.getElementById("msgTabNuovi")?.classList.toggle("active", tab === "nuovi");
+    document.getElementById("msgTabTutti")?.classList.toggle("active", tab === "tutti");
+    this.renderMessages();
+  },
+
+  async markMsgRead(idx) {
+    const res = await this.fetchProtected("/api/messages", {
+      method: "POST", body: JSON.stringify({ action: "mark-read", idx }),
+    });
+    if (res?.ok) {
+      if (this.messagesCache) {
+        const m = this.messagesCache.find((x) => x.idx === idx);
+        if (m) m.letto = "SI";
+      }
+      this.renderMessages();
+      this.updateBadges();
+    }
+  },
+
+  async markMsgReplied(idx) {
+    const res = await this.fetchProtected("/api/messages", {
+      method: "POST", body: JSON.stringify({ action: "mark-replied", idx }),
+    });
+    if (res?.ok) {
+      if (this.messagesCache) {
+        const m = this.messagesCache.find((x) => x.idx === idx);
+        if (m) { m.risposto = "SI"; m.letto = "SI"; }
+      }
+      this.renderMessages();
+      this.updateBadges();
+    }
+  },
+
+  // ══════════════════════════════════════════════════════════════
+  // LOG ATTIVITÀ
+  // ══════════════════════════════════════════════════════════════
+
+  async logActivity(azione, dettagli) {
+    try {
+      await this.fetchProtected("/api/log", {
+        method: "POST",
+        body: JSON.stringify({ azione, dettagli, proprieta: this.currentProperty }),
+      });
+    } catch(e) { console.warn("Log failed:", e.message); }
+  },
+
+  async loadLog() {
+    const list = document.getElementById("logList");
+    if (!list) return;
+    list.innerHTML = '<div class="dash-loading">Caricamento log...</div>';
+    try {
+      const res = await this.fetchProtected("/api/log");
+      if (!res) return;
+      const entries = await res.json();
+      if (!entries.length) {
+        list.innerHTML = '<div class="empty-state"><div class="empty-icon">📋</div>Nessuna attività registrata.</div>';
+        return;
+      }
+      list.innerHTML = `
+        <div class="log-table">
+          <div class="log-header">
+            <span>Data/Ora</span><span>Admin</span><span>Azione</span><span>Dettagli</span><span>Struttura</span>
+          </div>
+          ${entries.map((e) => `
+            <div class="log-row">
+              <span class="log-time">${e.timestamp ? new Date(e.timestamp).toLocaleString("it-IT",{dateStyle:"short",timeStyle:"short"}) : "—"}</span>
+              <span class="log-user">${escapeHTML(e.utente?.split("@")[0] || "—")}</span>
+              <span class="log-action">${escapeHTML(e.azione)}</span>
+              <span class="log-detail">${escapeHTML(e.dettagli || "—")}</span>
+              <span class="log-prop">${escapeHTML(e.proprieta || "—")}</span>
+            </div>`).join("")}
+        </div>`;
+    } catch(e) {
+      list.innerHTML = '<div class="dash-loading" style="color:#ef4444;">Errore caricamento log</div>';
     }
   },
 

@@ -71,13 +71,23 @@
         </a>
 
         <div class="nav-sections">
-          <button class="nav-sec-btn active" id="navBtnCalendario" data-section="calendario" onclick="app.showSection('calendario')">
+          <button class="nav-sec-btn active" id="navBtnDashboard" data-section="dashboard" onclick="app.showSection('dashboard')">
+            Dashboard
+          </button>
+          <button class="nav-sec-btn" id="navBtnCalendario" data-section="calendario" onclick="app.showSection('calendario')">
             Calendario
             <span class="nav-badge hidden" id="badgeCal">0</span>
           </button>
           <button class="nav-sec-btn" id="navBtnRecensioni" data-section="recensioni" onclick="app.showSection('recensioni')">
             Recensioni
             <span class="nav-badge hidden" id="badgeRev">0</span>
+          </button>
+          <button class="nav-sec-btn" id="navBtnMessaggi" data-section="messaggi" onclick="app.showSection('messaggi')">
+            Messaggi
+            <span class="nav-badge hidden" id="badgeMsg">0</span>
+          </button>
+          <button class="nav-sec-btn" id="navBtnLog" data-section="log" onclick="app.showSection('log')">
+            Log
           </button>
         </div>
 
@@ -98,16 +108,32 @@
       <!-- Main -->
       <main class="main" style="flex:1;">
 
+        <!-- ── DASHBOARD STATISTICHE ── -->
+        <section id="sectionDashboard" class="section active">
+          <div class="sec-hd">
+            <div>
+              <h2 class="sec-title">Dashboard</h2>
+              <p class="sec-sub">Riepilogo attività — <span id="dashPropLabel">Perla Bianca</span></p>
+            </div>
+          </div>
+          <div id="dashboardContent">
+            <div class="dash-loading">Caricamento...</div>
+          </div>
+        </section>
+
         <!-- ── CALENDARIO ── -->
-        <section id="sectionCalendario" class="section active">
+        <section id="sectionCalendario" class="section">
           <div class="sec-hd">
             <div>
               <h2 class="sec-title">Calendario</h2>
               <p class="sec-sub">Clicca su un giorno per aggiungere una prenotazione</p>
             </div>
-            <button class="btn-add" onclick="app.openAddModal()">
-              + Nuova prenotazione
-            </button>
+            <div style="display:flex; gap:0.5rem; align-items:center; flex-wrap:wrap;">
+              <button class="btn-block-period" onclick="app.openBlockModal()">🔒 Blocca periodo</button>
+              <button class="btn-add" onclick="app.openAddModal()">
+                + Nuova prenotazione
+              </button>
+            </div>
           </div>
           <div id="calendarEl"></div>
         </section>
@@ -129,6 +155,32 @@
             </button>
           </div>
           <div id="reviewsList" class="reviews-list"></div>
+        </section>
+
+        <!-- ── MESSAGGI ── -->
+        <section id="sectionMessaggi" class="section">
+          <div class="sec-hd">
+            <div>
+              <h2 class="sec-title">Messaggi</h2>
+              <p class="sec-sub">Richieste dal form contatti</p>
+            </div>
+          </div>
+          <div class="msg-tabs">
+            <button class="rev-tab active" id="msgTabNuovi" onclick="app.switchMsgTab('nuovi')">Non letti</button>
+            <button class="rev-tab" id="msgTabTutti" onclick="app.switchMsgTab('tutti')">Tutti</button>
+          </div>
+          <div id="messaggiList" class="msg-list"></div>
+        </section>
+
+        <!-- ── LOG ATTIVITÀ ── -->
+        <section id="sectionLog" class="section">
+          <div class="sec-hd">
+            <div>
+              <h2 class="sec-title">Log Attività</h2>
+              <p class="sec-sub">Ultime 100 azioni eseguite dagli admin</p>
+            </div>
+          </div>
+          <div id="logList" class="log-list"></div>
         </section>
 
       </main>
@@ -162,6 +214,39 @@
             <textarea id="eventNotes" class="form-field form-textarea" placeholder="Pagamento, telefono..."></textarea>
           </div>
           <button type="submit" class="btn-submit">Salva prenotazione</button>
+        </form>
+      </div>
+    </div>
+
+
+    <!-- ════════════════════════════════
+         MODAL: Blocco periodo
+    ════════════════════════════════ -->
+    <div id="blockModal" class="modal hidden">
+      <div class="modal-card">
+        <div class="modal-hd">
+          <h3 class="modal-title">Blocca periodo</h3>
+          <button class="modal-close" onclick="app.closeBlockModal()">×</button>
+        </div>
+        <form id="blockForm">
+          <div class="form-group">
+            <label class="form-label" for="blockType">Tipo di blocco</label>
+            <select id="blockType" class="form-field">
+              <option value="Chiuso">🔴 Chiuso</option>
+              <option value="Manutenzione">🔧 Manutenzione</option>
+              <option value="Pulizia">🧹 Pulizia</option>
+              <option value="Riservato">📌 Riservato</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="blockDates">Date</label>
+            <input type="text" id="blockDates" class="form-field" placeholder="Seleziona date..." readonly />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="blockNotes">Note (opzionale)</label>
+            <textarea id="blockNotes" class="form-field form-textarea" placeholder="Es. Manutenzione caldaia..."></textarea>
+          </div>
+          <button type="submit" class="btn-submit">Blocca periodo</button>
         </form>
       </div>
     </div>
