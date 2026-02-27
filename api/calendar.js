@@ -120,6 +120,25 @@ export default async function handler(req, res) {
       });
       return res.status(200).json({ success: true });
     }
+
+    // Update Event (PATCH)
+    if (req.method === "PATCH") {
+      const { eventId, title, description, start, end } = req.body;
+      if (!eventId) return res.status(400).json({ error: "eventId required" });
+
+      const patchBody = {};
+      if (title       !== undefined) patchBody.summary     = title;
+      if (description !== undefined) patchBody.description = description;
+      if (start       !== undefined) patchBody.start       = { date: start };
+      if (end         !== undefined) patchBody.end         = { date: end };
+
+      await calendar.events.patch({
+        calendarId,
+        eventId,
+        requestBody: patchBody,
+      });
+      return res.status(200).json({ success: true });
+    }
     //#endregion
   } catch (error) {
     console.error("Calendar API Error:", error);

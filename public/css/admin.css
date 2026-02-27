@@ -528,6 +528,20 @@ body {
   padding: 0.65rem; border-radius: 10px; cursor: pointer; transition: background 0.2s;
 }
 .btn-ev-close:hover { background: var(--border); }
+.btn-ev-edit {
+  flex: 1; background: var(--ivory-d); color: var(--navy);
+  border: 1.5px solid var(--navy);
+  font-family: 'Inter', sans-serif; font-size: 0.82rem; font-weight: 700;
+  padding: 0.65rem; border-radius: 10px; cursor: pointer; transition: background 0.2s;
+}
+.btn-ev-edit:hover { background: rgba(27,58,92,0.08); }
+.btn-ev-save {
+  flex: 1; background: var(--navy); color: #fff; border: none;
+  font-family: 'Inter', sans-serif; font-size: 0.82rem; font-weight: 700;
+  padding: 0.65rem; border-radius: 10px; cursor: pointer; transition: background 0.2s;
+}
+.btn-ev-save:hover { background: var(--navy-l); }
+.btn-ev-save:disabled { opacity: 0.6; cursor: not-allowed; }
 
 /* ════════════════════════════════════════
    RESPONSIVE

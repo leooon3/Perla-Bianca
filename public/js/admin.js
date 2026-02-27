@@ -25,6 +25,8 @@ const app = {
   calendarInstance: null,
   fpInstance:       null,
   fpBlockInstance:  null,
+  fpEditInstance:   null,
+  currentEvent:     null,
   reviewsCache:     null, // raw array with .idx
   messagesCache:    null,
   pricesCache:      null,
@@ -757,6 +759,9 @@ const app = {
     const content = document.getElementById("eventModalContent");
     if (!modal || !content) return;
 
+    // Store for edit / cancel-edit
+    this.currentEvent = event;
+
     const start = event.start;
     const end   = event.end ? new Date(event.end.getTime()) : null;
     if (end && event.allDay) end.setDate(end.getDate() - 1);
@@ -790,6 +795,7 @@ const app = {
 
       <div class="ev-btns">
         <button class="btn-ev-del" onclick="app.deleteEvent('${event.id}')">Elimina</button>
+        <button class="btn-ev-edit" onclick="app.editEvent()">✏️ Modifica</button>
         <button class="btn-ev-close" onclick="app.closeEventModal()">Chiudi</button>
       </div>
     `;
@@ -798,7 +804,127 @@ const app = {
   },
 
   closeEventModal() {
+    if (this.fpEditInstance) { this.fpEditInstance.destroy(); this.fpEditInstance = null; }
+    this.currentEvent = null;
     document.getElementById("eventModal")?.classList.add("hidden");
+  },
+
+  editEvent() {
+    const event = this.currentEvent;
+    if (!event) return;
+
+    const modal   = document.getElementById("eventModal");
+    const content = document.getElementById("eventModalContent");
+    if (!modal || !content) return;
+
+    // Compute inclusive end date (Google Calendar end is exclusive for all-day)
+    const startISO = event.start.toISOString().split("T")[0];
+    const rawEnd   = event.end ? new Date(event.end.getTime()) : new Date(event.start.getTime());
+    if (event.allDay && event.end) rawEnd.setDate(rawEnd.getDate() - 1);
+    const endISO   = rawEnd.toISOString().split("T")[0];
+
+    content.innerHTML = `
+      <div class="modal-hd">
+        <h3 class="modal-title">Modifica prenotazione</h3>
+        <button class="modal-close" onclick="app.closeEventModal()">×</button>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Nome / Tipo</label>
+        <input type="text" id="editEventTitle" class="form-field"
+               value="${escapeHTML(event.title)}" />
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Date</label>
+        <input type="text" id="editEventDates" class="form-field" placeholder="Dal → Al" readonly />
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Note</label>
+        <textarea id="editEventDesc" class="form-field form-textarea"
+                  style="height:70px">${escapeHTML(event.extendedProps.description)}</textarea>
+      </div>
+
+      <div class="ev-btns">
+        <button class="btn-ev-del" onclick="app.deleteEvent('${event.id}')">Elimina</button>
+        <button class="btn-ev-close" onclick="app.showEventModal(app.currentEvent)">Annulla</button>
+        <button class="btn-ev-save" id="btnSaveEdit">💾 Salva</button>
+      </div>
+    `;
+
+    // Init flatpickr on the dates field
+    if (this.fpEditInstance) { this.fpEditInstance.destroy(); this.fpEditInstance = null; }
+    this.fpEditInstance = flatpickr("#editEventDates", {
+      mode:         "range",
+      locale:       "it",
+      dateFormat:   "d/m/Y",
+      defaultDate:  [startISO, endISO],
+    });
+
+    document.getElementById("btnSaveEdit")
+      ?.addEventListener("click", () => this.updateEvent());
+  },
+
+  async updateEvent() {
+    const event = this.currentEvent;
+    if (!event) return;
+
+    const title    = document.getElementById("editEventTitle")?.value?.trim();
+    const desc     = document.getElementById("editEventDesc")?.value?.trim() || "";
+    const datesVal = document.getElementById("editEventDates")?.value;
+
+    if (!title)    { alert("Inserisci un nome per la prenotazione."); return; }
+    if (!datesVal) { alert("Seleziona le date."); return; }
+
+    const parseDate = (s) => {
+      const [d, m, y] = s.split("/");
+      return `${y}-${m.padStart(2,"0")}-${d.padStart(2,"0")}`;
+    };
+
+    let start, end;
+    if (datesVal.includes(" to ")) {
+      const parts   = datesVal.split(" to ");
+      start = parseDate(parts[0]);
+      const endDate = new Date(parseDate(parts[1]));
+      endDate.setDate(endDate.getDate() + 1);   // Google Calendar exclusive end
+      end = endDate.toISOString().split("T")[0];
+    } else {
+      // Single-day booking
+      start = parseDate(datesVal);
+      const endDate = new Date(start);
+      endDate.setDate(endDate.getDate() + 1);
+      end = endDate.toISOString().split("T")[0];
+    }
+
+    const btn = document.getElementById("btnSaveEdit");
+    if (btn) { btn.textContent = "Salvataggio…"; btn.disabled = true; }
+
+    try {
+      const res = await this.fetchProtected("/api/calendar", {
+        method: "PATCH",
+        body: JSON.stringify({
+          eventId:     event.id,
+          title,
+          description: desc,
+          start,
+          end,
+          property:    this.currentProperty,
+        }),
+      });
+      if (res?.ok) {
+        this.closeEventModal();
+        await this.loadCalendar();
+        this.updateBadges();
+        await this.logActivity("Modificata prenotazione", `${title} (${start} → ${end})`);
+      } else {
+        alert("Errore durante l'aggiornamento.");
+        if (btn) { btn.textContent = "💾 Salva"; btn.disabled = false; }
+      }
+    } catch (e) {
+      alert("Errore: " + e.message);
+      if (btn) { btn.textContent = "💾 Salva"; btn.disabled = false; }
+    }
   },
 
   async deleteEvent(id) {
