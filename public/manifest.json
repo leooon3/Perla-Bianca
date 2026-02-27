@@ -3,8 +3,8 @@
   "short_name": "Perla Bianca",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#ffffff",
-  "theme_color": "#3b82f6",
+  "background_color": "#FAF8F4",
+  "theme_color": "#1B3A5C",
   "icons": [
     {
       "src": "/img/logo.ico",

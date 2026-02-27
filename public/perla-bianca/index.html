@@ -7,7 +7,7 @@
       content="default-src 'self';
   script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://accounts.google.com https://apis.google.com https://npmcdn.com https://www.googletagmanager.com https://vercel.live;
   style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://accounts.google.com https://fonts.googleapis.com;
-  img-src 'self' data: https://perla-bianca.vercel.app https://lh3.googleusercontent.com https://*.googleapis.com;
+  img-src 'self' data: https://isarcofagidelre.it https://lh3.googleusercontent.com https://*.googleapis.com;
   font-src 'self' data: https://cdn.jsdelivr.net https://fonts.gstatic.com;
   frame-src 'self' https://accounts.google.com https://content.googleapis.com http://googleusercontent.com https://www.google.com https://vercel.live;
   connect-src 'self' https://accounts.google.com https://api.open-meteo.com https://*.googleapis.com https://cdn.jsdelivr.net;"
@@ -22,15 +22,16 @@
     <meta property="og:url" content="https://isarcofagidelre.it/perla-bianca/" />
     <meta property="og:title" content="Perla Bianca — Casa Vacanze al Mare · Puglia" />
     <meta property="og:description" content="Vieni a rilassarti a due passi dalla spiaggia. Appartamento ristrutturato, WiFi, A/C e fino a 5 posti letto. Prenota ora!" />
-    <meta property="og:image" content="https://perla-bianca.vercel.app/img/hero.webp" />
+    <meta property="og:image" content="https://isarcofagidelre.it/img/hero.webp" />
     <meta property="twitter:card" content="summary_large_image" />
     <meta property="twitter:title" content="Perla Bianca — Casa Vacanze al Mare · Puglia" />
     <meta property="twitter:description" content="Vieni a rilassarti a due passi dalla spiaggia. Appartamento ristrutturato, WiFi, A/C." />
-    <meta property="twitter:image" content="https://perla-bianca.vercel.app/img/hero.webp" />
+    <meta property="twitter:image" content="https://isarcofagidelre.it/img/hero.webp" />
 
     <link rel="icon" href="../img/logo.ico" type="image/ico" />
     <link rel="manifest" href="../manifest.json" />
     <meta name="theme-color" content="#1B3A5C" />
+    <link rel="canonical" href="https://isarcofagidelre.it/perla-bianca/" />
     <link rel="preload" as="image" href="../img/hero.webp" />
 
     <!-- Google Fonts -->
@@ -56,7 +57,7 @@
         "name": "Perla Bianca Casa Vacanze",
         "description": "Appartamento ristrutturato a due passi dalla spiaggia. WiFi, A/C e fino a 5 posti letto.",
         "url": "https://isarcofagidelre.it/perla-bianca/",
-        "image": "https://perla-bianca.vercel.app/img/hero.webp",
+        "image": "https://isarcofagidelre.it/img/hero.webp",
         "address": {
           "@type": "PostalAddress",
           "streetAddress": "Via 15b",
@@ -97,6 +98,8 @@
         <a href="#contatti" data-i18n="nav_contatti">Contatti</a>
       </nav>
     </header>
+
+    <main>
 
     <!-- ═══ HERO ═══ -->
     <section id="home" class="hero">
@@ -388,24 +391,30 @@
           <input
             type="text"
             name="nome"
+            id="contactNome"
             class="contact-input"
             data-i18n-placeholder="placeholder_nome"
             placeholder="Nome"
+            aria-label="Nome"
             required
           />
           <input
             type="email"
             name="email"
+            id="contactEmail"
             class="contact-input"
             data-i18n-placeholder="placeholder_email"
             placeholder="Email"
+            aria-label="Email"
             required
           />
           <textarea
             name="messaggio"
+            id="contactMessaggio"
             class="contact-input"
             data-i18n-placeholder="placeholder_msg"
             placeholder="Messaggio"
+            aria-label="Messaggio"
             required
           ></textarea>
           <button type="submit" class="contact-submit" data-i18n="btn_send">Invia</button>
@@ -413,6 +422,8 @@
         <div id="formStatus"></div>
       </div>
     </section>
+
+    </main>
 
     <!-- ═══ FOOTER ═══ -->
     <footer class="site-footer">

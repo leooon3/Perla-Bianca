@@ -129,9 +129,7 @@ export function initCalendar() {
     },
 
     events: "/api/calendar",
-    eventSourceFailure: function (error) {
-      console.error("Calendar Error:", error);
-    },
+    eventSourceFailure: function () { /* silent — calendar stays empty on error */ },
   });
 
   window.calendar.render();

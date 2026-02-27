@@ -50,7 +50,7 @@ async function applyLanguage(lang) {
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       translations = await res.json();
     } catch (err) {
-      console.warn(`i18n: impossibile caricare ${lang}.json, fallback a it`);
+      // fallback silenzioso — lingua non disponibile, si usa 'it'
       if (lang !== "it") {
         await applyLanguage("it");
         return;

@@ -31,5 +31,5 @@ export function initWeather() {
       document.getElementById("weatherIcon").textContent = getWeatherIcon(code);
       weatherWidget.classList.remove("hidden");
     })
-    .catch((err) => console.error("Meteo Err:", err));
+    .catch(() => { /* silent — widget resta nascosto */ });
 }
