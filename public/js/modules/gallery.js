@@ -11,35 +11,35 @@ export function initGallery() {
   if (!mainWrapper || !thumbWrapper || !fullscreenWrapper) return;
 
   const images = [
-    { src: "/img/1.webp",  alt: "camera ragazzi" },
-    { src: "/img/2.webp",  alt: "camera matrimoniale" },
-    { src: "/img/3.webp",  alt: "camera matrimoniale 2" },
-    { src: "/img/4.webp",  alt: "cucina" },
-    { src: "/img/5.webp",  alt: "bagno" },
-    { src: "/img/6.webp",  alt: "salotto" },
-    { src: "/img/7.webp",  alt: "salotto 2" },
-    { src: "/img/8.webp",  alt: "cucina + isola" },
-    { src: "/img/9.webp",  alt: "tv" },
-    { src: "/img/10.webp", alt: "camera ragazzi" },
-    { src: "/img/11.webp", alt: "sanitari" },
-    { src: "/img/12.webp", alt: "vista terrazzo" },
-    { src: "/img/13.webp", alt: "frigo + dispensa" },
-    { src: "/img/14.webp", alt: "balcone" },
-    { src: "/img/15.webp", alt: "disimpegno" },
+    { src: "/img/1.webp",  alt: "camera ragazzi",       w: 1280, h: 577  },
+    { src: "/img/2.webp",  alt: "camera matrimoniale",   w: 1280, h: 577  },
+    { src: "/img/3.webp",  alt: "camera matrimoniale 2", w: 1280, h: 577  },
+    { src: "/img/4.webp",  alt: "cucina",                w: 1280, h: 577  },
+    { src: "/img/5.webp",  alt: "bagno",                 w: 1280, h: 577  },
+    { src: "/img/6.webp",  alt: "salotto",               w: 1280, h: 577  },
+    { src: "/img/7.webp",  alt: "salotto 2",             w: 1280, h: 577  },
+    { src: "/img/8.webp",  alt: "cucina + isola",        w: 1280, h: 577  },
+    { src: "/img/9.webp",  alt: "tv",                    w: 1280, h: 577  },
+    { src: "/img/10.webp", alt: "camera ragazzi",        w: 1280, h: 577  },
+    { src: "/img/11.webp", alt: "sanitari",              w: 576,  h: 1280 },
+    { src: "/img/12.webp", alt: "vista terrazzo",        w: 720,  h: 1280 },
+    { src: "/img/13.webp", alt: "frigo + dispensa",      w: 1280, h: 577  },
+    { src: "/img/14.webp", alt: "balcone",               w: 1280, h: 577  },
+    { src: "/img/15.webp", alt: "disimpegno",            w: 577,  h: 1280 },
   ];
 
   images.forEach((img) => {
     mainWrapper.innerHTML += `
       <div class="swiper-slide">
-        <img src="${img.src}" alt="${img.alt}" class="w-full h-96 object-cover cursor-pointer" loading="lazy" decoding="async">
+        <img src="${img.src}" alt="${img.alt}" width="${img.w}" height="${img.h}" class="w-full h-96 object-cover cursor-pointer" loading="lazy" decoding="async">
       </div>`;
     thumbWrapper.innerHTML += `
       <div class="swiper-slide">
-        <img src="${img.src}" alt="${img.alt}" class="w-full h-24 object-cover rounded cursor-pointer" loading="lazy" decoding="async">
+        <img src="${img.src}" alt="${img.alt}" width="${img.w}" height="${img.h}" class="w-full h-24 object-cover rounded cursor-pointer" loading="lazy" decoding="async">
       </div>`;
     fullscreenWrapper.innerHTML += `
       <div class="swiper-slide">
-        <img src="${img.src}" alt="${img.alt}" class="w-auto h-auto max-w-[90vw] max-h-[90vh] object-contain" loading="lazy" decoding="async">
+        <img src="${img.src}" alt="${img.alt}" width="${img.w}" height="${img.h}" class="w-auto h-auto max-w-[90vw] max-h-[90vh] object-contain" loading="lazy" decoding="async">
       </div>`;
   });
 
