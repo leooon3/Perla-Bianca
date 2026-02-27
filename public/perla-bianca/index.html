@@ -49,6 +49,8 @@
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/locales-all.global.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
     <script type="application/ld+json">
       {
@@ -304,6 +306,27 @@
         </div>
         <div class="calendar-wrap reveal reveal-delay-1">
           <div id="calendar"></div>
+        </div>
+
+        <!-- Booking Date Picker -->
+        <div class="booking-picker reveal reveal-delay-2" id="bookingPicker">
+          <p class="booking-picker-title" data-i18n="booking_title">Richiedi il tuo periodo</p>
+          <div class="booking-picker-row">
+            <input
+              type="text"
+              id="bookingDates"
+              class="booking-dates-input"
+              data-i18n-placeholder="booking_placeholder"
+              placeholder="Seleziona le date del soggiorno…"
+              readonly
+            />
+            <button id="bookingBtn" class="booking-btn" data-i18n="booking_btn">
+              Richiedi questo periodo →
+            </button>
+          </div>
+          <p class="booking-picker-hint" data-i18n="booking_hint">
+            Le date verranno inserite automaticamente nel messaggio di contatto.
+          </p>
         </div>
       </div>
     </section>

@@ -111,5 +111,9 @@
   "review_date_order": "Departure date must be after the arrival date.",
   "rating_out_of": "Out of 5.0",
   "rating_based_on_pre": "Based on",
-  "rating_based_on_post": "verified reviews"
+  "rating_based_on_post": "verified reviews",
+  "booking_title": "Request your stay",
+  "booking_placeholder": "Select your stay dates…",
+  "booking_btn": "Request this period →",
+  "booking_hint": "The dates will be automatically added to the contact message."
 }

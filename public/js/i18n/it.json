@@ -111,5 +111,9 @@
   "review_date_order": "La data di partenza deve essere successiva alla data di arrivo.",
   "rating_out_of": "Su 5.0",
   "rating_based_on_pre": "Basato su",
-  "rating_based_on_post": "recensioni verificate"
+  "rating_based_on_post": "recensioni verificate",
+  "booking_title": "Richiedi il tuo periodo",
+  "booking_placeholder": "Seleziona le date del soggiorno…",
+  "booking_btn": "Richiedi questo periodo →",
+  "booking_hint": "Le date verranno inserite automaticamente nel messaggio di contatto."
 }

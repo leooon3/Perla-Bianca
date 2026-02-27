@@ -111,5 +111,9 @@
   "review_date_order": "Das Abreisedatum muss nach dem Anreisedatum liegen.",
   "rating_out_of": "Von 5.0",
   "rating_based_on_pre": "Basierend auf",
-  "rating_based_on_post": "verifizierten Bewertungen"
+  "rating_based_on_post": "verifizierten Bewertungen",
+  "booking_title": "Ihren Zeitraum anfragen",
+  "booking_placeholder": "Reisedaten auswählen…",
+  "booking_btn": "Diesen Zeitraum anfragen →",
+  "booking_hint": "Die Daten werden automatisch in die Kontaktnachricht eingefügt."
 }
