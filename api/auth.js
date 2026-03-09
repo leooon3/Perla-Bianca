@@ -89,7 +89,9 @@ export default async function handler(req, res) {
       }
 
       const transporter = nodemailer.createTransport({
-        service: "gmail",
+        host: "smtps.aruba.it",
+        port: 465,
+        secure: true,
         auth: { user: EMAIL_USER, pass: EMAIL_PASS },
       });
 

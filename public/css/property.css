@@ -507,6 +507,8 @@ textarea.contact-input { resize: vertical; min-height: 140px; }
   .footer-inner { grid-template-columns: 1fr; }
 }
 .footer-links li { color: rgba(255,255,255,0.45); }
+.footer-mail-link { color: inherit; text-decoration: none; transition: color 0.2s; }
+.footer-mail-link:hover { color: var(--terracotta-light); }
 .footer-brand-desc { color: rgba(255,255,255,0.45); max-width: 280px; }
 .footer-lang {
   display: flex;

@@ -3,9 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title data-i18n="review_page_title">
-      Lascia una Recensione - Perla Bianca
-    </title>
+    <title data-i18n="review_page_title">Lascia una Recensione - Perla Bianca</title>
     <meta name="description" content="Hai soggiornato a Perla Bianca? Lascia una recensione e condividi la tua esperienza." />
     <meta name="robots" content="noindex, follow" />
     <meta property="og:type" content="website" />
@@ -13,170 +11,252 @@
     <meta property="og:title" content="Lascia una Recensione — Perla Bianca" />
     <meta property="og:description" content="Hai soggiornato a Perla Bianca? Lascia una recensione e condividi la tua esperienza." />
     <link rel="canonical" href="https://isarcofagidelre.it/perla-bianca/lascia-recensione.html" />
-    <link rel="stylesheet" href="../style.css" />
     <link rel="icon" href="../img/logo.ico" type="image/ico" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="../style.css" />
+    <link rel="stylesheet" href="../css/shared.css" />
+    <link rel="stylesheet" href="../css/property.css" />
+    <style>
+      .review-page-wrap {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        background: var(--ivory);
+        font-family: 'Inter', sans-serif;
+      }
+      .review-header-back {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: rgba(255,255,255,0.85);
+        text-decoration: none;
+        font-size: 0.85rem;
+        font-weight: 500;
+        letter-spacing: 0.04em;
+        transition: color 0.2s;
+      }
+      .review-header-back:hover { color: #fff; }
+      .review-header-back span { transition: transform 0.2s; }
+      .review-header-back:hover span { transform: translateX(-3px); }
+      .review-header-brand {
+        font-family: 'Playfair Display', serif;
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: rgba(255,255,255,0.7);
+        letter-spacing: 0.05em;
+      }
+      .review-main {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 3rem 1.25rem;
+      }
+      .review-card {
+        width: 100%;
+        max-width: 520px;
+        background: #fff;
+        border-radius: 1.25rem;
+        box-shadow: 0 8px 40px rgba(27,58,92,0.10);
+        border: 1px solid rgba(27,58,92,0.08);
+        padding: 2.5rem 2rem;
+      }
+      @media (min-width: 480px) { .review-card { padding: 3rem 2.5rem; } }
+      .review-card-header { text-align: center; margin-bottom: 2.25rem; }
+      .review-card-header h1 {
+        font-family: 'Playfair Display', serif;
+        font-size: 1.75rem;
+        font-weight: 700;
+        color: var(--navy);
+        margin-bottom: 0.5rem;
+      }
+      .review-card-header p {
+        font-size: 0.92rem;
+        color: #7a8a9a;
+      }
+      .review-label {
+        display: block;
+        font-size: 0.7rem;
+        font-weight: 700;
+        color: var(--navy);
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        margin-bottom: 0.5rem;
+        opacity: 0.7;
+      }
+      .review-input {
+        width: 100%;
+        padding: 0.8rem 1rem;
+        border-radius: 0.6rem;
+        border: 1.5px solid rgba(27,58,92,0.18);
+        background: var(--ivory);
+        color: var(--navy);
+        font-family: 'Inter', sans-serif;
+        font-size: 0.95rem;
+        outline: none;
+        transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
+        box-sizing: border-box;
+      }
+      .review-input::placeholder { color: rgba(27,58,92,0.35); }
+      .review-input:focus {
+        border-color: var(--terracotta);
+        background: #fff;
+        box-shadow: 0 0 0 3px rgba(196,98,45,0.1);
+      }
+      textarea.review-input { resize: vertical; min-height: 120px; }
+      .review-dates { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+      .review-field { margin-bottom: 1.25rem; }
+      .review-stars {
+        display: flex;
+        gap: 0.5rem;
+        justify-content: center;
+        padding: 1rem;
+        background: var(--ivory);
+        border-radius: 0.75rem;
+        border: 1.5px dashed rgba(27,58,92,0.2);
+        transition: border-color 0.2s;
+        cursor: pointer;
+      }
+      .review-stars:hover { border-color: var(--terracotta); }
+      .star {
+        font-size: 2.25rem;
+        color: #d1d5db;
+        transition: transform 0.15s, color 0.15s;
+        cursor: pointer;
+      }
+      .star:hover, .star.active { color: #f59e0b; transform: scale(1.2); }
+      .review-btn {
+        width: 100%;
+        padding: 1rem;
+        border-radius: 0.75rem;
+        background: var(--terracotta);
+        color: #fff;
+        font-family: 'Inter', sans-serif;
+        font-weight: 700;
+        font-size: 0.9rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        border: none;
+        cursor: pointer;
+        box-shadow: 0 4px 14px rgba(196,98,45,0.3);
+        transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+        margin-top: 0.75rem;
+      }
+      .review-btn:hover {
+        background: var(--terracotta-light);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(196,98,45,0.35);
+      }
+      .review-btn:active { transform: scale(0.98); }
+      .review-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+      #reviewFormStatus {
+        display: none;
+        text-align: center;
+        font-size: 0.88rem;
+        font-weight: 500;
+        margin-top: 1rem;
+        padding: 0.85rem 1rem;
+        border-radius: 0.6rem;
+      }
+      #reviewFormStatus.success {
+        background: rgba(16,185,129,0.1);
+        color: #065f46;
+        border: 1px solid rgba(16,185,129,0.25);
+      }
+      #reviewFormStatus.error {
+        background: rgba(196,98,45,0.08);
+        color: var(--terracotta);
+        border: 1px solid rgba(196,98,45,0.2);
+      }
+      .review-footer {
+        text-align: center;
+        padding: 1.5rem;
+        font-size: 0.78rem;
+        color: rgba(27,58,92,0.4);
+        font-family: 'Inter', sans-serif;
+      }
+    </style>
   </head>
-  <body
-    class="bg-gray-50 font-sans text-gray-800 antialiased min-h-screen flex flex-col"
-  >
-    <!--Header-->
-    <header class="bg-blue-100/90 shadow-sm py-4 sticky top-0 z-50">
-      <div class="container mx-auto px-6 flex justify-between items-center">
-        <a
-          href="index.html"
-          class="group flex items-center gap-2 text-blue-600 font-bold hover:text-blue-800 transition-colors"
-        >
-          <span class="group-hover:-translate-x-1 transition-transform">←</span>
-          <span data-i18n="review_back_home">Torna alla Home</span>
-        </a>
+  <body class="review-page-wrap">
 
-        <span
-          class="font-semibold text-gray-400 uppercase tracking-widest text-sm"
-          >Perla Bianca</span
-        >
-      </div>
+    <header class="site-header">
+      <a href="index.html" class="review-header-back">
+        <span>←</span>
+        <span data-i18n="review_back_home">Torna alla Home</span>
+      </a>
+      <span class="review-header-brand">Perla Bianca</span>
     </header>
 
-    <main class="grow flex items-center justify-center py-12 px-4">
-      <div
-        class="w-full max-w-lg bg-white p-8 rounded-2xl shadow-xl border border-gray-100"
-      >
-        <div class="text-center mb-10">
-          <h1
-            class="text-3xl font-extrabold text-gray-900 mb-2"
-            data-i18n="review_form_title"
-          >
-            La tua opinione conta
-          </h1>
-          <p class="text-gray-500" data-i18n="review_form_subtitle">
-            Ci auguriamo tu abbia passato un soggiorno indimenticabile.
-          </p>
+    <main class="review-main">
+      <div class="review-card">
+        <div class="review-card-header">
+          <h1 data-i18n="review_form_title">La tua opinione conta</h1>
+          <p data-i18n="review_form_subtitle">Ci auguriamo tu abbia passato un soggiorno indimenticabile.</p>
         </div>
 
-        <form id="internalReviewForm" class="space-y-6">
-          <!--Name-->
-          <div>
-            <label
-              class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2"
-              data-i18n="review_label_name"
-              >Nome e Cognome</label
-            >
+        <form id="internalReviewForm">
+          <div class="review-field">
+            <label class="review-label" data-i18n="review_label_name">Nome e Cognome</label>
             <input
               type="text"
               name="nome"
               required
-              data-i18n-placeholder="review_placeholder_name"
               placeholder="Es. Mario Rossi"
-              class="w-full px-4 py-3 rounded-lg border border-gray-300 bg-gray-50 text-gray-900 focus:bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-100 outline-none transition-all placeholder-gray-400"
+              data-i18n-placeholder="review_placeholder_name"
+              class="review-input"
             />
           </div>
-          <!--Dates-->
-          <div class="grid grid-cols-2 gap-4">
-            <div>
-              <label
-                class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2"
-                data-i18n="review_label_from"
-                >Dal</label
-              >
-              <input
-                type="date"
-                name="data_arrivo"
-                required
-                class="w-full px-4 py-3 rounded-lg border border-gray-300 bg-gray-50 text-gray-900 focus:bg-white focus:border-blue-500 outline-none transition-all cursor-pointer"
-              />
-            </div>
-            <div>
-              <label
-                class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2"
-                data-i18n="review_label_to"
-                >Al</label
-              >
-              <input
-                type="date"
-                name="data_partenza"
-                required
-                class="w-full px-4 py-3 rounded-lg border border-gray-300 bg-gray-50 text-gray-900 focus:bg-white focus:border-blue-500 outline-none transition-all cursor-pointer"
-              />
-            </div>
-          </div>
-          <!--Grade-->
-          <div>
-            <label
-              class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2"
-              data-i18n="review_label_rating"
-              >Valutazione</label
-            >
-            <input type="hidden" name="voto" id="votoInput" value="" required />
 
-            <div
-              class="flex gap-2 cursor-pointer text-4xl justify-center py-4 bg-gray-50 rounded-xl border border-dashed border-gray-300 hover:border-blue-300 transition-colors"
-              id="starContainer"
-            >
-              <span
-                data-value="1"
-                class="star transition-transform hover:scale-125 text-gray-300"
-                >★</span
-              >
-              <span
-                data-value="2"
-                class="star transition-transform hover:scale-125 text-gray-300"
-                >★</span
-              >
-              <span
-                data-value="3"
-                class="star transition-transform hover:scale-125 text-gray-300"
-                >★</span
-              >
-              <span
-                data-value="4"
-                class="star transition-transform hover:scale-125 text-gray-300"
-                >★</span
-              >
-              <span
-                data-value="5"
-                class="star transition-transform hover:scale-125 text-gray-300"
-                >★</span
-              >
+          <div class="review-field">
+            <label class="review-label" data-i18n="review_label_stay">Periodo di soggiorno</label>
+            <div class="review-dates">
+              <div>
+                <label class="review-label" data-i18n="review_label_from" style="margin-bottom:0.4rem;">Dal</label>
+                <input type="date" name="data_arrivo" required class="review-input" />
+              </div>
+              <div>
+                <label class="review-label" data-i18n="review_label_to" style="margin-bottom:0.4rem;">Al</label>
+                <input type="date" name="data_partenza" required class="review-input" />
+              </div>
             </div>
           </div>
-          <!--Your Comment-->
-          <div>
-            <label
-              class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2"
-              data-i18n="review_label_message"
-              >La tua esperienza</label
-            >
+
+          <div class="review-field">
+            <label class="review-label" data-i18n="review_label_rating">Valutazione</label>
+            <input type="hidden" name="voto" id="votoInput" value="" required />
+            <div class="review-stars" id="starContainer">
+              <span class="star" data-value="1">★</span>
+              <span class="star" data-value="2">★</span>
+              <span class="star" data-value="3">★</span>
+              <span class="star" data-value="4">★</span>
+              <span class="star" data-value="5">★</span>
+            </div>
+          </div>
+
+          <div class="review-field">
+            <label class="review-label" data-i18n="review_label_message">La tua esperienza</label>
             <textarea
               name="messaggio"
               rows="4"
               required
-              data-i18n-placeholder="review_placeholder_message"
               placeholder="Cosa ti è piaciuto di più? Consiglieresti la casa?"
-              class="w-full px-4 py-3 rounded-lg border border-gray-300 bg-gray-50 text-gray-900 focus:bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-100 outline-none transition-all placeholder-gray-400"
+              data-i18n-placeholder="review_placeholder_message"
+              class="review-input"
             ></textarea>
           </div>
 
-          <button
-            type="submit"
-            id="submitReviewBtn"
-            class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-xl shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-1 mt-4"
-            data-i18n="review_btn_submit"
-          >
+          <button type="submit" id="submitReviewBtn" class="review-btn" data-i18n="review_btn_submit">
             Pubblica Recensione
           </button>
 
-          <div
-            id="reviewFormStatus"
-            class="hidden text-center text-sm font-medium mt-4 p-4 rounded-lg"
-          ></div>
+          <div id="reviewFormStatus"></div>
         </form>
       </div>
     </main>
 
-    <footer
-      class="text-center py-8 text-gray-400 text-xs"
-      data-i18n="footer_copyright_simple"
-    >
+    <footer class="review-footer" data-i18n="footer_copyright_simple">
       © 2025 Perla Bianca Casa Vacanze
     </footer>
 

@@ -96,7 +96,9 @@ export default async function handler(req, res) {
     //#region Send notification email to Admin
     try {
       const transporter = nodemailer.createTransport({
-        service: "gmail",
+        host: "smtps.aruba.it",
+        port: 465,
+        secure: true,
         auth: {
           user: process.env.EMAIL_USER,
           pass: process.env.EMAIL_PASS,
@@ -104,8 +106,8 @@ export default async function handler(req, res) {
       });
 
       await transporter.sendMail({
-        from: `"Perla Bianca Bot" <${process.env.EMAIL_USER}>`,
-        to: process.env.EMAIL_USER, //Send to yourself
+        from: `"Perla Bianca" <${process.env.EMAIL_USER}>`,
+        to: process.env.EMAIL_TO,
         subject: `⭐ Nuova Recensione: ${voto}/5 da ${nome}`,
         html: `
           <h3>Hai ricevuto una nuova recensione!</h3>

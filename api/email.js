@@ -42,7 +42,9 @@ export default async function handler(req, res) {
   try {
     //#region Nodemailer Configuration
     const transporter = nodemailer.createTransport({
-      service: "gmail",
+      host: "smtps.aruba.it",
+      port: 465,
+      secure: true,
       auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS,
@@ -53,8 +55,8 @@ export default async function handler(req, res) {
     //#region Email Templates
     // Admin Notification
     const adminMailOptions = {
-      from: `"${nome}" <${process.env.EMAIL_USER}>`,
-      to: process.env.EMAIL_TO || process.env.EMAIL_USER,
+      from: `"Perla Bianca" <${process.env.EMAIL_USER}>`,
+      to: process.env.EMAIL_TO,
       replyTo: email,
       subject: `New website message from: ${nome}`,
       text: `You received a new message:\n\nName: ${nome}\nEmail: ${email}\n\nMessage:\n${messaggio}`,
