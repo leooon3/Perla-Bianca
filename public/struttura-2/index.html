@@ -355,6 +355,10 @@
         transition: color 0.25s;
       }
       .footer-sub a:hover { color: rgba(255,255,255,0.65); }
+      .footer-lang { display: flex; align-items: center; gap: 0.75rem; }
+      .footer-lang button { background: none; border: none; color: rgba(255,255,255,0.35); font-size: 0.8rem; font-weight: 600; cursor: pointer; transition: color 0.3s; font-family: 'Inter', sans-serif; }
+      .footer-lang button:hover { color: #fff; }
+      .footer-lang span { color: rgba(255,255,255,0.15); font-size: 0.7rem; }
 
       /* ── Reveal ── */
       .reveal {
@@ -379,7 +383,7 @@
         <img src="../img/logo.png" alt="I Sarcofagi del Re" />
         <span class="header-logo-text">I Sarcofagi del Re</span>
       </a>
-      <a href="/" class="header-back">
+      <a href="/" class="header-back" data-i18n="s2_back">
         ← Torna al sito
       </a>
     </header>
@@ -392,17 +396,15 @@
       <div class="hero-content">
         <div class="hero-badge">
           <span class="hero-badge-dot"></span>
-          Nuova struttura in arrivo
+          <span data-i18n="s2_hero_badge">Nuova struttura in arrivo</span>
         </div>
-        <h1 class="hero-title font-display">
+        <h1 class="hero-title font-display" data-i18n="s2_hero_title">
           Prossimamente
         </h1>
-        <p class="hero-subtitle">
-          Stiamo lavorando per portarvi una nuova esperienza autentica
-          a San Pietro in Bevagna, tra il profumo di macchia mediterranea
-          e il silenzio dello Ionio.
+        <p class="hero-subtitle" data-i18n="s2_hero_subtitle">
+          Stiamo lavorando per portarvi una nuova esperienza autentica a San Pietro in Bevagna, tra il profumo di macchia mediterranea e il silenzio dello Ionio.
         </p>
-        <a href="/" class="hero-cta">Scopri le nostre strutture</a>
+        <a href="/" class="hero-cta" data-i18n="s2_hero_cta">Scopri le nostre strutture</a>
       </div>
 
       <div class="hero-scroll">
@@ -414,27 +416,24 @@
     <!-- ── Teaser ── -->
     <section class="section-teaser">
       <div class="section-inner">
-        <p class="section-label reveal">Una nuova perla</p>
-        <h2 class="section-title reveal reveal-d1">
-          <!-- TODO: inserire il nome della struttura -->
+        <p class="section-label reveal" data-i18n="s2_teaser_label">Una nuova perla</p>
+        <h2 class="section-title reveal reveal-d1" data-i18n="s2_teaser_title">
           Un posto dove il tempo rallenta
         </h2>
-        <p class="section-body reveal reveal-d2">
-          Ogni struttura de I Sarcofagi del Re nasce da un'idea semplice:
-          offrire un angolo di Puglia autentico, curato nei dettagli,
-          lontano dal rumore. Questa nuova realtà continuerà la stessa storia.
+        <p class="section-body reveal reveal-d2" data-i18n="s2_teaser_body">
+          Ogni struttura de I Sarcofagi del Re nasce da un'idea semplice: offrire un angolo di Puglia autentico, curato nei dettagli, lontano dal rumore. Questa nuova realtà continuerà la stessa storia.
         </p>
 
         <div class="features-grid reveal reveal-d3">
-          <span class="feature-pill"><span class="feature-pill-icon">🌊</span> A due passi dal mare</span>
-          <span class="feature-pill"><span class="feature-pill-icon">🌿</span> Immersa nella natura</span>
-          <span class="feature-pill"><span class="feature-pill-icon">☀️</span> Puglia autentica</span>
-          <span class="feature-pill"><span class="feature-pill-icon">🏛️</span> Storia e cultura</span>
-          <span class="feature-pill"><span class="feature-pill-icon">🍷</span> Enogastronomia locale</span>
-          <span class="feature-pill"><span class="feature-pill-icon">✨</span> Ospitalità curata</span>
+          <span class="feature-pill"><span class="feature-pill-icon">🌊</span> <span data-i18n="s2_feat1">A due passi dal mare</span></span>
+          <span class="feature-pill"><span class="feature-pill-icon">🌿</span> <span data-i18n="s2_feat2">Immersa nella natura</span></span>
+          <span class="feature-pill"><span class="feature-pill-icon">☀️</span> <span data-i18n="s2_feat3">Puglia autentica</span></span>
+          <span class="feature-pill"><span class="feature-pill-icon">🏛️</span> <span data-i18n="s2_feat4">Storia e cultura</span></span>
+          <span class="feature-pill"><span class="feature-pill-icon">🍷</span> <span data-i18n="s2_feat5">Enogastronomia locale</span></span>
+          <span class="feature-pill"><span class="feature-pill-icon">✨</span> <span data-i18n="s2_feat6">Ospitalità curata</span></span>
         </div>
 
-        <a href="/" class="hero-cta reveal reveal-d4" style="animation: none; opacity: 1; transform: none;">
+        <a href="/" class="hero-cta reveal reveal-d4" style="animation: none; opacity: 1; transform: none;" data-i18n="s2_visit_pb">
           Nel frattempo, visita Perla Bianca →
         </a>
       </div>
@@ -442,12 +441,12 @@
 
     <!-- ── Notify CTA ── -->
     <section class="section-notify">
-      <p class="notify-label reveal">Aggiornamenti</p>
-      <h2 class="notify-title font-display reveal reveal-d1">Vuoi essere tra i primi a saperlo?</h2>
-      <p class="notify-sub reveal reveal-d2">
+      <p class="notify-label reveal" data-i18n="s2_notify_label">Aggiornamenti</p>
+      <h2 class="notify-title font-display reveal reveal-d1" data-i18n="s2_notify_title">Vuoi essere tra i primi a saperlo?</h2>
+      <p class="notify-sub reveal reveal-d2" data-i18n="s2_notify_sub">
         Contattaci e ti avviseremo non appena la struttura sarà disponibile.
       </p>
-      <a href="mailto:info@isarcofagidelre.it" class="notify-link reveal reveal-d3">
+      <a href="mailto:info@isarcofagidelre.it" class="notify-link reveal reveal-d3" data-i18n="s2_notify_link">
         Scrivici una mail
       </a>
     </section>
@@ -459,8 +458,18 @@
         San Pietro in Bevagna, Manduria · TA &nbsp;·&nbsp;
         <a href="/">isarcofagidelre.it</a>
       </p>
+      <div class="footer-lang" style="justify-content:center; margin-top:1rem;">
+        <button onclick="changeLanguage('it')" title="Italiano">IT</button>
+        <span aria-hidden="true">|</span>
+        <button onclick="changeLanguage('en')" title="English">EN</button>
+        <span aria-hidden="true">|</span>
+        <button onclick="changeLanguage('fr')" title="Français">FR</button>
+        <span aria-hidden="true">|</span>
+        <button onclick="changeLanguage('de')" title="Deutsch">DE</button>
+      </div>
     </footer>
 
+    <script src="../js/i18n-simple.js"></script>
     <script>
       // Header scroll effect
       const header = document.getElementById('siteHeader');

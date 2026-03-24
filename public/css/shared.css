@@ -223,6 +223,25 @@ body {
   background: linear-gradient(to bottom, rgba(255,255,255,0.5), transparent);
 }
 
+/* ─── Language Selector (footer) ─── */
+.footer-lang {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+.footer-lang button {
+  background: none;
+  border: none;
+  color: rgba(255,255,255,0.35);
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: color 0.3s;
+  font-family: 'Inter', sans-serif;
+}
+.footer-lang button:hover { color: #fff; }
+.footer-lang span { color: rgba(255,255,255,0.15); font-size: 0.7rem; }
+
 /* ─── Section Shared ─── */
 .section-label {
   font-family: 'Inter', sans-serif;

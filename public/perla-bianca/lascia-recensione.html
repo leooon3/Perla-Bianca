@@ -177,6 +177,9 @@
         color: rgba(27,58,92,0.4);
         font-family: 'Inter', sans-serif;
       }
+      .review-footer .footer-lang button { color: rgba(27,58,92,0.35); }
+      .review-footer .footer-lang button:hover { color: var(--navy); }
+      .review-footer .footer-lang span { color: rgba(27,58,92,0.15); }
     </style>
   </head>
   <body class="review-page-wrap">
@@ -256,8 +259,17 @@
       </div>
     </main>
 
-    <footer class="review-footer" data-i18n="footer_copyright_simple">
-      © 2025 Perla Bianca Casa Vacanze
+    <footer class="review-footer" style="display:flex; flex-direction:column; align-items:center; gap:0.75rem;">
+      <span data-i18n="footer_copyright_simple">© 2025 Perla Bianca Casa Vacanze</span>
+      <div class="footer-lang">
+        <button onclick="changeLanguage('it')" title="Italiano">IT</button>
+        <span aria-hidden="true">|</span>
+        <button onclick="changeLanguage('en')" title="English">EN</button>
+        <span aria-hidden="true">|</span>
+        <button onclick="changeLanguage('fr')" title="Français">FR</button>
+        <span aria-hidden="true">|</span>
+        <button onclick="changeLanguage('de')" title="Deutsch">DE</button>
+      </div>
     </footer>
 
     <script type="module" src="../js/main.js"></script>
