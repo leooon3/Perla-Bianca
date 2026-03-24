@@ -3,7 +3,7 @@
  * Non usa ES modules. Carica le traduzioni da /js/i18n/{lang}.json
  */
 (async function () {
-  const SUPPORTED = ["it", "en", "fr", "de"];
+  const SUPPORTED = ["it", "en", "fr", "de", "es"];
 
   // 1. Rileva lingua (localStorage → browser → default EN)
   let lang = localStorage.getItem("preferredLang");

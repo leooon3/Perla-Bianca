@@ -17,6 +17,8 @@ const MSG_TEMPLATES = {
     `Hallo! Ich möchte Perla Bianca vom ${from} bis ${to} buchen.\nKönnten Sie bitte die Verfügbarkeit bestätigen und die Details mitteilen?`,
   fr: (from, to) =>
     `Bonjour ! Je souhaite réserver Perla Bianca du ${from} au ${to}.\nPouvez-vous confirmer la disponibilité et nous donner les détails ?`,
+  es: (from, to) =>
+    `¡Hola! Me gustaría reservar Perla Bianca del ${from} al ${to}.\n¿Podéis confirmarme la disponibilidad y los detalles para proceder?`,
 };
 
 export function initBooking() {

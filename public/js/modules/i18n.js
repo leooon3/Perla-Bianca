@@ -3,7 +3,7 @@
  * Carica le traduzioni da /js/i18n/{lang}.json
  */
 
-const SUPPORTED_LANGS = ["it", "en", "fr", "de"];
+const SUPPORTED_LANGS = ["it", "en", "fr", "de", "es"];
 
 let currentLang = "it";
 let translations = {};
@@ -32,7 +32,7 @@ export function getLang() {
 export function updateTodayBtnText(lang) {
   const btn = document.querySelector(".fc-today-button");
   if (!btn) return;
-  const labels = { it: "Oggi", fr: "Aujourd'hui", de: "Heute", en: "Today" };
+  const labels = { it: "Oggi", fr: "Aujourd'hui", de: "Heute", en: "Today", es: "Hoy" };
   btn.textContent = labels[lang] ?? "Today";
   btn.style.textTransform = "capitalize";
 }
