@@ -201,12 +201,15 @@ body {
 }
 .hero-scroll {
   position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  width: fit-content;
   color: rgba(255,255,255,0.5);
   font-size: 0.7rem;
   text-transform: uppercase;
   letter-spacing: 0.2em;
+  padding-left: 0.2em;
   text-decoration: none;
   display: flex;
   flex-direction: column;
