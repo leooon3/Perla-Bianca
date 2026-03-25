@@ -179,5 +179,7 @@
   "s2_notify_label": "Mises à jour",
   "s2_notify_title": "Vous voulez être parmi les premiers à le savoir ?",
   "s2_notify_sub": "Contactez-nous et nous vous informerons dès que l'hébergement sera disponible.",
-  "s2_notify_link": "Écrivez-nous un mail"
+  "s2_notify_link": "Écrivez-nous un mail",
+  "hero_scroll": "Découvrir",
+  "contact_desc": "Écrivez-nous pour des informations, la disponibilité ou pour réserver votre séjour."
 }

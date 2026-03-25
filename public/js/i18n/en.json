@@ -179,5 +179,7 @@
   "s2_notify_label": "Updates",
   "s2_notify_title": "Want to be among the first to know?",
   "s2_notify_sub": "Contact us and we will notify you as soon as the property is available.",
-  "s2_notify_link": "Write us an email"
+  "s2_notify_link": "Write us an email",
+  "hero_scroll": "Explore",
+  "contact_desc": "Write to us for information, availability or to book your stay."
 }
