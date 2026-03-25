@@ -181,5 +181,10 @@
   "s2_notify_sub": "Contattaci e ti avviseremo non appena la struttura sarà disponibile.",
   "s2_notify_link": "Scrivici una mail",
   "hero_scroll": "Scopri",
-  "contact_desc": "Scrivici per informazioni, disponibilità o per prenotare il tuo soggiorno."
+  "contact_desc": "Scrivici per informazioni, disponibilità o per prenotare il tuo soggiorno.",
+  "label_servizi": "I Servizi",
+  "label_faq": "FAQ",
+  "label_tariffe": "Tariffe",
+  "label_disponibilita": "Disponibilità",
+  "label_posizione": "Posizione"
 }

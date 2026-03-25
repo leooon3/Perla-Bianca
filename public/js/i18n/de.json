@@ -181,5 +181,10 @@
   "s2_notify_sub": "Kontaktieren Sie uns und wir benachrichtigen Sie, sobald die Unterkunft verfügbar ist.",
   "s2_notify_link": "Schreiben Sie uns eine E-Mail",
   "hero_scroll": "Entdecken",
-  "contact_desc": "Schreiben Sie uns für Informationen, Verfügbarkeit oder um Ihren Aufenthalt zu buchen."
+  "contact_desc": "Schreiben Sie uns für Informationen, Verfügbarkeit oder um Ihren Aufenthalt zu buchen.",
+  "label_servizi": "Ausstattung",
+  "label_faq": "FAQ",
+  "label_tariffe": "Preise",
+  "label_disponibilita": "Verfügbarkeit",
+  "label_posizione": "Lage"
 }
