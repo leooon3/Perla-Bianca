@@ -38,6 +38,22 @@ export function cors(req, res) {
 }
 //#endregion
 
+//#region HTML escaping (for values interpolated into outbound email HTML)
+/**
+ * Escapes the 5 HTML-significant characters so attacker-controlled form input
+ * (name, message, email) cannot inject markup/links into the emails we send to
+ * the admin. Mail clients block JS, so this only neutralises phishing/HTML, but
+ * it is a trivial, non-breaking hardening of a public→admin input path.
+ */
+export function escapeHtml(str) {
+  if (str == null) return "";
+  return String(str).replace(
+    /[&<>'"]/g,
+    (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", '"': "&quot;" }[c])
+  );
+}
+//#endregion
+
 //#region CSRF — Origin Validation
 /**
  * Returns true if the request origin/referer is from an allowed domain.

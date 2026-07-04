@@ -1,7 +1,7 @@
 import { GoogleSpreadsheet } from "google-spreadsheet";
 import { JWT } from "google-auth-library";
 import nodemailer from "nodemailer";
-import { cors, validateOrigin, rateLimit } from "./_utils.js";
+import { cors, validateOrigin, rateLimit, escapeHtml } from "./_utils.js";
 
 export default async function handler(req, res) {
   //#region CORS + Security
@@ -38,6 +38,11 @@ export default async function handler(req, res) {
       return res
         .status(400)
         .json({ message: "Messaggio troppo lungo (max 1000 caratteri)." });
+    }
+    if (String(dataSoggiorno).length > 100) {
+      return res
+        .status(400)
+        .json({ message: "Data soggiorno non valida." });
     }
 
     const votoInt = parseInt(voto);
@@ -83,14 +88,20 @@ export default async function handler(req, res) {
     //#endregion
 
     //#region Save Data
-    // Column names MUST match Google Sheet headers
-    await sheet.addRow({
-      "Nome e Cognome": cleanName,
-      Valutazione: votoInt,
-      Recensione: cleanMessage,
-      "Data Soggiorno": dataSoggiorno,
-      Approvato: "NO",
-    });
+    // Column names MUST match Google Sheet headers.
+    // raw:true → values are stored literally (valueInputOption=RAW) so a public
+    // submission starting with = + - @ cannot become a live spreadsheet formula
+    // (CSV/Formula injection) when the admin opens or exports the sheet.
+    await sheet.addRow(
+      {
+        "Nome e Cognome": cleanName,
+        Valutazione: votoInt,
+        Recensione: cleanMessage,
+        "Data Soggiorno": dataSoggiorno,
+        Approvato: "NO",
+      },
+      { raw: true }
+    );
     //#endregion
 
     //#region Send notification email to Admin
@@ -108,14 +119,14 @@ export default async function handler(req, res) {
       await transporter.sendMail({
         from: `"Perla Bianca" <${process.env.EMAIL_USER}>`,
         to: process.env.EMAIL_TO,
-        subject: `⭐ Nuova Recensione: ${voto}/5 da ${nome}`,
+        subject: `⭐ Nuova Recensione: ${votoInt}/5 da ${escapeHtml(nome)}`,
         html: `
           <h3>Hai ricevuto una nuova recensione!</h3>
-          <p><strong>Nome:</strong> ${nome}</p>
-          <p><strong>Voto:</strong> ${voto} stelle</p>
-          <p><strong>Periodo:</strong> ${dataSoggiorno}</p>
+          <p><strong>Nome:</strong> ${escapeHtml(nome)}</p>
+          <p><strong>Voto:</strong> ${votoInt} stelle</p>
+          <p><strong>Periodo:</strong> ${escapeHtml(dataSoggiorno)}</p>
           <blockquote style="background: #f9f9f9; padding: 10px; border-left: 5px solid #007bff;">
-            ${messaggio}
+            ${escapeHtml(messaggio)}
           </blockquote>
           <p><a href="https://perla-bianca.vercel.app/admin.html" style="background: #007bff; color: white; padding: 10px 15px; text-decoration: none; border-radius: 5px;">Vai all'Admin per approvare</a></p>
         `,

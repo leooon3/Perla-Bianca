@@ -53,13 +53,15 @@ export default async function handler(req, res) {
     const { azione, dettagli, proprieta } = req.body;
     if (!azione) return res.status(400).json({ error: "azione required" });
     const sheet = await ensureSheet(doc);
+    // raw:true → store literally (all string fields); prevents CSV/formula
+    // injection surviving to a CSV export of the activity log.
     await sheet.addRow({
       Timestamp: new Date().toISOString(),
       Utente: user.email,
       Azione: azione,
       Dettagli: dettagli || "",
       Proprieta: proprieta || "perla-bianca",
-    });
+    }, { raw: true });
     return res.status(200).json({ success: true });
   }
 

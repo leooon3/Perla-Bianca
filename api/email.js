@@ -1,5 +1,5 @@
 import nodemailer from "nodemailer";
-import { cors, validateOrigin, rateLimit } from "./_utils.js";
+import { cors, validateOrigin, rateLimit, escapeHtml } from "./_utils.js";
 
 export default async function handler(req, res) {
   //#region CORS + Security
@@ -27,9 +27,17 @@ export default async function handler(req, res) {
     return res.status(200).json({ message: "Email sent successfully" });
   }
 
-  // Validate Empty Fields
-  if (!nome || !email || !messaggio) {
+  // Validate Empty Fields (and reject non-string payloads to avoid type confusion)
+  if (
+    !nome || !email || !messaggio ||
+    typeof nome !== "string" || typeof email !== "string" || typeof messaggio !== "string"
+  ) {
     return res.status(400).json({ message: "All fields are required" });
+  }
+
+  // Length caps on public free-text (parity with the review form)
+  if (nome.length > 100 || email.length > 100 || messaggio.length > 2000) {
+    return res.status(400).json({ message: "Input too long." });
   }
 
   // Validate Email Format
@@ -62,11 +70,11 @@ export default async function handler(req, res) {
       text: `You received a new message:\n\nName: ${nome}\nEmail: ${email}\n\nMessage:\n${messaggio}`,
       html: `
         <h3>New message from Perla Bianca</h3>
-        <p><strong>Name:</strong> ${nome}</p>
-        <p><strong>Email:</strong> ${email}</p>
+        <p><strong>Name:</strong> ${escapeHtml(nome)}</p>
+        <p><strong>Email:</strong> ${escapeHtml(email)}</p>
         <p><strong>Message:</strong></p>
         <blockquote style="background: #f9f9f9; padding: 10px; border-left: 5px solid #007bff;">
-          ${messaggio.replace(/\n/g, "<br>")}
+          ${escapeHtml(messaggio).replace(/\n/g, "<br>")}
         </blockquote>
       `,
     };
@@ -78,12 +86,12 @@ export default async function handler(req, res) {
       subject: "Thank you for contacting us - Perla Bianca",
       html: `
         <div style="font-family: sans-serif; color: #333;">
-          <h2>Thank you ${nome}!</h2>
+          <h2>Thank you ${escapeHtml(nome)}!</h2>
           <p>We have received your request and will respond as soon as possible.</p>
           <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;">
           <p style="font-size: 0.9em; color: #666;">
             <strong>Your message summary:</strong><br>
-            <em>${messaggio.replace(/\n/g, "<br>")}</em>
+            <em>${escapeHtml(messaggio).replace(/\n/g, "<br>")}</em>
           </p>
           <br>
           <p>See you soon,<br><strong>Perla Bianca Staff</strong></p>
@@ -119,6 +127,8 @@ export default async function handler(req, res) {
         if (!sheet) {
           sheet = await doc.addSheet({ title: "Messaggi", headerValues: ["Timestamp","Nome","Email","Messaggio","Proprieta","Letto","Risposto"] });
         }
+        // raw:true → store literally so a leading = + - @ from the public
+        // contact form cannot become a live formula (CSV/Formula injection).
         await sheet.addRow({
           Timestamp: new Date().toISOString(),
           Nome: nome,
@@ -127,7 +137,7 @@ export default async function handler(req, res) {
           Proprieta: req.body?.property || "perla-bianca",
           Letto: "NO",
           Risposto: "NO",
-        });
+        }, { raw: true });
       } catch(e) { console.warn("Messages sheet save failed:", e.message); }
     })();
 
